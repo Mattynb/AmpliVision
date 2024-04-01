@@ -55,7 +55,7 @@ class Grid(IGrid):
         for y, x in itertools.product(range(0, STOP_XY, STEP), range(0, STOP_XY, STEP)):
             
             # get the corresponding index of the square in the grid
-            x_index, y_index = Utils.xy_to_index(self, x, y)
+            y_index, x_index = Utils.xy_to_index(self, x, y) # flipped coordinates to make it (row, column)
 
             # coordinates of the top left and bottom right points of the square
             top_left = (
@@ -105,7 +105,7 @@ class Grid(IGrid):
             center = find_center_of_points(square_structure)
             
             # get the index of sq based on the center of the structure
-            x_index, y_index = Utils.xy_to_index(self, center[0], center[1])
+            y_index, x_index = Utils.xy_to_index(self, center[0], center[1]) # flipped coordinates to make it (row, column)
 
             # add pins to the appropriate square in the grid
             for pin in pins:

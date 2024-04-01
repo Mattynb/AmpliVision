@@ -1,4 +1,3 @@
-from tracemalloc import start
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor
 from backend import identify_block
 
@@ -29,17 +28,18 @@ def main(path_to_imgs):
         #   Create Image object from loaded image.
         # The Image object is used to store the image 
         # and the steps of the image processing.
-        image_scan, id = GridImageNormalizer.scan(id, image, 1)
+        import time; t = time.time(); 
+        image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
         if image_scan is None: continue
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above
         #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
         #image_scan = image
-        
+
         ## display
         display(image_scan)
-        
+
         #   Finds the contours around non-grayscale (colorful) 
         # edges in image. The contours are used to find the 
         # pins and later blocks.
