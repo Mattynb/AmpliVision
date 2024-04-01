@@ -3,8 +3,8 @@ import numpy as np
 from .igrid import IGrid
 from .Square import Square
 import itertools
-from .utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
-from .utils import Utils
+from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
+from ..utils import Utils
 
 
 class Grid(IGrid):

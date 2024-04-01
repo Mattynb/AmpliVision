@@ -1,6 +1,5 @@
-from ast import List, Tuple
+from ast import Tuple
 import cv2 as cv
-from cv2.typing import MatLike
 import numpy as np
 
 class Square:
@@ -78,11 +77,11 @@ class Square:
         """ Returns the corners of the square """
         return self.corners
     
-    def get_img(self) -> MatLike:
+    def get_img(self) -> np.ndarray:
         """ Returns the image of the square """
         return self.img
     
-    def get_sq_img(self) -> MatLike:
+    def get_sq_img(self) -> np.ndarray:
         """ Returns the image of the square """
         if self.sq_img is None:
             self.sq_img = self.createImg(self.img)
@@ -99,16 +98,16 @@ class Square:
         """ Returns the RGB sequence of the square """
         return self.rgb_sequence
     
-    def createImg(self, img: MatLike)->MatLike:
+    def createImg(self, img: np.ndarray)->np.ndarray:
         """ Creates an image of the square, a cutout of the image around the square"""
         return img[(self.tl[1]-10):(self.br[1]+10), (self.tl[0]-10):(self.br[0]+10)]
 
     ## Add functions ##
-    def add_pin(self, pin: MatLike)->None:
+    def add_pin(self, pin: np.ndarray)->None:
         """ Adds a pin to the square """
         self.pins.append(pin)
     
-    def add_p_pin(self, pin: MatLike)->None:
+    def add_p_pin(self, pin: np.ndarray)->None:
         """ Adds a potential pin to the square """
         self.p_pins.append(pin)
 
@@ -178,18 +177,23 @@ class Square:
     
 
     ## Drawing functions ##
-    def draw_pins(self, image: MatLike) -> None:
+    def draw_pins(self, image: np.ndarray) -> None:
         """ Draws the pins in the square """
         for pin in self.pins:
             cv.drawContours(image, pin, -1, (0, 255, 0), 1)      
     
-    def draw_corners(self, img: MatLike) -> None:
+    def draw_corners(self, img: np.ndarray) -> None:
         """ Draws the corners of the square """
         for corner in self.corners:
             cv.rectangle(img, corner[0], corner[1], (0, 0, 255), 1)
 
 
     ### Boolean functions ###
+    def is_in_test_bounds(self, x:int, y:int) -> bool:
+        "checks if coordinate is within test bounds (inner square where strip is)"
+
+        pass
+
     def is_in_corners(self, x:int, y:int) -> bool:
         """ 
         Checks if a point is in the corners of the square. 
@@ -204,7 +208,7 @@ class Square:
                     return True
             i += 1
 
-        return False
+        return False  
     
     def is_in_corners_skewed(self, x:int, y:int, w:float, h:float) -> bool:
         """ Checks if a point is in the corners of the square, 
@@ -215,7 +219,7 @@ class Square:
             self.is_in_corners(x+int(w), y-int(h)) or
             self.is_in_corners(x-int(w), y+int(h)))
 
-    def which_corner_is_contour_in(self, contour:MatLike) -> str:
+    def which_corner_is_contour_in(self, contour:np.ndarray) -> str:
         """
         Function that finds which corner of square a contour is in.
         """
@@ -238,9 +242,8 @@ class Square:
                     return corn[i]
             i += 1
 
-
     ## RGB get functions ##
-    def get_rgb_avg_of_contour(self, contour:MatLike, corner:list[MatLike]='') -> list[int]:
+    def get_rgb_avg_of_contour(self, contour:np.ndarray, corner:list[np.ndarray]='') -> list[int]:
         """
         ### Get RGB average of contour
         ---------------

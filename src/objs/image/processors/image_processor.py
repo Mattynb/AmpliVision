@@ -29,7 +29,7 @@ class ColorContourExtractor:
 
     # A function that pre-processes the image to isolate the color of the pins.
     @staticmethod
-    def process_image(scanned_image: np.ndarray) -> np.ndarray:
+    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [180, 255,255]) -> np.ndarray:
         """ this method pre-processes the image to isolate the color of the pins."""
 
         # Copy the image to avoid modifying the original image
@@ -41,8 +41,8 @@ class ColorContourExtractor:
 
         # Define the lower and upper bounds for the color you want to isolate
         # These values are the product of trial and error and are not necessarily perfect.
-        hsv_lower_color = np.array([0, 55, 0])
-        hsv_upper_color = np.array([180, 255, 255])
+        hsv_lower_color = np.array(hsv_lower)
+        hsv_upper_color = np.array(hsv_upper)
 
         # Create a mask to filter out the grayscale colors isolating the color of the pins.
         color_mask = cv.inRange(img_hsv, hsv_lower_color, hsv_upper_color)
