@@ -6,7 +6,6 @@ import itertools
 from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
 from ..utils import Utils
 
-
 class Grid(IGrid):
     def __init__(self, img: np.ndarray):
         # scanned image

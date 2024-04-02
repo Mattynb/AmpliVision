@@ -1,6 +1,7 @@
 from ast import Tuple
 import cv2 as cv
 import numpy as np
+from ..utils.utils_color import *
 
 class Square:
     """
@@ -175,6 +176,9 @@ class Square:
         )
         return [top_right, top_left, bottom_right, bottom_left]
     
+    def get_test_square() -> np.ndarray:
+        " isolates the inner square where the test strip is "
+        pass
 
     ## Drawing functions ##
     def draw_pins(self, image: np.ndarray) -> None:
@@ -242,59 +246,8 @@ class Square:
                     return corn[i]
             i += 1
 
-    ## RGB get functions ##
-    def get_rgb_avg_of_contour(self, contour:np.ndarray, corner:list[np.ndarray]='') -> list[int]:
-        """
-        ### Get RGB average of contour
-        ---------------
-        Function that gets the average RGB of a contour in the image.
+    # rgb functions
         
-        #### Args:
-        * contour: Contour of the object in the image.
-        * corner: Corner of the square the contour is in.
-
-        #### Returns:
-        * avg_color: Average RGB color of the contour.
-        """
-
-        # copy the image
-        image = self.img.copy()
-
-        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)  # Convert to RGB format
-
-        (x, y), radius = cv.minEnclosingCircle(contour)
-
-        center = (int(x), int(y))
-        radius = int(radius) - int(self.PLUS_MINUS/2.5)
-
-        # get the pixels inside the minEnclosingCircle
-        mask = np.zeros(image.shape[:2], dtype=np.uint8)
-        cv.circle(mask, center, radius, (255), -1)
-        pixels_inside = image[mask == 255]
-
-        # Calculate the average RGB values
-        average_rgb = np.mean(pixels_inside, axis=0)
-
-        # Remove NaN values
-        average_rgb = np.nan_to_num(average_rgb)
-
-        return [round(x) for x in average_rgb ]
-
-    def get_pins_rgb(self) -> tuple[list[int], list[int]]:
-        """ 
-        gets the average RGB of the pins in the square.
-        """
-
-        pins_rgb = []
-        corner   = []
-
-        # for each pin in the square get the average RGB value of the pin and its corner
-        for pins in self.pins:
-            corner.append(self.which_corner_is_contour_in(pins))
-            pins_rgb.append(self.get_rgb_avg_of_contour(pins, corner))
-
-        return pins_rgb, corner  # tr, tl, br, bl corners 
-
     def set_rgb_sequence(self)->None:
         """
         ### Set rgb sequence
@@ -306,16 +259,7 @@ class Square:
         """
 
         # get the RGB values of the pins in the square
-        pins_rgb, corner_key = self.get_pins_rgb()
+        pins_rgb, corner_key = get_pins_rgb(self)
         
         # fixing the order from tr,tl,br,bl to clockwise starting from top-right. This might be the ugliest code I've ever written. But it works!
-        self.set_rgb_sequence_clockwise(pins_rgb, corner_key)
-    
-    def set_rgb_sequence_clockwise(self, pins_rgb: list[int], corner_key: list[int])->None:
-        """sets the rgb sequence of the square in clockwise order starting from top-left."""
-        
-        sequence = []
-        for key in ["top_left", "top_right", "bottom_right", "bottom_left"]:
-            sequence.append(pins_rgb[corner_key.index(key)] if key in corner_key else (0,0,0))
-        
-        self.rgb_sequence = sequence
+        set_rgb_sequence_clockwise(self, pins_rgb, corner_key)

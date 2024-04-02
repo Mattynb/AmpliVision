@@ -17,7 +17,7 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images(path_to_imgs)
+    images = ImageLoader.load_images("test_scan.png")#path_to_imgs)
     id = 0
     # Analyzing each image
     for image in images:
@@ -29,7 +29,9 @@ def main(path_to_imgs):
         # The Image object is used to store the image 
         # and the steps of the image processing.
         import time; t = time.time(); 
-        image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
+        ##image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
+        #cv.imwrite('test_scan', image_scan)
+        image_scan = image
         if image_scan is None: continue
 
         # When working with repeat image, uncomment the line below 
@@ -38,7 +40,7 @@ def main(path_to_imgs):
         #image_scan = image
 
         ## display
-        display(image_scan)
+        #display(image_scan)
 
         #   Finds the contours around non-grayscale (colorful) 
         # edges in image. The contours are used to find the 
