@@ -1,7 +1,9 @@
-from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor
+from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from backend import identify_block
 
 import cv2 as cv
+from datetime import datetime
+
 
 def main(path_to_imgs):
     """
@@ -76,6 +78,21 @@ def main(path_to_imgs):
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
             identify_block(block)
+
+            # analyse results of test blocks
+            if block.get_block_type() == "Test Block":
+                csv_filename = generate_csv_filename()
+                TestAnalyzer.analyze(block.get_sq_img(), block.get_index(), csv_filename)
+
+def generate_csv_filename():
+    # get current date and time
+    now = datetime.now()
+
+    # format date and time
+    date = now.strftime("%m/%d/%Y")
+    time = now.strftime("%H:%M:%S")
+
+    return f"test_results_{date}_{time}.csv"
 
 def display(image):
     im = cv.resize(image, (0,0), fx=0.5, fy=0.5)
