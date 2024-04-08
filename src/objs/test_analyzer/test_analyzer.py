@@ -1,4 +1,3 @@
-import csv
 import numpy as np
 from datetime import datetime
 from ..utils.utils_color import get_rgb_avg_of_contour
@@ -24,7 +23,7 @@ class TestAnalyzer:
             "control" : StripSection(self.test_square_img, 'control')
         }
 
-    def analyze_test_result(self, filename:str): # should I name it main?
+    def analyze_test_result(self): # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
         
         # find the positive spots with hsv mask
@@ -49,7 +48,7 @@ class TestAnalyzer:
         self.validate_results()
 
         # export results to csv
-        self.write_csv_row(filename)
+        return self.create_csv_row()
 
     def add_positives_to_sections(self, rgb_spots) -> None:
         "used to add positive result spots to appropriate strip section"
@@ -102,7 +101,7 @@ class TestAnalyzer:
             results.append(strip_result)
         return results
 
-    def write_csv_row(self, filename:str = None) -> None:
+    def create_csv_row(self) -> str:
         """
         writes the test results to csv file row in format:\n
         date, time, grid_index, block_type, bkg_r, bkg_g, bkg_b, test_r, test_g, test_b, cntrl_r, cntrl_g, cntrl_b"""
@@ -114,26 +113,26 @@ class TestAnalyzer:
         date = now.strftime("%m/%d/%Y")
         time = now.strftime("%H:%M:%S")
 
+        bkg_r = " None"
+        bkg_g, bkg_b = bkg_r, bkg_r
+        test_r, test_g, test_b = bkg_r, bkg_r, bkg_r
+        cntrl_r, cntrl_g, cntrl_b = bkg_r, bkg_r, bkg_r
+
         # get rgb values of each section
-        bkg_r, bkg_g, bkg_b = self.strip_sections['bkg'].total_avg_rgb
-        test_r, test_g, test_b = self.strip_sections['test'].total_avg_rgb
-        cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
+        if self.strip_sections['bkg'].total_avg_rgb != None:
+            bkg_r, bkg_g, bkg_b = self.strip_sections['bkg'].total_avg_rgb
+
+        if self.strip_sections['test'].total_avg_rgb != None:
+            test_r, test_g, test_b = self.strip_sections['test'].total_avg_rgb
+
+        if self.strip_sections["control"].total_avg_rgb != None:
+            cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
 
         # create data to be written to csv
         data = [date, time, self.grid_index, bkg_r, bkg_g, bkg_b, test_r, test_g, 
             test_b, cntrl_r, cntrl_g, cntrl_b]
-
-        # name of csv file
-        if filename == None:
-            filename = f"test_results_{date}_{time}.csv"
-
-        # writing to csv file
-        with open(filename, 'w') as csvfile:
-            # creating a csv writer object
-            csvwriter = csv.writer(csvfile)
-
-            # writing the data
-            csvwriter.writerow(data)
+        
+        return data
 
 class StripSection:
     "This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)"
@@ -151,7 +150,7 @@ class StripSection:
         
         self.spots[index] = {
             "contour" : spot, 
-            "avg_rgb" : avg_rgb,
+            "avg_rgb" : list(avg_rgb),
             "positive" : b
         }
 
@@ -159,7 +158,7 @@ class StripSection:
         "mostly used to find negative result spots using ratios" 
 
         spot = ...
-        self.add_spot(block, spot, False)
+        #self.add_spot(block, spot, False)
         ...        
     
     def set_total_avg_rgb(self, bkg = [0, 0, 0]) -> list[int]:

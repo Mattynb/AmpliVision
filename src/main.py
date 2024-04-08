@@ -1,6 +1,7 @@
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from backend import identify_block
 
+import csv
 import cv2 as cv
 from datetime import datetime
 
@@ -74,26 +75,48 @@ def main(path_to_imgs):
         cv.destroyAllWindows()
 
         # identifies type of blocks in the grid
+        
+        csv_filename = generate_csv_filename()
+        csv_rows = []
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
             block = identify_block(block)
 
+            "CAREFUL ABOUT BLOCK ROTATION"
+
             # analyse results of test blocks
             if block.get_block_type() == "Test Block":
-                csv_filename = generate_csv_filename()
                 print(f"Test block found. Analyzing block and exporting to {csv_filename}")
                 ta = TestAnalyzer(block)
-                ta.analyze_test_result(csv_filename)
+                csv_rows.append(ta.analyze_test_result())
+        write_to_csv(csv_filename, csv_rows)
 
 def generate_csv_filename():
     # get current date and time
     now = datetime.now()
 
     # format date and time
-    date = now.strftime("%m/%d/%Y")
-    time = now.strftime("%H:%M:%S")
+    date = now.strftime("%m-%d-%Y")
+    time = now.strftime("(%H-%M-%S)")
 
-    return f"test_results_{date}_{time}.csv"
+    return f"results_{date}_{time}.csv"
+
+def write_to_csv(filename:str, data: list)->None:
+    with open(filename, 'w') as csvfile:
+        # creating a csv writer object
+        csvwriter = csv.writer(csvfile)
+
+        format_str = [
+            'date', ' time',
+            ' grid_index', ' block_type',
+            ' bkg_r', ' bkg_g', ' bkg_b',
+            ' test_r', ' test_g', ' test_b',
+            ' cntrl_r', ' cntrl_g', ' cntrl_b'
+        ]
+
+        # writing the data
+        csvwriter.writerow(format_str)
+        csvwriter.writerows(data)
 
 def display(image):
     im = cv.resize(image, (0,0), fx=0.5, fy=0.5)
