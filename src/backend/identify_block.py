@@ -2,6 +2,7 @@ from .add_to_db.connect_to_db import connect_to_mongo
 
 def identify_block(block):
     """ Function to identify the block type of a block given the RGB sequence."""
+    block_og = block
 
     # Open connection to MongoDB
     client = connect_to_mongo()
@@ -43,13 +44,16 @@ def identify_block(block):
         # If the sequence is found, print the block type and return
         block_type = block_collection.find_one(query)
         if block_type:
-            print(f'Block: {block_type["block_name"]} at {block.index}\n')
+            block.block_type = block_type["block_name"]
+            print(f'Block: \'{block_type["block_name"]}\' at {block.index}\n')
             client.close()
-            return
+            return block
         
     # If the sequence is not found, print unknown
     print(f'Block: Unknown at {block.index}\n')
     client.close()
+
+    return block
 
 
 def rgb_to_number(rgb, collection):

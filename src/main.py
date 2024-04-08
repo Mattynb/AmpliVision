@@ -19,7 +19,7 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images("test_scan.png")#path_to_imgs)
+    images = ImageLoader.load_images("image1_scaned.jpg")#path_to_imgs)
     id = 0
     # Analyzing each image
     for image in images:
@@ -30,17 +30,15 @@ def main(path_to_imgs):
         #   Create Image object from loaded image.
         # The Image object is used to store the image 
         # and the steps of the image processing.
-        import time; t = time.time(); 
-        ##image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
-        #cv.imwrite('test_scan', image_scan)
+        #image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
+
         image_scan = image
         if image_scan is None: continue
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above
         #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
-        #image_scan = image
-
+        
         ## display
         #display(image_scan)
 
@@ -50,10 +48,10 @@ def main(path_to_imgs):
         contours = ColorContourExtractor.process_image(image_scan)
 
         ## display
-        im = image_scan.copy()
+        """im = image_scan.copy()
         for contour in contours:
             cv.drawContours(im, [contour], 0, (0,255,0), 3)
-        display(im)
+        display(im)"""
 
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as 
@@ -70,19 +68,22 @@ def main(path_to_imgs):
 
         ## display
         im = Grid_DS.img.copy()
-        Grid_DS.draw_blocks(im)
+        #Grid_DS.draw_blocks(im)
         cv.imshow('image', im)
         cv.waitKey(0)
+        cv.destroyAllWindows()
 
         # identifies type of blocks in the grid
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
-            identify_block(block)
+            block = identify_block(block)
 
             # analyse results of test blocks
             if block.get_block_type() == "Test Block":
                 csv_filename = generate_csv_filename()
-                TestAnalyzer.analyze(block.get_sq_img(), block.get_index(), csv_filename)
+                print(f"Test block found. Analyzing block and exporting to {csv_filename}")
+                ta = TestAnalyzer(block)
+                ta.analyze_test_result(csv_filename)
 
 def generate_csv_filename():
     # get current date and time
@@ -102,7 +103,9 @@ def display(image):
 
 if __name__ == '__main__':
     #path_to_imgs =  r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\image1_scaned.jpg" 
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_03062024\IMG_5572.JPEG"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
+    
+    #r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_03062024\IMG_5572.JPEG"
     main(path_to_imgs)
 
 

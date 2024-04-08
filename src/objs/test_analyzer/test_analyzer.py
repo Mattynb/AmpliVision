@@ -7,42 +7,49 @@ from ..image.processors.image_processor import ColorContourExtractor
 class TestAnalyzer:
     "This class is responsible for getting and analyzing test results a.k.a phase B"
 
-    def __init__(self, test_square_img: np.ndarray, grid_index: int, block_type: str):
+    def __init__(self, block):
 
+        self.block = block
+        
         # look only at the inner test square:
-        test_square_img = test_square_img #square.get_test_square()
+        self.test_square_img = block.sq_img #square.get_test_square()
 
         # square used in csv export
-        self.grid_index = grid_index
-        self.block_type = block_type
+        self.grid_index = block.index
+        self.block_type = block.block_type
 
-        strip_sections = {
-            "bkg" : StripSection(test_square_img, 'bkg'), 
-            "test" : StripSection(test_square_img, 'test'),
-            "control" : StripSection(test_square_img, 'control')
+        self.strip_sections = {
+            "bkg" : StripSection(self.test_square_img, 'bkg'), 
+            "test" : StripSection(self.test_square_img, 'test'),
+            "control" : StripSection(self.test_square_img, 'control')
         }
 
-    def analyze_test_result(self): # should I name it main?
+    def analyze_test_result(self, filename:str): # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
         
         # find the positive spots with hsv mask
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
-        rgb_spots = ColorContourExtractor.process(self.test_sq_img, lower_hsv= [...], upper_hsv= [...])
+        rgb_spots = ColorContourExtractor.process_image(self.test_square_img) # hsv_lower= [...], hsv_upper= [...])
         self.add_positives_to_sections(rgb_spots)
 
+        import cv2 as cv
+        cv.imshow('image', self.test_square_img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
         # get background color noise so we can remove it from other sections
-        self.strip_sections['bkg'].set_total_avg_rgb()
-        bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
+        #self.strip_sections['bkg'].set_total_avg_rgb()
+        #bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
 
         # find the negative spots "manually" through ratios, removing bgk
-        self.add_negatives_to_sections(bkg_rgb_avg)
+        self.add_negatives_to_sections()
 
         # validate results to catch any potential errors in the test
         self.validate_results()
 
         # export results to csv
-        self.export_to_csv()
+        self.write_csv_row(filename)
 
     def add_positives_to_sections(self, rgb_spots) -> None:
         "used to add positive result spots to appropriate strip section"
@@ -51,7 +58,7 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-                    section.add_spot(spot, True)
+                    section.add_spot(self.block, spot, True)
                     break # only adds to one section
 
     def add_negatives_to_sections(self) -> None:
@@ -61,7 +68,7 @@ class TestAnalyzer:
                 continue
 
             if len(section.spots) == 0:
-                section.set_spots_manually()
+                section.set_spots_manually(self.block)
             
             # set section's total rgb avg
             section.set_total_avg_rgb()
@@ -131,40 +138,40 @@ class TestAnalyzer:
 class StripSection:
     "This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)"
     
-    def init(self, test_square_img:np.ndarray, strip_type: str):
-        bounds = self.get_bounds(test_square_img, strip_type)
-        spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
-        total_avg_rgb = None
+    def __init__(self, test_square_img:np.ndarray, strip_type: str):
+        self.bounds = self.get_bounds(test_square_img, strip_type)
+        self.spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
+        self.total_avg_rgb = None
 
-    def add_spot(self, spot:np.ndarray, b: bool) -> None:
+    def add_spot(self, block, spot:np.ndarray, b: bool) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
 
-        index = len(self.spot)
-        avg_rgb = get_rgb_avg_of_contour(spot)
+        index = len(self.spots)
+        avg_rgb = get_rgb_avg_of_contour(block, spot)
         
-        self.spot[index] = {
+        self.spots[index] = {
             "contour" : spot, 
             "avg_rgb" : avg_rgb,
             "positive" : b
         }
 
-    def set_spots_manually(self):
+    def set_spots_manually(self, block):
         "mostly used to find negative result spots using ratios" 
 
         spot = ...
-        self.add_spot(spot, False)
+        self.add_spot(block, spot, False)
         ...        
     
     def set_total_avg_rgb(self, bkg = [0, 0, 0]) -> list[int]:
         "gets the total avg rgb by adding the spot rgb avgs together" 
-        i = 0
+        i = 1
         total_avg = [0, 0, 0]
         
         # adding the total avg with each spot avg
-        for spot in self.spots.values():
-            total_avg = list(map(lambda total, spot: total + spot, total_avg, spot["avg_rgb"]))
+        for spot in self.spots:
+            total_avg = list(map(lambda total, spot_avg: total + spot_avg, total_avg, spot["avg_rgb"]))
             i += 1
-        
+            
         # dividing by the number of spots
         total_avg = list(map(lambda total: total/i, total_avg))
         

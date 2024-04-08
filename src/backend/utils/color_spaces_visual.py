@@ -5,6 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 # Adjusted color ranges
 adjusted_ranges = {
     "Red": {"min": (150,0,0), "max": (255,150,87+40)},
+    "Red1": {"min": (100,0,0), "max": (149,99,87+40)},
     "Blue": {"min": (49-40,77-40,150), "max": (255+25,78+40+50,255)},
     "Green": {"min": (50,100,0), "max": (149,255,125)},
     #"Purple": {"min": (105,78-40,150), "max": (255+25,78+40+50,255)},
@@ -77,7 +78,7 @@ for i, (color, range) in enumerate(adjusted_ranges.items()):
 # Add other custom points to the plot
 customs = [
 {      
-    "Red": [109, 46, 191],
+    "Red": [139, 43, 55],
 },
 ]
 
