@@ -37,39 +37,30 @@ def main(path_to_imgs):
         if image_scan is None: continue
 
         # When working with repeat image, uncomment the line below 
-        # and comment the lines above
+        # and comment the lines above   
         #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
-        
-        ## display
-        #display(image_scan)
+    
 
         #   Finds the contours around non-grayscale (colorful) 
         # edges in image. The contours are used to find the 
         # pins and later blocks.
         contours = ColorContourExtractor.process_image(image_scan)
 
-        ## display
-        """im = image_scan.copy()
-        for contour in contours:
-            cv.drawContours(im, [contour], 0, (0,255,0), 3)
-        display(im)"""
-
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as 
         # the blocks and pins, etc.
         Grid_DS = Grid(image_scan)
-
-        ## display
-        #im = Grid_DS.img.copy()
-        #Grid_DS.draw_gridLines(im)
-        #display(im)
 
         # determines what squares in grid are blocks
         Grid_DS.find_blocks(contours); print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
 
         ## display
         im = Grid_DS.img.copy()
-        #Grid_DS.draw_blocks(im)
+        Grid_DS.draw_gridLines(im)
+        for block in Grid_DS.get_blocks():
+            #block.draw_corners_pinbased(im)
+            block.draw_test_area(im)
+        im = cv.resize(im, (800,800))
         cv.imshow('image', im)
         cv.waitKey(0)
         cv.destroyAllWindows()

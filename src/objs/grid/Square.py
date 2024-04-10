@@ -57,6 +57,8 @@ class Square:
         self.corners = []
         self.add_corners(PIN_RATIO, PLUS_MINUS)
         
+        self.test_area_img = None
+
         # ratios
         self.PIN_RATIO = PIN_RATIO
         self.PLUS_MINUS = PLUS_MINUS
@@ -87,7 +89,13 @@ class Square:
         if self.sq_img is None:
             self.sq_img = self.createImg(self.img)
         return self.sq_img
-    
+
+    def get_test_area_img(self) -> np.ndarray:
+        " Returns the image of squares test area (inner square where test strip can be)"
+        if self.test_area_img is None:
+            self.test_area_img = self.createTAImg(self.get_sq_img())
+        return self.test_area_img
+
     def get_block_type(self)->str:
         """ Returns the block type of the square """
         if self.is_block:
@@ -102,6 +110,12 @@ class Square:
     def createImg(self, img: np.ndarray)->np.ndarray:
         """ Creates an image of the square, a cutout of the image around the square"""
         return img[(self.tl[1]-10):(self.br[1]+10), (self.tl[0]-10):(self.br[0]+10)]
+    
+    def createTAImg(self, sq_img: np.ndarray)->np.ndarray:
+        " Creates an image of the inner test spot"
+
+
+        return 
 
     ## Add functions ##
     def add_pin(self, pin: np.ndarray)->None:
@@ -131,6 +145,22 @@ class Square:
         # the further away from the center, the more skewed the corners are (exponential).
 
         # Avoiding division by zero
+        SKEW_x, SKEW_y = self.calculate_skew(a)
+
+
+        # The following four values: top_right, top_left, bottom_right, bottom_left are the corners of the square.
+        # Each corner contains its top left and bottom right coordinates.
+        # Coordinates are calculated using:
+        # top left and bottom right coordinates of the square, arbitrary plus minus value, the padding value and the skew value.
+       
+        self.corners = self.calculate_corners(tl_x, tl_y, br_x, br_y, PIN_RATIO, PLUS_MINUS, p, SKEW_x, SKEW_y)
+
+    def calculate_skew(self, a:float) -> Tuple:
+        """ 
+        Calculates the skew originated from cellphone cameras
+        
+        |x-4|^a * (x-4)/|x-4|
+        """
         if self.index[0] != 4:
             SKEW_x = int((abs(self.index[0] - 4) ** a  ) * ((self.index[0] - 4)/ abs(self.index[0] - 4))) 
         else:
@@ -142,14 +172,7 @@ class Square:
         else:
             SKEW_y = 0
 
-
-        # The following four values: top_right, top_left, bottom_right, bottom_left are the corners of the square.
-        # Each corner contains its top left and bottom right coordinates.
-        # Coordinates are calculated using:
-        # top left and bottom right coordinates of the square, arbitrary plus minus value, the padding value and the skew value.
-       
-        self.corners = self.calculate_corners(tl_x, tl_y, br_x, br_y, PIN_RATIO, PLUS_MINUS, p, SKEW_x, SKEW_y)
-
+        return SKEW_x, SKEW_y
 
     def calculate_corners(self, tl_x:int, tl_y:int, br_x:int, br_y:int, PIN_RATIO:int, PLUS_MINUS:int, p:int, SKEW_x:int, SKEW_y:int) -> list[int]:
         """
@@ -175,7 +198,23 @@ class Square:
             ( br_x + (p*PLUS_MINUS) + SKEW_x, br_y + (p*PLUS_MINUS) + SKEW_y)
         )
         return [top_right, top_left, bottom_right, bottom_left]
-    
+
+    def calculate_corners_pinbased(self) -> list[int]: 
+        """
+        Calculates the corners of the square based on the pins in the square.
+        To be used after the pins have been added to the square.
+        """
+        corners = []
+        # pin is a list of contours
+        for pin in self.pins:
+            x, y, w, h = cv.boundingRect(pin)
+            # add extra padding to the corners
+            px, py = self.calculate_skew(0.2)
+            px = int(px); py = int(py)
+            corners.append([(x-px, y-py), (x+w+px, y+h+py)])
+
+        return self.order_corner_points(corners)
+
     def get_test_square() -> np.ndarray:
         " isolates the inner square where the test strip is "
         pass
@@ -184,14 +223,27 @@ class Square:
     def draw_pins(self, image: np.ndarray) -> None:
         """ Draws the pins in the square """
         for pin in self.pins:
-            cv.drawContours(image, pin, -1, (0, 255, 0), 1)      
+            cv.drawContours(image, pin, -1, (0, 255, 0), 1)
     
     def draw_corners(self, img: np.ndarray) -> None:
         """ Draws the corners of the square """
         for corner in self.corners:
             cv.rectangle(img, corner[0], corner[1], (0, 0, 255), 1)
 
+    def draw_corners_pinbased(self, img: np.ndarray) -> None:
+        """ Draws the corners of the square based on the pins in the square
+        To be used after the pins have been added to the square."""
+        # pin is a list of contours
+        for x, y in self.calculate_corners_pinbased():
+            cv.rectangle(img, x, y, (0, 0, 255), 1)
 
+    def draw_test_area(self, img: np.ndarray) -> None:
+        "Draws the test area of the square"
+
+        corners = self.calculate_corners_pinbased()
+        cv.rectangle(img, corners[0][1], corners[2][0], (0, 0, 255), 1)
+
+        
     ### Boolean functions ###
     def is_in_test_bounds(self, x:int, y:int) -> bool:
         "checks if coordinate is within test bounds (inner square where strip is)"
@@ -223,13 +275,16 @@ class Square:
             self.is_in_corners(x+int(w), y-int(h)) or
             self.is_in_corners(x-int(w), y+int(h)))
 
-    def which_corner_is_contour_in(self, contour:np.ndarray) -> str:
+    def which_corner_is_contour_in(self, contour:np.ndarray=None, xy =None) -> str:
         """
         Function that finds which corner of square a contour is in.
         """
         corn = ["top_left", "top_right", "bottom_left", "bottom_right" ]
 
-        x, y = cv.boundingRect(contour)[:2]
+        if xy is None:
+            x, y = cv.boundingRect(contour)[:2]
+        else:
+            x, y = xy; x = int(x); y = int(y)
 
         i = 0
         for corner in self.corners:
@@ -245,6 +300,33 @@ class Square:
                 if y + (2*self.PLUS_MINUS)  >= corner[0][1] and y - (2*self.PLUS_MINUS)  <= corner[1][1]:
                     return corn[i]
             i += 1
+
+    def order_corner_points(self, corners: list[int]) -> list[int]:
+        """
+        Orders the corners of the square in a clockwise manner starting from the top-left corner.
+        """
+        # top right, top left, bottom right, bottom left
+        ordered_corners = [None, None, None, None]
+
+        for xy in corners:
+            mid_x = (xy[0][0] + xy[1][0]) / 2
+            mid_y = (xy[0][1] + xy[1][1]) / 2
+            s = self.which_corner_is_contour_in(xy=(mid_x,  mid_y))
+            
+            if s == "top_left":
+                ordered_corners[0] = xy
+            elif s == "top_right":
+                ordered_corners[1] = xy
+            elif s == "bottom_right":
+                ordered_corners[2] = xy
+            elif s == "bottom_left":
+                ordered_corners[3] = xy
+
+        if None in ordered_corners:
+            print("\nError in ordering corners\n")
+            return None
+
+        return ordered_corners
 
     # rgb functions
         
@@ -263,3 +345,6 @@ class Square:
         
         # fixing the order from tr,tl,br,bl to clockwise starting from top-right. This might be the ugliest code I've ever written. But it works!
         set_rgb_sequence_clockwise(self, pins_rgb, corner_key)
+
+
+

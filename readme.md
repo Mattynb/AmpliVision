@@ -11,7 +11,8 @@ This program is designed to load and process images from a specified folder, fin
 Before running the code, make sure you have the following prerequisites installed:
 
 - Python 3.12+
-- OpenCV (Cv2) 4.9.0-dev+ (with cuda for GPU acceleration)
+- OpenCV (Cv2)
+-- ```python pip download cv2```
 - Numpy 1.26.4+   
 -- ```python pip download numpy```
 - Pillow-heif 0.15.0+  

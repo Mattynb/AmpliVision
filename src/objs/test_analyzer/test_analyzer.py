@@ -11,7 +11,7 @@ class TestAnalyzer:
         self.block = block
         
         # look only at the inner test square:
-        self.test_square_img = block.sq_img #square.get_test_square()
+        self.test_square_img = block.get_test_area_img()
 
         # square used in csv export
         self.grid_index = block.index
@@ -26,16 +26,16 @@ class TestAnalyzer:
     def analyze_test_result(self): # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
         
+        import cv2 as cv
+        cv.imshow('image', self.test_square_img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
         # find the positive spots with hsv mask
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
         rgb_spots = ColorContourExtractor.process_image(self.test_square_img) # hsv_lower= [...], hsv_upper= [...])
         self.add_positives_to_sections(rgb_spots)
-
-        import cv2 as cv
-        cv.imshow('image', self.test_square_img)
-        cv.waitKey(0)
-        cv.destroyAllWindows()
 
         # get background color noise so we can remove it from other sections
         #self.strip_sections['bkg'].set_total_avg_rgb()
@@ -57,6 +57,7 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
+                    print("added spot")
                     section.add_spot(self.block, spot, True)
                     break # only adds to one section
 

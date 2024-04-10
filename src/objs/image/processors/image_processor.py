@@ -52,6 +52,8 @@ class ColorContourExtractor:
         # Apply white balance to the original image to make the color of the pins more accurate.
         scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
 
+        #ColorContourExtractor.show_result(edges)
+
         return contours
     
     # Show the result of the pre-processing.
@@ -60,5 +62,5 @@ class ColorContourExtractor:
         """ this method shows the result of the pre-processing."""
         edges = cv.resize(edges, (500,500))
         cv.imshow('result', edges) #color_mask)
-        cv.waitKey(250)
+        cv.waitKey(0)
         cv.destroyAllWindows()
