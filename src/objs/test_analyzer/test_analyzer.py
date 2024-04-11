@@ -27,7 +27,7 @@ class TestAnalyzer:
         "gets test results from a block, analyses them, and export them to csv"
         
         import cv2 as cv
-        cv.imshow('image', self.test_square_img)
+        cv.imshow('analyze_test_result()', self.test_square_img)
         cv.waitKey(0)
         cv.destroyAllWindows()
 
@@ -35,6 +35,13 @@ class TestAnalyzer:
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
         rgb_spots = ColorContourExtractor.process_image(self.test_square_img) # hsv_lower= [...], hsv_upper= [...])
+        
+        cv.drawContours(self.test_square_img, rgb_spots, -1, (0, 255, 0), 3)
+        cv.imshow('analyze_test_result()', self.test_square_img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+        
+        print("spots found: ", len(rgb_spots))
         self.add_positives_to_sections(rgb_spots)
 
         # get background color noise so we can remove it from other sections

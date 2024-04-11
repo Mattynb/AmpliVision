@@ -58,7 +58,6 @@ def main(path_to_imgs):
         im = Grid_DS.img.copy()
         Grid_DS.draw_gridLines(im)
         for block in Grid_DS.get_blocks():
-            #block.draw_corners_pinbased(im)
             block.draw_test_area(im)
         im = cv.resize(im, (800,800))
         cv.imshow('image', im)

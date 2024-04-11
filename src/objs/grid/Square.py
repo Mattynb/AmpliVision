@@ -93,7 +93,7 @@ class Square:
     def get_test_area_img(self) -> np.ndarray:
         " Returns the image of squares test area (inner square where test strip can be)"
         if self.test_area_img is None:
-            self.test_area_img = self.createTAImg(self.get_sq_img())
+            self.test_area_img = self.create_test_area_img(self.get_sq_img())
         return self.test_area_img
 
     def get_block_type(self)->str:
@@ -106,17 +106,31 @@ class Square:
     def get_rgb_sequence(self)->list[int]:
         """ Returns the RGB sequence of the square """
         return self.rgb_sequence
-    
+
     def createImg(self, img: np.ndarray)->np.ndarray:
         """ Creates an image of the square, a cutout of the image around the square"""
         return img[(self.tl[1]-10):(self.br[1]+10), (self.tl[0]-10):(self.br[0]+10)]
+
+    def create_test_area_img(self, sq_img: np.ndarray)->np.ndarray:
+        " Creates an image of the inner test spot"  
+
+        sq_img = self.img
+        corners = self.calculate_corners_pinbased()
+
+        """
+        r = sq_img[a:b, c:d] means that the image r is a cutout of the image sq_img. 
+        from the top left corner (a, c) to the bottom right corner (b, d).
+        where a, b, c, d are the coordinates of the corners of the square.
+        for example,
+        a = corners[0][1][1] means that a is the y coordinate of the bottom right corner of the top right corner of the square.
+        b = corners[2][0][1] means that b is the y coordinate of the top left corner of the bottom right corner of the square.
+        c = corners[0][1][0] means that c is the x coordinate of the bottom right corner of the top right corner of the square.
+        d = corners[2][0][0] means that d is the x coordinate of the top left corner of the bottom right corner of the square.
+        """
+
+        return sq_img[corners[0][1][1]:corners[2][0][1], corners[0][1][0]:corners[2][0][0]]
+        
     
-    def createTAImg(self, sq_img: np.ndarray)->np.ndarray:
-        " Creates an image of the inner test spot"
-
-
-        return 
-
     ## Add functions ##
     def add_pin(self, pin: np.ndarray)->None:
         """ Adds a pin to the square """
@@ -199,24 +213,28 @@ class Square:
         )
         return [top_right, top_left, bottom_right, bottom_left]
 
-    def calculate_corners_pinbased(self) -> list[int]: 
+    def calculate_corners_pinbased(self) -> list[list[int]]: 
         """
         Calculates the corners of the square based on the pins in the square.
         To be used after the pins have been added to the square.
+        list[[corner_tl, corner_br], ...] in clockwise order starting from top left.
         """
         corners = []
         # pin is a list of contours
         for pin in self.pins:
             x, y, w, h = cv.boundingRect(pin)
+
             # add extra padding to the corners
             px, py = self.calculate_skew(0.2)
             px = int(px); py = int(py)
+
+            # append top left and bottom right points of the test area
             corners.append([(x-px, y-py), (x+w+px, y+h+py)])
 
         return self.order_corner_points(corners)
 
     def get_test_square() -> np.ndarray:
-        " isolates the inner square where the test strip is "
+        " isolates the inner square where the test strip is, gets the contour"
         pass
 
     ## Drawing functions ##
