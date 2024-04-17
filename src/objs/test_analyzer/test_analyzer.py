@@ -1,7 +1,9 @@
+from calendar import c
 import numpy as np
 from datetime import datetime
 from ..utils.utils_color import get_rgb_avg_of_contour
 from ..image.processors.image_processor import ColorContourExtractor
+import cv2 as cv
 
 class TestAnalyzer:
     "This class is responsible for getting and analyzing test results a.k.a phase B"
@@ -26,7 +28,6 @@ class TestAnalyzer:
     def analyze_test_result(self): # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
         
-        import cv2 as cv
         cv.imshow('analyze_test_result()', self.test_square_img)
         cv.waitKey(0)
         cv.destroyAllWindows()
@@ -86,16 +87,16 @@ class TestAnalyzer:
         results = self.get_section_results()
                 
         #1 test is properly positive (bkg, test, and control line rgbs are > threshold)
-        if False not in results[1:]:
+        if results[1:]:
             print("Test worked properly and result is positive")
 
         #2 test is properly negative (control line rgb is > threshold)
-        elif results[1] == False & results[2] == True:
+        elif not results[1] & results[2]:
             print("Test worked properly and result is negative")
 
         #3 control error (bkg, and/or test line rgbs are > threshold)
         else:
-            print("Test may not have worked properly")
+            print("Test may have not worked properly")
 
     def get_section_results(self) -> list[bool]:
         "returs a list of booleans representing the result (positive or negative) of each section bkg, test, control"
@@ -146,7 +147,7 @@ class StripSection:
     "This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)"
     
     def __init__(self, test_square_img:np.ndarray, strip_type: str):
-        self.bounds = self.get_bounds(test_square_img, strip_type)
+        self.bounds = self.get_bounds(test_square_img)
         self.spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
         self.total_avg_rgb = None
 
@@ -165,10 +166,31 @@ class StripSection:
     def set_spots_manually(self, block):
         "mostly used to find negative result spots using ratios" 
 
+        copy = block.get_test_area_img().copy()
+    
+        bounds = self.bounds
+
+        for val in bounds.values():
+            cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
+            self.identify_spot_manually(copy, (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), False)
+        
+        cv.imshow('set_spots_manually()', copy)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
+        
+        
+        
         spot = ...
         #self.add_spot(block, spot, False)
-        ...        
-    
+        ...
+
+    def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> None:
+        "used to identify a spot manually"
+
+        cv.circle(test_area_img, (circ_center[0], circ_center[1]), 5, (0, 0, 255), 1)
+
+
     def set_total_avg_rgb(self, bkg = [0, 0, 0]) -> list[int]:
         "gets the total avg rgb by adding the spot rgb avgs together" 
         i = 1
@@ -185,14 +207,21 @@ class StripSection:
         return total_avg
 
     # geometry 
-    def get_bounds(self, test_square_img: np.ndarray, strip_type:str):
+    def get_bounds(self, test_square_img: np.ndarray, orientation = None) -> list[int]:
+        
+        # image bounds
+        x, y, = 0, 0
+        h, w = test_square_img.shape[:2] # Shape returns: (height, width, channels)
+        bounds = {}
+        
+        # divide the square into 3 sections along the middle strip (bkg, test, control)
+        # this order assumes the strip is vertical with bkg on bottom
+        bounds["control"] = [x+int(w/3), y                    , int(2/3*w), int(h/4+h/12)    ]   
+        bounds["test"] =    [x+int(w/3), y+int(h/4+h/12)      , int(2/3*w), int(3/4*h)]
+        bounds["bkg"] =     [x+int(w/3), y+int(3/4*h)         , int(2/3*w), h                ]
+       
 
-        if strip_type == "bkg":
-            ...
-        elif strip_type == "test":
-            ...
-        elif strip_type == "control":
-            ...
+        return bounds
 
     def bounds_contour(self, contour) -> bool:
         "checks if contour is within section bounds"

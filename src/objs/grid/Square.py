@@ -233,10 +233,6 @@ class Square:
 
         return self.order_corner_points(corners)
 
-    def get_test_square() -> np.ndarray:
-        " isolates the inner square where the test strip is, gets the contour"
-        pass
-
     ## Drawing functions ##
     def draw_pins(self, image: np.ndarray) -> None:
         """ Draws the pins in the square """
