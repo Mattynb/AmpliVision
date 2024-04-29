@@ -1,9 +1,8 @@
-from calendar import c
-import numpy as np
-from datetime import datetime
-from ..utils.utils_color import get_rgb_avg_of_contour
-from ..image.processors.image_processor import ColorContourExtractor
 import cv2 as cv
+from datetime import datetime
+from .strip_section import StripSection
+from ..image.processors.image_processor import ColorContourExtractor
+
 
 class TestAnalyzer:
     "This class is responsible for getting and analyzing test results a.k.a phase B"
@@ -27,21 +26,18 @@ class TestAnalyzer:
 
     def analyze_test_result(self): # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
-        
-        cv.imshow('analyze_test_result()', self.test_square_img)
-        cv.waitKey(0)
-        cv.destroyAllWindows()
 
         # find the positive spots with hsv mask
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
         rgb_spots = ColorContourExtractor.process_image(self.test_square_img) # hsv_lower= [...], hsv_upper= [...])
         
-        cv.drawContours(self.test_square_img, rgb_spots, -1, (0, 255, 0), 3)
-        cv.imshow('analyze_test_result()', self.test_square_img)
+        copy = self.test_square_img.copy()
+        cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 3)
+        cv.imshow('analyze_test_result()', copy)
         cv.waitKey(0)
         cv.destroyAllWindows()
-        
+
         print("spots found: ", len(rgb_spots))
         self.add_positives_to_sections(rgb_spots)
 
@@ -55,6 +51,10 @@ class TestAnalyzer:
         # validate results to catch any potential errors in the test
         self.validate_results()
 
+        for section in self.strip_sections.values():
+            section.set_total_avg_rgb()
+            print("total avg rgb in ", section.stip_type, " is: ", section.total_avg_rgb)
+        
         # export results to csv
         return self.create_csv_row()
 
@@ -65,21 +65,16 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-                    print("added spot")
+                    print("added spot to: ", section.stip_type)
                     section.add_spot(self.block, spot, True)
                     break # only adds to one section
 
     def add_negatives_to_sections(self) -> None:
         "used to find negative result spots to appropriate strip section"
         for type, section in zip(self.strip_sections.keys(), self.strip_sections.values()):
-            if type == 'bkg':
-                continue
 
             if len(section.spots) == 0:
                 section.set_spots_manually(self.block)
-            
-            # set section's total rgb avg
-            section.set_total_avg_rgb()
 
     def validate_results(self) -> None:
         "deals with test result potential positive, negative, false positive, error scenarios"
@@ -122,6 +117,7 @@ class TestAnalyzer:
         date = now.strftime("%m/%d/%Y")
         time = now.strftime("%H:%M:%S")
 
+        # setting all rgb values to None
         bkg_r = " None"
         bkg_g, bkg_b = bkg_r, bkg_r
         test_r, test_g, test_b = bkg_r, bkg_r, bkg_r
@@ -130,12 +126,15 @@ class TestAnalyzer:
         # get rgb values of each section
         if self.strip_sections['bkg'].total_avg_rgb != None:
             bkg_r, bkg_g, bkg_b = self.strip_sections['bkg'].total_avg_rgb
+            print("bkg rgb: ", bkg_r, bkg_g, bkg_b)
 
         if self.strip_sections['test'].total_avg_rgb != None:
             test_r, test_g, test_b = self.strip_sections['test'].total_avg_rgb
+            print("test rgb: ", test_r, test_g, test_b)
 
         if self.strip_sections["control"].total_avg_rgb != None:
             cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
+            print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
         # create data to be written to csv
         data = [date, time, self.grid_index, bkg_r, bkg_g, bkg_b, test_r, test_g, 
@@ -143,86 +142,4 @@ class TestAnalyzer:
         
         return data
 
-class StripSection:
-    "This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)"
-    
-    def __init__(self, test_square_img:np.ndarray, strip_type: str):
-        self.bounds = self.get_bounds(test_square_img)
-        self.spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
-        self.total_avg_rgb = None
-
-    def add_spot(self, block, spot:np.ndarray, b: bool) -> None:
-        " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
-
-        index = len(self.spots)
-        avg_rgb = get_rgb_avg_of_contour(block, spot)
-        
-        self.spots[index] = {
-            "contour" : spot, 
-            "avg_rgb" : list(avg_rgb),
-            "positive" : b
-        }
-
-    def set_spots_manually(self, block):
-        "mostly used to find negative result spots using ratios" 
-
-        copy = block.get_test_area_img().copy()
-    
-        bounds = self.bounds
-
-        for val in bounds.values():
-            cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
-            self.identify_spot_manually(copy, (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), False)
-        
-        cv.imshow('set_spots_manually()', copy)
-        cv.waitKey(0)
-        cv.destroyAllWindows()
-
-        
-        
-        
-        spot = ...
-        #self.add_spot(block, spot, False)
-        ...
-
-    def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> None:
-        "used to identify a spot manually"
-
-        cv.circle(test_area_img, (circ_center[0], circ_center[1]), 5, (0, 0, 255), 1)
-
-
-    def set_total_avg_rgb(self, bkg = [0, 0, 0]) -> list[int]:
-        "gets the total avg rgb by adding the spot rgb avgs together" 
-        i = 1
-        total_avg = [0, 0, 0]
-        
-        # adding the total avg with each spot avg
-        for spot in self.spots:
-            total_avg = list(map(lambda total, spot_avg: total + spot_avg, total_avg, spot["avg_rgb"]))
-            i += 1
-            
-        # dividing by the number of spots
-        total_avg = list(map(lambda total: total/i, total_avg))
-        
-        return total_avg
-
-    # geometry 
-    def get_bounds(self, test_square_img: np.ndarray, orientation = None) -> list[int]:
-        
-        # image bounds
-        x, y, = 0, 0
-        h, w = test_square_img.shape[:2] # Shape returns: (height, width, channels)
-        bounds = {}
-        
-        # divide the square into 3 sections along the middle strip (bkg, test, control)
-        # this order assumes the strip is vertical with bkg on bottom
-        bounds["control"] = [x+int(w/3), y                    , int(2/3*w), int(h/4+h/12)    ]   
-        bounds["test"] =    [x+int(w/3), y+int(h/4+h/12)      , int(2/3*w), int(3/4*h)]
-        bounds["bkg"] =     [x+int(w/3), y+int(3/4*h)         , int(2/3*w), h                ]
-       
-
-        return bounds
-
-    def bounds_contour(self, contour) -> bool:
-        "checks if contour is within section bounds"
-        ...
+"""TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""

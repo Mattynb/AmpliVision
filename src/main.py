@@ -20,7 +20,7 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images("image1_scaned.jpg")#path_to_imgs)
+    images = ImageLoader.load_images(r"image1_scaned.jpg") #path_to_imgs)
     id = 0
     # Analyzing each image
     for image in images:
@@ -79,6 +79,8 @@ def main(path_to_imgs):
                 print(f"Test block found. Analyzing block and exporting to {csv_filename}")
                 ta = TestAnalyzer(block)
                 csv_rows.append(ta.analyze_test_result())
+                break
+
         write_to_csv(csv_filename, csv_rows)
 
 def generate_csv_filename():
@@ -116,7 +118,7 @@ def display(image):
 
 if __name__ == '__main__':
     #path_to_imgs =  r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\image1_scaned.jpg" 
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
+    path_to_imgs = r"data\IMG_5894.JPEG" #"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
     
     #r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_03062024\IMG_5572.JPEG"
     main(path_to_imgs)

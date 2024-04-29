@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-def get_rgb_avg_of_contour(square, contour:np.ndarray, corner:list[np.ndarray]='') -> list[int]:
+def get_rgb_avg_of_circle_contour(square, contour:np.ndarray, debug:list[np.ndarray]='') -> list[int]:
     """
     ### Get RGB average of contour
     ---------------
@@ -49,14 +49,14 @@ def get_pins_rgb(square) -> tuple[list[int], list[int]]:
     # for each pin in the square get the average RGB value of the pin and its corner
     for pins in square.pins:
         corner.append(square.which_corner_is_contour_in(pins))
-        pins_rgb.append(get_rgb_avg_of_contour(square, pins, corner))
+        pins_rgb.append(get_rgb_avg_of_circle_contour(square, pins, corner))
 
     return pins_rgb, corner  # tr, tl, br, bl corners 
 
 
 def set_rgb_sequence_clockwise(square, pins_rgb: list[int], corner_key: list[int])->None:
     """sets the rgb sequence of the square in clockwise order starting from top-left."""
-    
+
     sequence = []
     for key in ["top_left", "top_right", "bottom_right", "bottom_left"]:
         sequence.append(pins_rgb[corner_key.index(key)] if key in corner_key else (0,0,0))
