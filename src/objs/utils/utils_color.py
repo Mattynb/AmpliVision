@@ -1,34 +1,72 @@
 import numpy as np
 import cv2 as cv
 
-def get_rgb_avg_of_circle_contour(square, contour:np.ndarray, debug:list[np.ndarray]='') -> list[int]:
+def get_rgb_avg_of_contour(square, contour:np.ndarray, debug:bool=False) -> list[int]:
+    "rgb avg of any shapped contour"
+
+    # copy the image
+    image = square.get_test_area_img().copy()
+
+    # turn contour into mask
+    mask = np.zeros(image.shape[:2], dtype=np.uint8)
+    cv.drawContours(mask, [contour], -1, (255), -1)
+
+    # get the pixels inside the contour
+    pixels_inside = image[mask == 255]
+
+    # Calculate the average RGB values
+    average_rgb = np.mean(pixels_inside, axis=0)
+    
+    # Remove NaN values
+    average_rgb = np.nan_to_num(average_rgb)
+
+    print("Average RGB: " ,average_rgb)
+
+    # display the mask drawn on the image
+    cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
+    cv.imshow('mask', image)    
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+    return [round(x) for x in average_rgb ]
+
+
+
+
+def get_rgb_avg_of_circle_contour(square, contour:np.ndarray, debug:bool=False) -> list[int]:
     """
     ### Get RGB average of contour
     ---------------
     Function that gets the average RGB of a contour in the image.
-    
+
     #### Args:
     * contour: Contour of the object in the image.
     * corner: Corner of the square the contour is in.
 
     #### Returns:
     * avg_color: Average RGB color of the contour.
-    """
+    """ 
 
     # copy the image
     image = square.img.copy()
 
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)  # Convert to RGB format
 
+    if debug == 2:
+        image = cv.cvtColor(image,cv.COLOR_RGB2GRAY)
+
     (x, y), radius = cv.minEnclosingCircle(contour)
 
     center = (int(x), int(y))
-    radius = int(radius) - int(square.PLUS_MINUS/2.5)
+    radius = max(int(radius) - int(square.PLUS_MINUS/2.5), 3)
 
     # get the pixels inside the minEnclosingCircle
     mask = np.zeros(image.shape[:2], dtype=np.uint8)
     cv.circle(mask, center, radius, (255), -1)
     pixels_inside = image[mask == 255]
+    
+    if debug == 2:
+        pixels_inside = square.img[mask == 255]
 
     # Calculate the average RGB values
     average_rgb = np.mean(pixels_inside, axis=0)

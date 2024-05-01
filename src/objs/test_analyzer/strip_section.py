@@ -1,7 +1,7 @@
 from calendar import c
 import cv2 as cv
 import numpy as np
-from ..utils.utils_color import get_rgb_avg_of_circle_contour as get_rgb_avg_of_contour
+from ..utils.utils_color import get_rgb_avg_of_contour
 
 
 class StripSection:
@@ -16,7 +16,7 @@ class StripSection:
     def add_spot(self, block, contour:np.ndarray, result: bool) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
 
-        avg_rgb = get_rgb_avg_of_contour(block, contour, True)
+        avg_rgb = get_rgb_avg_of_contour(block, contour)
 
         self.spots.append({
             "contour" : contour, 
@@ -35,6 +35,11 @@ class StripSection:
         spot = self.identify_spot_manually(copy, (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), False)
         cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
         
+        cv.imshow('set_spots_manually()', copy) 
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
+
         self.add_spot(block, spot, False)
 
     def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> np.ndarray:

@@ -61,7 +61,7 @@ def main(path_to_imgs):
             block.draw_test_area(im)
         im = cv.resize(im, (800,800))
         cv.imshow('image', im)
-        cv.waitKey(0)
+        cv.waitKey(100)
         cv.destroyAllWindows()
 
         # identifies type of blocks in the grid
@@ -128,14 +128,17 @@ if __name__ == '__main__':
 
 """
 TODO:
+actually use white balancing. Curently it is being called on image_scanner but not being used.
+
+TODO:
+write on saved image the identified block types, and the sequence of the block
+
+TODO:
 add reference to scan
 
 TODO: 
 image generation with blocks for U-NET
 
 TODO:
-write on saved image the identified block types, and the sequence of the block
-
-TODO:
-make a block class that inherits from the square class
+make a block class that inherits from the square class?
 """

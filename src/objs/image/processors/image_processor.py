@@ -29,7 +29,7 @@ class ColorContourExtractor:
 
     # A function that pre-processes the image to isolate the color of the pins.
     @staticmethod
-    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [180, 255,255]) -> np.ndarray:
+    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [180, 255,255], display:bool=False) -> np.ndarray:
         """ this method pre-processes the image to isolate the color of the pins."""
 
         # Copy the image to avoid modifying the original image
@@ -50,17 +50,24 @@ class ColorContourExtractor:
         contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
         # Apply white balance to the original image to make the color of the pins more accurate.
-        scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
+        
+        'TODO: This is literally doing nothing here. The scanned image is not returned.'
+        #scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
 
-        #ColorContourExtractor.show_result(edges)
+        if display:
+            ColorContourExtractor.show_result(contours, scanned_image)
 
         return contours
     
     # Show the result of the pre-processing.
     @staticmethod
-    def show_result(edges: np.ndarray) -> None:
+    def show_result(contours: np.ndarray, image) -> None:
         """ this method shows the result of the pre-processing."""
-        edges = cv.resize(edges, (500,500))
-        cv.imshow('result', edges) #color_mask)
+
+        copy = image.copy()
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        cv.imshow('Color Contour Extractor', copy)
         cv.waitKey(0)
         cv.destroyAllWindows()
+        
+        
