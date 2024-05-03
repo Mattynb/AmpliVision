@@ -20,25 +20,26 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images(r"image1_scaned.jpg") #path_to_imgs)
+    images = ImageLoader.load_images(path_to_imgs) #(r"image1_scaned.jpg")
     id = 0
     # Analyzing each image
     for image in images:
 
         ## display
-        #display(image.copy())
-
+        
         #   Create Image object from loaded image.
         # The Image object is used to store the image 
         # and the steps of the image processing.
-        #image_scan, id = GridImageNormalizer.scan(id, image, 1); print(round(time.time()-t,2))
-
-        image_scan = image
+        import time; t = time.time()
+        image_scan, id = GridImageNormalizer.scan(id, image); print(round(time.time()-t,2))
+        
+        #image_scan = image
         if image_scan is None: continue
+        
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above   
-        #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
+        cv.imwrite(f"image{id}_scaned.jpg", image_scan)
     
 
         #   Finds the contours around non-grayscale (colorful) 
@@ -51,7 +52,8 @@ def main(path_to_imgs):
         # the blocks and pins, etc.
         Grid_DS = Grid(image_scan)
 
-        # determines what squares in grid are blocks
+        # determines what squares in grid are
+        #  blocks
         Grid_DS.find_blocks(contours); print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
 
         ## display
@@ -59,27 +61,20 @@ def main(path_to_imgs):
         Grid_DS.draw_gridLines(im)
         for block in Grid_DS.get_blocks():
             block.draw_test_area(im)
-        im = cv.resize(im, (800,800))
-        cv.imshow('image', im)
-        cv.waitKey(100)
-        cv.destroyAllWindows()
+        display(im)
 
         # identifies type of blocks in the grid
-        
         csv_filename = generate_csv_filename()
         csv_rows = []
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
             block = identify_block(block)
 
-            "CAREFUL ABOUT BLOCK ROTATION"
-
             # analyse results of test blocks
             if block.get_block_type() == "Test Block":
                 print(f"Test block found. Analyzing block and exporting to {csv_filename}")
                 ta = TestAnalyzer(block)
                 csv_rows.append(ta.analyze_test_result())
-                break
 
         write_to_csv(csv_filename, csv_rows)
 
@@ -110,15 +105,15 @@ def write_to_csv(filename:str, data: list)->None:
         csvwriter.writerow(format_str)
         csvwriter.writerows(data)
 
-def display(image):
+def display(image, t=100):
     im = cv.resize(image, (0,0), fx=0.5, fy=0.5)
     cv.imshow('image', im)
-    cv.waitKey(0)
+    cv.waitKey(t)
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
     #path_to_imgs =  r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\image1_scaned.jpg" 
-    path_to_imgs = r"data\IMG_5894.JPEG" #"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
+    path_to_imgs = r"data\IMG_6016.jpg" #"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
     
     #r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_03062024\IMG_5572.JPEG"
     main(path_to_imgs)

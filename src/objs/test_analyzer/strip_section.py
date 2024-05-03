@@ -7,9 +7,9 @@ from ..utils.utils_color import get_rgb_avg_of_contour
 class StripSection:
     "This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)"
 
-    def __init__(self, test_square_img:np.ndarray, strip_type: str):
-        self.stip_type = strip_type
-        self.bounds = self.set_bounds(test_square_img)
+    def __init__(self, test_square_img:np.ndarray, strip_type: str, rotation: int):
+        self.strip_type = strip_type
+        self.bounds = self.set_bounds(test_square_img, rotation)
         self.spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
         self.total_avg_rgb = None
 
@@ -82,33 +82,64 @@ class StripSection:
         self.total_avg_rgb = total_avg
 
     # geometry 
-    def set_bounds(self, test_square_img: np.ndarray, orientation = None) -> list[int]:
-    
-        # image bounds
+    def set_bounds(self, test_square_img: np.ndarray, rotation: int) -> list[int]:
+        # test strip component bounds
         x, y, = 0, 0
         h, w = test_square_img.shape[:2] # Shape returns: (height, width, channels)
         bounds = None
-        
-        # divide the square into 3 sections along the middle strip (bkg, test, control)
-        
-        # ASSUMPTION:this order ASSUMES the strip is vertical with bkg on bottom
-        
-        if self.stip_type == "bkg":
-            bounds = [x+int(w/3), y+int(3/4*h), int(2/3*w), h]
 
-        elif self.stip_type == "test":
-            bounds = [x+int(w/3), y+int(h/4+h/12), int(2/3*w), int(3/4*h)]
+        # divide the square into 3 sections along the middle strip (bkg, test, control)
+
+        # ASSUMPTION: this order ASSUMES the strip is vertical with bkg on bottom
+
+        print("rotation = ", rotation)
+        if rotation == 0:
+            if self.strip_type == "bkg":
+                bounds = [x+int(w/3), y+int(3/4*h), int(2/3*w), h] # [top left x, top left y, width, height]
+
+            elif self.strip_type == "test":
+                bounds = [x+int(w/3), y+int(h/4+h/12), int(2/3*w), int(3/4*h)]
+
+            elif self.strip_type == "control":
+                bounds = [x+int(w/3), y, int(2/3*w), int(h/4+h/12)]
         
-        elif self.stip_type == "control":
-            bounds = [x+int(w/3), y, int(2/3*w), int(h/4+h/12)]   
+        elif rotation == 90:
+            if self.strip_type == "bkg":
+                bounds = [x+int(w/4+w/12), y, int(3/4*w), int(2/3*h)]
+
+            elif self.strip_type == "test":
+                bounds = [x, y, int(w/4+w/12), int(2/3*h)]
+
+            elif self.strip_type == "control":
+                bounds = [x+int(w/3), y, int(2/3*w), int(h/4+h/12)]
+    
+        elif rotation == 180:
+            if self.strip_type == "bkg":
+                bounds = [x, y, int(2/3*w), int(h/3)]
+
+            elif self.strip_type == "test":
+                bounds = [x, y, int(2/3*w), int(h/4+h/12)]
+
+            elif self.strip_type == "control":
+                bounds = [x, y+int(h/4+h/12), int(2/3*w), int(3/4*h)]
+
+        elif rotation == 270:            
+            if self.strip_type == "bkg":
+                bounds = [x, y+int(h/3), w, int(2/3*h)]
+
+            elif self.strip_type == "test":
+                bounds = [x+int(w/4+w/12), y+int(h/3), int(3/4*w), int(2/3*h)]
+
+            elif self.strip_type == "control":
+                bounds = [x, y+int(h/3), int(w/4+w/12), int(2/3*h)]
 
         return bounds
 
     def bounds_contour(self, contour) -> bool:
         "checks if contour is within section bounds"
-        
+
         x, y, w, h = cv.boundingRect(contour)
-    
+
         if x > self.bounds[0] and y > self.bounds[1] and x+w < self.bounds[2] and y+h < self.bounds[3]:
             return True
         return False

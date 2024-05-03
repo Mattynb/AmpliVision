@@ -19,9 +19,9 @@ class TestAnalyzer:
         self.block_type = block.block_type
 
         self.strip_sections = {
-            "bkg" : StripSection(self.test_square_img, 'bkg'), 
-            "test" : StripSection(self.test_square_img, 'test'),
-            "control" : StripSection(self.test_square_img, 'control')
+            "bkg" : StripSection(self.test_square_img, 'bkg', block.rotation), 
+            "test" : StripSection(self.test_square_img, 'test', block.rotation),
+            "control" : StripSection(self.test_square_img, 'control', block.rotation)
         }
 
     def analyze_test_result(self): # should I name it main?
@@ -50,7 +50,7 @@ class TestAnalyzer:
 
         for section in self.strip_sections.values():
             section.set_total_avg_rgb()
-            print("total avg rgb in ", section.stip_type, " is: ", section.total_avg_rgb)
+            #print("total avg rgb in ", section.strip_type, " is: ", section.total_avg_rgb)
         
         # export results to csv
         return self.create_csv_row()
@@ -62,7 +62,7 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-                    print("added spot to: ", section.stip_type)
+                    #print("added spot to: ", section.strip_type)
                     section.add_spot(self.block, spot, True)
                     break # only adds to one section
 
@@ -77,7 +77,7 @@ class TestAnalyzer:
         "deals with test result potential positive, negative, false positive, error scenarios"
         
         results = self.get_section_results()
-                
+
         #1 test is properly positive (bkg, test, and control line rgbs are > threshold)
         if results[1:]:
             print("Test worked properly and result is positive")
@@ -123,15 +123,15 @@ class TestAnalyzer:
         # get rgb values of each section
         if self.strip_sections['bkg'].total_avg_rgb != None:
             bkg_r, bkg_g, bkg_b = self.strip_sections['bkg'].total_avg_rgb
-            print("bkg rgb: ", bkg_r, bkg_g, bkg_b)
+            #print("bkg rgb: ", bkg_r, bkg_g, bkg_b)
 
         if self.strip_sections['test'].total_avg_rgb != None:
             test_r, test_g, test_b = self.strip_sections['test'].total_avg_rgb
-            print("test rgb: ", test_r, test_g, test_b)
+            #print("test rgb: ", test_r, test_g, test_b)
 
         if self.strip_sections["control"].total_avg_rgb != None:
             cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
-            print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
+            #print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
         # create data to be written to csv
         data = [date, time, self.grid_index, bkg_r, bkg_g, bkg_b, test_r, test_g, 

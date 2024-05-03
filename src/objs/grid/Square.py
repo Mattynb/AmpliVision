@@ -58,6 +58,8 @@ class Square:
         self.add_corners(PIN_RATIO, PLUS_MINUS)
         
         self.test_area_img = None
+        
+        self.rotation = 0 # rotation of the block. 0 is vertical strip with bkg on bottom. 1 is horizontal strip with bkg on left side. etc.
 
         # ratios
         self.PIN_RATIO = PIN_RATIO

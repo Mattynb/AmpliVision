@@ -14,7 +14,7 @@ class GridImageNormalizer:
         - This method resizes the image to a given percentage of the current size.
     """
     @classmethod
-    def scan(cls, id: int, image: ndarray, resize_factor : float = 1):
+    def scan(cls, id: int, image: ndarray):
         """
         ### Scan image
         Scan the image and return the scanned image.
@@ -22,7 +22,6 @@ class GridImageNormalizer:
         #### Args:
         * id : id of the image
         * image : image to be scanned
-        * resize_factor : percentage of current size to resize to
 
         #### Returns:
         * scanned image

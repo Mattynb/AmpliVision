@@ -1,3 +1,4 @@
+import dis
 import cv2 as cv
 import numpy as np
 
@@ -7,6 +8,11 @@ from .detectors.corner_detector import CornerDetector
 from .processors.morphological_transformer import MorphologicalTransformer
 from .processors.background_remover import BackgroundRemover
 
+def display(image, t=100):
+    im = cv.resize(image, (800,800))
+    cv.imshow('ImageScanner', im)
+    cv.waitKey(t)
+    cv.destroyAllWindows()
 
 class ImageScanner:
         """
@@ -47,12 +53,21 @@ class ImageScanner:
                 # Utilizing the GPU for faster processing
                 morph_img = MorphologicalTransformer.apply_morph(img)
 
+                #display(morph_img.copy(), 0)
+
                 # Isolate the grid by removing background (Only works with CPU)
                 no_bkg_img = BackgroundRemover.remove_background(morph_img)
                 
+                #display(no_bkg_img.copy(), 0)
+
                 # Adjusting the image to highlight the grid
                 contours = ContourFinder.find_contours(no_bkg_img)
+                
+                #a = no_bkg_img.copy()
+                #cv.drawContours(a, contours, -1, (0, 255, 0), 3)
+                #display(a, 0)
                 corners = CornerDetector.detect_corners(contours, no_bkg_img)
+
                 final_image = cls.perspective_transform(img, corners)
                 
                 return final_image
