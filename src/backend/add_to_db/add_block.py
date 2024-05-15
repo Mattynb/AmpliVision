@@ -21,7 +21,7 @@ def add_block():
     post = {"block_name": "Conjugate Pad", "Sequence": (3,3,3,1)}
     post_id = collection.insert_one(post).inserted_id
     print(post_id)
-    post = {"block_name": "Test Block", "Sequence": (2,2,2,1)}
+    post = {"block_name": "Test Block", "Sequence": (2,2,1,2)}
     post_id = collection.insert_one(post).inserted_id
     print(post_id)
 

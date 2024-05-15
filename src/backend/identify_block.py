@@ -35,9 +35,6 @@ def identify_block(block):
     # Check if the sequence is in the database
     # If it is, print the block type
     for rotation in range(len(sequence_numerical)):
-        # Rotate the sequence
-        sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
-        
         # Look for the sequence in the database
         query = {'Sequence': sequence_numerical}
         
@@ -49,9 +46,13 @@ def identify_block(block):
             client.close()
 
             r = [0, 90, 180, 270]
-            block.rotation = r[rotation-1]
+            block.rotation = r[rotation]
 
             return block
+        
+        # Rotate the sequence
+        sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
+        
         
     # If the sequence is not found, print unknown
     print(f'Block: Unknown at {block.index}\n')
