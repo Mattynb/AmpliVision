@@ -1,4 +1,3 @@
-from calendar import c
 import cv2 as cv
 import numpy as np
 from ..utils.utils_color import get_rgb_avg_of_contour
@@ -12,6 +11,16 @@ class StripSection:
         self.bounds = self.set_bounds(test_square_img, rotation)
         self.spots = [] # each spot is hashmap {"contour": np.ndarray, "avg_rgb": int, "positive": bool}
         self.total_avg_rgb = None
+
+    def __str__(self):
+        return f"StripSection of type {self.strip_type} with bounds {self.bounds} and {len(self.spots)} spots."
+    
+    def print_spots(self):
+        "prints the spots in the section"
+
+        for spot in self.spots:
+            print("spot: ", spot["avg_rgb"], " positive: ", spot["positive"])
+
 
     def add_spot(self, block, contour:np.ndarray, result: bool) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "

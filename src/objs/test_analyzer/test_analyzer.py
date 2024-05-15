@@ -79,14 +79,14 @@ class TestAnalyzer:
         results = self.get_section_results()
 
         #1 test is properly positive (bkg, test, and control line rgbs are > threshold)
-        if results[1:]:
+        if results[1] & results[2]:
             print("Test worked properly and result is positive")
 
         #2 test is properly negative (control line rgb is > threshold)
-        elif not results[1] & results[2]:
+        elif (not results[1]) & results[2]:
             print("Test worked properly and result is negative")
 
-        #3 control error (bkg, and/or test line rgbs are > threshold)
+        #3 control error (bkg, and maybe test line rgbs are > threshold)
         else:
             print("Test may have not worked properly")
 
@@ -95,11 +95,14 @@ class TestAnalyzer:
         results = [] # bkg, test, control
         for strip in self.strip_sections.values():
             strip_result = False
+
+            strip.print_spots()
             for spot in strip.spots:
-                if spot["positive"]:
+                if spot["positive"] == True:
                     strip_result = True
                     break
             results.append(strip_result)
+
         return results
 
     def create_csv_row(self) -> str:
