@@ -1,6 +1,7 @@
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from backend import identify_block
 
+import time
 import csv
 import cv2 as cv
 from datetime import datetime
@@ -20,21 +21,23 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images(path_to_imgs) #(r"image1_scaned.jpg")
-    id = 0
+    images = ImageLoader.load_images("image0_scaned.jpg")
+    
     # Analyzing each image
-    for image in images:
+    for id, image in enumerate(images):
 
         ## display
         
         #   Create Image object from loaded image.
         # The Image object is used to store the image 
         # and the steps of the image processing.
-        import time; t = time.time()
-        image_scan, id = GridImageNormalizer.scan(id, image); print(round(time.time()-t,2))
-        
-        #image_scan = image
+        #t = time.time()
+        #image_scan = GridImageNormalizer.scan(id, image); print(round(time.time()-t,2))
+
+        image_scan = image
         if image_scan is None: continue
+
+        display(image_scan, 0, 'I guess its u')
         
 
         # When working with repeat image, uncomment the line below 
@@ -56,12 +59,12 @@ def main(path_to_imgs):
         #  blocks
         Grid_DS.find_blocks(contours); print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
 
-        ## display
+        """## display
         im = Grid_DS.img.copy()
         Grid_DS.draw_gridLines(im)
         for block in Grid_DS.get_blocks():
             block.draw_test_area(im)
-        display(im)
+        display(im, 0)"""
 
         # identifies type of blocks in the grid
         csv_filename = generate_csv_filename()
@@ -105,17 +108,14 @@ def write_to_csv(filename:str, data: list)->None:
         csvwriter.writerow(format_str)
         csvwriter.writerows(data)
 
-def display(image, t=100):
+def display(image, t=100, title= 'image'):
     im = cv.resize(image, (0,0), fx=0.5, fy=0.5)
-    cv.imshow('image', im)
+    cv.imshow(title, im)
     cv.waitKey(t)
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    #path_to_imgs =  r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\image1_scaned.jpg" 
-    path_to_imgs = r"data\IMG_6016.jpg" #"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_040424\New_images_040424\IMG_5814.JPEG"
-    
-    #r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_03062024\IMG_5572.JPEG"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\IMG_6065.jpg"
     main(path_to_imgs)
 
 

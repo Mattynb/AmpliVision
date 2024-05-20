@@ -35,7 +35,6 @@ def is_arranged_as_square(points:list[tuple], img, SQUARE_LENGTH:int, flag=0):
 
     # Check if the points form a square
     if is_square(points, dists, SQUARE_LENGTH):
-        draw_square_on_image(points, img)
         return True
     
     if not flag:

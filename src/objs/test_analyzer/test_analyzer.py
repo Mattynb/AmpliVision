@@ -30,12 +30,13 @@ class TestAnalyzer:
         # find the positive spots with hsv mask
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
-        rgb_spots = ColorContourExtractor.process_image(self.test_square_img, display=True) # hsv_lower= [...], hsv_upper= [...])
+
+        blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
+        rgb_spots = ColorContourExtractor.process_image(blur, display=True) # hsv_lower= [...], hsv_upper= [...])
         
         copy = self.test_square_img.copy()
         cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 1)
 
-        print("spots found: ", len(rgb_spots))
         self.add_positives_to_sections(rgb_spots)
 
         # get background color noise so we can remove it from other sections
@@ -62,7 +63,7 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-                    #print("added spot to: ", section.strip_type)
+                    print("added spot to: ", section.strip_type)
                     section.add_spot(self.block, spot, True)
                     break # only adds to one section
 

@@ -40,18 +40,19 @@ class ImageLoader:
         """
 
         # acceptable image types
-        types = ('.png', '.jpg', '.jpeg', '.JPEG', '.PNG', '.JPG')
+        types = ('.png', '.jpg', 'jpeg', '.PNG', '.JPG', 'JPEG')
 
         # reading single image if path is only one image
         end = path_to_imgs[-4:]
-        if end in types or end.lower() == 'jpeg': 
+
+        if end.lower() in types: 
             return [cv.imread(path_to_imgs)]
         
         # reading all images of acceptable types from given directory 
         imgs = []
         for f_type in types: 
             imgs.extend([cv.imread(file) for file in glob(f"{path_to_imgs}*{f_type}")])
-        
+
         return imgs
 
     @staticmethod
@@ -66,12 +67,42 @@ class ImageLoader:
         #### Returns:
         None
         """
-        
+
         # finding all .HEIC images in the given folder 
         # and converting them to .png
-        paths = glob(f"{path_to_heic}.HEIC")
+        paths = glob(f"{path_to_heic}*.HEIC")
+        print(paths)
         for path in paths:
             pillow_heif.register_heif_opener()
 
             img = im.open(path)
             img.save(path[:-4] + 'png', format="png")
+            print(f"{path} converted to PNG")
+
+    @staticmethod
+    def heic2jpg(path_to_heic: str):
+        """
+        ### HEIC to JPG converte
+        Creates .jpg images from the .HEIC images of given folder.    
+        
+        #### Args:
+        path_to_heic: path to image folder
+
+        #### Returns:
+        None
+        """
+
+        # finding all .HEIC images in the given folder 
+        # and converting them to .jpg
+        paths = glob(f"{path_to_heic}*.HEIC")
+        print(paths)
+        for path in paths:
+            pillow_heif.register_heif_opener()
+
+            img = im.open(path)
+            img.save(path[:-4] + 'jpg', format="jpeg")
+            print(f"{path} converted to JPG")
+
+
+if __name__ == "__main__":
+    ImageLoader.heic2png(r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\*")

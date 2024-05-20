@@ -28,14 +28,14 @@ class GridImageNormalizer:
         """
         print(f"Image {id} loaded")
 
-        # Scan the image isolating the grid
-        Image_i = ImageScanner.scan(image); print(f"Image {id} scanned!\n"); id += 1 
+        # Scan the image isolating the gri
+        Image_i = ImageScanner.scan(image); print(f"Image {id} scanned!\n")
 
         # Resize image so that its height and width are the same
         w, h = Image_i.shape[:2]
         Image_i = cls.resize(Image_i, 1, w, w)
 
-        return Image_i, id
+        return Image_i
 
     @staticmethod
     def resize(img: ndarray, factor: float, w:int=None, h:int = None):

@@ -19,7 +19,7 @@ class StripSection:
         "prints the spots in the section"
 
         for spot in self.spots:
-            print("spot: ", spot["avg_rgb"], " positive: ", spot["positive"])
+            print(f"{self.strip_type} spot: ", spot["avg_rgb"], " positive: ", spot["positive"])
 
 
     def add_spot(self, block, contour:np.ndarray, result: bool) -> None:
@@ -54,7 +54,7 @@ class StripSection:
     def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> np.ndarray:
         "used to identify a spot manually"
 
-        # get the contour of circle spot
+        # get the contour of circle spott
         copy = test_area_img.copy()
         cv.circle(copy, (circ_center[0], circ_center[1]), 5, (0, 0, 255), 1)
         
@@ -100,48 +100,47 @@ class StripSection:
         # divide the square into 3 sections along the middle strip (bkg, test, control)
 
         # ASSUMPTION: this order ASSUMES the strip is vertical with bkg on bottom
-
-        print("rotation = ", rotation)
-        if rotation == 0:
-            if self.strip_type == "bkg":
-                bounds = [x+int(w/3), y+int(3/4*h), int(2/3*w), h] # [top left x, top left y, width, height]
-
-            elif self.strip_type == "test":
-                bounds = [x+int(w/3), y+int(h/4+h/12), int(2/3*w), int(3/4*h)]
-
-            elif self.strip_type == "control":
-                bounds = [x+int(w/3), y, int(2/3*w), int(h/4+h/12)]
         
-        elif rotation == 90:
+        if rotation == 0:
+            if self.strip_type == "control":
+                bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)] # [top left x, top left y, width, height]
+              
+            elif self.strip_type == "test":
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
+    
             if self.strip_type == "bkg":
-                bounds = [x+int(w/4+w/12), y, int(3/4*w), int(2/3*h)]
+                bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h] 
+
+        elif rotation == 90:
+            if self.strip_type == "control":
+                bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
             elif self.strip_type == "test":
-                bounds = [x, y, int(w/4+w/12), int(2/3*h)]
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
-            elif self.strip_type == "control":
-                bounds = [x+int(w/3), y, int(2/3*w), int(h/4+h/12)]
-    
+            elif self.strip_type == "bkg":
+                bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
+
         elif rotation == 180:
             if self.strip_type == "bkg":
-                bounds = [x, y, int(2/3*w), int(h/3)]
-
+                bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)] # [top left x, top left y, width, height]
+              
             elif self.strip_type == "test":
-                bounds = [x, y, int(2/3*w), int(h/4+h/12)]
+                bounds = [x+int(w/3), y+int(h*2/3), x+int(2/3*w), y+int(2/3*h)]
+    
+            if self.strip_type == "control":
+                bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h] 
 
-            elif self.strip_type == "control":
-                bounds = [x, y+int(h/4+h/12), int(2/3*w), int(3/4*h)]
-
-        elif rotation == 270:            
+        elif rotation == 270:
             if self.strip_type == "bkg":
-                bounds = [x, y+int(h/3), w, int(2/3*h)]
+                bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
             elif self.strip_type == "test":
-                bounds = [x+int(w/4+w/12), y+int(h/3), int(3/4*w), int(2/3*h)]
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
             elif self.strip_type == "control":
-                bounds = [x, y+int(h/3), int(w/4+w/12), int(2/3*h)]
-
+                bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
+                
         return bounds
 
     def bounds_contour(self, contour) -> bool:
@@ -149,6 +148,9 @@ class StripSection:
 
         x, y, w, h = cv.boundingRect(contour)
 
-        if x > self.bounds[0] and y > self.bounds[1] and x+w < self.bounds[2] and y+h < self.bounds[3]:
+        center_point = (x+w/2, y+h/2)
+
+        if center_point[0] >= self.bounds[0] and center_point[0] <= self.bounds[2] and center_point[1] >= self.bounds[1] and center_point[1] <= self.bounds[3]:
             return True
+
         return False

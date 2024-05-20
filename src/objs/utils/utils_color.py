@@ -20,8 +20,6 @@ def get_rgb_avg_of_contour(square, contour:np.ndarray, debug:bool=False) -> list
     # Remove NaN values
     average_rgb = np.nan_to_num(average_rgb)
 
-    print("Average RGB: " ,average_rgb)
-
     # display the mask drawn on the image
     cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
     cv.imshow('mask', image)    
