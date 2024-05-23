@@ -14,7 +14,7 @@ def add_color_range():
     post = [
         {"color_name": "Red", "color#" : 1, "min": (150,0,0), "max": (255,150,87+40)},
         {"color_name": "Red", "color#" : 1, "min": (100,0,0), "max": (149,99,87+40)},
-        {"color_name": "Blue", "color#" : 2, "min": (49-40,77-40,150), "max": (255+25,78+40+50,255)},
+        {"color_name": "Blue", "color#" : 2, "min": (0,0,150), "max": (255+25,78+40+50,255)},
         {"color_name": "Green", "color#" : 3, "min": (50,100,0), "max": (149,255,125)},
         #{"color_name": "Purple", "color#" : 4, "min": (105,78-40,150), "max": (255+25,78+40+50,255)},
     ]

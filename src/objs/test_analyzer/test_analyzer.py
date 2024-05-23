@@ -31,6 +31,8 @@ class TestAnalyzer:
         # need to think about cases where mask for example return one pixel. 
         #   do you check for minimum contour size? do you only look for it manually? food for thought 
 
+        print("rotation: ", self.block.rotation)
+
         blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
         rgb_spots = ColorContourExtractor.process_image(blur, display=True) # hsv_lower= [...], hsv_upper= [...])
         
@@ -39,12 +41,19 @@ class TestAnalyzer:
 
         self.add_positives_to_sections(rgb_spots)
 
-        # get background color noise so we can remove it from other sections
-        #self.strip_sections['bkg'].set_total_avg_rgb()
-        #bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
-
-        # find the negative spots "manually" through ratios, removing bgk
+        # find the negative spots "manually" through ratios
         self.add_negatives_to_sections()
+        
+        # get background color noise so we can remove it from other sections
+        self.strip_sections['bkg'].set_total_avg_rgb()
+        bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
+
+        # remove background noise from other sections
+        for section in self.strip_sections.values():
+            if section.strip_type != 'bkg':
+                section.subtract_bkg(bkg_rgb_avg)
+
+        print("\n")
 
         # validate results to catch any potential errors in the test
         self.validate_results()
@@ -63,7 +72,7 @@ class TestAnalyzer:
         for spot in rgb_spots:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-                    print("added spot to: ", section.strip_type)
+                    print("auto added spot to: ", section.strip_type)
                     section.add_spot(self.block, spot, True)
                     break # only adds to one section
 
@@ -72,6 +81,7 @@ class TestAnalyzer:
         for type, section in zip(self.strip_sections.keys(), self.strip_sections.values()):
 
             if len(section.spots) == 0:
+                print("man added negative spot to: ", type)
                 section.set_spots_manually(self.block)
 
     def validate_results(self) -> None:
@@ -96,14 +106,18 @@ class TestAnalyzer:
         results = [] # bkg, test, control
         for strip in self.strip_sections.values():
             strip_result = False
-
+            
+            # display
             strip.print_spots()
+
             for spot in strip.spots:
                 if spot["positive"] == True:
                     strip_result = True
                     break
             results.append(strip_result)
 
+        print("\n")
+        
         return results
 
     def create_csv_row(self) -> str:

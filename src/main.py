@@ -21,7 +21,7 @@ def main(path_to_imgs):
     """
 
     # loading images from given path
-    images = ImageLoader.load_images("image0_scaned.jpg")
+    images = ImageLoader.load_images(path_to_imgs) #"image0_scaned.jpg")
     
     # Analyzing each image
     for id, image in enumerate(images):
@@ -31,18 +31,18 @@ def main(path_to_imgs):
         #   Create Image object from loaded image.
         # The Image object is used to store the image 
         # and the steps of the image processing.
-        #t = time.time()
-        #image_scan = GridImageNormalizer.scan(id, image); print(round(time.time()-t,2))
+        t = time.time()
+        image_scan = GridImageNormalizer.scan(id, image); print("scanned in: ", round(time.time()-t,2), "s")
 
-        image_scan = image
+        #image_scan = image
         if image_scan is None: continue
 
-        display(image_scan, 0, 'I guess its u')
+        display(image_scan, 1000, 'I guess its u')
         
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above   
-        cv.imwrite(f"image{id}_scaned.jpg", image_scan)
+        #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
     
 
         #   Finds the contours around non-grayscale (colorful) 
@@ -67,7 +67,7 @@ def main(path_to_imgs):
         display(im, 0)"""
 
         # identifies type of blocks in the grid
-        csv_filename = generate_csv_filename()
+        csv_filename = generate_csv_filename(id)
         csv_rows = []
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
@@ -81,7 +81,7 @@ def main(path_to_imgs):
 
         write_to_csv(csv_filename, csv_rows)
 
-def generate_csv_filename():
+def generate_csv_filename(id):
     # get current date and time
     now = datetime.now()
 
@@ -89,7 +89,7 @@ def generate_csv_filename():
     date = now.strftime("%m-%d-%Y")
     time = now.strftime("(%H-%M-%S)")
 
-    return f"results_{date}_{time}.csv"
+    return f"img_{id}_results_{date}_{time}.csv"
 
 def write_to_csv(filename:str, data: list)->None:
     with open(filename, 'w') as csvfile:
@@ -115,7 +115,7 @@ def display(image, t=100, title= 'image'):
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\IMG_6065.jpg"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\*"
     main(path_to_imgs)
 
 

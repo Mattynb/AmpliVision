@@ -20,6 +20,7 @@ class StripSection:
 
         for spot in self.spots:
             print(f"{self.strip_type} spot: ", spot["avg_rgb"], " positive: ", spot["positive"])
+        
 
 
     def add_spot(self, block, contour:np.ndarray, result: bool) -> None:
@@ -45,7 +46,7 @@ class StripSection:
         cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
         
         cv.imshow('set_spots_manually()', copy) 
-        cv.waitKey(0)
+        cv.waitKey(1000)
         cv.destroyAllWindows()
 
 
@@ -90,6 +91,15 @@ class StripSection:
 
         self.total_avg_rgb = total_avg
 
+    def subtract_bkg(self, bkg_rgb_avg: list[int]) -> list[int]:
+        "subtracts the bkg rgb from the total avg rgb"
+
+        if self.total_avg_rgb == None:
+            print("please set the total avg rgb before calling subtract_bkg()")
+            return None
+
+        return list(map(lambda total, bkg: total - bkg, self.total_avg_rgb, bkg_rgb_avg))
+
     # geometry 
     def set_bounds(self, test_square_img: np.ndarray, rotation: int) -> list[int]:
         # test strip component bounds
@@ -112,14 +122,15 @@ class StripSection:
                 bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h] 
 
         elif rotation == 90:
-            if self.strip_type == "control":
+            if self.strip_type == "bkg":
                 bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
             elif self.strip_type == "test":
                 bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
-            elif self.strip_type == "bkg":
+            elif self.strip_type == "control":
                 bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
+            
 
         elif rotation == 180:
             if self.strip_type == "bkg":
@@ -132,13 +143,13 @@ class StripSection:
                 bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h] 
 
         elif rotation == 270:
-            if self.strip_type == "bkg":
+            if self.strip_type == "control":
                 bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
             elif self.strip_type == "test":
                 bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
-            elif self.strip_type == "control":
+            elif self.strip_type == "bkg":
                 bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
                 
         return bounds

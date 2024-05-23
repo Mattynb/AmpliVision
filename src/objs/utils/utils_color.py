@@ -23,7 +23,7 @@ def get_rgb_avg_of_contour(square, contour:np.ndarray, debug:bool=False) -> list
     # display the mask drawn on the image
     cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
     cv.imshow('mask', image)    
-    cv.waitKey(0)
+    cv.waitKey(1000)
     cv.destroyAllWindows()
 
     return [round(x) for x in average_rgb ]
