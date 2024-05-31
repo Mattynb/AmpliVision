@@ -2,6 +2,7 @@ import cv2 as cv
 from datetime import datetime
 from .strip_section import StripSection
 from ..image.processors.image_processor import ColorContourExtractor
+import colorsys
 
 
 class TestAnalyzer:
@@ -151,10 +152,36 @@ class TestAnalyzer:
             cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
             #print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
+        # convert hsv 
+        bkg_r, bkg_g, bkg_b = hsv_to_rgb(bkg_r, bkg_g, bkg_b)
+        test_r, test_g, test_b = hsv_to_rgb(test_r, test_g, test_b)
+        cntrl_r, cntrl_g, cntrl_b = hsv_to_rgb(cntrl_r, cntrl_g, cntrl_b)
+
+
         # create data to be written to csv
         data = [date, time, self.grid_index, bkg_r, bkg_g, bkg_b, test_r, test_g, 
             test_b, cntrl_r, cntrl_g, cntrl_b]
         
         return data
 
+
+def hsv_to_rgb(h, s, v):
+
+    # normalize hsv 0-1
+    h, s, v = h/360, s/100, v/100
+
+    # convert 0-1
+    rgb = colorsys.hsv_to_rgb(h, s, v)
+
+    # RGB will also be between 0 and 1, multiply by 255 if you want 0-255 range
+    return tuple(int(i * 255) for i in rgb)
+
+    
+
+
+
 """TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""
+
+
+if __name__ == '__main__':
+    hsv_to_rgb()

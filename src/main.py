@@ -5,6 +5,7 @@ import time
 import csv
 import cv2 as cv
 from datetime import datetime
+import os
 
 
 def main(path_to_imgs):
@@ -42,7 +43,7 @@ def main(path_to_imgs):
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above   
-        #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
+        cv.imwrite(f"image{id}_scaned.jpg", image_scan)
     
 
         #   Finds the contours around non-grayscale (colorful) 
@@ -67,7 +68,7 @@ def main(path_to_imgs):
         display(im, 0)"""
 
         # identifies type of blocks in the grid
-        csv_filename = generate_csv_filename(id)
+        csv_filename = generate_csv_filename(id, path_to_imgs)
         csv_rows = []
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
@@ -81,24 +82,36 @@ def main(path_to_imgs):
 
         write_to_csv(csv_filename, csv_rows)
 
-def generate_csv_filename(id):
+def generate_csv_filename(id:int, path:str):
     # get current date and time
     now = datetime.now()
 
+    # if path is a directory
+    if path[-1] == '\\' or path[-1] == '*':
+        path = path.removesuffix("*")
+
+        # load directory
+        files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
+        image_name = files[id].replace('.', '_') 
+
+    else:
+        start_i = path.rfind("\\")
+        image_name = path[start_i:]
+    
     # format date and time
     date = now.strftime("%m-%d-%Y")
     time = now.strftime("(%H-%M-%S)")
 
-    return f"img_{id}_results_{date}_{time}.csv"
+    return f"{image_name}_results_{date}_{time}.csv"
 
 def write_to_csv(filename:str, data: list)->None:
-    with open(filename, 'w') as csvfile:
+    with open("data/results/" + filename, 'w') as csvfile:
         # creating a csv writer object
         csvwriter = csv.writer(csvfile)
 
         format_str = [
             'date', ' time',
-            ' grid_index', ' block_type',
+            ' grid_index',
             ' bkg_r', ' bkg_g', ' bkg_b',
             ' test_r', ' test_g', ' test_b',
             ' cntrl_r', ' cntrl_g', ' cntrl_b'
@@ -115,8 +128,9 @@ def display(image, t=100, title= 'image'):
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\*"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\*" #*"
     main(path_to_imgs)
+    #print(generate_csv_filename(0, path_to_imgs))
 
 
 
