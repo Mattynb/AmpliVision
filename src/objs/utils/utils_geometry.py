@@ -14,7 +14,7 @@ def distance(p1:float, p2:float):
 
 
 # checks if a combination of points are arranged in the shape of a square 
-def is_arranged_as_square(points:list[tuple], img, SQUARE_LENGTH:int, flag=0):
+def is_arranged_as_square(points:list[tuple], img, SQUARE_LENGTH:int, recursion_flag:bool=0, debug:bool=False):
     """
     checks if a combination of points are arranged in the shape of a square
     ----------
@@ -27,18 +27,27 @@ def is_arranged_as_square(points:list[tuple], img, SQUARE_LENGTH:int, flag=0):
     # flag is used to check recursion depth.
     # recursion is necessary in the case 
     # where points are in the order of (x0,y0), (x1,y1), (x3,y3), (x2,y2)
-    if flag:
+    if recursion_flag:
         points[2], points[3] = points[3], points[2]
 
     # Calculate distances between each pair of points and diagonals
     dists = calculate_distances(points)    
 
     # Check if the points form a square
-    if is_square(points, dists, SQUARE_LENGTH):
+    if is_square(points, dists, SQUARE_LENGTH, debug):
+        if debug:
+            cpy = img.copy()
+            draw_square_on_image(points, cpy, 0)
+    
         return True
     
-    if not flag:
-        return is_arranged_as_square(points, img, SQUARE_LENGTH, 1)
+    if not recursion_flag:
+        return is_arranged_as_square(points, img, SQUARE_LENGTH, 1, debug)
+    '''
+    if debug:
+        cpy = img.copy()
+        draw_square_on_image(points, cpy, 0)
+    #'''
 
     return False
 
@@ -61,7 +70,7 @@ def calculate_distances(points: list[tuple]) -> list[float]:
 
         return dists
 
-def is_square(points: list[tuple], dists: list[float], SQUARE_LENGTH: int):
+def is_square(points: list[tuple], dists: list[float], SQUARE_LENGTH: int, debug:bool=False):
     """
     Checks if a set of points forms a square.
     
@@ -76,9 +85,28 @@ def is_square(points: list[tuple], dists: list[float], SQUARE_LENGTH: int):
 
     0---1 
     """
+
+    if debug:
+        print(f"Points: {points}")
+        print(f"Distances: {dists}")
+
+        print("-"*50)
+        print(f"around the size of a square: {all(dist < (SQUARE_LENGTH * 1.1) for dist in dists)}")
+        print(f"x0 == x3: {np.isclose(points[0][0], points[3][0], atol=0.1, rtol=0.1)}")
+        print(f"y0 == y1: {np.isclose(points[0][1], points[1][1], atol=0.1, rtol=0.1)}")
+        print(f"x1 == x2: {np.isclose(points[1][0], points[2][0], atol=0.1, rtol=0.1)}")
+        print(f"y2 == y3: {np.isclose(points[2][1], points[3][1], atol=0.1, rtol=0.1)}")
+        print(f"diagonals are equal: {np.isclose(dists[5], dists[4], atol=0.1, rtol=0.1)}")
+        print(f"sides are equal:\n {np.isclose(dists[0], dists[1], atol=0.1, rtol=0.1)}")
+        print(f"{np.isclose(dists[1], dists[2], atol=0.1, rtol=0.1)}")
+        print(f"{np.isclose(dists[2], dists[3], atol=0.1, rtol=0.1)}")
+        print(f"IS SQUARE:{is_square(points, dists, SQUARE_LENGTH, debug=False)}")
+        print("-"*50)
+
+
     return (
         # it is around the size of a square
-        all(dist < SQUARE_LENGTH for dist in dists)
+        all(dist < (SQUARE_LENGTH * 1.1) for dist in dists)
 
         # x0 == x3
         and np.isclose(points[0][0], points[3][0], atol=0.1, rtol=0.1) 
@@ -102,19 +130,25 @@ def is_square(points: list[tuple], dists: list[float], SQUARE_LENGTH: int):
     )
 
 
-def draw_square_on_image(points: list[tuple], img):
+def draw_square_on_image(points: list[tuple], img: np.ndarray, timeout:int = 1000):
     """
     Draws a square on the image using the provided points.
     ----------
     points: list of 4 points (x,y)
     img: the image on which to draw the square
     """
+    
     copy = img.copy()
     for i in range(len(points)):
         cv.circle(copy, points[i], 5, (0, 0, 255), -1)
         cv.line(copy, points[i], points[(i+1)%4], (0, 0, 255), 2)
         cv.putText(copy, f"{i}", points[i], cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
+    copy = cv.resize(copy, (800,800))
+   
     cv.imshow('image', copy)
+    cv.waitKey(timeout) 
+    cv.destroyAllWindows()
+   
 
 
 # Finds center point of contour 

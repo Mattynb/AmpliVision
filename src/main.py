@@ -96,7 +96,7 @@ def generate_csv_filename(id:int, path:str):
 
     else:
         start_i = path.rfind("\\")
-        image_name = path[start_i:]
+        image_name = path[(start_i + 1):]
     
     # format date and time
     date = now.strftime("%m-%d-%Y")
@@ -112,6 +112,7 @@ def write_to_csv(filename:str, data: list)->None:
         format_str = [
             'date', ' time',
             ' grid_index',
+            ' block_type ',
             ' bkg_r', ' bkg_g', ' bkg_b',
             ' test_r', ' test_g', ' test_b',
             ' cntrl_r', ' cntrl_g', ' cntrl_b'
@@ -128,7 +129,7 @@ def display(image, t=100, title= 'image'):
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\*" #*"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_051524\IMG_6066.jpg" #*"
     main(path_to_imgs)
     #print(generate_csv_filename(0, path_to_imgs))
 

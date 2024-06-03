@@ -17,7 +17,7 @@ class TestAnalyzer:
 
         # square used in csv export
         self.grid_index = block.index
-        self.block_type = block.block_type
+        self.block_type = block.get_block_type()
 
         self.strip_sections = {
             "bkg" : StripSection(self.test_square_img, 'bkg', block.rotation), 
@@ -141,47 +141,27 @@ class TestAnalyzer:
 
         # get rgb values of each section
         if self.strip_sections['bkg'].total_avg_rgb != None:
-            bkg_r, bkg_g, bkg_b = self.strip_sections['bkg'].total_avg_rgb
+            bkg_b, bkg_g, bkg_r = self.strip_sections['bkg'].total_avg_rgb
             #print("bkg rgb: ", bkg_r, bkg_g, bkg_b)
 
         if self.strip_sections['test'].total_avg_rgb != None:
-            test_r, test_g, test_b = self.strip_sections['test'].total_avg_rgb
+            test_b, test_g, test_r = self.strip_sections['test'].total_avg_rgb
             #print("test rgb: ", test_r, test_g, test_b)
 
         if self.strip_sections["control"].total_avg_rgb != None:
-            cntrl_r, cntrl_g, cntrl_b = self.strip_sections['control'].total_avg_rgb
+            cntrl_b, cntrl_g, cntrl_r = self.strip_sections['control'].total_avg_rgb
             #print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
-        # convert hsv 
-        bkg_r, bkg_g, bkg_b = hsv_to_rgb(bkg_r, bkg_g, bkg_b)
-        test_r, test_g, test_b = hsv_to_rgb(test_r, test_g, test_b)
-        cntrl_r, cntrl_g, cntrl_b = hsv_to_rgb(cntrl_r, cntrl_g, cntrl_b)
 
 
         # create data to be written to csv
-        data = [date, time, self.grid_index, bkg_r, bkg_g, bkg_b, test_r, test_g, 
+        data = [date, time, self.grid_index, self.block_type, bkg_r, bkg_g, bkg_b, test_r, test_g, 
             test_b, cntrl_r, cntrl_g, cntrl_b]
         
         return data
 
 
-def hsv_to_rgb(h, s, v):
-
-    # normalize hsv 0-1
-    h, s, v = h/360, s/100, v/100
-
-    # convert 0-1
-    rgb = colorsys.hsv_to_rgb(h, s, v)
-
-    # RGB will also be between 0 and 1, multiply by 255 if you want 0-255 range
-    return tuple(int(i * 255) for i in rgb)
-
-    
-
 
 
 """TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""
 
-
-if __name__ == '__main__':
-    hsv_to_rgb()

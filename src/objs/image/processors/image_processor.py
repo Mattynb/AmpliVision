@@ -67,7 +67,7 @@ class ColorContourExtractor:
         copy = image.copy()
         cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
         cv.imshow('Color Contour Extractor', copy)
-        cv.waitKey(1000)
+        cv.waitKey(0)
         cv.destroyAllWindows()
         
         
