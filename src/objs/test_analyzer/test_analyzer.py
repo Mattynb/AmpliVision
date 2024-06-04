@@ -21,8 +21,8 @@ class TestAnalyzer:
 
         self.strip_sections = {
             "bkg" : StripSection(self.test_square_img, 'bkg', block.rotation), 
-            "test" : StripSection(self.test_square_img, 'test', block.rotation),
-            "control" : StripSection(self.test_square_img, 'control', block.rotation)
+            "spot1" : StripSection(self.test_square_img, 'spot1', block.rotation),
+            "spot2" : StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
     def analyze_test_result(self): # should I name it main?
@@ -50,21 +50,24 @@ class TestAnalyzer:
         bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
 
         # remove background noise from other sections
+        corrected_rgbs = []
         for section in self.strip_sections.values():
             if section.strip_type != 'bkg':
-                section.subtract_bkg(bkg_rgb_avg)
+                print("correcting: ", section.strip_type)
+                corrected_rgbs.append(section.subtract_bkg(bkg_rgb_avg))
 
         print("\n")
 
         # validate results to catch any potential errors in the test
-        self.validate_results()
+        "TODO: adapt validate_results to work with the new strip configuration"
+        # self.validate_results()
 
         for section in self.strip_sections.values():
             section.set_total_avg_rgb()
             #print("total avg rgb in ", section.strip_type, " is: ", section.total_avg_rgb)
         
         # export results to csv
-        return self.create_csv_row()
+        return self.create_csv_row(corrected_rgbs)
 
     def add_positives_to_sections(self, rgb_spots) -> None:
         "used to add positive result spots to appropriate strip section"
@@ -75,7 +78,7 @@ class TestAnalyzer:
                 if section.bounds_contour(spot):
                     print("auto added spot to: ", section.strip_type)
                     section.add_spot(self.block, spot, True)
-                    break # only adds to one section
+                    #break # only adds to one section
 
     def add_negatives_to_sections(self) -> None:
         "used to find negative result spots to appropriate strip section"
@@ -90,21 +93,21 @@ class TestAnalyzer:
         
         results = self.get_section_results()
 
-        #1 test is properly positive (bkg, test, and control line rgbs are > threshold)
+        #1 test is properly positive (bkg, test, and spot2 line rgbs are > threshold)
         if results[1] & results[2]:
             print("Test worked properly and result is positive")
 
-        #2 test is properly negative (control line rgb is > threshold)
+        #2 test is properly negative (spot2 line rgb is > threshold)
         elif (not results[1]) & results[2]:
             print("Test worked properly and result is negative")
 
-        #3 control error (bkg, and maybe test line rgbs are > threshold)
+        #3 spot2 error (bkg, and maybe test line rgbs are > threshold)
         else:
             print("Test may have not worked properly")
 
     def get_section_results(self) -> list[bool]:
-        "returs a list of booleans representing the result (positive or negative) of each section bkg, test, control"
-        results = [] # bkg, test, control
+        "returs a list of booleans representing the result (positive or negative) of each section bkg, test, spot2"
+        results = [] # bkg, test, spot2
         for strip in self.strip_sections.values():
             strip_result = False
             
@@ -121,7 +124,7 @@ class TestAnalyzer:
         
         return results
 
-    def create_csv_row(self) -> str:
+    def create_csv_row(self, corrected_rgbs:list[list]) -> str:
         """
         writes the test results to csv file row in format:\n
         date, time, grid_index, block_type, bkg_r, bkg_g, bkg_b, test_r, test_g, test_b, cntrl_r, cntrl_g, cntrl_b"""
@@ -133,31 +136,52 @@ class TestAnalyzer:
         date = now.strftime("%m/%d/%Y")
         time = now.strftime("%H:%M:%S")
 
+
         # setting all rgb values to None
         bkg_r = " None"
         bkg_g, bkg_b = bkg_r, bkg_r
-        test_r, test_g, test_b = bkg_r, bkg_r, bkg_r
-        cntrl_r, cntrl_g, cntrl_b = bkg_r, bkg_r, bkg_r
+
+        spot1_r, spot1_g, spot1_b = bkg_r, bkg_r, bkg_r
+        spot2_r, spot2_g, spot2_b = bkg_r, bkg_r, bkg_r
+
 
         # get rgb values of each section
         if self.strip_sections['bkg'].total_avg_rgb != None:
             bkg_b, bkg_g, bkg_r = self.strip_sections['bkg'].total_avg_rgb
             #print("bkg rgb: ", bkg_r, bkg_g, bkg_b)
 
-        if self.strip_sections['test'].total_avg_rgb != None:
-            test_b, test_g, test_r = self.strip_sections['test'].total_avg_rgb
-            #print("test rgb: ", test_r, test_g, test_b)
+        if self.strip_sections['spot1'].total_avg_rgb != None:
+            spot1_b, spot1_g, spot1_r = self.strip_sections['spot1'].total_avg_rgb
+            #print("spot1 rgb: ", test_r, test_g, test_b)
 
-        if self.strip_sections["control"].total_avg_rgb != None:
-            cntrl_b, cntrl_g, cntrl_r = self.strip_sections['control'].total_avg_rgb
-            #print("control rgb: ", cntrl_r, cntrl_g, cntrl_b)
+        if self.strip_sections["spot2"].total_avg_rgb != None:
+            spot2_b, spot2_g, spot2_r = self.strip_sections['spot2'].total_avg_rgb
+            #print("spot2 rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
 
+        spot1_corr_r, spot1_corr_g, spot1_corr_b = corrected_rgbs[0]
+        spot2_corr_r, spot2_corr_g, spot2_corr_b = corrected_rgbs[1]
 
         # create data to be written to csv
-        data = [date, time, self.grid_index, self.block_type, bkg_r, bkg_g, bkg_b, test_r, test_g, 
-            test_b, cntrl_r, cntrl_g, cntrl_b]
+        data = [
+            date, time, self.grid_index, self.block_type, 
+            spot1_r, spot1_g, spot1_b, 
+            spot2_r, spot2_g, spot2_b, 
+            bkg_r, bkg_g, bkg_b, 
+            spot1_corr_r, spot1_corr_g, spot1_corr_b, 
+            spot2_corr_r, spot2_corr_g, spot2_corr_b
+        ]
         
+        """
+            'date', ' time', ' grid_index', ' block_type ',
+            ' spot1_r', ' spot1_g', ' spot1_b',
+            ' spot2_r', ' spot2_g', ' spot2_b',
+            ' bkg_r', ' bkg_g', ' bkg_b',
+            ' spot1_corr_r', ' spot1_corr_g', ' spot1_corr_b',
+            ' spot2_corr_r', ' spot2_corr_g', ' spot2_corr_b',
+        """
+        
+
         return data
 
 

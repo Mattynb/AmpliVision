@@ -23,7 +23,7 @@ class StripSection:
         
 
 
-    def add_spot(self, block, contour:np.ndarray, result: bool) -> None:
+    def add_spot(self, block, contour:np.ndarray, result: bool, debug:bool=False) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
 
         avg_rgb = get_rgb_avg_of_contour(block, contour)
@@ -34,23 +34,29 @@ class StripSection:
             "positive" : result
         })
 
+        if debug:
+            copy = block.get_test_area_img().copy()
+            val = self.bounds
+            cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
+        
+            cv.imshow('set_spots_manually()', copy) 
+            cv.waitKey(0)
+            cv.destroyAllWindows()
+
+
+
         self.set_total_avg_rgb()
 
-    def set_spots_manually(self, block)->None:
+    def set_spots_manually(self, block, debug:bool = False)->None:
         "mostly used to find negative result spots using ratios" 
 
         copy = block.get_test_area_img().copy()
     
         val = self.bounds
         spot = self.identify_spot_manually(copy, (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), False)
-        cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
-        
-        cv.imshow('set_spots_manually()', copy) 
-        cv.waitKey(1000)
-        cv.destroyAllWindows()
+       
 
-
-        self.add_spot(block, spot, False)
+        self.add_spot(block, spot, False, debug=debug)
 
     def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> np.ndarray:
         "used to identify a spot manually"
@@ -98,7 +104,7 @@ class StripSection:
             print("please set the total avg rgb before calling subtract_bkg()")
             return None
 
-        return list(map(lambda total, bkg: total - bkg, self.total_avg_rgb, bkg_rgb_avg))
+        return list(map(lambda total, bkg: bkg - total, self.total_avg_rgb, bkg_rgb_avg))
 
     # geometry 
     def set_bounds(self, test_square_img: np.ndarray, rotation: int) -> list[int]:
@@ -112,10 +118,10 @@ class StripSection:
         # ASSUMPTION: this order ASSUMES the strip is vertical with bkg on bottom
         
         if rotation == 0:
-            if self.strip_type == "control":
+            if self.strip_type == "spot2":
                 bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)] # [top left x, top left y, width, height]
               
-            elif self.strip_type == "test":
+            elif self.strip_type == "spot1":
                 bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
     
             if self.strip_type == "bkg":
@@ -125,10 +131,10 @@ class StripSection:
             if self.strip_type == "bkg":
                 bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
-            elif self.strip_type == "test":
+            elif self.strip_type == "spot1":
                 bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
-            elif self.strip_type == "control":
+            elif self.strip_type == "spot2":
                 bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
             
 
@@ -136,17 +142,17 @@ class StripSection:
             if self.strip_type == "bkg":
                 bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)] # [top left x, top left y, width, height]
               
-            elif self.strip_type == "test":
-                bounds = [x+int(w/3), y+int(h*2/3), x+int(2/3*w), y+int(2/3*h)]
+            elif self.strip_type == "spot1":
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
     
-            if self.strip_type == "control":
+            if self.strip_type == "spot2":
                 bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h] 
 
         elif rotation == 270:
-            if self.strip_type == "control":
+            if self.strip_type == "spot2":
                 bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
 
-            elif self.strip_type == "test":
+            elif self.strip_type == "spot1":
                 bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
 
             elif self.strip_type == "bkg":

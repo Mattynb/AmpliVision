@@ -219,13 +219,13 @@ class Grid(IGrid):
         # iterate through the combinations of points
         for comb in combinations:
             # (previously) missing block @ 6,4 in image 6066
-            if index == 1171074: #(1179520 - point1_step - (point2_step*45) - 1):
+            '''if index == 1171074: #(1179520 - point1_step - (point2_step*45) - 1):
                 print("special: ", index)
                 debug_flag = True
 
             else:
                 debug_flag = False
-
+'''
             if is_arranged_as_square(comb, self.img, self.SQUARE_LENGTH, recursion_flag=0, debug=debug_flag): 
 
                 # Add the square to the list of 
