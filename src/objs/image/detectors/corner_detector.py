@@ -23,13 +23,13 @@ class CornerDetector:
 
         # Loop over the contours.
         for c in contours:
-                # Approximate the contour.
-                epsilon = 0.02 * cv.arcLength(c, True)
-                corners = cv.approxPolyDP(c, epsilon, True)
-                # If our approximated contour has four points
-                if len(corners) == 4:
-                        break
-        
+            # Approximate the contour.
+            epsilon = 0.02 * cv.arcLength(c, True)
+            corners = cv.approxPolyDP(c, epsilon, True)
+            # If our approximated contour has four points
+            if len(corners) == 4:
+                break
+    
         # Sorting the corners and converting them to desired shape.
         corners = sorted(np.concatenate(corners).tolist())
 

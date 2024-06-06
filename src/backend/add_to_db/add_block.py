@@ -21,10 +21,12 @@ def add_block():
     post = {"block_name": "Conjugate Pad", "Sequence": (3,3,3,1)}
     post_id = collection.insert_one(post).inserted_id
     print(post_id)
-    post = {"block_name": "Test Block", "Sequence": (2,2,2,1)}
+    post = {"block_name": "Test Block", "Sequence": (2,2,1,2)}
     post_id = collection.insert_one(post).inserted_id
     print(post_id)
-
+    post = {"block_name": "Control Block", "Sequence": (2,2,3,2)}
+    post_id = collection.insert_one(post).inserted_id
+    print(post_id)
     # Close the connection
     client.close()
 
@@ -44,6 +46,25 @@ def delete_all():
     # Close the connection
     client.close()
 
+def get_all():
+    """Get all documents in the block_types collection."""
+    
+    # Connect to the database
+    client = connect_to_mongo()
+    
+    # Connect to the block_types collection
+    db = client.ampli_cv
+    collection = db.block_types
+
+    # Get all documents
+    cursor = collection.find({})
+    for document in cursor:
+        print(document)
+
+    # Close the connection
+    client.close()
+
 if __name__ == "__main__":
     delete_all()
     add_block()
+    get_all()

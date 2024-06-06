@@ -29,7 +29,7 @@ class ColorContourExtractor:
 
     # A function that pre-processes the image to isolate the color of the pins.
     @staticmethod
-    def process_image(scanned_image: np.ndarray) -> np.ndarray:
+    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [180, 255,255], display:bool=False) -> np.ndarray:
         """ this method pre-processes the image to isolate the color of the pins."""
 
         # Copy the image to avoid modifying the original image
@@ -41,8 +41,8 @@ class ColorContourExtractor:
 
         # Define the lower and upper bounds for the color you want to isolate
         # These values are the product of trial and error and are not necessarily perfect.
-        hsv_lower_color = np.array([0, 55, 0])
-        hsv_upper_color = np.array([180, 255, 255])
+        hsv_lower_color = np.array(hsv_lower)
+        hsv_upper_color = np.array(hsv_upper)
 
         # Create a mask to filter out the grayscale colors isolating the color of the pins.
         color_mask = cv.inRange(img_hsv, hsv_lower_color, hsv_upper_color)
@@ -50,15 +50,24 @@ class ColorContourExtractor:
         contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
         # Apply white balance to the original image to make the color of the pins more accurate.
-        scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
+        
+        'TODO: This is literally doing nothing here. The scanned image is not returned.'
+        #scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
+
+        if display:
+            ColorContourExtractor.show_result(contours, scanned_image)
 
         return contours
     
     # Show the result of the pre-processing.
     @staticmethod
-    def show_result(edges: np.ndarray) -> None:
+    def show_result(contours: np.ndarray, image) -> None:
         """ this method shows the result of the pre-processing."""
-        edges = cv.resize(edges, (500,500))
-        cv.imshow('result', edges) #color_mask)
-        cv.waitKey(250)
+
+        copy = image.copy()
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        cv.imshow('Color Contour Extractor', copy)
+        cv.waitKey(1000)
         cv.destroyAllWindows()
+        
+        

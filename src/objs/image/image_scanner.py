@@ -1,3 +1,4 @@
+import dis
 import cv2 as cv
 import numpy as np
 
@@ -7,6 +8,11 @@ from .detectors.corner_detector import CornerDetector
 from .processors.morphological_transformer import MorphologicalTransformer
 from .processors.background_remover import BackgroundRemover
 
+def display(image, t=100):
+    im = cv.resize(image, (800,800))
+    cv.imshow('ImageScanner', im)
+    cv.waitKey(t)
+    cv.destroyAllWindows()
 
 class ImageScanner:
         """
@@ -42,22 +48,47 @@ class ImageScanner:
         """
 
         @classmethod
-        def scan(cls, img: np.ndarray)->np.ndarray:
+        def scan(cls, img_og: np.ndarray)->np.ndarray:
                 # Applying morphological transformations to highlight the grid
                 # Utilizing the GPU for faster processing
+                img = cls.hsv_threshold(img_og.copy(), 100)
+
                 morph_img = MorphologicalTransformer.apply_morph(img)
+
+                #display(morph_img.copy(), 0)
 
                 # Isolate the grid by removing background (Only works with CPU)
                 no_bkg_img = BackgroundRemover.remove_background(morph_img)
                 
+                #display(no_bkg_img.copy(), 0)
+
                 # Adjusting the image to highlight the grid
                 contours = ContourFinder.find_contours(no_bkg_img)
+                
+                a = no_bkg_img.copy()
+                #cv.drawContours(a, contours, -1, (0, 255, 0), 3)
+                #display(a, 0)
                 corners = CornerDetector.detect_corners(contours, no_bkg_img)
-                final_image = cls.perspective_transform(img, corners)
+
+                final_image = cls.perspective_transform(img_og, corners)
                 
                 return final_image
         
         # should go to an util class
+        @classmethod
+        # function to turn everything that isnt kinda white to black
+        def hsv_threshold(cls, img: np.ndarray, threshold: int)->np.ndarray:
+                # convert image to hsv
+                hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+                # define range of white color in HSV
+                lower_white = np.array([0, 0, 255-threshold])
+                upper_white = np.array([255, threshold, 255])
+                # create a mask
+                mask = cv.inRange(hsv, lower_white, upper_white)
+                # apply the mask to the image
+                res = cv.bitwise_and(img, img, mask=mask)
+                return res
+        
         @classmethod
         def transfer_to_gpu(cls, gpu_image: cv.cuda_GpuMat, image: np.ndarray = None, to_gray=False, to_bgr=False) -> cv.cuda_GpuMat:
                 if image is not None:

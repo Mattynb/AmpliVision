@@ -1,11 +1,12 @@
 import cv2 as cv
+from matplotlib.pyplot import step
 import numpy as np
 from .igrid import IGrid
 from .Square import Square
 import itertools
-from .utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
-from .utils import Utils
-
+from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
+from ..utils import Utils
+import math
 
 class Grid(IGrid):
     def __init__(self, img: np.ndarray):
@@ -206,8 +207,26 @@ class Grid(IGrid):
 
         # Find all combinations of four points
         combinations = list(itertools.combinations(centers, 4))
+        
+        # useful values for debuggin
+        point0_step = math.comb(len(centers)-1, 3)
+        point1_step = math.comb(len(centers)-2, 2)  
+        point2_step = math.comb(len(centers)-3, 1)  
+        #print("centers:", len(centers), "combinations:", len(combinations))
+        #print("point0_step:", point0_step, "point1_step:", point1_step, "point2_step:", point2_step)
+        index = 0; debug_flag = 0; step_filter = point0_step
+
+        # iterate through the combinations of points
         for comb in combinations:
-            if is_arranged_as_square(comb, self.img, self.SQUARE_LENGTH): 
+            # (previously) missing block @ 6,4 in image 6066
+            '''if index == 1171074: #(1179520 - point1_step - (point2_step*45) - 1):
+                print("special: ", index)
+                debug_flag = True
+
+            else:
+                debug_flag = False
+'''
+            if is_arranged_as_square(comb, self.img, self.SQUARE_LENGTH, recursion_flag=0, debug=debug_flag): 
 
                 # Add the square to the list of 
                 # combinations if it is arranged as a square
@@ -216,6 +235,8 @@ class Grid(IGrid):
                 # Find the indices of the contours that form the square
                 contour_indices = [center_to_contour_index[point] for point in comb]
                 pins.append([contours[i] for i in contour_indices])
+
+            index += 1
 
         return square_structures, pins
 

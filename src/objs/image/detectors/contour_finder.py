@@ -29,10 +29,14 @@ class ContourFinder:
     def find_contours(image: np.ndarray) -> list:
         """ This method finds the contours of the Grid in the given image and returns the top 5 contours sorted by area."""
 
-        # EDGE DETECTION
+        image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         blurred = cv.GaussianBlur(image, (11, 11), 0)
+
+        # EDGE DETECTION
         canny = cv.Canny(blurred, 0, 200)
+        canny = cv.dilate(canny, cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5)))
 
         # CONTOUR DETECTION
-        contours, _ = cv.findContours(canny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv.findContours(canny, cv.RETR_LIST, cv.CHAIN_APPROX_NONE)
         return sorted(contours, key=cv.contourArea, reverse=True)[:5]
+    
