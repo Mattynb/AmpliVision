@@ -13,7 +13,7 @@ def generate_csv_filename(id:int, path:str):
     date = now.strftime("%m-%d-%Y")
     time = now.strftime("(%H-%M-%S)")
 
-    return f"{image_name}_results_{date}_{time}.csv"
+    return f"{date}/{image_name}_results_{date}_{time}.csv"
 
 
 def get_filename(id:int, path:str):
@@ -32,6 +32,13 @@ def get_filename(id:int, path:str):
     return image_name
 
 def write_to_csv(filename:str, data: list)->None:
+    
+    # create folder for csv files
+    subfolder_name = filename.split('/')[-2]
+    if not os.path.exists("data/results/" + subfolder_name):
+        os.makedirs("data/results/" + subfolder_name)
+
+
     with open("data/results/" + filename, 'w') as csvfile:
         # creating a csv writer object
         csvwriter = csv.writer(csvfile)

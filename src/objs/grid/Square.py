@@ -236,10 +236,16 @@ class Square:
         return self.order_corner_points(corners)
 
     ## Drawing functions ##
+
+    def draw_p_pins(self, image: np.ndarray) -> None:
+        """ Draws the potential pins in the square """
+        for pin in self.p_pins:
+            cv.drawContours(image, pin, -1, (0, 255, 0), 3)
+
     def draw_pins(self, image: np.ndarray) -> None:
         """ Draws the pins in the square """
         for pin in self.pins:
-            cv.drawContours(image, pin, -1, (0, 255, 0), 1)
+            cv.drawContours(image, pin, -1, (0, 255, 0), 3)
     
     def draw_corners(self, img: np.ndarray) -> None:
         """ Draws the corners of the square """

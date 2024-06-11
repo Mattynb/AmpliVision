@@ -52,6 +52,7 @@ class ImageLoader:
         imgs = []
         for f_type in types: 
             files = set([file for file in glob(f"{path_to_imgs}*{f_type}")])
+            print(glob(f"{path_to_imgs}*{f_type}"))
             imgs.extend([cv.imread(file) for file in files])
 
         return imgs

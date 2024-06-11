@@ -1,9 +1,9 @@
-from re import U
+from os import path
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from objs.utils import generate_csv_filename, write_to_csv, get_filename
 from backend import identify_block
 
-import os
+import sys 
 import time
 import cv2 as cv
 
@@ -26,6 +26,7 @@ def main(path_to_imgs):
     
     # for display
     print(f"Images to be analyzed: {len(images)}\n")
+    print(type(images[0]))
     
     # Analyzing each image
     for id, image in enumerate(images):
@@ -45,13 +46,24 @@ def main(path_to_imgs):
 
         # When working with repeat image, uncomment the line below 
         # and comment the lines above   
-        #cv.imwrite(f"image{id}_scaned.jpg", image_scan)
+        #cv.imwrite(f"{image_name}_scaned.jpg", image_scan)
     
         #   Finds the contours around non-grayscale (colorful) 
         # edges in image. The contours are used to find the 
         # pins and later blocks.
         contours = ColorContourExtractor.process_image(image_scan)
 
+      
+        # display
+        #"""
+        im = image_scan.copy()
+        #Grid_DS.draw_gridLines(im)
+        #for block in Grid_DS.get_blocks():
+        #    block.draw_pins(im)
+        im = cv.drawContours(im, contours, -1, (0,255,0), 3)
+        display(im, 0)
+        
+        #"""
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as 
         # the blocks and pins, etc.
@@ -60,13 +72,6 @@ def main(path_to_imgs):
         # determines what squares in grid are
         #  blocks
         Grid_DS.find_blocks(contours); print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
-
-        """## display
-        im = Grid_DS.img.copy()
-        Grid_DS.draw_gridLines(im)
-        for block in Grid_DS.get_blocks():
-            block.draw_test_area(im)
-        display(im, 0)"""
 
         # identifies type of blocks in the grid
         csv_filename = generate_csv_filename(id, path_to_imgs)
@@ -90,10 +95,18 @@ def display(image, t=100, title= 'image'):
     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_060324\*" #*"
-    main(path_to_imgs)
-    #print(generate_csv_filename(0, path_to_imgs))
+    # take path as command line argument or use default path
+    """if len(sys.argv) == 2:
+        path_to_imgs = rf"{sys.argv[1]}"
+        print("path given in command line: ", path_to_imgs)
 
+    else:
+        path_to_imgs = r"app\\data\\New_images_060324\\IMG_6159.JPEG" #*"
+        print("path not given in command line. Using default path: ", path_to_imgs)
+    # """
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_060324\IMG_6159.JPEG"
+
+    main(path_to_imgs)
 
 
 

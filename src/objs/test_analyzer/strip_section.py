@@ -39,6 +39,7 @@ class StripSection:
             val = self.bounds
             cv.rectangle(copy, (val[0], val[1]), (val[2], val[3]), (0, 255, 0), 1)
         
+            copy = cv.resize(copy, (200, 200))
             cv.imshow('set_spots_manually()', copy) 
             cv.waitKey(0)
             cv.destroyAllWindows()
@@ -73,7 +74,11 @@ class StripSection:
         mask = cv.inRange(hsv, lower_red, upper_red)
         contours, _ = cv.findContours(mask, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         
-        copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 3)
+        copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
+        copy = cv.resize(copy, (200, 200))
+        cv.imshow('identify_spot_manually()', copy)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
 
         return contours[0]
 

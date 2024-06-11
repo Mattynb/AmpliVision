@@ -2,8 +2,6 @@ import cv2 as cv
 from datetime import datetime
 from .strip_section import StripSection
 from ..image.processors.image_processor import ColorContourExtractor
-import colorsys
-
 
 class TestAnalyzer:
     "This class is responsible for getting and analyzing test results a.k.a phase B"
@@ -35,8 +33,9 @@ class TestAnalyzer:
         print("rotation: ", self.block.rotation)
 
         blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
-        rgb_spots = ColorContourExtractor.process_image(blur, display=True) # hsv_lower= [...], hsv_upper= [...])
+        rgb_spots = ColorContourExtractor.process_image(blur, hsv_lower=[0, 40, 20], display=True)
         
+        # display
         copy = self.test_square_img.copy()
         cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 1)
 
@@ -77,7 +76,7 @@ class TestAnalyzer:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
                     print("auto added spot to: ", section.strip_type)
-                    section.add_spot(self.block, spot, True)
+                    section.add_spot(self.block, spot, True, debug=True)
                     #break # only adds to one section
 
     def add_negatives_to_sections(self) -> None:
@@ -86,7 +85,7 @@ class TestAnalyzer:
 
             if len(section.spots) == 0:
                 print("man added negative spot to: ", type)
-                section.set_spots_manually(self.block)
+                section.set_spots_manually(self.block, debug=True)
 
     def validate_results(self) -> None:
         "deals with test result potential positive, negative, false positive, error scenarios"
