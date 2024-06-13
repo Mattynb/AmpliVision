@@ -122,7 +122,4 @@ add reference to scan
 
 TODO: 
 image generation with blocks for U-NET
-
-TODO:
-make a block class that inherits from the square class?
 """
