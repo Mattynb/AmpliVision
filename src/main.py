@@ -1,4 +1,3 @@
-from os import path
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from objs.utils import generate_csv_filename, write_to_csv, get_filename
 from backend import identify_block
@@ -8,11 +7,12 @@ import time
 import cv2 as cv
 
 
-def main(path_to_imgs):
+def main(path_to_imgs:str)->None:
     """
     ### Main function
     ---------------
     Main function of the program. Loads the images, creates the Image objects, and finds the blocks in the image.
+    Then it identifies the type of blocks in the image and exports the results to a csv file.
 
     #### Args:
     path_to_imgs: path to images to be loaded

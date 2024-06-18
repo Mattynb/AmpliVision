@@ -2,7 +2,7 @@ import os
 import csv
 from datetime import datetime
 
-def generate_csv_filename(id:int, path:str):
+def generate_csv_filename(id:int, path:str)->str:
     # get current date and time
     now = datetime.now()
 

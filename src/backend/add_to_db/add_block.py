@@ -10,24 +10,20 @@ def add_block():
     # Connect to the block_types collection
     db = client.ampli_cv
     collection = db.block_types
+    
+    # Insert documents
+    documents = [
+        {"block_name": "Wick Block", "Sequence": (1,1,1,3)},
+        {"block_name": "Sample Block", "Sequence": (2,2,1,3)},
+        {"block_name": "Conjugate Pad", "Sequence": (3,3,3,1)},
+        {"block_name": "Test Block 1", "Sequence": (2,2,1,2)},
+        {"block_name": "Test Block 2", "Sequence": (1,1,2,1)},
+        {"block_name": "Test Block 3", "Sequence": (3,3,2,3)},
+        {"block_name": "Control Block", "Sequence": (2,2,3,2)},
+    ]   
+    collection.insert_many(documents)
 
-    # Insert a document
-    post = {"block_name": "Wick Block", "Sequence": (1,1,1,3)}  # Sequence is tl, tr, bl, br
-    post_id = collection.insert_one(post).inserted_id
-    print(post_id)
-    post = {"block_name": "Sample Block", "Sequence": (2,2,1,3)}
-    post_id = collection.insert_one(post).inserted_id
-    print(post_id)
-    post = {"block_name": "Conjugate Pad", "Sequence": (3,3,3,1)}
-    post_id = collection.insert_one(post).inserted_id
-    print(post_id)
-    post = {"block_name": "Test Block", "Sequence": (2,2,1,2)}
-    post_id = collection.insert_one(post).inserted_id
-    print(post_id)
-    post = {"block_name": "Control Block", "Sequence": (2,2,3,2)}
-    post_id = collection.insert_one(post).inserted_id
-    print(post_id)
-    # Close the connection
+
     client.close()
 
 def delete_all():
@@ -45,6 +41,8 @@ def delete_all():
 
     # Close the connection
     client.close()
+
+    print("All documents deleted.")
 
 def get_all():
     """Get all documents in the block_types collection."""
