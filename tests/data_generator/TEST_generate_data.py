@@ -1,13 +1,12 @@
 import unittest
-from unittest.mock import patch
-from src.data_generator.data_generator import DataGenerator
+from src.data_generator.src.data_extractor import DataExtractor
 
 class TestDataGenerator(unittest.TestCase):
 
     def setUp(self):
         self.sample_type = 'sample_type'
         self.results_folder_path = r'C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\results\06-06-2024'
-        self.data_generator = DataGenerator(self.sample_type, self.results_folder_path)
+        self.data_extractor = DataExtractor(self.sample_type, self.results_folder_path)
 
     def test_extract_fingerprints_across_files(self):
         # Prepare test data
@@ -21,8 +20,8 @@ class TestDataGenerator(unittest.TestCase):
         fingerprints2 = [{'block_type1': {'r': [1, 2, 3, 4], 'g': [5, 6, 7, 8], 'b': [9, 10, 11, 12]}, 'block_type2': {'r': [13, 14, 15, 16], 'g': [17, 18, 19, 20], 'b': [21, 22, 23, 24]}}]
 
         # Call the function
-        combined_fingerprint1 = self.data_generator.append_fingerprints(fingerprints1)
-        combined_fingerprint2 = self.data_generator.append_fingerprints(fingerprints2)
+        combined_fingerprint1 = self.data_extractor.append_fingerprints(fingerprints1)
+        combined_fingerprint2 = self.data_extractor.append_fingerprints(fingerprints2)
 
         # Assertion
         # 1 block type
@@ -64,7 +63,7 @@ class TestDataGenerator(unittest.TestCase):
         }
 
         # Call the function
-        combined_fingerprints = self.data_generator.combine_fingerprints(appended_fingerprints)
+        combined_fingerprints = self.data_extractor.combine_fingerprints(appended_fingerprints)
 
         # Assertion
         expected_combined_fingerprints = {
@@ -82,8 +81,20 @@ class TestDataGenerator(unittest.TestCase):
         self.assertEqual(combined_fingerprints, expected_combined_fingerprints, 'Combined fingerprints')
 
 
-    def test_get_mean_and_std(self):
-        # Prepare test data
+    def test_get_mean_and_std_of_spots(self):
+        spot1_corr_rgbs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        spot2_corr_rgbs = [[10, 11, 12], [13, 14, 15], [16, 17, 18]]
+        
+        mean_and_std = self.data_extractor.get_mean_and_std_of_spots(spot1_corr_rgbs, spot2_corr_rgbs)
+        
+        expected_mean_and_std = {
+            'r': [4, 2.449489742783178, 13, 2.449489742783178],
+            'g': [5, 2.449489742783178, 14, 2.449489742783178],
+            'b': [6, 2.449489742783178, 15, 2.449489742783178]
+        }
+        self.assertEqual(mean_and_std, expected_mean_and_std, 'Mean and standard deviation of spots')
+
+    def test_get_mean_and_std_of_results(self):
         image_results = [
             {
                 'r': [1, 2, 3, 4],
@@ -97,13 +108,24 @@ class TestDataGenerator(unittest.TestCase):
             }
         ]
         rgb = 'r'
-
-        # Call the function
-        mean_and_std = self.data_generator.get_mean_and_std(image_results, rgb)
-
-        # Assertion
+        mean_and_std = self.data_extractor.get_mean_and_std_of_results(image_results, rgb)
         expected_mean_and_std = [7, 8, 9, 10]
         self.assertEqual(mean_and_std, expected_mean_and_std, 'Mean and standard deviation calculation')
+
+    def test_extract_corr_rgbs(self):
+        data = [
+            "date       ,time     ,grid_index ,block_type    ,spot1_r ,spot1_g ,spot1_b ,spot2_r ,spot2_g ,spot2_b ,bkg_r ,bkg_g ,bkg_b ,spot1_corr_r ,spot1_corr_g ,spot1_corr_b ,spot2_corr_r ,spot2_corr_g ,spot2_corr_b",
+            "06/06/2024 ,16:28:13 ,\"(3, 4)\"   ,type1 ,  217.0 ,  213.0 ,  213.0 ,  217.0 ,  214.0 ,  216.0 ,214.0 ,212.0 ,211.0 ,1         ,2         ,3         ,4         ,5         ,6",
+            "06/06/2024 ,16:28:33 ,\"(4, 4)\"   ,type2   ,  126.0 ,  119.0 ,  163.0 ,   90.0 ,   88.0 ,  121.0 ,209.0 ,205.0 ,207.0 ,7         ,8.0         ,9         ,10.0         ,11.0        ,12.0"  
+        ]
+        rgbs_by_type = self.data_extractor.extract_corr_rgbs(data)
+        
+        expected_rgbs_by_type = {
+            'type1': [[[1,2,3], [4,5,6]]],
+            'type2': [[[7,8,9], [10,11,12]]]
+        }
+        self.assertEqual(rgbs_by_type, expected_rgbs_by_type, 'Extract corr rgbs from data')
+
 
 if __name__ == '__main__':
     unittest.main()
