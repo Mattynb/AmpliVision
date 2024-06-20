@@ -4,7 +4,7 @@ from io import StringIO
 from src.data_generator import get_corr_rgbs, format_line, get_mean_and_std, limit_std
 
 
-class TestFunctions(unittest.TestCase):
+class TestDataGenerator(unittest.TestCase):
 
     def test_get_corr_rgbs(self):
         # Prepare test data

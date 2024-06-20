@@ -11,7 +11,7 @@ def limit_std(fingerprint: dict, limit: int = 15) -> dict:
     return fingerprint
 
 def format_line(line: list, spot: int) -> list:
-    spot = spot * 3
+    spot = (spot * 3) 
     return [float(line[spot + 13].strip()), float(line[spot + 14].strip()), float(line[spot + 15].strip())]
 
 def display_fingerprint(fingerprint:map, title_sufx:str='')->None:

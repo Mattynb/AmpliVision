@@ -1,7 +1,7 @@
 import unittest
 from src.data_generator.src.data_extractor import DataExtractor
 
-class TestDataGenerator(unittest.TestCase):
+class TestDataExtractor(unittest.TestCase):
 
     def setUp(self):
         self.sample_type = 'sample_type'

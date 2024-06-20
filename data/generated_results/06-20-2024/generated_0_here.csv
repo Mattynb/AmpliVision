@@ -1,0 +1,21 @@
+block_type    ,spot1_corr_r ,spot1_corr_g ,spot1_corr_b ,spot2_corr_r ,spot2_corr_g ,spot2_corr_b
+Control Block ,           0 ,           0 ,           1 ,          20 ,          26 ,          27
+Control Block ,           0 ,           2 ,           3 ,          14 ,          31 ,          38
+Control Block ,           0 ,           0 ,           1 ,          18 ,          12 ,          23
+Control Block ,           0 ,           0 ,           0 ,           7 ,          24 ,           9
+Control Block ,           0 ,           3 ,           0 ,          30 ,          40 ,          15
+Control Block ,           1 ,           1 ,           1 ,           7 ,          27 ,          24
+Control Block ,           0 ,           0 ,           0 ,          23 ,           5 ,          21
+Control Block ,           0 ,           1 ,           0 ,          25 ,          35 ,          32
+Control Block ,           0 ,           0 ,           1 ,          27 ,          36 ,          20
+Control Block ,           0 ,           0 ,           0 ,          21 ,          15 ,          30
+Test Block    ,          44 ,          84 ,          84 ,          87 ,         124 ,         122
+Test Block    ,          39 ,          85 ,          79 ,          86 ,         131 ,         121
+Test Block    ,          41 ,          82 ,          77 ,          90 ,         127 ,         122
+Test Block    ,          43 ,          79 ,          82 ,          94 ,         131 ,         119
+Test Block    ,          43 ,          77 ,          83 ,          81 ,         127 ,         122
+Test Block    ,          40 ,          81 ,          81 ,         102 ,         122 ,         118
+Test Block    ,          39 ,          90 ,          79 ,          93 ,         129 ,         120
+Test Block    ,          38 ,          83 ,          78 ,          94 ,         127 ,         119
+Test Block    ,          35 ,          83 ,          85 ,          96 ,         130 ,         117
+Test Block    ,          43 ,          76 ,          78 ,          93 ,         109 ,         121

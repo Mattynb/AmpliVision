@@ -25,8 +25,8 @@ class DataGenerator:
         for rgb in ['r','g', 'b']:
             rgb_mean1, rgb_std1, rgb_mean2, rgb_std2 = self.combined_fingerprints[blocktype][rgb] 
 
-            spot1_points = np.random.normal(rgb_mean1, rgb_std1, n_points).round(1)
-            spot2_points = np.random.normal(rgb_mean2, rgb_std2, n_points).round(1)
+            spot1_points = [int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean1, rgb_std1, n_points)]
+            spot2_points = [int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean2, rgb_std2, n_points)]
 
             #print(f"spot1_{rgb}: ", spot1_points,f" \t|\tspot2_{rgb}: ", spot2_points)
 
@@ -90,7 +90,7 @@ class DataGenerator:
 
 
 if __name__ == '__main__':
-    combined=  {'Control Block': {'r': [-0.25, 3.031088913245535, 18.5, 10.0], 'g': [0.75, 2.384848003542364, 90.375, 10.0], 'b': [-0.125, 3.822967336793113, 56.375, 10.0]}, 'Test Block': {'r': [29.75, 10.0, 69.5, 10.0], 'g': [61.25, 10.0, 94.75, 10.0], 'b': [57.125, 10.0, 89.875, 10.0]}}
+    combined=  {'Test1': {'r': [-0.25, 3.031088913245535, 18.5, 10.0], 'g': [0.75, 2.384848003542364, 90.375, 10.0], 'b': [-0.125, 3.822967336793113, 56.375, 10.0]}, 'Test2': {'r': [29.75, 10.0, 69.5, 10.0], 'g': [61.25, 10.0, 94.75, 10.0], 'b': [57.125, 10.0, 89.875, 10.0]}}
 
     dg = DataGenerator(combined)
     print(dg.generate_n_points(10))
