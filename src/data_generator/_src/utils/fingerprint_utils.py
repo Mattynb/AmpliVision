@@ -16,8 +16,8 @@ def format_line(line: list, spot: int) -> list:
 
 def display_fingerprint(fingerprint:map, title_sufx:str='')->None:
     """"""
+
     for block_type, values in fingerprint.items():
-        
         title = f'{block_type} fingerprint {title_sufx}'
 
         fig, ax = plt.subplots(3, 1, figsize=(10, 10), num=title)

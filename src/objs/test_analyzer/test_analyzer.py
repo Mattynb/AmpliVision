@@ -33,11 +33,11 @@ class TestAnalyzer:
         print("rotation: ", self.block.rotation)
 
         blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
-        rgb_spots = ColorContourExtractor.process_image(blur, hsv_lower=[0, 40, 20], display=True)
+        rgb_spots = ColorContourExtractor.process_image(blur, hsv_lower=[0, 40, 20], display=False)
         
         # display
-        copy = self.test_square_img.copy()
-        cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 1)
+        #copy = self.test_square_img.copy()
+        #cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 1)
 
         self.add_positives_to_sections(rgb_spots)
 
@@ -76,7 +76,7 @@ class TestAnalyzer:
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
                     print("auto added spot to: ", section.strip_type)
-                    section.add_spot(self.block, spot, True, debug=True)
+                    section.add_spot(self.block, spot, True, debug=False)
                     #break # only adds to one section
 
     def add_negatives_to_sections(self) -> None:
@@ -85,7 +85,7 @@ class TestAnalyzer:
 
             if len(section.spots) == 0:
                 print("man added negative spot to: ", type)
-                section.set_spots_manually(self.block, debug=True)
+                section.set_spots_manually(self.block, debug=False)
 
     def validate_results(self) -> None:
         "deals with test result potential positive, negative, false positive, error scenarios"
@@ -111,7 +111,7 @@ class TestAnalyzer:
             strip_result = False
             
             # display
-            strip.print_spots()
+            #strip.print_spots()
 
             for spot in strip.spots:
                 if spot["positive"] == True:

@@ -26,8 +26,6 @@ def main(path_to_imgs:str)->None:
     
     # for display
     print(f"Images to be analyzed: {len(images)}\n")
-    print(type(images[0]))
-    
     # Analyzing each image
     for id, image in enumerate(images):
 
@@ -61,7 +59,7 @@ def main(path_to_imgs:str)->None:
         #for block in Grid_DS.get_blocks():
         #    block.draw_pins(im)
         im = cv.drawContours(im, contours, -1, (0,255,0), 3)
-        display(im, 0)
+        display(im, 3000)
         
         #"""
         #   Create Grid object from the scanned image. The grid
@@ -81,7 +79,7 @@ def main(path_to_imgs:str)->None:
             block = identify_block(block)
 
             # analyse results of test blocks
-            if block.get_block_type() in ("Test Block", "Control Block"):
+            if block.get_block_type() in ("Test Block", "Control Block", "Test Block 1", "Test Block 2", "Test Block 3" ):
                 print(f"{block.get_block_type()} found. Analyzing block and exporting to {csv_filename}")
                 ta = TestAnalyzer(block)
                 csv_rows.append(ta.analyze_test_result())
@@ -104,7 +102,7 @@ if __name__ == '__main__':
         path_to_imgs = r"app\\data\\New_images_060324\\IMG_6159.JPEG" #*"
         print("path not given in command line. Using default path: ", path_to_imgs)
     # """
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_060324\IMG_6159.JPEG"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_062024\*"
 
     main(path_to_imgs)
 

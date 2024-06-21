@@ -76,9 +76,6 @@ class StripSection:
         
         copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
         copy = cv.resize(copy, (200, 200))
-        cv.imshow('identify_spot_manually()', copy)
-        cv.waitKey(0)
-        cv.destroyAllWindows()
 
         return contours[0]
 
