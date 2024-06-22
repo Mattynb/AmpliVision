@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def visualize_generated_pts(data:dict[list[float]])->None:
+def visualize_generated_pts(data:dict[list[float]], subtract:int = 0)->None:
     fig, ax = plt.subplots()
     num_types = len(data)
     num_pairs = max(len(pairs) for pairs in data.values())
@@ -15,7 +15,12 @@ def visualize_generated_pts(data:dict[list[float]])->None:
         for j, pair in enumerate(pairs):
             row = j // grid_width
             col = j % grid_width
-            r1, g1, b1, r2, g2, b2 = [x for x in pair]
+
+            data_list = [x for x in pair]
+            if subtract != 0:
+                data_list = [subtract - x for x in data_list]
+            r1, g1, b1, r2, g2, b2 = data_list
+            
             ax.add_patch(plt.Rectangle((col * 2, i * grid_height + row), 1, 1, color=[r1/255, g1/255, b1/255]))
             ax.add_patch(plt.Rectangle((col * 2 + 1, i * grid_height + row), 1, 1, color=[r2/255, g2/255, b2/255]))
 
@@ -30,10 +35,15 @@ def visualize_generated_pts(data:dict[list[float]])->None:
     plt.show()
 
 
-def print_generated_pts(pts:dict[list[float]])->None:
+def print_generated_pts(pts:dict[list[float]], subtract:int =0)->None:
     print("\n","-"*10, "GENERATED DATA","-"*10,)
     for type in pts:
         print(f"{type}: ")
         for r in pts[type]:
+            
+            if subtract != 0:
+                r = [subtract - x for x in r]
+
             print(f"\t{r}")
+    
     print("-"*30)
