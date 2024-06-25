@@ -139,7 +139,6 @@ class TestAnalyzer:
         # setting all rgb values to None
         bkg_r = " None"
         bkg_g, bkg_b = bkg_r, bkg_r
-
         spot1_r, spot1_g, spot1_b = bkg_r, bkg_r, bkg_r
         spot2_r, spot2_g, spot2_b = bkg_r, bkg_r, bkg_r
 
@@ -158,8 +157,8 @@ class TestAnalyzer:
             #print("spot2 rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
 
-        spot1_corr_r, spot1_corr_g, spot1_corr_b = corrected_rgbs[0]
-        spot2_corr_r, spot2_corr_g, spot2_corr_b = corrected_rgbs[1]
+        spot1_corr_b, spot1_corr_g, spot1_corr_r = corrected_rgbs[0]
+        spot2_corr_b, spot2_corr_g, spot2_corr_r = corrected_rgbs[1]
 
         # create data to be written to csv
         data = [
@@ -170,16 +169,6 @@ class TestAnalyzer:
             spot1_corr_r, spot1_corr_g, spot1_corr_b, 
             spot2_corr_r, spot2_corr_g, spot2_corr_b
         ]
-        
-        """
-            'date', ' time', ' grid_index', ' block_type ',
-            ' spot1_r', ' spot1_g', ' spot1_b',
-            ' spot2_r', ' spot2_g', ' spot2_b',
-            ' bkg_r', ' bkg_g', ' bkg_b',
-            ' spot1_corr_r', ' spot1_corr_g', ' spot1_corr_b',
-            ' spot2_corr_r', ' spot2_corr_g', ' spot2_corr_b',
-        """
-        
 
         return data
 

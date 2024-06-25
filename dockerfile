@@ -18,5 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src /app/src
 COPY data /app/data
 
-CMD ["python", "src/main.py"] 
-#"app/data/New_images_060324/*"]
+CMD ["python", "src/main.py"]

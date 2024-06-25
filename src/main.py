@@ -59,7 +59,7 @@ def main(path_to_imgs:str)->None:
         #for block in Grid_DS.get_blocks():
         #    block.draw_pins(im)
         im = cv.drawContours(im, contours, -1, (0,255,0), 3)
-        display(im, 3000)
+        #display(im, 3000)
         
         #"""
         #   Create Grid object from the scanned image. The grid
@@ -94,14 +94,15 @@ def display(image, t=100, title= 'image'):
 
 if __name__ == '__main__':
     # take path as command line argument or use default path
-    """if len(sys.argv) == 2:
+    """
+    if len(sys.argv) == 2:
         path_to_imgs = rf"{sys.argv[1]}"
         print("path given in command line: ", path_to_imgs)
 
     else:
-        path_to_imgs = r"app\\data\\New_images_060324\\IMG_6159.JPEG" #*"
+        path_to_imgs = r"app\\data\\New_images_062024\\*" #*"
         print("path not given in command line. Using default path: ", path_to_imgs)
-    # """
+    #"""
     path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_062024\*"
 
     main(path_to_imgs)

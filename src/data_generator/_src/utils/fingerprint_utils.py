@@ -1,3 +1,4 @@
+from matplotlib import markers
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
@@ -44,24 +45,24 @@ def visualize_fingerprints_with_colors(fingerprints):
         x_labels = ['Spot 1', 'Spot 2']
         
         for i in range(2):
-            r_mean = 255-data['b'][i * 2]
+            r_mean = 255-data['r'][i * 2]
             g_mean = 255-data['g'][i * 2]
-            b_mean = 255-data['r'][i * 2]
+            b_mean = 255-data['b'][i * 2]
             r_stdev = data['r'][i * 2 + 1]
             g_stdev = data['g'][i * 2 + 1]
             b_stdev = data['b'][i * 2 + 1]
             
             color = (r_mean / 255, g_mean / 255, b_mean / 255)
-            ax.errorbar(x_labels[i], r_mean, yerr=r_stdev, fmt='o', color='r', capsize=5)
-            ax.errorbar(x_labels[i], g_mean, yerr=g_stdev, fmt='o', color='g', capsize=5)
-            ax.errorbar(x_labels[i], b_mean, yerr=b_stdev, fmt='o', color='b', capsize=5)
+            ax.errorbar(x_labels[i], r_mean, yerr=r_stdev, fmt='o', color='r', capsize=20)
+            ax.errorbar(x_labels[i], g_mean, yerr=g_stdev, fmt='o', color='g', capsize=20)
+            ax.errorbar(x_labels[i], b_mean, yerr=b_stdev, fmt='o', color='b', capsize=20)
             
-            ax.scatter([x_labels[i]], [r_mean], color=color, s=200, edgecolor='black', zorder=3)
-            ax.scatter([x_labels[i]], [g_mean], color=color, s=200, edgecolor='black', zorder=3)
-            ax.scatter([x_labels[i]], [b_mean], color=color, s=200, edgecolor='black', zorder=3)
+            ax.scatter([x_labels[i]], [r_mean], color=color, s=100, marker='D', edgecolor='r', zorder=3)
+            ax.scatter([x_labels[i]], [g_mean], color=color, s=100, marker='D', edgecolor='g', zorder=3)
+            ax.scatter([x_labels[i]], [b_mean], color=color, s=100, marker='D', edgecolor='b', zorder=3)
         
         ax.set_title(block)
-        ax.set_ylim(0, 260)  # Adjust the y-limit as needed
+        ax.set_ylim(0, 255)  # Adjust the y-limit as needed
         ax.set_ylabel('Value')
         ax.legend(['R Mean ± Std', 'G Mean ± Std', 'B Mean ± Std'])
         ax.grid(True)

@@ -1,3 +1,4 @@
+from operator import ge
 import numpy as np
 
 class DataGenerator:
@@ -56,6 +57,8 @@ class DataGenerator:
 
         separated = []
         for i in range(n):
+
+            # [r,g, or b][spot 1 or 2][row i]
             r1 = points[0][0][i]
             g1 = points[1][0][i]
             b1 = points[2][0][i]

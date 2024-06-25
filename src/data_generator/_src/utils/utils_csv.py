@@ -71,16 +71,18 @@ def write_to_csv(folder_path:str, data: list)->None:
         os.makedirs("data/generated_results/" + subfolder_name)
 
 
-    with open("data/generated_results" + subfolder_name + filename, 'w') as csvfile:
+    with open("data/generated_results" + subfolder_name + filename, 'w',  newline='') as csvfile:
         # creating a csv writer object
         csvwriter = csv.writer(csvfile)
 
         format_str = [
-            ' block_type ',
-            ' spot1_corr_r', ' spot1_corr_g', ' spot1_corr_b',
-            ' spot2_corr_r', ' spot2_corr_g', ' spot2_corr_b',
+            'block_type',
+            'spot1_corr_r', 'spot1_corr_g', 'spot1_corr_b',
+            'spot2_corr_r', 'spot2_corr_g', 'spot2_corr_b',
         ]
 
         # writing the data
         csvwriter.writerow(format_str)
-        csvwriter.writerows(data)
+        for row in data:
+            csvwriter.writerow(row)
+
