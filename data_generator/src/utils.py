@@ -9,6 +9,8 @@ import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 
+import random
+
 
 class Utils:
     """ Utility functions for the data_generator module. """
@@ -16,7 +18,7 @@ class Utils:
     COLORS = ['r', 'g', 'b']
 
     @staticmethod
-    def visualize_generated_pts(data: dict[list[float]], subtract: int = 0) -> None:
+    def visualize_generated_pts(data: dict[list[float]], title:str, subtract: int = 0) -> None:
         """
         Visualize generated RGB data points in a grid format.
 
@@ -52,7 +54,7 @@ class Utils:
         ax.set_yticklabels([dtype for dtype in data.keys()
                             for _ in range(grid_height)])
         ax.set_xticks([])
-        plt.title("RGB Color Pairs Grid")
+        plt.title(title)
 
         plt.show()
 
@@ -302,6 +304,11 @@ class Utils:
 
             for i, color in enumerate(cls.COLORS):
                 mean1, std1, mean2, std2 = values[color]
+
+                if std1 == 0 and std2 == 0:
+                    print(f'No std for {color} in {block_type}, using random')
+                    std1, std2 = random.randint(1, 2), random.randint(1, 2)
+
                 x = range(0, 256)
                 ax[i].plot(x, norm.pdf(x, mean1, std1),
                            color=color, label='spot1')
@@ -331,14 +338,15 @@ class Utils:
             x_labels = ['Spot 1', 'Spot 2']
 
             for i in range(2):
-                r_mean = 255 - data['r'][i * 2]
-                g_mean = 255 - data['g'][i * 2]
-                b_mean = 255 - data['b'][i * 2]
+                r_mean = data['r'][i * 2]
+                g_mean = data['g'][i * 2]
+                b_mean = data['b'][i * 2]
                 r_stdev = data['r'][i * 2 + 1]
                 g_stdev = data['g'][i * 2 + 1]
                 b_stdev = data['b'][i * 2 + 1]
 
-                color = (r_mean / 255, g_mean / 255, b_mean / 255)
+                color = [r_mean / 255, g_mean / 255, b_mean / 255]
+                
                 ax.errorbar(x_labels[i], r_mean, yerr=r_stdev,
                             fmt='o', color='r', capsize=20)
                 ax.errorbar(x_labels[i], g_mean, yerr=g_stdev,

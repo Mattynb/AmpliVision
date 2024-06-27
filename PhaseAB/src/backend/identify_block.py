@@ -1,6 +1,7 @@
 from .add_to_db.connect_to_db import connect_to_mongo
 
-def identify_block(block):
+
+def identify_block(block, display: int = 0):
     """ Function to identify the block type of a block given the RGB sequence."""
     block_og = block
 
@@ -11,49 +12,49 @@ def identify_block(block):
     db = client.ampli_cv
     collection = db.color_ranges
 
-    # Get the RGB sequence of the 
+    # Get the RGB sequence of the
     # block in rgb and numerical form
     sequence_rgb = []
     sequence_numerical = []
     for rgb in block.get_rgb_sequence():
-        # Add the RGB to the sequence_rgb list 
+        # Add the RGB to the sequence_rgb list
         sequence_rgb.append(rgb)
 
-        # Convert the RGB to a number and 
+        # Convert the RGB to a number and
         # add the number to the sequence_numerical list
         number = rgb_to_number(rgb, collection)
         sequence_numerical.append(number)
 
     # Print the sequences
-    print(f'RGB sequence: {sequence_rgb}')
-    print(f'Numerical sequence: {sequence_numerical}')
-
+    if display:
+        print(f'RGB sequence: {sequence_rgb}')
+        print(f'Numerical sequence: {sequence_numerical}')
 
     # Connect to the block_types collection
     block_collection = db.block_types
-    
+
     # Check if the sequence is in the database
     # If it is, print the block type
     for rotation in range(len(sequence_numerical)):
         # Look for the sequence in the database
         query = {'Sequence': sequence_numerical}
-        
+
         # If the sequence is found, print the block type and return
         block_type = block_collection.find_one(query)
         if block_type:
             block.block_type = block_type["block_name"]
-            print(f'Block: \'{block_type["block_name"]}\' at {block.index}\n')
+            if display:
+                print(f'\'{block_type["block_name"]}\' at {block.index}\n')
             client.close()
 
             r = [0, 90, 180, 270]
             block.rotation = r[rotation]
 
             return block
-        
+
         # Rotate the sequence
         sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
-        
-        
+
     # If the sequence is not found, print unknown
     print(f'Block: Unknown at {block.index}\n')
     client.close()
@@ -87,7 +88,7 @@ def rgb_to_number(rgb, collection):
     # If there is only one color, return the color number
     for number in numbers:
         return number['color#']
-    
+
     # If there are multiple colors, print the colors and return the first color
     # Note that there should not be multiple colors for a single RGB value
     print(f"Multiple colors found for r: {r}, g: {g}, b: {b}\n")
@@ -95,7 +96,6 @@ def rgb_to_number(rgb, collection):
         print(number['color#'])
     for number in numbers:
         return number['color#']
-
 
 
 if __name__ == '__main__':

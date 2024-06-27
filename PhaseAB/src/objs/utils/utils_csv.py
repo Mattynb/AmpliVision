@@ -2,28 +2,27 @@ import os
 import csv
 from datetime import datetime
 
-def generate_csv_filename(id:int, path:str)->str:
+
+def generate_csv_filename(image_name: str) -> str:
     # get current date and time
     now = datetime.now()
 
-    # get image name
-    image_name = get_filename(id, path)
-    
     # format date and time
     date = now.strftime("%m-%d-%Y")
-    time = now.strftime("(%H-%M-%S)")
 
-    return f"{date}/{image_name}_results_{date}_{time}.csv"
+    return f"{date}/{image_name}_results.csv"
 
 
-def get_filename(id:int, path:str):
+def get_filename(id: int, path: str):
     # if path is a directory
     if path[-1] == '\\' or path[-1] == '*':
         path = path.removesuffix("*")
 
         # load directory
-        files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
-        image_name = files[id-1].replace('.', '_') 
+        files = [
+            file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))
+        ]
+        image_name = files[id].replace('.', '_')
 
     else:
         start_i = path.rfind("\\")
@@ -31,13 +30,13 @@ def get_filename(id:int, path:str):
 
     return image_name
 
-def write_to_csv(filename:str, data: list)->None:
-    
+
+def write_to_csv(filename: str, data: list) -> None:
+
     # create folder for csv files
     subfolder_name = filename.split('/')[-2]
     if not os.path.exists("data/results/" + subfolder_name):
         os.makedirs("data/results/" + subfolder_name)
-
 
     with open("data/results/" + filename, 'w') as csvfile:
         # creating a csv writer object
@@ -57,3 +56,13 @@ def write_to_csv(filename:str, data: list)->None:
         # writing the data
         csvwriter.writerow(format_str)
         csvwriter.writerows(data)
+
+
+if __name__ == "__main__":
+    for i in range(20):
+        print(
+            get_filename(
+                i,
+                r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_06262024\*"
+            )
+        )

@@ -12,27 +12,32 @@ def main(sample_type: str, results_path: str, save_path: str) -> None:
     data_extractor = DataExtractor(sample_type, extract_from=results_path)
     combined_fingerprints = data_extractor.extract(display=0)
 
-    # Utils.display_fingerprint(combined_fingerprints)
-
     # Use the extracted fingerprints to generate realistic data
     data_generator = DataGenerator(combined_fingerprints)
-    corr_pts = data_generator.generate_n_points(10)
+    corr_pts = data_generator.generate_n_points(20)
 
     # Get the original RGB values
     pts = Utils.subtract_255(corr_pts)
 
     # Display the generated points
-    Utils.plot_3d_generated_pts(pts, "PTS")
+    #Utils.visualize_generated_pts(pts, f"Generated {sample_type} PTS")
+    Utils.plot_3d_generated_pts(pts, f"Generated {sample_type} PTS")
 
     # Save the generated points to a csv file
-    Utils.write_to_csv(sample_type, save_path,  pts)
+    # Utils.write_to_csv(sample_type, save_path,  pts)
 
 
 if __name__ == '__main__':
     # Example usage
-    SAMPLE_TYPE = "IMG"
+    SAMPLE_TYPES = [
+        "breast", "control", "lung",
+        "ovarian", "prostate", "skin", "thyroid"
+    ]
+
     SAVE_PATH = r"C:/Users/Matheus/Desktop/NanoTechnologies_Lab/Phase A/data/generated_results"
     RESULTS_FOLDER_PATH = r"""
-    C:/Users/Matheus/Desktop/NanoTechnologies_Lab/Phase A/data/results/06-24-2024/""".strip()
+    C:/Users/Matheus/Desktop/NanoTechnologies_Lab/Phase A/data/results/06-27-2024/""".strip()
 
-    main(SAMPLE_TYPE, RESULTS_FOLDER_PATH, SAVE_PATH)
+    for SAMPLE_TYPE in SAMPLE_TYPES:
+        print(f"generating {SAMPLE_TYPE} results")
+        main(SAMPLE_TYPE, RESULTS_FOLDER_PATH, SAVE_PATH)

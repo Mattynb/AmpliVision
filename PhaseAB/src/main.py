@@ -1,11 +1,12 @@
 """ """
 
+import os
+import time
+import cv2 as cv
+
 from objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestAnalyzer
 from objs.utils import generate_csv_filename, write_to_csv, get_filename
 from backend import identify_block
-
-import time
-import cv2 as cv
 
 
 def main(path_to_imgs: str) -> None:
@@ -25,10 +26,16 @@ def main(path_to_imgs: str) -> None:
     # loading images from given path
     images = ImageLoader.load_images(path_to_imgs)  # "image0_scaned.jpg")
 
+    # SORT IMAGES BY NAME
+
     # for display
     print(f"Images to be analyzed: {len(images)}\n")
     # Analyzing each image
     for idx, image in enumerate(images):
+
+        # skip seen files
+        if seen_file(idx):
+            continue
 
         #   Create Image object from loaded image.
         # The Image object is used to store the image
@@ -42,31 +49,29 @@ def main(path_to_imgs: str) -> None:
         if image_scan is None:
             continue
 
-        # display(image_scan, 1000, 'I guess its u')
-
         # When working with repeat image, uncomment the line below
         # and comment the lines above
-        # cv.imwrite(f"{image_name}_scaned.jpg", image_scan)
+        cv.imwrite(f"scanned/{image_name}_scaned.jpg", image_scan)
 
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the
         # pins and later blocks.
         contours = ColorContourExtractor.process_image(image_scan)
 
-        # display
-        # """
-        im = image_scan.copy()
-        # Grid_DS.draw_gridLines(im)
-        # for block in Grid_DS.get_blocks():
-        #    block.draw_pins(im)
-        im = cv.drawContours(im, contours, -1, (0, 255, 0), 3)
-        # display(im, 3000)
-
-        # """
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as
         # the blocks and pins, etc.
         Grid_DS = Grid(image_scan)
+
+        # display
+        """
+        im = image_scan.copy()
+        Grid_DS.draw_gridLines(im)
+        for block in Grid_DS.get_blocks():
+            block.draw_pins(im)
+        im = cv.drawContours(im, contours, -1, (0, 255, 0), 3)
+        display(im, 0)
+        # """
 
         # determines what squares in grid are
         #  blocks
@@ -74,7 +79,7 @@ def main(path_to_imgs: str) -> None:
         print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
 
         # identifies type of blocks in the grid
-        csv_filename = generate_csv_filename(idx, path_to_imgs)
+        csv_filename = generate_csv_filename(image_name)
         csv_rows = []
         for block in Grid_DS.get_blocks():
             block.set_rgb_sequence()
@@ -82,8 +87,6 @@ def main(path_to_imgs: str) -> None:
 
             # analyse results of test blocks
             if block.get_block_type() in ("Test Block", "Control Block", "Test Block 1", "Test Block 2", "Test Block 3"):
-                print(f"{block.get_block_type()} found. Analyzing block and exporting to {
-                      csv_filename}")
                 ta = TestAnalyzer(block)
                 csv_rows.append(ta.analyze_test_result())
 
@@ -97,6 +100,13 @@ def display(image, t=100, title='image'):
     cv.destroyAllWindows()
 
 
+def seen_file(idx: int) -> bool:
+    path = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\scanned"
+    if idx < len(os.listdir(path)) - 1:
+        return True
+    return False
+
+
 if __name__ == '__main__':
     # take path as command line argument or use default path
     """
@@ -108,7 +118,7 @@ if __name__ == '__main__':
         path_to_imgs = r"app\\data\\New_images_062024\\*" #*"
         print("path not given in command line. Using default path: ", path_to_imgs)
     #"""
-    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_062024\*"
+    path_to_imgs = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\New_images_06262024\*"
 
     main(path_to_imgs)
 
