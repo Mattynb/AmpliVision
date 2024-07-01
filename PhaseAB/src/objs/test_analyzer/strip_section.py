@@ -54,11 +54,14 @@ class StripSection:
 
         val = self.bounds
         spot = self.identify_spot_manually(
-            copy, (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), False)
+            copy, 
+            (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), 
+            debug=debug
+        )
 
-        self.add_spot(block, spot, False, debug=False)
+        self.add_spot(block, spot, False, debug=debug)
 
-    def identify_spot_manually(self, test_area_img, circ_center, b: bool) -> np.ndarray:
+    def identify_spot_manually(self, test_area_img, circ_center, debug: bool) -> np.ndarray:
         "used to identify a spot manually"
 
         # get the contour of circle spott
@@ -76,6 +79,9 @@ class StripSection:
 
         copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
         copy = cv.resize(copy, (200, 200))
+
+        cv.imshow('set_spots_manually(2)', copy)
+        cv.waitKey(0)
 
         return contours[0]
 

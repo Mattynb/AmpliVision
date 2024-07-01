@@ -1,17 +1,25 @@
-import cv2 as cv
-from matplotlib.pyplot import step
-import numpy as np
-from .igrid import IGrid
-from .Square import Square
-import itertools
-from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
-from ..utils import Utils
 import math
+import itertools
+import cv2 as cv
+import numpy as np
+
+from .igrid import IGrid
+from ..utils import Utils
+from .Square import Square
+from ..image.utils.image_white_balancer import WhiteBalanceAdjuster
+from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
+
 
 class Grid(IGrid):
     def __init__(self, img: np.ndarray):
         # scanned image
         self.img = img.copy()
+        """
+        WhiteBalanceAdjuster.adjust(img.copy())
+
+        cv.imshow(" grid scanned", self.img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()"""
 
         # setup ratios used in the grid 
         # such as the plus minus, etc.

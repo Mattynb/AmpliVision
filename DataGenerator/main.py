@@ -10,7 +10,7 @@ def main(sample_type: str, results_path: str, save_path: str) -> None:
 
     # Extract data from the results folder, getting the fingerprints
     data_extractor = DataExtractor(sample_type, extract_from=results_path)
-    combined_fingerprints = data_extractor.extract(display=0)
+    combined_fingerprints = data_extractor.extract(display=1)
 
     # Use the extracted fingerprints to generate realistic data
     data_generator = DataGenerator(combined_fingerprints)

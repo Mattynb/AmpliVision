@@ -88,7 +88,7 @@ def main(path_to_imgs: str) -> None:
             # analyse results of test blocks
             if block.get_block_type() in ("Test Block", "Control Block", "Test Block 1", "Test Block 2", "Test Block 3"):
                 ta = TestAnalyzer(block)
-                csv_rows.append(ta.analyze_test_result())
+                csv_rows.append(ta.analyze_test_result(display=0))
 
         write_to_csv(csv_filename, csv_rows)
 
