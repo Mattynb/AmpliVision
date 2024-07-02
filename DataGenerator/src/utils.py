@@ -2,14 +2,16 @@
 This module contains utility functions for the data_generator module.
 """
 
+import enum
 import os
 import csv
-from datetime import datetime
+import random
 import numpy as np
-from scipy.stats import norm
 import matplotlib.pyplot as plt
 
-import random
+from datetime import datetime
+from scipy.stats import norm
+
 
 
 class Utils:
@@ -178,7 +180,7 @@ class Utils:
         return image_name
 
     @staticmethod
-    def create_rows(data: dict[list[list[int]]]) -> list:
+    def create_rows(data: dict[list[list[int]]], classification:bool = None) -> list:
         """
         Create rows of data for CSV writing.
 
@@ -189,14 +191,26 @@ class Utils:
             list: List of rows to be written to the CSV.
         """
         rows = []
-        for b_type, corr_rgbs in data.items():
+        for i, (b_type, corr_rgbs) in enumerate(data.items()):
             for rgb in corr_rgbs:
                 row = [b_type] + rgb
+
+                if classification:
+                    row.append(i)
+                
                 rows.append(row)
         return rows
 
     @classmethod
-    def write_to_csv(cls, sample_type: str, folder_path: str, data: dict[list[list[int]]]) -> None:
+    def write_to_csv(
+        cls, 
+        sample_type: str, 
+        folder_path: str, 
+        data: dict[list[list[int]]] = None,
+        rows: list[str] = None,
+        classification: bool = False
+    ) -> None:
+    
         """
         Write RGB data points to a CSV file.
 
@@ -204,8 +218,13 @@ class Utils:
             folder_path (str): Path to the folder where the CSV will be saved.
             data (dict[list[list[int]]]): Dictionary containing RGB data points.
         """
+
+        if data is None and rows is None:
+            raise Exception(
+                "Must pass in either \'rows\' or \'data\' parameter when using Utils.write_to_csv"
+            )
+        
         filename = cls.generate_gendata_csv_filename(sample_type, folder_path)
-        rows = cls.create_rows(data)
 
         now = datetime.now()
         date = now.strftime("%m-%d-%Y")
@@ -213,9 +232,15 @@ class Utils:
 
         output_folder = folder_path + subfolder_name
         os.makedirs(output_folder, exist_ok=True)
+        output = output_folder + filename
+    
+        if rows is None:
+            _rows = cls.create_rows(data)
+        else:
+            _rows = rows
 
         with open(
-            output_folder + filename,
+            output,
             'w',
             encoding='utf-8',
             newline=''
@@ -225,9 +250,61 @@ class Utils:
             headers = ['block_type', 'spot1_corr_r', 'spot1_corr_g',
                        'spot1_corr_b', 'spot2_corr_r', 'spot2_corr_g', 'spot2_corr_b']
 
-            csvwriter.writerow(headers)
-            csvwriter.writerows(rows)
+            if classification:
+                headers.insert(0,'class')
 
+            csvwriter.writerow(headers)
+            csvwriter.writerows(_rows)
+
+
+    @classmethod
+    def combine_generated_cvs(cls, folder_path):
+        
+        now = datetime.now()
+        date = now.strftime("%m-%d-%Y")
+ 
+        combined_data = cls.combine_csvs_data(folder_path + f'/{date}')
+        
+        cls.write_to_csv(
+            "COMBINED", 
+            folder_path, 
+            rows=combined_data,
+            classification=True
+        )
+
+    @staticmethod
+    def combine_csvs_data(folder_path : str) -> list[str]:
+        # get file names
+        csv_files = [
+            file for file in os.listdir(folder_path) 
+            if os.path.isfile(os.path.join(folder_path, file))
+        ]
+
+        if "COMBINED_generated.csv" in csv_files:
+            csv_files.remove('COMBINED_generated.csv')
+
+        _data = []
+        for i, file in enumerate(csv_files):
+
+            file_path = folder_path + '\\' + file
+            # read the csv file
+            try:
+                with open(file_path, 'r', encoding='UTF-8') as file:
+                    data = file.readlines()
+            except FileNotFoundError:
+                print(f"File not found: {file_path}")
+                return {}
+
+            _buffer = [str(i) + ',' + bi for bi in data[1:]]
+            _data.append(_buffer)
+
+        combined_data = []
+        for test in _data:
+            for block in test:
+                combined_data.append(block.strip('\n').split(',')) 
+        
+        return combined_data
+ 
     @staticmethod
     def subtract_255(rgb: dict[str, list[list[int]]]) -> dict[str, list[list[int]]]:
         """
@@ -369,3 +446,9 @@ class Utils:
 
         plt.tight_layout(rect=[0, 0, 1, 0.96])
         plt.show()
+
+
+if __name__ == '__main__':
+
+    path = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\generated_results\\"
+    Utils.combine_generated_cvs(path)
