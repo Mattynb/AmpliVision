@@ -1,12 +1,13 @@
 """
 This module contains utility functions for the data_generator module.
 """
-
-import enum
 import os
 import csv
+import json
+import time
 import random
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 from datetime import datetime
@@ -70,12 +71,54 @@ class Utils:
             subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
         """
         print("\n", "-"*10, "GENERATED DATA", "-"*10)
-        for dtype, rows in pts.items():
-            print(f"{dtype}: ")
+        for btype, rows in pts.items():
+            print(f"{btype}: ")
             for row in rows:
                 row = [subtract - x if subtract != 0 else x for x in row]
                 print(f"\t{row}")
         print("-"*30)
+
+        print("\n", f"dimension: {len(pts)} x {len(rows)}", "\n")
+
+    @classmethod
+    def comb_pts_as_flat_json(cls, comb_pts: dict[list[float]], class_n: int, display: bool= 0) -> list:
+
+        row = []
+        columns = ['class']
+        block_types = ['Test Block 1', 'Test Block 2', 'Test Block 3', 'Control Block']
+        
+        # create column names
+        for b_type in block_types:
+            for s in range(1,3):  # spot 1 and spot 2
+                columns.append(f'{b_type}_spot{s}_r')
+                columns.append(f'{b_type}_spot{s}_g')
+                columns.append(f'{b_type}_spot{s}_b')
+        row.append(columns)
+
+        # create rows
+        for i in range(len(comb_pts['Test Block 1'])):
+            row.append(
+                [class_n]  # which disease it is 
+                +
+                [   # the rgb data for each spot in each block type
+                    comb_pts[b_type][i][j] 
+                    for b_type in block_types 
+                    for j in range(6)
+                ]   
+            )
+
+        # display the data
+        if display:
+            for r in row:
+                print(r)
+            print("\n", f"dimension: {len(row)} x {len(row[0])}", "\n")
+
+        return row
+
+
+
+        
+
 
     @staticmethod
     def plot_3d_generated_pts(pts: dict[list[float]], title: str = "") -> None:
@@ -204,12 +247,9 @@ class Utils:
     @classmethod
     def write_to_csv(
         cls, 
-        sample_type: str, 
         folder_path: str, 
-        data: dict[list[list[int]]] = None,
-        rows: list[str] = None,
-        classification: bool = False
-    ) -> None:
+        data: list[list[list[int]]]  # list of rgb data, inside a list of block types inside a list of rows, inside a list of classes
+    ) -> str:
     
         """
         Write RGB data points to a CSV file.
@@ -219,26 +259,20 @@ class Utils:
             data (dict[list[list[int]]]): Dictionary containing RGB data points.
         """
 
-        if data is None and rows is None:
-            raise Exception(
-                "Must pass in either \'rows\' or \'data\' parameter when using Utils.write_to_csv"
-            )
-        
-        filename = cls.generate_gendata_csv_filename(sample_type, folder_path)
+        # get the filename
+        filename = cls.generate_gendata_csv_filename("COMBINED", folder_path)
 
+        # get the current date to create a subfolder
         now = datetime.now()
         date = now.strftime("%m-%d-%Y")
         subfolder_name = f'/{date}'
 
+        # create the folder if it doesn't exist
         output_folder = folder_path + subfolder_name
         os.makedirs(output_folder, exist_ok=True)
         output = output_folder + filename
-    
-        if rows is None:
-            _rows = cls.create_rows(data)
-        else:
-            _rows = rows
 
+        # write the data to the csv file
         with open(
             output,
             'w',
@@ -247,30 +281,41 @@ class Utils:
         ) as csvfile:
 
             csvwriter = csv.writer(csvfile)
-            headers = ['block_type', 'spot1_corr_r', 'spot1_corr_g',
-                       'spot1_corr_b', 'spot2_corr_r', 'spot2_corr_g', 'spot2_corr_b']
-
-            if classification:
-                headers.insert(0,'class')
-
+            
+            # write the headers
+            headers = data[0][0]
             csvwriter.writerow(headers)
-            csvwriter.writerows(_rows)
+
+            # write the data
+            for row in data:
+                csvwriter.writerows(row[1:])
+            
+        return output
 
 
     @classmethod
-    def combine_generated_cvs(cls, folder_path):
+    def combine_generated_cvs(cls, folder_path, is_last_run: bool = False) -> None:
         
         now = datetime.now()
         date = now.strftime("%m-%d-%Y")
  
         combined_data = cls.combine_csvs_data(folder_path + f'/{date}')
-        
-        cls.write_to_csv(
+
+        output_path = cls.write_to_csv(
             "COMBINED", 
             folder_path, 
             rows=combined_data,
             classification=True
         )
+        
+        if is_last_run:
+            t = time.time()
+            times = cls.split_data_by_gen_images(output_path)
+
+            percentages = [t / sum(times) * 100 for t in times]
+            print(f"Time taken to aggregate: {times[0]:.2f} seconds. ({percentages[0]:.2f}%)")
+            print(f"Time taken to json: {times[1]:.2f} seconds. ({percentages[1]:.2f}%)")
+            print(f"Total time taken: {time.time() - t:.2f} seconds")
 
     @staticmethod
     def combine_csvs_data(folder_path : str) -> list[str]:
@@ -282,7 +327,7 @@ class Utils:
 
         if "COMBINED_generated.csv" in csv_files:
             csv_files.remove('COMBINED_generated.csv')
-
+            
         _data = []
         for i, file in enumerate(csv_files):
 
@@ -295,16 +340,99 @@ class Utils:
                 print(f"File not found: {file_path}")
                 return {}
 
-            _buffer = [str(i) + ',' + bi for bi in data[1:]]
+            class_n = str(i)
+            _buffer = [class_n + ',' + bi for bi in data[1:]]
             _data.append(_buffer)
 
         combined_data = []
         for test in _data:
             for block in test:
                 combined_data.append(block.strip('\n').split(',')) 
-        
+
         return combined_data
+    
+    @classmethod
+    def split_data_by_gen_images(cls, path):
+            
+        """ 
+        raw_combined data is sorted by block type. Therefore you see all the block 1s then all the block 2s etc.
+        this function will take the first block of each type and put them in a list, then the second block of each type and put them in a list etc.
+        essentially it will split the data by the generated image, which is what we want to do for training and testing classifiers
+
+        ASSUMES SAME AMOUNT OF ROWS PER CLASS
+        """
+        
+        times = []
+
+        raw_combined_data = pd.read_csv(path)
+
+        # Step 3: Apply Aggregation
+        t = time.time()
+        aggregated_tests = cls.aggregate_to_hierarchical_json(raw_combined_data)
+        times.append(time.time() - t)
+        
+        # Convert to JSON
+        t = time.time()
+        hierarchical_json = json.dumps(aggregated_tests, indent=4)
+        times.append(time.time() - t)
+
+        # save to file 
+        with open(path.replace('COMBINED_generated.csv', 'COMBINED.json'), 'w') as file:
+            file.write(hierarchical_json)
+
+        return times
+
+    @staticmethod
+    def aggregate_to_hierarchical_json(group):
+        hierarchical_data = []
+        
+
+        block_types = group['block_type'].unique()
+        classes = group['class'].unique()
+        n_tests_per_class = len(group) // len(classes)
+        n_blocks_per_type = len(group[group['block_type'] == block_types[0]])
+        
+        group_block_type = { b_type : group[group['block_type'] == b_type] for b_type in block_types}
+        block_types = ["Test Block 1", "Test Block 2", "Test Block 3", "Control Block"]
+
+        for c in classes:
+            c = int(c)
+            #class_data = group[group['class'] == c]
+
+            for _ in range(0, n_tests_per_class):
+            
+                #block_types = class_data['block_type'].unique()
+                for i in range(0, n_blocks_per_type):
+                    blocks = []
+                    test = {
+                        "class": c,
+                        "blocks": []
+                    }
+
+                    for b_type in block_types: 
+                        block_data = group_block_type[b_type].iloc[i]
  
+                        spots = [
+                            {
+                                'corr_r': int(block_data['spot1_corr_r']),
+                                'corr_g': int(block_data['spot1_corr_g']),
+                                'corr_b': int(block_data['spot1_corr_b']) 
+                            },
+                            {
+                                'corr_r': int(block_data['spot2_corr_r']),
+                                'corr_g': int(block_data['spot2_corr_g']),
+                                'corr_b': int(block_data['spot2_corr_b']) 
+                            }
+                        ]
+
+                        blocks.append({'block_type': b_type, 'spots': spots})
+                    
+                    test['blocks'] = blocks
+
+                    hierarchical_data.append(test)
+
+        return hierarchical_data
+
     @staticmethod
     def subtract_255(rgb: dict[str, list[list[int]]]) -> dict[str, list[list[int]]]:
         """
