@@ -14,82 +14,22 @@ from datetime import datetime
 from scipy.stats import norm
 
 
-
 class Utils:
     """ Utility functions for the data_generator module. """
 
     COLORS = ['r', 'g', 'b']
 
-    @staticmethod
-    def visualize_generated_pts(data: dict[list[float]], title:str, subtract: int = 0) -> None:
-        """
-        Visualize generated RGB data points in a grid format.
-
-        Args:
-            data (dict[list[float]]): Dictionary containing RGB data points.
-            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
-        """
-
-        GRID_WIDTH = 4
-
-        _, ax = plt.subplots()
-        num_types = len(data)
-        num_pairs = max(len(pairs) for pairs in data.values())
-        grid_height = (num_pairs // GRID_WIDTH) + 1
-
-        for i, (dtype, pairs) in enumerate(data.items()):
-            for j, pair in enumerate(pairs):
-                row = j // GRID_WIDTH
-                col = j % GRID_WIDTH
-
-                data_list = [subtract - x if subtract !=
-                             0 else x for x in pair]
-                r1, g1, b1, r2, g2, b2 = data_list
-
-                ax.add_patch(plt.Rectangle(
-                    (col * 2, i * grid_height + row), 1, 1, color=[r1/255, g1/255, b1/255]))
-                ax.add_patch(plt.Rectangle(
-                    (col * 2 + 1, i * grid_height + row), 1, 1, color=[r2/255, g2/255, b2/255]))
-
-        ax.set_xlim(-0.1, GRID_WIDTH * 2)
-        ax.set_ylim(-0.1, num_types * grid_height)
-        ax.set_yticks(np.arange(num_types * grid_height) + 0.5)
-        ax.set_yticklabels([dtype for dtype in data.keys()
-                            for _ in range(grid_height)])
-        ax.set_xticks([])
-        plt.title(title)
-
-        plt.show()
-
-    @staticmethod
-    def print_generated_pts(pts: dict[list[float]], subtract: int = 0) -> None:
-        """
-        Print generated RGB data points.
-
-        Args:
-            pts (dict[list[float]]): Dictionary containing RGB data points.
-            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
-        """
-        print("\n", "-"*10, "GENERATED DATA", "-"*10)
-        for btype, rows in pts.items():
-            print(f"{btype}: ")
-            for row in rows:
-                row = [subtract - x if subtract != 0 else x for x in row]
-                print(f"\t{row}")
-        print("-"*30)
-
-        print("\n", f"dimension: {len(pts)} x {len(rows)}", "\n")
-
     @classmethod
-    def comb_pts_as_flat_json(cls, comb_pts: dict[list[float]], class_n: int, display: bool= 0) -> list:
+    def comb_pts_as_flat_json(cls, comb_pts: dict[list[float]], class_n: int, display: bool = 0) -> list:
 
         row = []
         columns = ['class']
-        block_types = ['Test Block 1', 'Test Block 2', 'Test Block 3', 'Control Block']
-        
+        block_types = ['Test Block 1', 'Test Block 2',
+                       'Test Block 3', 'Control Block']
+
         # create column names
         for b_type in block_types:
-            for s in range(1,3):  # spot 1 and spot 2
+            for s in range(1, 3):  # spot 1 and spot 2
                 columns.append(f'{b_type}_spot{s}_r')
                 columns.append(f'{b_type}_spot{s}_g')
                 columns.append(f'{b_type}_spot{s}_b')
@@ -98,13 +38,13 @@ class Utils:
         # create rows
         for i in range(len(comb_pts['Test Block 1'])):
             row.append(
-                [class_n]  # which disease it is 
+                [class_n]  # which disease it is
                 +
                 [   # the rgb data for each spot in each block type
-                    comb_pts[b_type][i][j] 
-                    for b_type in block_types 
+                    comb_pts[b_type][i][j]
+                    for b_type in block_types
                     for j in range(6)
-                ]   
+                ]
             )
 
         # display the data
@@ -114,70 +54,6 @@ class Utils:
             print("\n", f"dimension: {len(row)} x {len(row[0])}", "\n")
 
         return row
-
-
-
-        
-
-
-    @staticmethod
-    def plot_3d_generated_pts(pts: dict[list[float]], title: str = "") -> None:
-        """
-        Plot generated RGB data points in a 3D space.
-
-        Args:
-            pts (dict[list[float]]): Dictionary containing RGB data points.
-            title (str, optional): Title of the plot. Defaults to "".
-        """
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.set_title(title)
-
-        markers = ['o', 's',  'h', 'D']
-        colors = ['r', 'g', 'b', 'c']
-        seen_types = set()
-        legend_handles = []
-
-        for i, dtype in enumerate(pts):
-            for row in pts[dtype]:
-                r1, g1, b1, r2, g2, b2 = row
-                ax.scatter(r1, g1, b1, color=[
-                    r1/255, g1/255, b1/255], s=100, marker=markers[0], edgecolors=colors[i])
-                ax.scatter(r2, g2, b2, color=[
-                    r2/255, g2/255, b2/255], s=100, marker=markers[1], edgecolors=colors[i])
-
-                if dtype not in seen_types:
-                    seen_types.add(dtype)
-                    legend_handles.append(
-                        plt.Line2D(
-                            [0], [0],
-                            marker=markers[0],
-                            color=colors[i],
-                            markerfacecolor='w',
-                            markersize=5,
-                            label=f'{dtype} spot1'
-                        )
-                    )
-                    legend_handles.append(
-                        plt.Line2D(
-                            [0], [0],
-                            marker=markers[1],
-                            color=colors[i],
-                            markerfacecolor='w',
-                            markersize=5,
-                            label=f'{dtype} spot2'
-                        )
-                    )
-
-        ax.set_xlim(0, 255)
-        ax.set_ylim(0, 255)
-        ax.set_zlim(0, 255)
-        ax.legend(handles=legend_handles, loc='best')
-        ax.set_xlabel('Red')
-        ax.set_ylabel('Green')
-        ax.set_zlabel('Blue')
-
-        plt.show()
 
     @classmethod
     def generate_gendata_csv_filename(cls, sample_type: str, og_folder_path: str) -> str:
@@ -222,35 +98,50 @@ class Utils:
 
         return image_name
 
-    @staticmethod
-    def create_rows(data: dict[list[list[int]]], classification:bool = None) -> list:
-        """
-        Create rows of data for CSV writing.
-
-        Args:
-            data (dict[list[list[int]]]): Dictionary containing RGB data points.
-
-        Returns:
-            list: List of rows to be written to the CSV.
-        """
-        rows = []
-        for i, (b_type, corr_rgbs) in enumerate(data.items()):
-            for rgb in corr_rgbs:
-                row = [b_type] + rgb
-
-                if classification:
-                    row.append(i)
-                
-                rows.append(row)
-        return rows
-
     @classmethod
     def write_to_csv(
-        cls, 
-        folder_path: str, 
-        data: list[list[list[int]]]  # list of rgb data, inside a list of block types inside a list of rows, inside a list of classes
+        cls,
+        folder_path: str,
+        # list of rgb data, inside a list of block types inside a list of rows, inside a list of classes
+        data: list[list[list[int]]]
     ) -> str:
-    
+        """
+        Write RGB data points to a CSV file.
+
+        Args:
+            folder_path (str): Path to the folder where the CSV will be saved.
+            data (dict[list[list[int]]]): Dictionary containing RGB data points.
+        """
+
+        # prepare folder and get the filename
+        output = cls.prepare_to_write_csv(folder_path, data)
+
+        # write the data to the csv file
+        with open(
+            output,
+            'w',
+            encoding='utf-8',
+            newline=''
+        ) as csvfile:
+
+            csvwriter = csv.writer(csvfile)
+
+            # write the headers
+            headers = data[0][0]
+            csvwriter.writerow(headers)
+
+            # write the data
+            for row in data:
+                csvwriter.writerows(row[1:])
+
+        return output
+
+    @classmethod
+    def prepare_to_write_csv(
+        cls,
+        folder_path: str,
+        filename: str,
+    ) -> str:
         """
         Write RGB data points to a CSV file.
 
@@ -272,166 +163,7 @@ class Utils:
         os.makedirs(output_folder, exist_ok=True)
         output = output_folder + filename
 
-        # write the data to the csv file
-        with open(
-            output,
-            'w',
-            encoding='utf-8',
-            newline=''
-        ) as csvfile:
-
-            csvwriter = csv.writer(csvfile)
-            
-            # write the headers
-            headers = data[0][0]
-            csvwriter.writerow(headers)
-
-            # write the data
-            for row in data:
-                csvwriter.writerows(row[1:])
-            
         return output
-
-
-    @classmethod
-    def combine_generated_cvs(cls, folder_path, is_last_run: bool = False) -> None:
-        
-        now = datetime.now()
-        date = now.strftime("%m-%d-%Y")
- 
-        combined_data = cls.combine_csvs_data(folder_path + f'/{date}')
-
-        output_path = cls.write_to_csv(
-            "COMBINED", 
-            folder_path, 
-            rows=combined_data,
-            classification=True
-        )
-        
-        if is_last_run:
-            t = time.time()
-            times = cls.split_data_by_gen_images(output_path)
-
-            percentages = [t / sum(times) * 100 for t in times]
-            print(f"Time taken to aggregate: {times[0]:.2f} seconds. ({percentages[0]:.2f}%)")
-            print(f"Time taken to json: {times[1]:.2f} seconds. ({percentages[1]:.2f}%)")
-            print(f"Total time taken: {time.time() - t:.2f} seconds")
-
-    @staticmethod
-    def combine_csvs_data(folder_path : str) -> list[str]:
-        # get file names
-        csv_files = [
-            file for file in os.listdir(folder_path) 
-            if os.path.isfile(os.path.join(folder_path, file))
-        ]
-
-        if "COMBINED_generated.csv" in csv_files:
-            csv_files.remove('COMBINED_generated.csv')
-            
-        _data = []
-        for i, file in enumerate(csv_files):
-
-            file_path = folder_path + '\\' + file
-            # read the csv file
-            try:
-                with open(file_path, 'r', encoding='UTF-8') as file:
-                    data = file.readlines()
-            except FileNotFoundError:
-                print(f"File not found: {file_path}")
-                return {}
-
-            class_n = str(i)
-            _buffer = [class_n + ',' + bi for bi in data[1:]]
-            _data.append(_buffer)
-
-        combined_data = []
-        for test in _data:
-            for block in test:
-                combined_data.append(block.strip('\n').split(',')) 
-
-        return combined_data
-    
-    @classmethod
-    def split_data_by_gen_images(cls, path):
-            
-        """ 
-        raw_combined data is sorted by block type. Therefore you see all the block 1s then all the block 2s etc.
-        this function will take the first block of each type and put them in a list, then the second block of each type and put them in a list etc.
-        essentially it will split the data by the generated image, which is what we want to do for training and testing classifiers
-
-        ASSUMES SAME AMOUNT OF ROWS PER CLASS
-        """
-        
-        times = []
-
-        raw_combined_data = pd.read_csv(path)
-
-        # Step 3: Apply Aggregation
-        t = time.time()
-        aggregated_tests = cls.aggregate_to_hierarchical_json(raw_combined_data)
-        times.append(time.time() - t)
-        
-        # Convert to JSON
-        t = time.time()
-        hierarchical_json = json.dumps(aggregated_tests, indent=4)
-        times.append(time.time() - t)
-
-        # save to file 
-        with open(path.replace('COMBINED_generated.csv', 'COMBINED.json'), 'w') as file:
-            file.write(hierarchical_json)
-
-        return times
-
-    @staticmethod
-    def aggregate_to_hierarchical_json(group):
-        hierarchical_data = []
-        
-
-        block_types = group['block_type'].unique()
-        classes = group['class'].unique()
-        n_tests_per_class = len(group) // len(classes)
-        n_blocks_per_type = len(group[group['block_type'] == block_types[0]])
-        
-        group_block_type = { b_type : group[group['block_type'] == b_type] for b_type in block_types}
-        block_types = ["Test Block 1", "Test Block 2", "Test Block 3", "Control Block"]
-
-        for c in classes:
-            c = int(c)
-            #class_data = group[group['class'] == c]
-
-            for _ in range(0, n_tests_per_class):
-            
-                #block_types = class_data['block_type'].unique()
-                for i in range(0, n_blocks_per_type):
-                    blocks = []
-                    test = {
-                        "class": c,
-                        "blocks": []
-                    }
-
-                    for b_type in block_types: 
-                        block_data = group_block_type[b_type].iloc[i]
- 
-                        spots = [
-                            {
-                                'corr_r': int(block_data['spot1_corr_r']),
-                                'corr_g': int(block_data['spot1_corr_g']),
-                                'corr_b': int(block_data['spot1_corr_b']) 
-                            },
-                            {
-                                'corr_r': int(block_data['spot2_corr_r']),
-                                'corr_g': int(block_data['spot2_corr_g']),
-                                'corr_b': int(block_data['spot2_corr_b']) 
-                            }
-                        ]
-
-                        blocks.append({'block_type': b_type, 'spots': spots})
-                    
-                    test['blocks'] = blocks
-
-                    hierarchical_data.append(test)
-
-        return hierarchical_data
 
     @staticmethod
     def subtract_255(rgb: dict[str, list[list[int]]]) -> dict[str, list[list[int]]]:
@@ -489,6 +221,8 @@ class Utils:
             float(line[base_index + 14].strip()),  # corr_spotX_g
             float(line[base_index + 15].strip())   # corr_spotX_b
         ]
+
+    """ ---- Display functions ---- """
 
     @classmethod
     def display_fingerprint(
@@ -551,7 +285,7 @@ class Utils:
                 b_stdev = data['b'][i * 2 + 1]
 
                 color = [r_mean / 255, g_mean / 255, b_mean / 255]
-                
+
                 ax.errorbar(x_labels[i], r_mean, yerr=r_stdev,
                             fmt='o', color='r', capsize=20)
                 ax.errorbar(x_labels[i], g_mean, yerr=g_stdev,
@@ -573,6 +307,125 @@ class Utils:
             ax.grid(True)
 
         plt.tight_layout(rect=[0, 0, 1, 0.96])
+        plt.show()
+
+    @staticmethod
+    def visualize_generated_pts(data: dict[list[float]], title: str, subtract: int = 0) -> None:
+        """
+        Visualize generated RGB data points in a grid format.
+
+        Args:
+            data (dict[list[float]]): Dictionary containing RGB data points.
+            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
+        """
+
+        GRID_WIDTH = 4
+
+        _, ax = plt.subplots()
+        num_types = len(data)
+        num_pairs = max(len(pairs) for pairs in data.values())
+        grid_height = (num_pairs // GRID_WIDTH) + 1
+
+        for i, (dtype, pairs) in enumerate(data.items()):
+            for j, pair in enumerate(pairs):
+                row = j // GRID_WIDTH
+                col = j % GRID_WIDTH
+
+                data_list = [subtract - x if subtract !=
+                             0 else x for x in pair]
+                r1, g1, b1, r2, g2, b2 = data_list
+
+                ax.add_patch(plt.Rectangle(
+                    (col * 2, i * grid_height + row), 1, 1, color=[r1/255, g1/255, b1/255]))
+                ax.add_patch(plt.Rectangle(
+                    (col * 2 + 1, i * grid_height + row), 1, 1, color=[r2/255, g2/255, b2/255]))
+
+        ax.set_xlim(-0.1, GRID_WIDTH * 2)
+        ax.set_ylim(-0.1, num_types * grid_height)
+        ax.set_yticks(np.arange(num_types * grid_height) + 0.5)
+        ax.set_yticklabels([dtype for dtype in data.keys()
+                            for _ in range(grid_height)])
+        ax.set_xticks([])
+        plt.title(title)
+
+        plt.show()
+
+    @staticmethod
+    def print_generated_pts(pts: dict[list[float]], subtract: int = 0) -> None:
+        """
+        Print generated RGB data points.
+
+        Args:
+            pts (dict[list[float]]): Dictionary containing RGB data points.
+            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
+        """
+        print("\n", "-"*10, "GENERATED DATA", "-"*10)
+        for btype, rows in pts.items():
+            print(f"{btype}: ")
+            for row in rows:
+                row = [subtract - x if subtract != 0 else x for x in row]
+                print(f"\t{row}")
+        print("-"*30)
+
+        print("\n", f"dimension: {len(pts)} x {len(rows)}", "\n")
+
+    @staticmethod
+    def plot_3d_generated_pts(pts: dict[list[float]], title: str = "") -> None:
+        """
+        Plot generated RGB data points in a 3D space.
+
+        Args:
+            pts (dict[list[float]]): Dictionary containing RGB data points.
+            title (str, optional): Title of the plot. Defaults to "".
+        """
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.set_title(title)
+
+        markers = ['o', 's',  'h', 'D']
+        colors = ['r', 'g', 'b', 'c']
+        seen_types = set()
+        legend_handles = []
+
+        for i, dtype in enumerate(pts):
+            for row in pts[dtype]:
+                r1, g1, b1, r2, g2, b2 = row
+                ax.scatter(r1, g1, b1, color=[
+                    r1/255, g1/255, b1/255], s=100, marker=markers[0], edgecolors=colors[i])
+                ax.scatter(r2, g2, b2, color=[
+                    r2/255, g2/255, b2/255], s=100, marker=markers[1], edgecolors=colors[i])
+
+                if dtype not in seen_types:
+                    seen_types.add(dtype)
+                    legend_handles.append(
+                        plt.Line2D(
+                            [0], [0],
+                            marker=markers[0],
+                            color=colors[i],
+                            markerfacecolor='w',
+                            markersize=5,
+                            label=f'{dtype} spot1'
+                        )
+                    )
+                    legend_handles.append(
+                        plt.Line2D(
+                            [0], [0],
+                            marker=markers[1],
+                            color=colors[i],
+                            markerfacecolor='w',
+                            markersize=5,
+                            label=f'{dtype} spot2'
+                        )
+                    )
+
+        ax.set_xlim(0, 255)
+        ax.set_ylim(0, 255)
+        ax.set_zlim(0, 255)
+        ax.legend(handles=legend_handles, loc='best')
+        ax.set_xlabel('Red')
+        ax.set_ylabel('Green')
+        ax.set_zlabel('Blue')
+
         plt.show()
 
 

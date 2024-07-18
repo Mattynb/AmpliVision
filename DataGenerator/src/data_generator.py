@@ -30,10 +30,10 @@ class DataGenerator:
 
             # Generate n random points for spot1 and spot2
             spot1_points = [
-                int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean1, rgb_std1, n_points)
+                int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean1, rgb_std1 * 2, n_points)
             ]
             spot2_points = [
-                int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean2, rgb_std2, n_points)
+                int(x) if x > 0 else 0 for x in np.random.normal(rgb_mean2, rgb_std2 * 2, n_points)
             ]
 
             generated.append([spot1_points, spot2_points])
@@ -98,7 +98,7 @@ class DataGenerator:
         Example return value:
         {
             "type1": [[r1, g1, b1, r2, g2, b2], ... ],
-            "type2": [[r1, g1, b1, r2, g2, b2], ... ],    
+            "type2": [[r1, g1, b1, r2, g2, b2], ... ],
             ...
         }
         """
