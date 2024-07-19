@@ -46,7 +46,7 @@ if __name__ == '__main__':
     ]
 
     # Get vars from stdin
-    N_PTS = 10
+    N_PTS = 10000
 
     print(f"Generating {N_PTS} points for each sample type")
     # print(f"Saving to {SAVE_PATH}")

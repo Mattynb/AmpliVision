@@ -6,3 +6,4 @@ src/Image/__pycache__/image_scanner.cpython-311.pyc
 src/scratch.py
 src/backend/secrets_.py
 src/objs/grid/__pycache__/Square.cpython-312.pyc
+*.pkl
