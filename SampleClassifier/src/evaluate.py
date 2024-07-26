@@ -16,7 +16,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 class ClassifierEvaluator:
 
-    def __init__(self, df):
+    def __init__(self, X, y):
         self.classifiers = {
             'Logistic Regression': LogisticRegression(max_iter=1000, solver='liblinear'),
             'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=5, weights='distance'),
@@ -30,7 +30,8 @@ class ClassifierEvaluator:
         }
 
         self.TRAINING_SIZES = [0.05, 0.1, 0.25, 0.5, 0.75, 1]
-        self.DATA = df
+        self.X = X
+        self.y = y
 
         self.calc_inputs = None
 
@@ -70,13 +71,18 @@ class ClassifierEvaluator:
 
         # get the model, target, and features
         model = self.calc_inputs[i]['model']
-        target = self.DATA.columns[0]
-        features = self.DATA.columns[:-1]
 
         # calculate learning curves
-        train_sizes, train_scores, validation_scores = learning_curve(
-            model, self.DATA[features], self.DATA[target], cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES
-        )
+        try:
+            train_sizes, train_scores, validation_scores = learning_curve(
+                model, self.X, self.y, cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES,
+                exploit_incremental_learning=True
+            )
+        except ValueError:
+            train_sizes, train_scores, validation_scores = learning_curve(
+                model, self.X, self.y, cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES,
+                exploit_incremental_learning=False
+            )
 
         # calculate the mean of the scores
         train_scores_mean = mean(train_scores, axis=1)

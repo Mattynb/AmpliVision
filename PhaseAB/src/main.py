@@ -26,8 +26,6 @@ def main(path_to_imgs: str) -> None:
     # loading images from given path
     images = ImageLoader.load_images(path_to_imgs)  # "image0_scaned.jpg")
 
-    # SORT IMAGES BY NAME
-
     # for display
     print(f"Images to be analyzed: {len(images)}\n")
     # Analyzing each image
@@ -86,7 +84,9 @@ def main(path_to_imgs: str) -> None:
             block = identify_block(block)
 
             # analyse results of test blocks
-            if block.get_block_type() in ("Test Block", "Control Block", "Test Block 1", "Test Block 2", "Test Block 3"):
+            b_types = ("Test Block", "Control Block",
+                       "Test Block 1", "Test Block 2", "Test Block 3")
+            if block.get_block_type() in b_types:
                 ta = TestAnalyzer(block)
                 csv_rows.append(ta.analyze_test_result(display=0))
 

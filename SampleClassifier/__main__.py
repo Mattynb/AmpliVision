@@ -6,14 +6,7 @@ from src.visuals import Visuals
 from src.evaluate import ClassifierEvaluator
 from src.io import save_results, load_results
 
-
 from sklearn.model_selection import train_test_split
-
-
-LABELS = [
-    "brst", "ctrl", "lung",
-    "ovrn", "prst", "skin", "tyrd"
-]
 
 
 def main(path: str):
@@ -27,14 +20,14 @@ def main(path: str):
     # Stratified sampling ensures that the distribution of classes in the training and test sets
     # is the same as the distribution of classes in the original dataset
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.8, random_state=42, stratify=y)
+        X, y, test_size=0.80, random_state=42, stratify=y)
 
     # X_train, X_val, y_train, y_val = train_test_split(X_test, y_test, test_size=0.5, random_state=42, stratify=y_test)
 
     print("Evaluating Classifiers", sep='-'*30)
 
     # Create a ClassifierEvaluator object
-    Evaluator = ClassifierEvaluator(df)
+    Evaluator = ClassifierEvaluator(X, y)
 
     # Evaluate classifiers
     Evaluator.evaluate_classifiers(
@@ -42,7 +35,7 @@ def main(path: str):
     )
 
     # Plot learning curves
-    Visuals.plot_learning_curve(Evaluator)
+    # Visuals.plot_learning_curve(Evaluator)
     Visuals.plot_learning_curve(Evaluator, scaled_y=True)
 
     # Plot confusion matrices
@@ -51,21 +44,22 @@ def main(path: str):
     # Plot classification reports
     Visuals.plot_classification_report(Evaluator)
 
-    plt.show()
     # save to file
     save_results(Evaluator)
 
+    plt.show()
+
 
 if __name__ == '__main__':
-    path = r'C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\generated_results\07-11-2024\COMBINED_generated.csv'
-    main(path)
+    # path = r'C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\generated_results\07-11-2024\COMBINED_generated.csv'
+    # main(path)
 
-    """
+    # """
     Eval = load_results()
     Visuals.plot_learning_curve(
         Eval, title='Loaded Learning Curves', scaled_y=True)
     Visuals.plot_learning_curve(Eval, title='Loaded Learning Curves')
-    # plot_confusion_matrix(cm, title='Loaded Confusion Matrix')
+    Visuals.plot_confusion_matrix(Eval, title='Loaded Confusion Matrix')
     # plot_classification_report(cm, title='Loaded Classification Report')
 
     # """

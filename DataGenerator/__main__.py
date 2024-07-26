@@ -10,6 +10,7 @@ def main(
     sample_type: str,
     results_path: str,
     class_n: int,
+    display: bool = False
 ) -> None:
     """Main function to generate data from the results folder and save it to a csv file."""
 
@@ -21,44 +22,42 @@ def main(
     data_generator = DataGenerator(combined_fingerprints)
     corr_pts = data_generator.generate_n_points(n_pts)
 
-    # Utils.print_generated_pts(corr_pts)
-
     # Get the original RGB values
     pts = Utils.subtract_255(corr_pts)
 
-    # Display the generated points
-    # Utils.visualize_generated_pts(pts, f"Generated {sample_type} PTS")
-    # Utils.plot_3d_generated_pts(pts, f"Generated {sample_type} PTS")
+    if display:
+        Utils.display_fingerprint(combined_fingerprints)
+        Utils.visualize_fingerprints_with_colors(combined_fingerprints)
+        Utils.visualize_generated_pts(pts, f"Generated {sample_type} PTS")
+        Utils.plot_3d_generated_pts(pts, f"Generated {sample_type} PTS")
 
+    # return the points as flat json to be saved in csv
     return Utils.comb_pts_as_flat_json(corr_pts, class_n)
 
 
 if __name__ == '__main__':
     # Constants
-    SAVE_PATH = r"C:/Users/Matheus/Desktop/NanoTechnologies_Lab/Phase A/data/generated_results"
-    RESULTS_FOLDER_PATH = r"""
-    C:/Users/Matheus/Desktop/NanoTechnologies_Lab/Phase A/data/results/06-27-2024/
-    """.strip()
+    N_PTS = 1000
+    DISPLAY = False
+    SAVE_PATH = r"data/generated_results"
+    RESULTS_FOLDER_PATH = r"data/results/06-27-2024/"
 
     SAMPLE_TYPES = [
         "breast", "control", "lung",
         "ovarian", "prostate", "skin", "thyroid"
     ]
 
-    # Get vars from stdin
-    N_PTS = 10000
-
-    print(f"Generating {N_PTS} points for each sample type")
-    # print(f"Saving to {SAVE_PATH}")
-    # print(f"Extracting data from {RESULTS_FOLDER_PATH}")
+    print(f"Extracting data from {RESULTS_FOLDER_PATH}", end='\n\n')
+    print(f"Generating {N_PTS} pts for each type\ntypes are: ", end='')
+    print(*SAMPLE_TYPES, sep=', ', end='\n\n')
 
     # Generate data for each sample type
     flat_data = []
     for i, SAMPLE_TYPE in enumerate(SAMPLE_TYPES):
-        # print(f"generating {SAMPLE_TYPE} results")
         flat_data.append(
-            main(N_PTS, SAMPLE_TYPE, RESULTS_FOLDER_PATH, i)
+            main(N_PTS, SAMPLE_TYPE, RESULTS_FOLDER_PATH, i, DISPLAY)
         )
 
     # Save the generated flat_json data to a csv file
     Utils.write_to_csv(SAVE_PATH, data=flat_data)
+    print(f"Saving to {SAVE_PATH}")

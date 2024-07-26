@@ -14,22 +14,27 @@ class Visuals:
     @classmethod
     def plot_learning_curve(cls, Eval, scorer='accuracy', title='Learning Curves', scaled_y=False):
 
-        inputs = Eval.calc_inputs
+        inputs = Eval.calc_inputs  # i, name, model, y_pred, y_test
+
         n = len(inputs)
         fig, ax = plt.subplots(n//3, 3)
 
+        out = []
         for inp in inputs:
-
-            i = inp['i']
-            name = inp['name']
+            i = inp['i']  # index of the model
+            name = inp['name']  # name of the model
 
             # calculate learning curves
             train_sz, train_scores, val_scores = Eval.calc_learning_curves(
                 i,  scorer=scorer)
 
+            # plot the learning curve subplot
+            out.append(f"{i} plotting {name}. sizes = {train_sz}")
             cls.add_learning_curve_subplot(
                 name, i, ax, train_scores, val_scores, train_sz, scaled_y=scaled_y
             )
+
+        print(*out, sep='\n')
 
         fig.suptitle(title)
         fig.tight_layout()
