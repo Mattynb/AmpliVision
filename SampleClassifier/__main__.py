@@ -13,6 +13,22 @@ def main(path: str):
 
     # Load the data as a pandas DataFrame
     df = pd.read_csv(path)
+
+    """# drop duplicates across subsets of 3 columns
+    for i in range(1, len(df.columns), 3):
+        # get subset of 3 columns + class
+        SUB = df.columns[i:i+3].append(pd.Index(['class']))
+        df = df.drop_duplicates(subset=SUB)
+    print(f"Total dataset size after dropping duplicates: {len(df)}")
+
+    # check for duplicates across rgb subsets
+    for i in range(1, len(df.columns), 3):
+
+        try:
+            assert len(df[df.columns[i:i+3]].duplicated()) == 0
+        except AssertionError:
+            print(f"Found duplicates in subset {i//3}")
+"""
     X = df.drop('class', axis=1)
     y = df['class']
 
@@ -22,12 +38,13 @@ def main(path: str):
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.80, random_state=42, stratify=y)
 
-    # X_train, X_val, y_train, y_val = train_test_split(X_test, y_test, test_size=0.5, random_state=42, stratify=y_test)
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_test, y_test, test_size=0.5, random_state=42, stratify=y_test)
 
     print("Evaluating Classifiers", sep='-'*30)
 
     # Create a ClassifierEvaluator object
-    Evaluator = ClassifierEvaluator(X, y)
+    Evaluator = ClassifierEvaluator(X_val, y_val)
 
     # Evaluate classifiers
     Evaluator.evaluate_classifiers(
@@ -51,10 +68,10 @@ def main(path: str):
 
 
 if __name__ == '__main__':
-    # path = r'C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\generated_results\07-11-2024\COMBINED_generated.csv'
-    # main(path)
+    path = r'C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\data\generated_results\07-11-2024\COMBINED_generated.csv'
+    main(path)
 
-    # """
+    """
     Eval = load_results()
     Visuals.plot_learning_curve(
         Eval, title='Loaded Learning Curves', scaled_y=True)

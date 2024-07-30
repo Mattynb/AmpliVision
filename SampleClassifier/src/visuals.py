@@ -26,7 +26,7 @@ class Visuals:
 
             # calculate learning curves
             train_sz, train_scores, val_scores = Eval.calc_learning_curves(
-                i,  scorer=scorer)
+                i,  scorer=scorer, cv=5)
 
             # plot the learning curve subplot
             out.append(f"{i} plotting {name}. sizes = {train_sz}")

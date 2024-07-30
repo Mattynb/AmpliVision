@@ -20,7 +20,7 @@ def main(
 
     # Use the extracted fingerprints to generate realistic data
     data_generator = DataGenerator(combined_fingerprints)
-    corr_pts = data_generator.generate_n_points(n_pts)
+    corr_pts = data_generator.generate_points(n_pts)
 
     # Get the original RGB values
     pts = Utils.subtract_255(corr_pts)

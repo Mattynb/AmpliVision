@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report
 
 # classifiers
 from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -25,8 +26,9 @@ class ClassifierEvaluator:
             'SVM rbf': SVC(kernel='rbf', C=1.0, gamma='auto'),
             'SVM poly': SVC(kernel='poly', C=1.0, degree=3, gamma='auto'),
             'SVM sigmoid': SVC(kernel='sigmoid', C=1.0, gamma='auto'),
+            'Neural Network': MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=42),
             'Random Forest': RandomForestClassifier(random_state=42),
-            'Gradient Boosting': GradientBoostingClassifier(max_depth=3, learning_rate=0.2718, random_state=42)
+            # 'Gradient Boosting': GradientBoostingClassifier(max_depth=3, learning_rate=0.2718, random_state=42)
         }
 
         self.TRAINING_SIZES = [0.05, 0.1, 0.25, 0.5, 0.75, 1]
@@ -63,13 +65,13 @@ class ClassifierEvaluator:
                 'y_pred': y_pred,
                 'y_test': y_test,
             })
+        print("-"*30)
 
         self.calc_inputs = calc_inputs
 
-    def calc_learning_curves(self, i, scorer='accuracy', cv=None):
+    def calc_learning_curves(self, i, scorer='accuracy', cv=10):
         """ Calculate learning curves for a given model to be used in the plot_learning_curve method """
 
-        # get the model, target, and features
         model = self.calc_inputs[i]['model']
 
         # calculate learning curves

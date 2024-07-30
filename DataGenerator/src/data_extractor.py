@@ -63,8 +63,8 @@ class DataExtractor:
             block_type_fingerprint = self.get_mean_and_std_of_spots(
                 spot1, spot2)
 
-            # limit the standard deviation to avoid outliers
-            block_type_fingerprint = Utils.limit_std(
+            # make sure the std is at least 10
+            block_type_fingerprint = Utils.ensure_std_floor(
                 block_type_fingerprint, 10)
 
             # add fingerprint to dictionary

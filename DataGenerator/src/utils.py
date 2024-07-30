@@ -182,7 +182,7 @@ class Utils:
         }
 
     @classmethod
-    def limit_std(
+    def ensure_std_ceiling(
         cls,
         fingerprint: dict[str, dict[str, list[float]]],
         limit: int = 15
@@ -201,6 +201,28 @@ class Utils:
             for i in range(1, 4, 2):
                 if fingerprint[color][i] > limit:
                     fingerprint[color][i] = limit
+        return fingerprint
+
+    @classmethod
+    def ensure_std_floor(
+        cls,
+        fingerprint: dict[str, dict[str, list[float]]],
+        floor: int = 2
+    ) -> dict[str, dict[str, list[float]]]:
+        """
+        Fix the standard deviation values in the fingerprint dictionary.
+
+        Args:
+            fingerprint (dict[str, dict[str, list[float]]]): Dictionary containing fingerprint data.
+            fix (int, optional): The fixed standard deviation. Defaults to 2.
+
+        Returns:
+            dict[str, dict[str, list[float]]]: Dictionary with fixed standard deviation values.
+        """
+        for color in cls.COLORS:
+            for i in range(1, 4, 2):
+                if fingerprint[color][i] < floor:
+                    fingerprint[color][i] = floor
         return fingerprint
 
     @staticmethod
