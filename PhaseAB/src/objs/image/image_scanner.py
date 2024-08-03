@@ -7,6 +7,8 @@ from .detectors.corner_detector import CornerDetector
 from .processors.morphological_transformer import MorphologicalTransformer
 from .processors.background_remover import BackgroundRemover
 
+from .utils.image_white_balancer import WhiteBalanceAdjuster
+
 
 def display(image, t=100):
     im = cv.resize(image, (800, 800))
@@ -74,9 +76,10 @@ class ImageScanner:
 
         final_image = cls.perspective_transform(img_og, corners)
 
-        return final_image
+        return WhiteBalanceAdjuster.adjust(final_image)
 
-    # should go to an util class
+    # ----------------- Helper Functions ----------------- #
+
     @classmethod
     # function to turn everything that isnt kinda white to black
     def hsv_threshold(cls, img: np.ndarray, threshold: int) -> np.ndarray:
@@ -90,28 +93,6 @@ class ImageScanner:
         # apply the mask to the image
         res = cv.bitwise_and(img, img, mask=mask)
         return res
-
-    @classmethod
-    def transfer_to_gpu(cls, gpu_image: cv.cuda_GpuMat, image: np.ndarray = None, to_gray=False, to_bgr=False) -> cv.cuda_GpuMat:
-        if image is not None:
-            gpu_image.upload(image)
-
-        if to_gray:
-            gpu_image = cv.cuda.cvtColor(gpu_image, cv.COLOR_BGR2GRAY)
-        elif to_bgr:
-            gpu_image = cv.cuda.cvtColor(gpu_image, cv.COLOR_GRAY2BGR)
-
-        return gpu_image
-
-    # should go to an util class
-    @classmethod
-    def transfer_to_cpu(cls, gpu_image: cv.cuda_GpuMat, to_gray=False, to_bgr=False) -> np.ndarray:
-        if to_gray:
-            gpu_image = cv.cuda.cvtColor(gpu_image, cv.COLOR_BGR2GRAY)
-        elif to_bgr:
-            gpu_image = cv.cuda.cvtColor(gpu_image, cv.COLOR_GRAY2BGR)
-
-        return gpu_image.download()
 
     @classmethod
     def perspective_transform(cls, img: np.ndarray, corners: list) -> np.ndarray:

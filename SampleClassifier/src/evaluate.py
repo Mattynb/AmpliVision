@@ -1,10 +1,12 @@
 from numpy import mean
 from pandas import crosstab, DataFrame
+import numpy as np
 
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import learning_curve
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.model_selection import learning_curve, StratifiedKFold, LearningCurveDisplay
+from sklearn.metrics import accuracy_score, classification_report, log_loss, make_scorer
 
 # classifiers
 from sklearn.svm import SVC
@@ -17,23 +19,30 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 class ClassifierEvaluator:
 
-    def __init__(self, X, y):
+    def __init__(self, X_train, y_train, X_test, y_test, X_validate=None, y_validate=None):
         self.classifiers = {
             'Logistic Regression': LogisticRegression(max_iter=1000, solver='liblinear'),
             'K-Nearest Neighbors': KNeighborsClassifier(n_neighbors=5, weights='distance'),
             'LDA': LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto'),
-            'SVM linear': SVC(kernel='linear', C=1.0),
-            'SVM rbf': SVC(kernel='rbf', C=1.0, gamma='auto'),
-            'SVM poly': SVC(kernel='poly', C=1.0, degree=3, gamma='auto'),
-            'SVM sigmoid': SVC(kernel='sigmoid', C=1.0, gamma='auto'),
+            'SVM linear': SVC(kernel='linear', C=1.0, probability=True),
+            'SVM rbf': SVC(kernel='rbf', C=1.0, gamma='auto', probability=True),
+            'SVM poly': SVC(kernel='poly', C=1.0, degree=3, gamma='auto', probability=True),
+            'SVM sigmoid': SVC(kernel='sigmoid', C=1.0, gamma='auto', probability=True),
             'Neural Network': MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=42),
             'Random Forest': RandomForestClassifier(random_state=42),
             # 'Gradient Boosting': GradientBoostingClassifier(max_depth=3, learning_rate=0.2718, random_state=42)
         }
 
         self.TRAINING_SIZES = [0.05, 0.1, 0.25, 0.5, 0.75, 1]
-        self.X = X
-        self.y = y
+
+        self.X_train = X_train
+        self.y_train = y_train
+
+        self.X_test = X_test
+        self.y_test = y_test
+
+        self.X_validate = X_validate
+        self.y_validate = y_validate
 
         self.calc_inputs = None
 
@@ -50,47 +59,50 @@ class ClassifierEvaluator:
 
             # scale the data, fit the model, and test
             model = make_pipeline(MinMaxScaler(), clf)
+            # """
             model.fit(X_train, y_train)
             y_pred = model.predict(X_test)
 
             # adding accuracy to the name
             accuracy = accuracy_score(y_test, y_pred, normalize=True)
             name = name + f' (Accuracy: {accuracy:.2f}%)'
-
+            # """
             # inputs
             calc_inputs.append({
                 'i': i,
                 'name': name,
                 'model': model,
-                'y_pred': y_pred,
+                # 'y_pred': y_pred,
                 'y_test': y_test,
             })
         print("-"*30)
 
         self.calc_inputs = calc_inputs
 
-    def calc_learning_curves(self, i, scorer='accuracy', cv=10):
+    def calc_learning_curves(self, i, _scorer='accuracy', cv=10):
         """ Calculate learning curves for a given model to be used in the plot_learning_curve method """
 
         model = self.calc_inputs[i]['model']
+        X, y = self.X_validate, self.y_validate
 
-        # calculate learning curves
-        try:
-            train_sizes, train_scores, validation_scores = learning_curve(
-                model, self.X, self.y, cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES,
-                exploit_incremental_learning=True
-            )
-        except ValueError:
-            train_sizes, train_scores, validation_scores = learning_curve(
-                model, self.X, self.y, cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES,
-                exploit_incremental_learning=False
-            )
+        model = OneVsRestClassifier(model)
 
-        # calculate the mean of the scores
-        train_scores_mean = mean(train_scores, axis=1)
-        validation_scores_mean = mean(validation_scores, axis=1)
+        if _scorer == 'neg_log_loss':
+            scorer = make_scorer(
+                log_loss, needs_proba=True, greater_is_better=False)
+        else:
+            scorer = _scorer
 
-        return train_sizes, train_scores_mean, validation_scores_mean
+        train_sizes, train_scores, validation_scores = learning_curve(
+            model, X, y, cv=cv, scoring=scorer, train_sizes=self.TRAINING_SIZES,
+            exploit_incremental_learning=False
+        )
+
+        if _scorer == 'neg_log_loss':
+            validation_scores = -validation_scores
+            train_scores = -train_scores
+
+        return train_sizes, train_scores, validation_scores
 
     def calc_confusion_matrix(self, i):
         """ Calculate confusion matrix for a given model to be used in the plot_confusion_matrix method """

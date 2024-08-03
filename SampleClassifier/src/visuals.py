@@ -2,6 +2,10 @@
 import seaborn as sn
 import matplotlib.pyplot as plt
 
+import numpy as np
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, LearningCurveDisplay
+
 
 class Visuals:
 
@@ -26,12 +30,12 @@ class Visuals:
 
             # calculate learning curves
             train_sz, train_scores, val_scores = Eval.calc_learning_curves(
-                i,  scorer=scorer, cv=5)
+                i,  _scorer=scorer, cv=5)
 
             # plot the learning curve subplot
             out.append(f"{i} plotting {name}. sizes = {train_sz}")
             cls.add_learning_curve_subplot(
-                name, i, ax, train_scores, val_scores, train_sz, scaled_y=scaled_y
+                name, i, ax, train_scores, val_scores, train_sz, scorer, scaled_y=scaled_y
             )
 
         print(*out, sep='\n')
@@ -40,25 +44,23 @@ class Visuals:
         fig.tight_layout()
 
     @staticmethod
-    def add_learning_curve_subplot(name, i, ax1, train_scores, validation_scores, train_sizes, scaled_y=False):
+    def add_learning_curve_subplot(name, i, ax1, train_scores, validation_scores, train_sizes, scorer, scaled_y=False):
         # get the position of the subplot
         x, y = i//3, i % 3
 
-        # plot the learning curves
-        ax1[x, y].plot(train_sizes, train_scores, label='Training')
-        ax1[x, y].plot(train_sizes, validation_scores,
-                       label='Cross-validation')
-
         # set the title, x and y labels
         ax1[x, y].set_title(name)
-        ax1[x, y].set_xlabel('Training Size')
-        ax1[x, y].set_ylabel('Accuracy')
-        ax1[x, y].legend(loc='best')
 
         if scaled_y:
             ax1[x, y].set_ylim([0, 1])
 
-        return ax1
+        # plot the learning curves
+        LearningCurveDisplay(
+            train_sizes=train_sizes,
+            train_scores=train_scores,
+            test_scores=validation_scores,
+            score_name=scorer,
+        ).plot(ax=ax1[x, y])
 
     # --- Confusion Matrix ---
     @classmethod
