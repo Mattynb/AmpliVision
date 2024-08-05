@@ -1,42 +1,72 @@
 import os
 import cv2 as cv
+from numpy import ndarray
 
 from .objs.utils import get_filename
-from .objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor
+from .objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestGraph
 
 
-def phaseA1(path_to_imgs: str, display: bool = False, pre_scanned: bool = False) -> tuple:
+def phaseA1(
+    path_to_imgs: str,
+    scanned_path: str,
+    display: bool = False,
+    is_pre_scanned: bool = False,
+    do_white_balance: bool = False
+) -> tuple:
     """
-    Phase A
+    Phase A1
     ---------------
-    Main function of the program. Loads the images, creates the Image objects, and finds the blocks in the image.
-    Then it identifies the type of blocks in the image and exports the results to a csv file.
+    Loads and scans the images.
 
     #### Args:
     path_to_imgs: path to images to be loaded
 
     #### Returns:
-    Grid_DS: Grid object with the blocks and pins
-    image_name: name of the image
+    scanned_images : The images scanned
     """
 
     # loading images from given path
     images = ImageLoader.load_images(path_to_imgs)
-    print(f"Images to be analyzed: {len(images)}\n")
+    print(f"# of Images to be analyzed: {len(images)}\n")
 
-    # Analyzing each image
-    Grids = {}
+    # scanning each image
+    scanned_images = {}
     for idx, image in enumerate(images):
 
         # skip seen files
-        if seen_file(idx):
+        if seen_file(idx, scanned_path) and not is_pre_scanned:
             continue
 
-        image_scan, image_name = get_image_scan(image, pre_scanned)
+        image_scan, image_name = get_image_scan(
+            image, is_pre_scanned, idx, path_to_imgs, scanned_path
+        )
 
         # skip if unable to scan image
         if image_scan is None:
             continue
+
+        scanned_images[image_name] = image_scan
+
+    return scanned_images
+
+
+def phaseA2(scanned_images: dict, display: bool = False):
+    """
+    Phase A2
+    ---------------
+    Finds the blocks in the image and creates the virtual representation of grids.
+
+    #### Args:
+    scanned_images: the scanned images
+
+    #### Returns:
+    Grids: Grid object with the blocks and pins
+    """
+
+    Grids = {}
+    for image_name, image_scan in scanned_images.items():
+
+        print(f"\nAnalizing \'{image_name}\'", "-"*30, sep='\n')
 
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the
@@ -58,20 +88,48 @@ def phaseA1(path_to_imgs: str, display: bool = False, pre_scanned: bool = False)
 
     return Grids
 
+
+def phaseA3(Grids, display: bool = False):
+    """
+    Phase A2
+    ---------------
+    Generates graph like structures of the tests, aka what is the sequence of blocks being used.
+
+    #### Args:
+    Grids: Grid object with the blocks and pins
+
+    #### Returns:
+    graphs: Position Graph representing the configuration of the test blocks. Eg. Sample -> Test Block 1 -> etc.
+    """
+
+    from .objs import TestGraph
+    import networkx as nx
+    import matplotlib.pyplot as plt
+
+    for image_name, grid in Grids.items():
+
+        blocks = grid.get_blocks()
+
+        TG = TestGraph(blocks)
+
+        # Draw the graph
+        if display:
+            TG.display()
+
 # ----------------- Helper Functions ----------------- #
 
 
-def get_image_scan(image, pre_scanned, idx, path_to_imgs):
+def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs: str, scanned_path: str) -> tuple:
     """Create Image object from loaded image.
     The Image object is used to store the image
     and the steps of the image processing."""
 
-    if pre_scanned:
+    image_name = get_filename(idx, path_to_imgs)
+    if is_pre_scanned:
         image_scan = image
     else:
-        image_name = get_filename(idx, path_to_imgs)
         image_scan = GridImageNormalizer.scan(image_name, image)
-        cv.imwrite(f"scanned/{image_name}_scaned.jpg", image_scan)
+        cv.imwrite(f"{scanned_path}{image_name}_scaned.jpg", image_scan)
 
     return image_scan, image_name
 
@@ -92,8 +150,7 @@ def display_grid(image_scan, Grid_DS, contours):
     display(im, 0)
 
 
-def seen_file(idx: int) -> bool:
-    path = r"C:\Users\Matheus\Desktop\NanoTechnologies_Lab\Phase A\scanned"
-    if idx < len(os.listdir(path)) - 1:
+def seen_file(idx: int, scanned_path: str) -> bool:
+    if idx < len(os.listdir(scanned_path)) - 1:
         return True
     return False

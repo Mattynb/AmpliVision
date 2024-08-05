@@ -40,7 +40,7 @@ class ImageLoader:
         """
 
         # acceptable image types
-        types = ('.png', '.jpg', 'jpeg', '.PNG', '.JPG')
+        types = ('.png', '.jpg', 'jpeg')
 
         # reading single image if path is only one image
         end = path_to_imgs[-4:]

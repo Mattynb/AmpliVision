@@ -4,3 +4,4 @@ pillow-heif
 pillow
 matplotlib
 pymongo
+networkx

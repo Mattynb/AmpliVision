@@ -45,6 +45,7 @@ class Square:
         # block or not and type of block
         self.is_block = False
         self.block_type = ''
+
         # RBG values of the pins in the square (tl, tr, bl, br)
         self.rgb_sequence = []
 
@@ -57,8 +58,6 @@ class Square:
         self.img = img.copy()
         if img is not None:
             self.sq_img = self.createImg(img.copy())
-        else:
-            self.sq_img = None
 
         # corners of the square
         self.corners = []

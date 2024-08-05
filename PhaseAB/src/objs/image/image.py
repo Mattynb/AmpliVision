@@ -2,6 +2,7 @@ import cv2 as cv
 from numpy import ndarray
 from .image_scanner import ImageScanner
 
+
 class GridImageNormalizer:
     """
     ### Image Normalizer
@@ -28,8 +29,9 @@ class GridImageNormalizer:
         """
         print(f"{image_name} loaded")
 
-        # Scan the image isolating the gri
-        Image_i = ImageScanner.scan(image); print(f"{image_name} scanned!")
+        # Scan the image isolating the grid
+        Image_i = ImageScanner.scan(image)
+        print(f"{image_name} scanned!")
 
         # Resize image so that its height and width are the same
         w, h = Image_i.shape[:2]
@@ -38,7 +40,7 @@ class GridImageNormalizer:
         return Image_i
 
     @staticmethod
-    def resize(img: ndarray, factor: float, w:int=None, h:int = None):
+    def resize(img: ndarray, factor: float, w: int = None, h: int = None):
         """
         ### Resize
         Resize image to a given percentage of current size.
@@ -57,6 +59,7 @@ class GridImageNormalizer:
         if w == None and h == None:
             w, h = img.shape[:2]
 
-        resized_image = cv.resize(img, (int(w*factor), int(h*factor)), interpolation=cv.INTER_CUBIC)
+        resized_image = cv.resize(
+            img, (int(w*factor), int(h*factor)), interpolation=cv.INTER_CUBIC)
 
         return resized_image

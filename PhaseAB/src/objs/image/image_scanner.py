@@ -51,7 +51,7 @@ class ImageScanner:
     """
 
     @classmethod
-    def scan(cls, img_og: np.ndarray) -> np.ndarray:
+    def scan(cls, img_og: np.ndarray, do_white_balance: bool = False) -> np.ndarray:
         # Applying morphological transformations to highlight the grid
         # Utilizing the GPU for faster processing
         img = cls.hsv_threshold(img_og.copy(), 100)
@@ -76,8 +76,10 @@ class ImageScanner:
 
         final_image = cls.perspective_transform(img_og, corners)
 
-        return WhiteBalanceAdjuster.adjust(final_image)
+        if do_white_balance:
+            WhiteBalanceAdjuster.adjust(final_image)
 
+        return
     # ----------------- Helper Functions ----------------- #
 
     @classmethod

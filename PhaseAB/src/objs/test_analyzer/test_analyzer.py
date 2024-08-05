@@ -24,7 +24,7 @@ class TestAnalyzer:
             "spot2": StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
-    def analyze_test_result(self, display: int = 0):  # should I name it main?
+    def analyze_test_result(self, display: bool = False):  # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
 
         # find the positive spots with hsv mask

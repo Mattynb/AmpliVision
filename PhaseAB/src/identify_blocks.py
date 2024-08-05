@@ -24,9 +24,10 @@ def identify_block_in_grid(block, csv_rows):
     block = identify_block(block)
 
     # if block is a test block, save results to csv
-    # b_types = ("Test Block", "Control Block", "Test Block 1", "Test Block 2","Test Block 3")
-    if block.get_block_type() is not None:
+    b_types = ("Test", "Control")
+    b_type = block.get_block_type()
+    if b_type.startswith(b_types):
         ta = TestAnalyzer(block)
-        csv_rows.append(ta.analyze_test_result(display=0))
+        csv_rows.append(ta.analyze_test_result(display=False))
 
     return block

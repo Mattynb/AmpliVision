@@ -54,8 +54,8 @@ class StripSection:
 
         val = self.bounds
         spot = self.identify_spot_manually(
-            copy, 
-            (int((val[0] + val[2])/2), int((val[1] + val[3])/2)), 
+            copy,
+            (int((val[0] + val[2])/2), int((val[1] + val[3])/2)),
             debug=debug
         )
 
@@ -77,11 +77,12 @@ class StripSection:
         contours, _ = cv.findContours(
             mask, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
-        copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
-        copy = cv.resize(copy, (200, 200))
+        if debug:
+            copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
+            copy = cv.resize(copy, (200, 200))
 
-        cv.imshow('set_spots_manually(2)', copy)
-        cv.waitKey(0)
+            cv.imshow('set_spots_manually(2)', copy)
+            cv.waitKey(200)
 
         return contours[0]
 

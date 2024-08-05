@@ -1,9 +1,9 @@
 from .add_to_db.connect_to_db import connect_to_mongo
+import warnings
 
 
 def identify_block(block, display: int = 0):
     """ Function to identify the block type of a block given the RGB sequence."""
-    block_og = block
 
     # Open connection to MongoDB
     client = connect_to_mongo()
@@ -56,7 +56,8 @@ def identify_block(block, display: int = 0):
         sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
 
     # If the sequence is not found, print unknown
-    print(f'Block: Unknown at {block.index}\n')
+    warnings.warn(f'\nBlock: Unknown at {block.index}\n')
+
     client.close()
 
     return block
