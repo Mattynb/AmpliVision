@@ -77,9 +77,9 @@ class ImageScanner:
         final_image = cls.perspective_transform(img_og, corners)
 
         if do_white_balance:
-            WhiteBalanceAdjuster.adjust(final_image)
+            final_image = WhiteBalanceAdjuster.adjust(final_image)
 
-        return
+        return final_image
     # ----------------- Helper Functions ----------------- #
 
     @classmethod

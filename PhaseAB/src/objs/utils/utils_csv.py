@@ -31,7 +31,7 @@ def get_filename(id: int, path: str):
     return image_name
 
 
-def write_to_csv(filename: str, data: list) -> None:
+def write_to_csv(filename: str, data: list) -> str:
 
     # create folder for csv files
     subfolder_name = filename.split('/')[-2]
@@ -56,6 +56,9 @@ def write_to_csv(filename: str, data: list) -> None:
         # writing the data
         csvwriter.writerow(format_str)
         csvwriter.writerows(data)
+
+    # return save path
+    return "data/results/" + filename
 
 
 if __name__ == "__main__":

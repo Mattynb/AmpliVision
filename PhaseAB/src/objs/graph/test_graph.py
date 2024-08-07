@@ -20,7 +20,7 @@ class TestGraph:
 
         # add edges (sequence of blocks) to graph
         positions = [block.index for block in blocks]
-        edges = self.get_edges(nodes, positions, nodes.index('Sample Block'))
+        edges = self.get_edges(nodes, positions, nodes.index('sample_block'))
         G.add_edges_from(edges)
 
         return G

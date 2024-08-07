@@ -33,6 +33,9 @@ def phaseA1(
     scanned_images = {}
     for idx, image in enumerate(images):
 
+        if display:
+            display_img(image, 0, '1')
+
         # skip seen files
         if seen_file(idx, scanned_path) and not is_pre_scanned:
             continue
@@ -46,6 +49,9 @@ def phaseA1(
             continue
 
         scanned_images[image_name] = image_scan
+
+        if display:
+            display_img(image_scan, 0, image_name)
 
     return scanned_images
 
@@ -102,11 +108,7 @@ def phaseA3(Grids, display: bool = False):
     graphs: Position Graph representing the configuration of the test blocks. Eg. Sample -> Test Block 1 -> etc.
     """
 
-    from .objs import TestGraph
-    import networkx as nx
-    import matplotlib.pyplot as plt
-
-    for image_name, grid in Grids.items():
+    for _, grid in Grids.items():
 
         blocks = grid.get_blocks()
 
@@ -134,7 +136,7 @@ def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs:
     return image_scan, image_name
 
 
-def display(image, t=100, title='image'):
+def display_img(image, t=100, title='image'):
     im = cv.resize(image, (0, 0), fx=0.5, fy=0.5)
     cv.imshow(title, im)
     cv.waitKey(t)
@@ -147,7 +149,7 @@ def display_grid(image_scan, Grid_DS, contours):
     for block in Grid_DS.get_blocks():
         block.draw_pins(im)
     im = cv.drawContours(im, contours, -1, (0, 255, 0), 3)
-    display(im, 0)
+    display_img(im, 0)
 
 
 def seen_file(idx: int, scanned_path: str) -> bool:
