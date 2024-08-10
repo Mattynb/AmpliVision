@@ -6,7 +6,6 @@ import numpy as np
 from .igrid import IGrid
 from ..utils import Utils
 from .Square import Square
-from ..image.utils.image_white_balancer import WhiteBalanceAdjuster
 from ..utils.utils_geometry import is_arranged_as_square, find_center_of_points, find_center_of_contour
 
 
@@ -14,16 +13,14 @@ class Grid(IGrid):
     def __init__(self, img: np.ndarray):
         # scanned image
         self.img = img.copy()
-        """
-        WhiteBalanceAdjuster.adjust(img.copy())
-
-        cv.imshow(" grid scanned", self.img)
-        cv.waitKey(0)
-        cv.destroyAllWindows()"""
 
         # setup ratios used in the grid
         # such as the plus minus, etc.
         self.setup_ratios()
+
+        # saving blocks here and in grid creates 2 sources of truth.
+        # This list should keep index or something.
+        self.blocks = []
 
         # represents the grid in the image as a 2D array of squares. Initialized as 2D array of None to represent empty.
         self.grid = [
@@ -31,7 +28,6 @@ class Grid(IGrid):
             for _ in range(self.MAX_INDEX + 1)
         ]
 
-        self.blocks = []
         self.create_grid()
 
     ## Setup functions ##
@@ -244,7 +240,7 @@ class Grid(IGrid):
 
             else:
                 debug_flag = False
-'''
+            '''
             if is_arranged_as_square(comb, self.img, self.SQUARE_LENGTH, recursion_flag=0, debug=debug_flag):
 
                 # Add the square to the list of
@@ -268,7 +264,89 @@ class Grid(IGrid):
                 sq.is_block = True
                 self.blocks.append(sq)
 
+    def add_artificial_block(self, index: tuple[int, int], img, sq_img: np.ndarray):
+        """
+        ### Add artificial block
+        ---------------
+        Function that adds an artificial block to the grid.
+
+        #### Args:
+        * index: index of the square in the grid
+        * sq_img: image of the square
+        """
+
+        # get the square in the grid
+        i, j = index
+        sq = self.grid[i][j]
+
+        # No need to worry about all the square parameters,
+        # After the colage, we can pass it through phase 1 again
+        # sq.is_block = True, sq.block_type = ...
+        return self.paste_image(img, sq_img, sq.tl, sq.br)
+
     ### Draw functions ###
+
+    def paste_image(self, img, sq_img, tl, br):
+        " pastes the image of the square on the grid "
+
+        # paste the image of the square on the grid
+        # at the top left and bottom right points of the square
+        # tl and br are the top left and bottom right points of the square
+        center_pt = self.calculate_center(tl, br)
+        # sq_img = cv.resize(sq_img, sq_size)
+
+        img = self.add_transparent_image(img, sq_img, center_pt)
+
+        cv.imwrite("image.png",  cv.resize(img, (0, 0), fx=0.25, fy=0.25))
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
+        return img
+
+    def add_transparent_image(self, background, foreground, center_pt):
+        "Source: https://stackoverflow.com/questions/40895785/using-opencv-to-overlay-transparent-image-onto-another-image"
+
+        bg_h, bg_w, bg_channels = background.shape
+        fg_h, fg_w, fg_channels = foreground.shape
+
+        assert bg_channels == 3, f'background image should have exactly 3 channels (RGB). found:{
+            bg_channels}'
+        assert fg_channels == 4, f'foreground image should have exactly 4 channels (RGBA). found:{
+            fg_channels}'
+
+        # center the foreground image on the background image according to the center point
+        x_offset = center_pt[0] - fg_w // 2
+        y_offset = center_pt[1] - fg_h // 2
+
+        w = min(fg_w, bg_w, fg_w + x_offset, bg_w - x_offset)
+        h = min(fg_h, bg_h, fg_h + y_offset, bg_h - y_offset)
+
+        if w < 1 or h < 1:
+            return
+
+        # clip foreground and background images to the overlapping regions
+        bg_x = max(0, x_offset)
+        bg_y = max(0, y_offset)
+        fg_x = max(0, x_offset * -1)
+        fg_y = max(0, y_offset * -1)
+        foreground = foreground[fg_y:fg_y + h, fg_x:fg_x + w]
+        background_subsection = background[bg_y:bg_y + h, bg_x:bg_x + w]
+
+        # separate alpha and color channels from the foreground image
+        foreground_colors = foreground[:, :, :3]
+        alpha_channel = foreground[:, :, 3] / 255  # 0-255 => 0.0-1.0
+
+        # construct an alpha_mask that matches the image shape
+        alpha_mask = np.dstack((alpha_channel, alpha_channel, alpha_channel))
+
+        # combine the background with the overlay image weighted by alpha
+        composite = background_subsection * \
+            (1 - alpha_mask) + foreground_colors * alpha_mask
+
+        # overwrite the section of the background image that has been updated
+        background[bg_y:bg_y + h, bg_x:bg_x + w] = composite
+
+        return background
 
     def draw_gridLines(self, img: np.ndarray):
         """
@@ -306,3 +384,46 @@ class Grid(IGrid):
             blk.draw_pins(image_copy) if show_pins else None
             blk.draw_corners(image_copy) if show_corners else None
             cv.rectangle(image_copy, blk.tl, blk.br, (0, 0, 255), 3)
+
+    def calculate_center(self, lft_top, rgt_bot):
+        """
+        ### Calculate center
+        ---------------
+        Function that calculates the center of a square.
+
+        #### Args:
+        * lft_top: top left point of the square
+        * rgt_bot: bottom right point of the square
+
+        #### Returns:
+        * center: center point of the square
+        """
+        x = (lft_top[0] + rgt_bot[0]) // 2
+        y = (lft_top[1] + rgt_bot[1]) // 2
+        return (x, y)
+
+    def get_square(self, index):
+        """
+        ### Get square
+        ---------------
+        Function that gets the square at the given index.
+
+        #### Args:
+        * index: index of the square in the grid
+
+        #### Returns:
+        * square: square at the given index
+        """
+        return self.grid[index[0]][index[1]]
+
+    def set_square(self, index, square):
+        """
+        ### Set square
+        ---------------
+        Function that sets the square at the given index.
+
+        #### Args:
+        * index: index of the square in the grid
+        * square: square to set
+        """
+        self.grid[index[0]][index[1]] = square

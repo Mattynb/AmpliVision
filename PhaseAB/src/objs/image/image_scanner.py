@@ -10,9 +10,9 @@ from .processors.background_remover import BackgroundRemover
 from .utils.image_white_balancer import WhiteBalanceAdjuster
 
 
-def display(image, t=100):
+def display(image, t=100, title='ImageScanner'):
     im = cv.resize(image, (800, 800))
-    cv.imshow('ImageScanner', im)
+    cv.imshow(title, im)
     cv.waitKey(t)
     cv.destroyAllWindows()
 
@@ -58,17 +58,13 @@ class ImageScanner:
 
         morph_img = MorphologicalTransformer.apply_morph(img)
 
-        # display(morph_img.copy(), 0)
-
         # Isolate the grid by removing background (Only works with CPU)
         no_bkg_img = BackgroundRemover.remove_background(morph_img)
-
-        # display(no_bkg_img.copy(), 0)
 
         # Adjusting the image to highlight the grid
         contours = ContourFinder.find_contours(no_bkg_img)
 
-        """
+        # """
         a = no_bkg_img.copy()
         cv.drawContours(a, contours, -1, (0, 255, 0), 3)
         display(a, 0)  # """

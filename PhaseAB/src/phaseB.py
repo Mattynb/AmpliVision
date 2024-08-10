@@ -6,7 +6,26 @@ from .generators.rgb_data_generator import DataExtractor
 
 
 def phaseB(_Grids) -> list:
-    """ Identifies the blocks in the grid and exports the results to a csv file. """
+    """ Identifies the blocks in the grid and exports the results to a csv file. 
+
+    Returns:
+    --------
+    results: dict
+        A dictionary containing the fingerprints of each target.
+
+    results = {
+        target_name: {
+            block_name: {
+                "r" : {
+                    [spot1_mean, spot1_std, spot2_mean, spot2_std],
+                }
+                "g" : [...]
+                "b" : [...]
+                }
+            }
+        }
+    }
+    """
 
     # identify the blocks in the grid and export the results to a csv file.
     fingerprints = {}
@@ -19,16 +38,11 @@ def phaseB(_Grids) -> list:
         # Extract data from the results folder, getting the fingerprints
         target_name = image_name[:image_name.find("_")]
 
-        # "TODO: CHANGE THIS TERIBLE LOGIC. Will need to tweak file structure"
-        prefix = "PhaseAB/"
-        folder_path = prefix + save_path[:save_path.rfind("/")]+"/"
+        folder_path = save_path[:save_path.rfind("/")]+"/"
 
-        print(f"folder {folder_path} target {target_name}")
         # get fingerprints of each target
         RGB_extractor = DataExtractor(target_name, folder_path)
         fingerprints[target_name] = RGB_extractor.extract(display=0)
-
-    print(fingerprints)
 
     return fingerprints
 
@@ -39,8 +53,9 @@ def identify_blocks_in_grid(Grid_DS, image_name):
     csv_rows = []
     csv_filename = generate_csv_filename(image_name)
 
+    print(f"len(Grid_DS.get_blocks()): {len(Grid_DS.get_blocks())}")
     for block in Grid_DS.get_blocks():
-        block = identify_block_in_grid(block, csv_rows)
+        block, csv_rows = identify_block_in_grid(block, csv_rows)
 
     return csv_filename, csv_rows
 
@@ -52,10 +67,11 @@ def identify_block_in_grid(block, csv_rows):
     block = identify_block(block)
 
     # if block is a test block, save results to csv
-    b_types = ("Test", "Control")
+    b_types = ("test", "control")
     b_type = block.get_block_type()
     if b_type.startswith(b_types):
         ta = TestAnalyzer(block)
-        csv_rows.append(ta.analyze_test_result(display=False))
+        results = ta.analyze_test_result(display=0)
+        csv_rows.append(results)
 
-    return block
+    return block, csv_rows

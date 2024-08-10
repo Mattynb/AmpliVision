@@ -32,13 +32,14 @@ def get_filename(id: int, path: str):
 
 
 def write_to_csv(filename: str, data: list) -> str:
+    save_path = "PhaseAB/data/results/"
 
     # create folder for csv files
     subfolder_name = filename.split('/')[-2]
-    if not os.path.exists("data/results/" + subfolder_name):
-        os.makedirs("data/results/" + subfolder_name)
+    if not os.path.exists(save_path + subfolder_name):
+        os.makedirs(save_path + subfolder_name)
 
-    with open("data/results/" + filename, 'w') as csvfile:
+    with open(save_path + filename, 'w') as csvfile:
         # creating a csv writer object
         csvwriter = csv.writer(csvfile)
 
@@ -58,7 +59,7 @@ def write_to_csv(filename: str, data: list) -> str:
         csvwriter.writerows(data)
 
     # return save path
-    return "data/results/" + filename
+    return save_path + filename
 
 
 if __name__ == "__main__":

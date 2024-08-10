@@ -183,3 +183,14 @@ class StripSection:
             return True
 
         return False
+
+    def paint_spot(self, block_img, rgb, display=False):
+        "paints the spot on the block image"
+        cv.drawContours(block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
+
+        if display:
+            cv.imshow('paint_spot()', block_img)
+            cv.waitKey(0)
+            cv.destroyAllWindows()
+
+        return block_img

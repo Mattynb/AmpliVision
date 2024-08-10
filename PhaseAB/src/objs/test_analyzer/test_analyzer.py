@@ -179,5 +179,34 @@ class TestAnalyzer:
 
         return data
 
+    def paint_spots(self, rgb_spot_results: dict[list]):
+        """ colors the spots in the image accourding to the results 
+
+        Args:
+            rgb_spot_results (dict[list]): dictionary containing the rgb values of the spots in the image
+            format: {r: [mean1, std1, mean2, std2], g: [mean1, std1, mean2, std2], b: [mean1, std1, mean2, std2]}
+        """
+        from numpy import random
+
+        for section in self.strip_sections.values():
+            if section == 'bkg':
+                continue
+
+            if section == 'spot1':
+                i = 0
+
+            if section == 'spot2':
+                i = 2
+
+            r = random.normal(
+                rgb_spot_results['r'][i], rgb_spot_results['r'][i+1])
+            g = random.normal(
+                rgb_spot_results['g'][i], rgb_spot_results['g'][i+1])
+            b = random.normal(
+                rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
+            rgb = (r, g, b)
+
+            return section.paint_spot(self.test_square_img, rgb, True)
+
 
 """TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""

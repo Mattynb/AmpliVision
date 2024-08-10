@@ -25,6 +25,9 @@ def phaseA1(
     scanned_images : The images scanned
     """
 
+    if path_to_imgs.startswith(scanned_path):
+        is_pre_scanned = True
+
     # loading images from given path
     images = ImageLoader.load_images(path_to_imgs)
     print(f"# of Images to be analyzed: {len(images)}\n")
@@ -34,7 +37,7 @@ def phaseA1(
     for idx, image in enumerate(images):
 
         if display:
-            display_img(image, 0, '1')
+            pass  # display_img(image, 0, '1')
 
         # skip seen files
         if seen_file(idx, scanned_path) and not is_pre_scanned:
@@ -72,7 +75,7 @@ def phaseA2(scanned_images: dict, display: bool = False):
     Grids = {}
     for image_name, image_scan in scanned_images.items():
 
-        print(f"\nAnalizing \'{image_name}\'", "-"*30, sep='\n')
+        print(f"\nBuilding \'{image_name}\''s virtual grid...")
 
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the
@@ -87,7 +90,6 @@ def phaseA2(scanned_images: dict, display: bool = False):
 
         # determines which squares in grid are blocks
         Grid_DS.find_blocks(contours)
-        print(f"there are {len(Grid_DS.blocks)} blocks in the grid")
 
         # saves the grid object to a dictionary
         Grids[image_name] = Grid_DS
@@ -107,16 +109,20 @@ def phaseA3(Grids, display: bool = False):
     #### Returns:
     graphs: Position Graph representing the configuration of the test blocks. Eg. Sample -> Test Block 1 -> etc.
     """
-
+    graphs = []
     for _, grid in Grids.items():
 
         blocks = grid.get_blocks()
 
         TG = TestGraph(blocks)
+        graphs.append(TG.graph)
 
         # Draw the graph
         if display:
             TG.display()
+
+    return graphs
+
 
 # ----------------- Helper Functions ----------------- #
 

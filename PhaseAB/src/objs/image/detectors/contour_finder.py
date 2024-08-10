@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+
 class ContourFinder:
     """
     ## ContourFinder
@@ -21,7 +22,7 @@ class ContourFinder:
     edged = cv.Canny(blurred, 50, 150)
     contours = ContourFinder.find_contours(edged)
     ```
-    
+
     ## reference
     https://learnopencv.com/automatic-document-scanner-using-opencv/
     """
@@ -34,9 +35,10 @@ class ContourFinder:
 
         # EDGE DETECTION
         canny = cv.Canny(blurred, 0, 200)
-        canny = cv.dilate(canny, cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5)))
+        canny = cv.dilate(canny, cv.getStructuringElement(
+            cv.MORPH_ELLIPSE, (5, 5)))
 
         # CONTOUR DETECTION
-        contours, _ = cv.findContours(canny, cv.RETR_LIST, cv.CHAIN_APPROX_NONE)
+        contours, _ = cv.findContours(
+            canny, cv.RETR_LIST, cv.CHAIN_APPROX_NONE)
         return sorted(contours, key=cv.contourArea, reverse=True)[:5]
-    
