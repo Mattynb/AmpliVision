@@ -53,9 +53,14 @@ class StripSection:
         copy = block.get_test_area_img().copy()
 
         val = self.bounds
+        spot_center = (
+            int((val[0] + val[2])/2),
+            int((val[1] + val[3])/2)
+        )
+
         spot = self.identify_spot_manually(
             copy,
-            (int((val[0] + val[2])/2), int((val[1] + val[3])/2)),
+            spot_center,
             debug=debug
         )
 
@@ -81,7 +86,7 @@ class StripSection:
             copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
             copy = cv.resize(copy, (200, 200))
 
-            cv.imshow('set_spots_manually(2)', copy)
+            cv.imshow('identify_spot_manually', copy)
             cv.waitKey(200)
 
         return contours[0]
@@ -89,9 +94,8 @@ class StripSection:
     def set_total_avg_rgb(self, bkg=[0, 0, 0]) -> list[int]:
         "sets the total avg rgb by adding the spot rgb avgs together"
 
-        if len(self.spots) == 0:
-            print("please add spots to section before calling set_total_avg_rgb()")
-            return None
+        assert len(self.spots) != 0, """
+        please add spots to section before calling set_total_avg_rgb()"""
 
         i = 0
         total_avg = [0, 0, 0]
@@ -186,7 +190,9 @@ class StripSection:
 
     def paint_spot(self, block_img, rgb, display=False):
         "paints the spot on the block image"
-        cv.drawContours(block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
+
+        block_img = cv.drawContours(
+            block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
 
         if display:
             cv.imshow('paint_spot()', block_img)

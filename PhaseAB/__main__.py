@@ -26,17 +26,21 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
     )
 
     # Phase A.2 - Grids
+    print(" --- Grids --- ")
     Grids = phaseA2(Images, display=display)
 
     # save test results
+    print(" --- Results --- ")
     results = phaseB(Grids)
 
     # Phase A.3 - Position Graph
+    print(" --- Graph --- ")
     graphs = phaseA3(Grids, display=display)
 
     # --- Image Generation --- #
+    print(" --- Image Generation --- ")
     RBG = RuleBasedGenerator(graphs, results)
-    RBG.generate(10)
+    RBG.generate()
 
 
 if __name__ == '__main__':

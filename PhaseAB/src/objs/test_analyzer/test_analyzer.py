@@ -188,6 +188,7 @@ class TestAnalyzer:
         """
         from numpy import random
 
+        image = self.test_square_img
         for section in self.strip_sections.values():
             if section == 'bkg':
                 continue
@@ -206,7 +207,7 @@ class TestAnalyzer:
                 rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
             rgb = (r, g, b)
 
-            return section.paint_spot(self.test_square_img, rgb, True)
+            section.paint_spot(self.test_square_img, rgb, True)
 
 
 """TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""
