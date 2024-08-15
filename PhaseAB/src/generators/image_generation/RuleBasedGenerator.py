@@ -33,18 +33,95 @@ class RuleBasedGenerator:
         then pass them through phaseA/B and paint them there
         """
 
+        print("-"*50, "\nRule Based Generator\n", "-"*50)
         di_graph = self.graphs[0]
         results = self.results
 
-        # meant to avoid duplicate images after augmentation (rotation, flippin, etc)  
+        # meant to avoid duplicate images after augmentation 
+        # (rotation, flippin, etc)  
         MAX_INDEX = 9
         starting_indexes = [
             (x, y)  
             for x in range(MAX_INDEX - len(di_graph.nodes))
             for y in range(MAX_INDEX//2)
         ]
+        starting_indexes = [(1, 5)]
 
         # generates one image per target where blocks start in different indexes
+        print("Generating blank images...")
+        self.generate_blank(di_graph, results, starting_indexes)
+
+        # get the unpainted scanned images from phaseA
+        print("scanning blank images...")
+        images = phaseA1(
+            f"{self.save_path}/blank/*", 
+            f"{self.save_path}/blank/",
+            do_white_balance=True
+        )
+
+        # and their grids
+        print("generating grids...")
+        Grids = phaseA2(images)
+
+        # paint the spots in the images
+        # each image has its own grid
+        print("painting spots...")
+        Grids = self.paint_spots(Grids, results)
+        
+        # save the painted images in all possible orientations
+        print("saving images...")
+        self.save_augmented_images(Grids)
+
+        return
+    
+    def save_augmented_images(self, Grids):
+        for image_name, grid in Grids.items():
+            img = grid.img
+            for i in range(4):
+                # rotate images all 4 ways
+                img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
+
+                # save flipped image
+                for j in range(-1, 2):
+
+                        
+                    noisy_img = self.add_noise(img)
+
+                    if j == -1:
+                        cv.imwrite(f"{self.save_path}/final/{image_name}_{i}.png", noisy_img)
+
+                    # flip images. 
+                    # 0 = x-axis, 1 = y-axis, -1 = both
+                    noisy_img = cv.flip(noisy_img, j)
+
+                    # save flipped image
+                    cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}.png", noisy_img)
+
+
+    def paint_spots(self, Grids, results):
+        for image_name, grid in Grids.items():
+            target_name = image_name.split("_")[0]
+
+            # where each grid has multiple blocks
+            for block in grid.get_blocks():
+
+                # only painting test and control blocks for now
+                block, _ = identify_block_in_grid(block, [])
+                if block.block_type[:4] in ('test','cont'):
+                    block_results = results[target_name][block.block_type] 
+                    
+                    # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
+                    # print(f"type = {block.block_type}")
+                    ta = TestAnalyzer(block)
+                    block = ta.paint_spots(block_results)
+
+                    # "paste" the painted block back into the image
+                    grid.paste_test_area(block)
+
+        return Grids
+
+    
+    def generate_blank(self, di_graph, results, starting_indexes):
         for _index in starting_indexes:
             for i, target in enumerate(results.keys()):
                 
@@ -70,65 +147,8 @@ class RuleBasedGenerator:
                     # move to the next position
                     block_index = (block_index[0] + 1, block_index[1])
 
-                # save the image
+                # save the blank image
                 cv.imwrite(f"{self.save_path}/blank/{target}_{block_index}.png", img)
-
-
-        # get the unpainted scanned images from phaseA
-        images = phaseA1(
-            f"{self.save_path}/blank/*", 
-            f"{self.save_path}/blank/",
-            do_white_balance=True
-        )
-    
-        # paint the spots in the images
-        # each image has its own grid
-        Grids = phaseA2(images)
-        for image_name, grid in Grids.items():
-            target_name = image_name.split("_")[0]
-
-            # where each grid has multiple blocks
-            for block in grid.get_blocks():
-
-                # only painting test and control blocks for now
-                block, _ = identify_block_in_grid(block, [])
-                if block.block_type[:4] in ('test','cont'):
-                    block_results = results[target_name][block.block_type] 
-                    
-                    # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
-                    # print(f"type = {block.block_type}")
-                    ta = TestAnalyzer(block)
-                    block = ta.paint_spots(block_results)
-
-                    # "paste" the painted block back into the image
-                    grid.paste_test_area(block)
-
-
-        # save the painted images in all possible orientations
-        for image_name, grid in Grids.items():
-            img = grid.img
-            for i in range(4):
-                # rotate images all 4 ways
-                img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
-
-                # save flipped image
-                for j in range(-1, 2):
-
-                    # flip images. 
-                    # 0 = x-axis, 1 = y-axis, -1 = both
-                    img = cv.flip(img, j)
-
-                    # save flipped image
-                    noisy_img = self.add_noise(img)
-                    cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}.png", noisy_img)
-
-                        
-                  
-
-
-
-                    
-        return
     
 
     def add_noise(self, image, percent = 0.05):
