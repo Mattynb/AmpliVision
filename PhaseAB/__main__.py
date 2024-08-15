@@ -23,7 +23,7 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
     Images = phaseA1(
         path_to_imgs, scanned_path,
         display=display, do_white_balance=True,
-        is_pre_scanned=False
+        is_pre_scanned=True
     )
 
     # Phase A.2 - Grids
@@ -40,8 +40,8 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
 
     # --- Image Generation --- #
     print(" --- Image Generation --- ")
-    #RBG = RuleBasedGenerator(graphs, results)
-    #RBG.generate()
+    RBG = RuleBasedGenerator(graphs, results)
+    RBG.generate()
 
 
 if __name__ == '__main__':

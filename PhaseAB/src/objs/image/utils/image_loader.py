@@ -40,12 +40,12 @@ class ImageLoader:
         """
 
         # acceptable image types
-        types = ('.png', '.jpg', 'jpeg')
+        types = ('.png', '.jpg', 'JPEG')
 
         # reading single image if path is only one image
         end = path_to_imgs[-4:]
 
-        if end.lower() in types:
+        if end in types:
             return [cv.imread(path_to_imgs)]
 
         # reading all images of acceptable types from given directory

@@ -75,7 +75,7 @@ def phaseA2(scanned_images: dict, display: bool = False):
     Grids = {}
     for image_name, image_scan in scanned_images.items():
 
-        print(f"Building \'{image_name}\''s virtual grid...")
+        print(f"Building \'{image_name}\''s virtual grid...") if display else None
 
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the

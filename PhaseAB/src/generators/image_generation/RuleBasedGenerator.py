@@ -111,10 +111,6 @@ class RuleBasedGenerator:
                 # rotate images all 4 ways
                 img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
 
-                # save rotated image
-                noisy_img = self.add_noise(img)
-                cv.imwrite(f"{self.save_path}/final/{image_name}_{i}.png", noisy_img)
-
                 # save flipped image
                 for j in range(-1, 2):
 
@@ -125,6 +121,7 @@ class RuleBasedGenerator:
                     # save flipped image
                     noisy_img = self.add_noise(img)
                     cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}.png", noisy_img)
+
                         
                   
 
@@ -135,6 +132,7 @@ class RuleBasedGenerator:
     
 
     def add_noise(self, image, percent = 0.05):
+        image = image.copy()
 
         # Get the dimensions of the image
         height, width, channels = image.shape
@@ -150,7 +148,11 @@ class RuleBasedGenerator:
             x_coord = np.random.randint(0, width)
             
             # Add noise by altering the pixel value
-            noise = np.random.randint(0, 256, size=(channels,))
+            noise = np.random.randint(0, 256)
+
+            # r =g = b = noise
+            noise = [noise, noise, noise]
+
             image[y_coord, x_coord] = noise
 
         return image
