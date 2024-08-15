@@ -32,7 +32,7 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
 
     # save test results
     print(" --- Results --- ")
-    results = phaseB(Grids)
+    results = phaseB(Grids, display=display)
 
     # Phase A.3 - Position Graph
     print(" --- Graph --- ")

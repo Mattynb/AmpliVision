@@ -42,6 +42,7 @@ def phaseB(_Grids, display:bool = False) -> list:
 
         # get fingerprints of each target
         RGB_extractor = DataExtractor(target_name, folder_path)
+
         fingerprints[target_name] = RGB_extractor.extract(display=display)
 
     return fingerprints
@@ -71,7 +72,7 @@ def identify_block_in_grid(block, csv_rows):
     b_type = block.get_block_type()
     if b_type.startswith(b_types):
         ta = TestAnalyzer(block)
-        results = ta.analyze_test_result(display=0)
+        results = ta.analyze_test_result(display=True)
         csv_rows.append(results)
 
     return block, csv_rows

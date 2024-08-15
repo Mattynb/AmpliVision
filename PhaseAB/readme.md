@@ -5,24 +5,12 @@ This program is designed to load and process images from a specified folder, fin
 
 
 ## Getting Started
+1. From root directory run:
+``` python
+pip install -r PhaseAB/requirements.txt
+```
 
-### Prerequisites
-
-Before running the code, make sure you have the following prerequisites installed:
-
-- Python 3.12+
-- OpenCV (Cv2)
--- ```python pip download cv2```
-- Numpy 1.26.4+   
--- ```python pip download numpy```
-- Pillow-heif 0.15.0+  
--- ```python pip download pillow-heif```
-- Pillow (PIL) 10.2.0+  
--- ```python pip download pillow```
-
-Good to have:
-- An IDE for coding such as Visual Studio Code
-- Git for version control
+2. 
 
 ### Installation
 
@@ -61,4 +49,4 @@ If you have any questions or need assistance, feel free to contact me:
 
 Matheus Berbet - matheus.berbet001@umb.edu
 
-We hope you find this repository useful for your image processing needs!
+We hope you find this repository useful for your automated Ampli needs!

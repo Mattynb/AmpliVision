@@ -86,7 +86,8 @@ class RuleBasedGenerator:
                     
                     if block.block_type[:4] in ('test','cont'):
                         block_results = results[target_][block.block_type] 
-                                     
+                        
+                        print(f"type = {block.block_type}")
                         ta = TestAnalyzer(block)
                         ta.paint_spots(block_results)
         return

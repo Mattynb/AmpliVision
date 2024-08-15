@@ -208,9 +208,10 @@ class TestAnalyzer:
                 rgb_spot_results['g'][i], rgb_spot_results['g'][i+1])
             b = random.normal(
                 rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
+            
             rgb = (int(r), int(g), int(b))
             print(f'results: {rgb_spot_results}')
-            print(f"{r}, {g}, {b}")
+            print(f"{section.strip_type}: {r}, {g}, {b}")
 
             image_ = section.paint_spot(image, rgb, display=True)
             exit()
