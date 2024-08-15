@@ -22,7 +22,8 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
     # Phase A.1 - Scanning images
     Images = phaseA1(
         path_to_imgs, scanned_path,
-        display=display, do_white_balance=False
+        display=display, do_white_balance=True,
+        is_pre_scanned=False
     )
 
     # Phase A.2 - Grids
@@ -44,6 +45,10 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
 
 
 if __name__ == '__main__':
-    path_to_imgs = "PhaseAB/data/scanned/*"
+    path_to_imgs = "PhaseAB/data/scanned/*" #DENV_imgs/*"
     scanned_path = "PhaseAB/data/scanned/"
-    main(path_to_imgs, scanned_path)
+    main(path_to_imgs, scanned_path, display=False)
+    
+    
+    from src.backend.add_to_db.connect_to_db import Client
+    Client.close()

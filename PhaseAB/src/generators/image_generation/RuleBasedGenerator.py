@@ -2,7 +2,7 @@ from networkx import DiGraph
 from src.objs import Grid
 from src.objs import TestAnalyzer
 from src.phaseA import phaseA1, phaseA2, phaseA3
-from src.phaseB import phaseB
+from src.phaseB import phaseB, identify_block_in_grid
 
 import cv2 as cv
 import re
@@ -37,24 +37,25 @@ class RuleBasedGenerator:
         di_graph = self.graphs[0]
         results = self.results
 
-        # meant to avoid duplicate images after augmentation (rotation, flippin, etc)
+        # meant to avoid duplicate images after augmentation (rotation, flippin, etc)  
+        MAX_INDEX = 9
         starting_indexes = [
-            (0, 0), (1, 0),
-            (0, 1), (1, 1),
-            (0, 2), (1, 2),
-            (0, 3), (1, 3),
-            (0, 4), (1, 4),
+            (x, y)  
+            for x in range(MAX_INDEX - len(di_graph.nodes))
+            for y in range(MAX_INDEX//2)
         ]
 
-        for block_index in starting_indexes:
-
-            print(f"Generating blank spots image index {block_index}...")
+        # generates one image per target where blocks start in different indexes
+        for _index in starting_indexes:
             for i, target in enumerate(results.keys()):
+                
+                print(f"Generating blank spots image of {target} @ {_index}...")
 
                 grid_img = self.load_image('grid')
                 Grid_DS = Grid(grid_img)
                 img = grid_img
                 geometry = True
+                block_index = _index
                 for block_name in di_graph.nodes:
 
                     # get the transparent image of the block
@@ -68,10 +69,26 @@ class RuleBasedGenerator:
                     block_index = (block_index[0] + 1, block_index[1])
 
                 # save the image
-                cv.imwrite(f"{self.save_path}/{target}_{block_index}.png", img)
+                cv.imwrite(f"{self.save_path}/blank/{target}_{block_index}.png", img)
 
+            
             # pass the image through phaseA/B and paint the spots
-            ...
+            images = phaseA1(
+                f"{self.save_path}/blank/*", 
+                f"{self.save_path}/blank/",
+                do_white_balance=True
+            )
+            Grids = phaseA2(images)
+            for image_name, grid in Grids.items():
+                target_ = image_name.split("_")[0]
+                for block in grid.get_blocks():
+                    block, csv_rows = identify_block_in_grid(block, [])
+                    
+                    if block.block_type[:4] in ('test','cont'):
+                        block_results = results[target_][block.block_type] 
+                                     
+                        ta = TestAnalyzer(block)
+                        ta.paint_spots(block_results)
         return
 
     def load_image(self, component_name, geometry=None):

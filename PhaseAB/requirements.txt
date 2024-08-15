@@ -5,3 +5,6 @@ pillow
 matplotlib
 pymongo
 networkx
+python-dotenv
+pandas
+scipy

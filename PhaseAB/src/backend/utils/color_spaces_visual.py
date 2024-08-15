@@ -4,10 +4,11 @@ from mpl_toolkits.mplot3d import Axes3D
 
 # Adjusted color ranges
 adjusted_ranges = {
-    "Red": {"min": (150,0,0), "max": (255,150,87+40)},
-    "Red1": {"min": (100,0,0), "max": (149,99,87+40)},
+    "Red": {"min": (150,0,0), "max": (255,150,149)},
+    "Red1": {"min": (100,0,0), "max": (149,99,149)},
     "Blue": {"min": (0,0,150), "max": (255+25,78+40+50,255)},
-    "Green": {"min": (50,100,0), "max": (149,255,125)},
+    "Green": {"min": (0,100,0), "max": (149,255,149)},
+    "Green1": {"min": (151,151,0), "max": (255,255,149)},
     #"Purple": {"min": (105,78-40,150), "max": (255+25,78+40+50,255)},
 }
 
@@ -63,7 +64,7 @@ ax2.set_ylabel('G')
 ax2.set_zlabel('B')
 
 # Colors for drawing
-colors = ['r', 'r', 'b', 'g', 'r']
+colors = ['r', 'r', 'b', 'g', 'g']
 
 """
 # Draw original ranges with cube faces
@@ -78,11 +79,14 @@ for i, (color, range) in enumerate(adjusted_ranges.items()):
 # Add other custom points to the plot
 customs = [
 {      
-    "Red": [21, 35, 210],
+    "Red": [158,207,101],
+    "Green": [158,205,101],
+    "Blue": [156,207,88],
+    "Black": [156,207,98],
 },
 ]
 
-i =3
+i =0
 for custom in customs:
     for color, point in custom.items():
         #ax1.scatter(*point, color=colors[i], s=100, label=colors[i])

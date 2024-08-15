@@ -44,7 +44,7 @@ def phaseA1(
             continue
 
         image_scan, image_name = get_image_scan(
-            image, is_pre_scanned, idx, path_to_imgs, scanned_path
+            image, is_pre_scanned, idx, path_to_imgs, scanned_path, white_balance=do_white_balance
         )
 
         # skip if unable to scan image
@@ -127,7 +127,7 @@ def phaseA3(Grids, display: bool = False):
 # ----------------- Helper Functions ----------------- #
 
 
-def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs: str, scanned_path: str) -> tuple:
+def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs: str, scanned_path: str, white_balance: bool) -> tuple:
     """Create Image object from loaded image.
     The Image object is used to store the image
     and the steps of the image processing."""
@@ -136,7 +136,7 @@ def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs:
     if is_pre_scanned:
         image_scan = image
     else:
-        image_scan = GridImageNormalizer.scan(image_name, image)
+        image_scan = GridImageNormalizer.scan(image_name, image, do_white_balance=white_balance)
         cv.imwrite(f"{scanned_path}{image_name}_scaned.jpg", image_scan)
 
     return image_scan, image_name

@@ -1,0 +1,3 @@
+date, time, grid_index, block_type , spot1_r, spot1_g, spot1_b, spot2_r, spot2_g, spot2_b, bkg_r, bkg_g, bkg_b, spot1_corr_r, spot1_corr_g, spot1_corr_b, spot2_corr_r, spot2_corr_g, spot2_corr_b
+08/14/2024,11:51:37,"(4, 2)",test_block1,220.0,210.0,214.0,252.0,250.0,247.0,254.0,253.0,249.0,34.0,43.0,35.0,2.0,3.0,2.0
+08/14/2024,11:51:37,"(4, 3)",control_block,254.0,252.0,247.0,213.0,205.0,205.0,255.0,254.0,251.0,1.0,2.0,4.0,42.0,49.0,46.0

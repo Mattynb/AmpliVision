@@ -9,4 +9,3 @@ src/objs/grid/__pycache__/Square.cpython-312.pyc
 *.pkl
 */.env
 .env
-.env.*

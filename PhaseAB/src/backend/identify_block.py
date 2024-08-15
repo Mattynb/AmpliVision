@@ -1,12 +1,10 @@
-from .add_to_db.connect_to_db import connect_to_mongo
 import warnings
-
+from .add_to_db.connect_to_db import Client
 
 def identify_block(block, display: int = 0):
     """ Function to identify the block type of a block given the RGB sequence."""
 
-    # Open connection to MongoDB
-    client = connect_to_mongo()
+    client = Client
 
     # Connect to the color_ranges database collection
     db = client.ampli_cv
@@ -45,7 +43,7 @@ def identify_block(block, display: int = 0):
             block.block_type = block_type["block_name"]
             if display:
                 print(f'\'{block_type["block_name"]}\' at {block.index}\n')
-            client.close()
+
 
             r = [0, 90, 180, 270]
             block.rotation = r[rotation]
@@ -56,9 +54,7 @@ def identify_block(block, display: int = 0):
         sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
 
     # If the sequence is not found, print unknown
-    warnings.warn(f'\nBlock: Unknown at {block.index}\n')
-
-    client.close()
+    warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
 
     return block
 
@@ -85,19 +81,20 @@ def rgb_to_number(rgb, collection):
 
     # Find the color number
     numbers = collection.find(query)
-
-    # If there is only one color, return the color number
-    for number in numbers:
-        return number['color#']
+    numbers = [number['color#'] for number in numbers ]
+    
+    # If sequence not found
+    if len(numbers) == 0:
+        warnings.warn(f"RGB sequence \'{r},{g},{b}\' not in database")
 
     # If there are multiple colors, print the colors and return the first color
     # Note that there should not be multiple colors for a single RGB value
-    print(f"Multiple colors found for r: {r}, g: {g}, b: {b}\n")
-    for number in numbers:
-        print(number['color#'])
-    for number in numbers:
-        return number['color#']
+    if len(numbers) > 1:
+        warnings.warn(f"Multiple colors found for r: {r}, g: {g}, b: {b}...\n{[number for number in numbers]}")
 
+    # If there is only one color, return the color number
+    return numbers[0]
 
+    
 if __name__ == '__main__':
     ...

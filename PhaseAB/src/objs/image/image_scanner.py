@@ -64,7 +64,7 @@ class ImageScanner:
         # Adjusting the image to highlight the grid
         contours = ContourFinder.find_contours(no_bkg_img)
 
-        # """
+        """
         a = no_bkg_img.copy()
         cv.drawContours(a, contours, -1, (0, 255, 0), 3)
         display(a, 0)  # """

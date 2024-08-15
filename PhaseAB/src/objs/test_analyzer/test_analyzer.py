@@ -187,16 +187,19 @@ class TestAnalyzer:
             format: {r: [mean1, std1, mean2, std2], g: [mean1, std1, mean2, std2], b: [mean1, std1, mean2, std2]}
         """
         from numpy import random
+        
+        self.analyze_test_result()
 
         image = self.test_square_img
         for section in self.strip_sections.values():
-            if section == 'bkg':
+            if section.strip_type == 'bkg':
                 continue
-
-            if section == 'spot1':
+            
+            i = None
+            if section.strip_type == 'spot1':
                 i = 0
 
-            if section == 'spot2':
+            if section.strip_type == 'spot2':
                 i = 2
 
             r = random.normal(
@@ -205,9 +208,13 @@ class TestAnalyzer:
                 rgb_spot_results['g'][i], rgb_spot_results['g'][i+1])
             b = random.normal(
                 rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
-            rgb = (r, g, b)
+            rgb = (int(r), int(g), int(b))
+            print(f'results: {rgb_spot_results}')
+            print(f"{r}, {g}, {b}")
 
-            section.paint_spot(self.test_square_img, rgb, True)
+            image_ = section.paint_spot(image, rgb, display=True)
+            exit()
+        
 
 
 """TODO: Add a stripSection "middleman" class to take care of assigning which spots go to which section, etc"""

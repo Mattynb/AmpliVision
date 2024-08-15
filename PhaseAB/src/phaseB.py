@@ -5,7 +5,7 @@ from .objs.utils import write_to_csv
 from .generators.rgb_data_generator import DataExtractor
 
 
-def phaseB(_Grids) -> list:
+def phaseB(_Grids, display:bool = False) -> list:
     """ Identifies the blocks in the grid and exports the results to a csv file. 
 
     Returns:
@@ -42,7 +42,7 @@ def phaseB(_Grids) -> list:
 
         # get fingerprints of each target
         RGB_extractor = DataExtractor(target_name, folder_path)
-        fingerprints[target_name] = RGB_extractor.extract(display=0)
+        fingerprints[target_name] = RGB_extractor.extract(display=display)
 
     return fingerprints
 
