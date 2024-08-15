@@ -5,7 +5,7 @@ This program is designed to load and process images from a specified folder, fin
 
 
 ## Getting Started
-1. From root directory run:
+1. Ensure you have python3.12. Then, from root directory run:
 ``` python
 pip install -r PhaseAB/requirements.txt
 ```

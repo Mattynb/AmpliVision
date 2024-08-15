@@ -282,12 +282,35 @@ class Grid(IGrid):
         # No need to worry about all the square parameters,
         # After the colage, we can pass it through phase 1 again
         # sq.is_block = True, sq.block_type = ...
-        return self.paste_image(img, sq_img, sq.tl, sq.br)
+        return self.paste_block(img, sq_img, sq.tl, sq.br)
 
     ### Draw functions ###
 
-    def paste_image(self, img, sq_img, tl, br):
-        " pastes the image of the square on the grid "
+    def paste_test_area(self, block):
+        """ replaces the pixels at the block's location with the block's test area image """
+        
+        
+        # get the top left and bottom right points of the block
+        tl, br = block.tl, block.br
+
+        # get the images
+        img = self.img
+        test_area_img = block.test_area_img
+
+        # pixel coordinates
+        corners = block.calculate_corners_pinbased()
+        y_min = corners[0][1][1]
+        y_max = corners[2][0][1]
+        x_min = corners[0][1][0]
+        x_max = corners[2][0][0]
+
+        # paste the image of the block's test area on the grid        
+        img[y_min:y_max, x_min:x_max] = test_area_img
+
+        self.img = img
+
+    def paste_block(self, img, sq_img, tl, br):
+        " pastes the image of the block with transparent bkg on the grid "
 
         # paste the image of the square on the grid
         # at the top left and bottom right points of the square
@@ -296,10 +319,6 @@ class Grid(IGrid):
         # sq_img = cv.resize(sq_img, sq_size)
 
         img = self.add_transparent_image(img, sq_img, center_pt)
-
-        cv.imwrite("image.png",  cv.resize(img, (0, 0), fx=0.25, fy=0.25))
-        cv.waitKey(0)
-        cv.destroyAllWindows()
 
         return img
 

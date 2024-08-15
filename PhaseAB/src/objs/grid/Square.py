@@ -366,7 +366,7 @@ class Square:
 
         return ordered_corners
 
-    # rgb functions
+    # set functions
 
     def set_rgb_sequence(self) -> None:
         """
@@ -383,3 +383,7 @@ class Square:
 
         # fixing the order from tr,tl,br,bl to clockwise starting from top-right. This might be the ugliest code I've ever written. But it works!
         set_rgb_sequence_clockwise(self, pins_rgb, corner_key)
+
+    def set_test_area_img(self, img):
+        " Sets the image of the test area"
+        self.test_area_img = img

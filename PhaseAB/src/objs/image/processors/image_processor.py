@@ -49,11 +49,6 @@ class ColorContourExtractor:
         edges = cv.Canny(color_mask, 0, 255)
         contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
-        # Apply white balance to the original image to make the color of the pins more accurate.
-        
-        'TODO: This is literally doing nothing here. The scanned image is not returned.'
-        #scanned_image = WhiteBalanceAdjuster.adjust(scanned_image)
-
         if display:
             ColorContourExtractor.show_result(contours, scanned_image)
 

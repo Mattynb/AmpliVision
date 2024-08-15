@@ -40,8 +40,8 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
 
     # --- Image Generation --- #
     print(" --- Image Generation --- ")
-    RBG = RuleBasedGenerator(graphs, results)
-    RBG.generate()
+    #RBG = RuleBasedGenerator(graphs, results)
+    #RBG.generate()
 
 
 if __name__ == '__main__':

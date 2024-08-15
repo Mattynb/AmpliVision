@@ -72,7 +72,7 @@ def identify_block_in_grid(block, csv_rows):
     b_type = block.get_block_type()
     if b_type.startswith(b_types):
         ta = TestAnalyzer(block)
-        results = ta.analyze_test_result(display=True)
+        results = ta.analyze_test_result(display=False)
         csv_rows.append(results)
 
     return block, csv_rows

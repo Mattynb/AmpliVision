@@ -24,7 +24,7 @@ class TestAnalyzer:
             "spot2": StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
-    def analyze_test_result(self, display: bool = False):  # should I name it main?
+    def analyze_test_result(self, skip_manual:bool=False, display: bool = False):  # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
 
         # find the positive spots with hsv mask
@@ -35,6 +35,8 @@ class TestAnalyzer:
             print("rotation: ", self.block.rotation)
 
         blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
+
+        # thresholds optimized for marker data
         rgb_spots = ColorContourExtractor.process_image(
             blur, hsv_lower=[0, 40, 20], display=display)
 
@@ -45,8 +47,9 @@ class TestAnalyzer:
         self.add_positives_to_sections(rgb_spots, display=display)
 
         # find the negative spots "manually" through ratios
-        self.add_negatives_to_sections(display=display)
-
+        if not skip_manual:
+            self.add_negatives_to_sections(display=display) 
+        
         # get background color noise so we can remove it from other sections
         self.strip_sections['bkg'].set_total_avg_rgb()
         bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
@@ -209,12 +212,14 @@ class TestAnalyzer:
             b = random.normal(
                 rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
             
-            rgb = (int(r), int(g), int(b))
-            print(f'results: {rgb_spot_results}')
-            print(f"{section.strip_type}: {r}, {g}, {b}")
+            rgb = (int(b), int(g), int(r))
 
-            image_ = section.paint_spot(image, rgb, display=True)
-            exit()
+            image_ = section.paint_spot(image, rgb, display=False)
+        
+        self.block.set_test_area_img(image_)
+
+        return self.block
+
         
 
 

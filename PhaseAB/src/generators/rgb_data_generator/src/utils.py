@@ -226,7 +226,7 @@ class Utils:
         return fingerprint
 
     @staticmethod
-    def format_line(line: list[str], spot: int) -> list[float]:
+    def format_line(line: list[str], spot: int, get_corr:bool = False) -> list[float]:
         """
         Format a line from the data file.
 
@@ -238,11 +238,20 @@ class Utils:
             list[float]: The formatted line as a list of floats.
         """
         base_index = spot * 3
-        return [
-            float(line[base_index + 13].strip()),  # corr_spotX_r
-            float(line[base_index + 14].strip()),  # corr_spotX_g
-            float(line[base_index + 15].strip())   # corr_spotX_b
-        ]
+    
+        if get_corr: 
+            return [
+                float(line[base_index + 13].strip()),  # corr_spotX_r
+                float(line[base_index + 14].strip()),  # corr_spotX_g
+                float(line[base_index + 15].strip())   # corr_spotX_b
+            ] 
+        
+        else:
+            return [
+                float(line[base_index + 4].strip()),  # spotX_r
+                float(line[base_index + 5].strip()),  # spotX_g
+                float(line[base_index + 6].strip())   # spotX_b
+            ]
 
     """ ---- Display functions ---- """
 

@@ -246,6 +246,10 @@ class DataExtractor:
 
         # appends a list with data -> [corr_r1, corr_g1, corr_b1, corr_r2, corr_g2, corr_b2]
         rgbs_by_type[block_type].append(
-            [Utils.format_line(row, 0), Utils.format_line(row, 1)])
+            [
+                Utils.format_line(row, 0, get_corr=False), 
+                Utils.format_line(row, 1, get_corr=False)
+            ]
+        )
 
         return rgbs_by_type
