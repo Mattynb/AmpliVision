@@ -45,7 +45,7 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
 
 
 if __name__ == '__main__':
-    path_to_imgs = "PhaseAB/data/scanned/*" #DENV_imgs/*"
+    path_to_imgs = "PhaseAB/data/scanned_1/*" #DENV_imgs/*"
     scanned_path = "PhaseAB/data/scanned/"
     main(path_to_imgs, scanned_path, display=False)
     
