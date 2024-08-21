@@ -16,7 +16,7 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
     pixels_inside = image[mask == 255]
 
     # Calculate the average RGB values
-    average_rgb = np.mean(pixels_inside, axis=0)
+    average_rgb = np.median(pixels_inside, axis=0)
 
     # Remove NaN values
     average_rgb = np.nan_to_num(average_rgb)

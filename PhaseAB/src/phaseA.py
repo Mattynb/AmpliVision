@@ -12,7 +12,7 @@ def phaseA1(
     display: bool = False,
     is_pre_scanned: bool = False,
     do_white_balance: bool = False
-) -> tuple:
+) -> list:
     """
     Phase A1
     ---------------
@@ -86,7 +86,7 @@ def phaseA2(scanned_images: dict, display: bool = False):
         # is used to store information about the grid, such as
         # the blocks and pins, etc.
         Grid_DS = Grid(image_scan)
-        display_grid(image_scan, Grid_DS, contours) if display else None
+        #display_grid(image_scan, Grid_DS, contours) if display else None
 
         # determines which squares in grid are blocks
         Grid_DS.find_blocks(contours)

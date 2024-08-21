@@ -29,7 +29,7 @@ class ColorContourExtractor:
 
     # A function that pre-processes the image to isolate the color of the pins.
     @staticmethod
-    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [360, 255,255], display:bool=False) -> np.ndarray:
+    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [360, 255,255], target_white:bool = False, display:bool=False) -> np.ndarray:
         """ this method pre-processes the image to isolate the color of the pins."""
 
         # Copy the image to avoid modifying the original image
@@ -65,5 +65,3 @@ class ColorContourExtractor:
         cv.imshow('Color Contour Extractor', copy)
         cv.waitKey(0)
         cv.destroyAllWindows()
-        
-        

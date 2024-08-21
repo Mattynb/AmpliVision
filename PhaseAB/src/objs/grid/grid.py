@@ -328,10 +328,8 @@ class Grid(IGrid):
         bg_h, bg_w, bg_channels = background.shape
         fg_h, fg_w, fg_channels = foreground.shape
 
-        assert bg_channels == 3, f'background image should have exactly 3 channels (RGB). found:{
-            bg_channels}'
-        assert fg_channels == 4, f'foreground image should have exactly 4 channels (RGBA). found:{
-            fg_channels}'
+        assert bg_channels == 3, f"background image should have exactly 3 channels (RGB). found:{bg_channels}"
+        assert fg_channels == 4, f"foreground image should have exactly 4 channels (RGBA). found:{fg_channels}"
 
         # center the foreground image on the background image according to the center point
         x_offset = center_pt[0] - fg_w // 2

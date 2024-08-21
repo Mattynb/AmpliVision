@@ -14,6 +14,10 @@ def connect_to_mongo():
     load_dotenv()
     URI = os.getenv('URI')
 
+    # DELETE this at some point
+    URI = r'mongodb+srv://matheusberbet001:12345@amplicluster.0k26okc.mongodb.net/?retryWrites=true&w=majority&appName=AmpliCluster'
+    print(URI)
+
     # Connect to your Atlas cluster
     client = MongoClient(URI, server_api=ServerApi('1'))
 

@@ -24,7 +24,7 @@ class TestAnalyzer:
             "spot2": StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
-    def analyze_test_result(self, skip_manual:bool=False, display: bool = False):  # should I name it main?
+    def analyze_test_result(self, display: bool = False):  # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
 
         # find the positive spots with hsv mask
@@ -38,7 +38,7 @@ class TestAnalyzer:
 
         # thresholds optimized for marker data
         rgb_spots = ColorContourExtractor.process_image(
-            blur, hsv_lower=[0, 40, 20], display=display)
+            blur, hsv_lower=[0, 40, 20], hsv_upper=[360,255,int(255*(.8))], display=display)
 
         if display:
             copy = self.test_square_img.copy()
@@ -47,8 +47,7 @@ class TestAnalyzer:
         self.add_positives_to_sections(rgb_spots, display=display)
 
         # find the negative spots "manually" through ratios
-        if not skip_manual:
-            self.add_negatives_to_sections(display=display) 
+        self.add_negatives_to_sections(display=display) 
         
         # get background color noise so we can remove it from other sections
         self.strip_sections['bkg'].set_total_avg_rgb()
@@ -194,25 +193,31 @@ class TestAnalyzer:
         self.analyze_test_result()
 
         image = self.test_square_img
-        for section in self.strip_sections.values():
+        for type, section in self.strip_sections.items():
+            
+            # dont paint bkg
             if section.strip_type == 'bkg':
                 continue
             
-            i = None
-            if section.strip_type == 'spot1':
-                i = 0
-
-            if section.strip_type == 'spot2':
-                i = 2
-
-            r = random.normal(
-                rgb_spot_results['r'][i], rgb_spot_results['r'][i+1])
-            g = random.normal(
-                rgb_spot_results['g'][i], rgb_spot_results['g'][i+1])
-            b = random.normal(
-                rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
+            # get the correct index for result
+            i = 0 if type == 'spot1' else 2
+        
+            rgb = []
+            means = []
+            for c in ('b', 'g', 'r'):
+                mean, std = rgb_spot_results[c][i:i+2]
+                
+                # dont paint the negative spots
+                means.append(mean)
+                
+                rgb.append(int(random.normal(mean, std)))
             
-            rgb = (int(b), int(g), int(r))
+            rgb = tuple(rgb)
+            print(f'RGB: {rgb}. mean: {mean}. std {std}')
+            
+            image_ = image
+            if means == [0,0,0]:
+                continue
 
             image_ = section.paint_spot(image, rgb, display=False)
         

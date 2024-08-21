@@ -12,8 +12,8 @@ import re
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], config=None):
         """"""
-        self.components_path = "PhaseAB/data/test_components"
-        self.save_path = "PhaseAB/data/generated_images"
+        self.components_path = "data/test_components"
+        self.save_path = "data/generated_images"
 
         self.results = self.validate_results(results)
         self.graphs = self.validate_graphs(graphs)
@@ -26,7 +26,7 @@ class RuleBasedGenerator:
         "results should be all different. Warn user if same"
         return results
 
-    def generate(self):
+    def generate(self, n):
         # will need to be broken into functions but the idea is:
         """
         generate a bunch of test images with no spots 
@@ -70,32 +70,32 @@ class RuleBasedGenerator:
         
         # save the painted images in all possible orientations
         print("saving images...")
-        self.save_augmented_images(Grids)
+        self.save_augmented_images(Grids, n)
 
         return
     
-    def save_augmented_images(self, Grids):
-        for image_name, grid in Grids.items():
-            img = grid.img
-            for i in range(4):
-                # rotate images all 4 ways
-                img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
-
-                # save flipped image
-                for j in range(-1, 2):
-
-                        
-                    noisy_img = self.add_noise(img)
-
-                    if j == -1:
-                        cv.imwrite(f"{self.save_path}/final/{image_name}_{i}.png", noisy_img)
-
-                    # flip images. 
-                    # 0 = x-axis, 1 = y-axis, -1 = both
-                    noisy_img = cv.flip(noisy_img, j)
+    def save_augmented_images(self, Grids, num):
+        for n in range(num):
+            for image_name, grid in Grids.items():
+                img = grid.img
+                for i in range(4):
+                    # rotate images all 4 ways
+                    img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
 
                     # save flipped image
-                    cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}.png", noisy_img)
+                    for j in range(-1, 2):
+                            
+                        noisy_img = self.add_noise(img, percent=0.05)
+
+                        if j == -1:
+                            cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
+
+                        # flip images. 
+                        # 0 = x-axis, 1 = y-axis, -1 = both
+                        noisy_img = cv.flip(noisy_img, j)
+
+                        # save flipped image
+                        cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}__{n}.png", noisy_img)
 
 
     def paint_spots(self, Grids, results):
@@ -151,15 +151,15 @@ class RuleBasedGenerator:
                 cv.imwrite(f"{self.save_path}/blank/{target}_{block_index}.png", img)
     
 
-    def add_noise(self, image, percent = 0.05):
-        image = image.copy()
+    def add_noise(self, _image, percent = 0.05):
+        image = _image.copy()
 
         # Get the dimensions of the image
         height, width, channels = image.shape
 
         # Calculate the number of pixels to be altered (5% of total pixels)
         total_pixels = height * width
-        num_noise_pixels = int(percent* total_pixels)
+        num_noise_pixels = int(percent * total_pixels)
 
         # Generate random noise
         for _ in range(num_noise_pixels):
