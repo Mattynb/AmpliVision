@@ -62,7 +62,7 @@ class ColorContourExtractor:
             #cv.imshow('grey',  cv.resize(color_mask, (200, 200)))
             
             color_mask = cv.bitwise_not(color_mask) 
-            #cv.threshold(color_mask, 100, 255, cv.THRESH_BINARY, color_mask)
+            cv.threshold(color_mask, 100, 255, cv.THRESH_BINARY, color_mask)
             #cv.imshow('second thresholding ',  cv.resize(color_mask, (200, 200)))
 
             #cv.waitKey(0)

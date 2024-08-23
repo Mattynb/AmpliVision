@@ -7,13 +7,14 @@ from src.phaseB import phaseB, identify_block_in_grid
 import cv2 as cv
 import numpy as np
 import re
+from math import ceil
 
 
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], config=None):
         """"""
-        self.components_path = "data/test_components"
-        self.save_path = "data/generated_images"
+        self.components_path = "PhaseAB/data/test_components"
+        self.save_path = "PhaseAB/data/generated_images"
 
         self.results = self.validate_results(results)
         self.graphs = self.validate_graphs(graphs)
@@ -38,15 +39,14 @@ class RuleBasedGenerator:
         results = self.results
 
         # meant to avoid duplicate images after augmentation 
-        # (rotation, flippin, etc)  
+        # (rotation, flippin, etc)      
         MAX_INDEX = 9
         starting_indexes = [
             (x, y)  
             for x in range(MAX_INDEX - len(di_graph.nodes))
-            for y in range(MAX_INDEX//2)
+            for y in range(ceil(MAX_INDEX/2))
         ]
-        starting_indexes = [(1, 5)]
-
+        
         # generates one image per target where blocks start in different indexes
         print("Generating blank images...")
         self.generate_blank(di_graph, results, starting_indexes)
@@ -59,18 +59,23 @@ class RuleBasedGenerator:
             do_white_balance=True
         )
 
-        # and their grids
-        print("generating grids...")
-        Grids = phaseA2(images)
+        for image_name, image_content in images.items():
+            
+            image = dict()
+            image[image_name] = image_content
+            
+            # and their grids
+            print("generating grids...")
+            Grid = phaseA2(image)
 
-        # paint the spots in the images
-        # each image has its own grid
-        print("painting spots...")
-        Grids = self.paint_spots(Grids, results)
-        
-        # save the painted images in all possible orientations
-        print("saving images...")
-        self.save_augmented_images(Grids, n)
+            # paint the spots in the images
+            # each image has its own grid
+            print("painting spots...")
+            Grid = self.paint_spots(Grid, results)
+            
+            # save the painted images in all possible orientations
+            print("saving images...")
+            self.save_augmented_images(Grid, n)
 
         return
     
@@ -80,22 +85,10 @@ class RuleBasedGenerator:
                 img = grid.img
                 for i in range(4):
                     # rotate images all 4 ways
-                    img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
-
-                    # save flipped image
-                    for j in range(-1, 2):
-                            
-                        noisy_img = self.add_noise(img, percent=0.05)
-
-                        if j == -1:
-                            cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
-
-                        # flip images. 
-                        # 0 = x-axis, 1 = y-axis, -1 = both
-                        noisy_img = cv.flip(noisy_img, j)
-
-                        # save flipped image
-                        cv.imwrite(f"{self.save_path}/final/{image_name}_{i}_{j}__{n}.png", noisy_img)
+                    img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)        
+                    noisy_img = self.add_noise(img, percent=0.05)
+                    cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
+       
 
 
     def paint_spots(self, Grids, results):
@@ -188,7 +181,7 @@ class RuleBasedGenerator:
         # convex, concave, or empty
         geometry = '_cnvx' if geometry == 1 else '_cncv' if geometry == 0 else ''
         component_name = f"{component_name + geometry}".replace('__', '_')
-        path = f"PhaseAB/{self.components_path}/{component_name}.png"
+        path = f"{self.components_path}/{component_name}.png"
 
         image = cv.imread(path, cv.IMREAD_UNCHANGED)
         return image

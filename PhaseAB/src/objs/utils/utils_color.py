@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-
+from statistics import mode
 
 def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> list[int]:
     "rgb avg of any shapped contour"
@@ -15,20 +15,20 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
     # get the pixels inside the contour
     pixels_inside = image[mask == 255]
 
-    # Calculate the average RGB values
-    average_rgb = np.median(pixels_inside, axis=0)
+    # Calculate the mode RGB values
+    mode_rgb = [ mode(pixels_inside[:, 0]), mode(pixels_inside[:, 1]), mode(pixels_inside[:, 2]) ]
 
     # Remove NaN values
-    average_rgb = np.nan_to_num(average_rgb)
+    mode_rgb = np.nan_to_num(mode_rgb)
 
     # display the mask drawn on the image
     if debug:
         cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
-        cv.imshow('mask', image)
-        cv.waitKey(1000)
+        cv.imshow('utils_color/get_rgb_ag_of_contour', image)
+        cv.waitKey(0)
         cv.destroyAllWindows()
 
-    return [round(x) for x in average_rgb]
+    return [round(x) for x in mode_rgb]
 
 
 def get_rgb_avg_of_circle_contour(square, contour: np.ndarray, debug: bool = False) -> list[int]:

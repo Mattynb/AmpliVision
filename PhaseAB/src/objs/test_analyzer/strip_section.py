@@ -42,11 +42,13 @@ class StripSection:
             val = self.bounds
             cv.rectangle(copy, (val[0], val[1]),
                          (val[2], val[3]), (0, 255, 0), 1)
+            cv.drawContours(copy, [contour], -1, (0, 0, 255), 1)
 
             copy = cv.resize(copy, (200, 200))
-            """cv.imshow('stripSection/add_spot()', copy)
-            cv.waitKey(0)
-            cv.destroyAllWindows()"""
+            """
+            cv.imshow('stripSection/add_spot()', copy)
+            cv.waitKey(0)#"""
+            cv.destroyAllWindows()#"""
 
         self.set_total_avg_rgb()
 

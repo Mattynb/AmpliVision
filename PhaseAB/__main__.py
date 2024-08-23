@@ -30,6 +30,9 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
     print(" --- Grids --- ")
     Grids = phaseA2(Images, display=display)
 
+    # free memory
+    del Images
+
     # save test results
     print(" --- Results --- ")
     results = phaseB(Grids, display=display)
@@ -37,6 +40,9 @@ def main(path_to_imgs: str, scanned_path: str, display: bool = False) -> None:
     # Phase A.3 - Position Graph
     print(" --- Graph --- ")
     graphs = phaseA3(Grids, display=display)
+
+    # free memory
+    del Grids
 
     # --- Image Generation --- #
     print(" --- Image Generation --- ")

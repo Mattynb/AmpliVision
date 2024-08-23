@@ -91,7 +91,7 @@ class TestAnalyzer:
 
                     if display:
                         print("auto added spot to: ", section.strip_type)
-                    section.add_spot(self.block, spot, True, debug=display)
+                    section.add_spot(self.block, spot, True, debug=True)
                     # break # only adds to one section
 
     def add_negatives_to_sections(self, display: int = 0) -> None:
@@ -217,7 +217,6 @@ class TestAnalyzer:
                 rgb.append(int(random.normal(mean, std)))
             
             rgb = tuple(rgb)
-            print(f'RGB: {rgb}. mean: {mean}. std {std}')
             
             image_ = image
             if means == [0,0,0]:
