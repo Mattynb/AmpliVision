@@ -188,7 +188,7 @@ class RuleBasedGenerator:
         # convex, concave, or empty
         geometry = '_cnvx' if geometry == 1 else '_cncv' if geometry == 0 else ''
         component_name = f"{component_name + geometry}".replace('__', '_')
-        path = f"{self.components_path}/{component_name}.png"
+        path = f"PhaseAB/{self.components_path}/{component_name}.png"
 
         image = cv.imread(path, cv.IMREAD_UNCHANGED)
         return image

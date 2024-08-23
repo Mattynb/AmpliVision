@@ -44,9 +44,9 @@ class StripSection:
                          (val[2], val[3]), (0, 255, 0), 1)
 
             copy = cv.resize(copy, (200, 200))
-            cv.imshow('set_spots_manually()', copy)
+            """cv.imshow('stripSection/add_spot()', copy)
             cv.waitKey(0)
-            cv.destroyAllWindows()
+            cv.destroyAllWindows()"""
 
         self.set_total_avg_rgb()
 

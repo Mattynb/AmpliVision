@@ -82,9 +82,10 @@ def rgb_to_number(rgb, collection):
     # Find the color number
     numbers = collection.find(query)
     numbers = [number['color#'] for number in numbers ]
+
     
     # If sequence not found
-    if len(numbers) == 0:
+    if len(numbers) == 0 or numbers is None:
         warnings.warn(f"RGB sequence \'{r},{g},{b}\' not in database")
 
     # If there are multiple colors, print the colors and return the first color

@@ -24,7 +24,7 @@ class TestAnalyzer:
             "spot2": StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
-    def analyze_test_result(self, display: bool = False):  # should I name it main?
+    def analyze_test_result(self, double_thresh = False, display: bool = False):  # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
 
         # find the positive spots with hsv mask
@@ -38,7 +38,11 @@ class TestAnalyzer:
 
         # thresholds optimized for marker data
         rgb_spots = ColorContourExtractor.process_image(
-            blur, hsv_lower=[0, 40, 20], hsv_upper=[360,255,int(255*(.8))], display=display)
+            blur, 
+            hsv_lower=[0, 40, 20],
+            double_thresh=double_thresh, 
+            display=display
+        )
 
         if display:
             copy = self.test_square_img.copy()

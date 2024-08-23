@@ -59,7 +59,7 @@ def phaseA1(
     return scanned_images
 
 
-def phaseA2(scanned_images: dict, display: bool = False):
+def phaseA2(scanned_images: dict, display: bool = False) -> dict:
     """
     Phase A2
     ---------------
