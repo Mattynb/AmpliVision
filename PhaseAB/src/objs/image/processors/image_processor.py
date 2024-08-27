@@ -46,34 +46,39 @@ class ColorContourExtractor:
 
         # Create a mask to filter out the grayscale colors isolating the color of the pins.
         color_mask = cv.inRange(img_hsv, hsv_lower_color, hsv_upper_color)
+
+        # Visualize the mask on top of the original image before thresholding
+        mask_before_thresholding = color_mask.copy()
+        img = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
+        combined_before = cv.addWeighted(scanned_image_copy, 0.7, img, 0.3, 0)
+        #cv.imshow('Mask Before Thresholding', cv.resize(combined_before, (400, 400)))
         
         # combine the mask with the original image to see the result
         if double_thresh:
             
-            color_mask = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
+            second_mask = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
             #cv.imshow('bitwise and image + mask 1', cv.resize(color_mask,(200,200)))
             
             # make all black pixels white
-            color_mask[color_mask == 0] = 255
+            second_mask[second_mask == 0] = 255
             #cv.imshow('make black pixels white',  cv.resize(color_mask, (200, 200)))
             
             #  thresholding
-            color_mask = cv.cvtColor(color_mask, cv.COLOR_BGR2GRAY)
+            second_mask = cv.cvtColor(second_mask, cv.COLOR_BGR2GRAY)
             #cv.imshow('grey',  cv.resize(color_mask, (200, 200)))
             
-            color_mask = cv.bitwise_not(color_mask) 
-            cv.threshold(color_mask, 100, 255, cv.THRESH_BINARY, color_mask)
+            second_mask = cv.bitwise_not(second_mask) 
+            cv.threshold(second_mask, 100, 255, cv.THRESH_BINARY, second_mask)
             #cv.imshow('second thresholding ',  cv.resize(color_mask, (200, 200)))
 
-            #cv.waitKey(0)
-            #cv.destroyAllWindows()
-        
-        
+            cv.waitKey(0)
+        cv.destroyAllWindows()
+    
         edges = cv.Canny(color_mask, 0, 255)
         contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
         if display:
-            ColorContourExtractor.show_result(contours, scanned_image)
+            ColorContourExtractor.show_result(contours, scanned_image_copy)
 
         return contours
     
@@ -84,7 +89,7 @@ class ColorContourExtractor:
 
         copy = image.copy()
         cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
-        copy = cv.resize(copy, (200, 200))
+        copy = cv.resize(copy, (400, 400))
         cv.imshow('Color Contour Extractor', copy)
         cv.waitKey(0)
         cv.destroyAllWindows()

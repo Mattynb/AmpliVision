@@ -59,10 +59,12 @@ class DataExtractor:
             # separate the corr RGB values for each block type
             spot1, spot2 = self.separate_spots(appended_spots[block_type])
 
+            
             # calculate the mean and standard deviation of the corr RGB values
             block_type_fingerprint = self.get_mean_and_std_of_spots(
                 spot1, spot2)
 
+        
             # make sure the std is at least 10
             block_type_fingerprint = Utils.ensure_std_floor(
                 block_type_fingerprint, 5)

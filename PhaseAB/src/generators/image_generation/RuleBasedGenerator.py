@@ -24,7 +24,7 @@ class RuleBasedGenerator:
         return graphs
 
     def validate_results(self, results):
-        "results should be all different. Warn user if same"
+        ""
         return results
 
     def generate(self, n):
@@ -58,24 +58,34 @@ class RuleBasedGenerator:
             f"{self.save_path}/blank/",
             do_white_balance=True
         )
+        
+        # USING ONLY ONE IMAGE FOR TESTING
+        _images = dict()
+        x = list(images.keys())
+        _images[x[0]] = images[x[0]]
+        images = _images
 
         for image_name, image_content in images.items():
             
+            # PhaseA2 expects a dictionary of images
             image = dict()
-            image[image_name] = image_content
+            image[image_name] = image_content.copy()
             
             # and their grids
-            print("generating grids...")
-            Grid = phaseA2(image)
+            print("--- PhaseA2 2 ---")
+            Grid = phaseA2(image, display=False)
+            print("--- PhaseA2 2 Done ---")
 
             # paint the spots in the images
             # each image has its own grid
-            print("painting spots...")
+            print(" --- PhaseB 2 --- ")
             Grid = self.paint_spots(Grid, results)
-            
+            print( "--- PhaseB 2 Done --- ")
+
             # save the painted images in all possible orientations
-            print("saving images...")
+            print("--- Saving augmented images ---")
             self.save_augmented_images(Grid, n)
+            print( "--- Saving Done --- ")
 
         return
     
@@ -88,6 +98,9 @@ class RuleBasedGenerator:
                     img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)        
                     noisy_img = self.add_noise(img, percent=0.05)
                     cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
+
+
+                    exit()
        
 
 
@@ -102,6 +115,8 @@ class RuleBasedGenerator:
                 block, _ = identify_block_in_grid(block, [])
                 if block.block_type[:4] in ('test','cont'):
                     block_results = results[target_name][block.block_type] 
+ 
+                    print(f"Results for \'{target_name}\' block \'{block.block_type}\': {block_results}")
                     
                     # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
                     # print(f"type = {block.block_type}")
