@@ -29,7 +29,12 @@ class ColorContourExtractor:
 
     # A function that pre-processes the image to isolate the color of the pins.
     @staticmethod
-    def process_image(scanned_image: np.ndarray, hsv_lower = [0, 55, 0], hsv_upper = [360, 255,255], double_thresh:bool = False, display:bool=False) -> np.ndarray:
+    def process_image(
+        scanned_image: np.ndarray, 
+        hsv_lower = [0, 55, 0], 
+        hsv_upper = [360, 255,255], 
+        double_thresh:bool = False, 
+        display:bool=False) -> np.ndarray:
         """ this method pre-processes the image to isolate the color of the pins."""
 
         # Copy the image to avoid modifying the original image
@@ -49,11 +54,9 @@ class ColorContourExtractor:
 
         # Visualize the mask on top of the original image before thresholding
         mask_before_thresholding = color_mask.copy()
-        img = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
-        combined_before = cv.addWeighted(scanned_image_copy, 0.7, img, 0.3, 0)
-        #cv.imshow('Mask Before Thresholding', cv.resize(combined_before, (400, 400)))
-        
-        # combine the mask with the original image to see the result
+
+        edges = cv.Canny(color_mask, 0, 255)
+
         if double_thresh:
             
             second_mask = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
@@ -68,15 +71,24 @@ class ColorContourExtractor:
             #cv.imshow('grey',  cv.resize(color_mask, (200, 200)))
             
             second_mask = cv.bitwise_not(second_mask) 
-            cv.threshold(second_mask, 100, 255, cv.THRESH_BINARY, second_mask)
-            #cv.imshow('second thresholding ',  cv.resize(color_mask, (200, 200)))
+            #cv.imshow('bitwise not',  cv.resize(second_mask, (200, 200)))
+            #cv.waitKey(0)
 
-            cv.waitKey(0)
-        cv.destroyAllWindows()
-    
-        edges = cv.Canny(color_mask, 0, 255)
+            cv.threshold(second_mask, 125, 255, cv.THRESH_BINARY, second_mask)
+            
+            edges = cv.Canny(second_mask, 0, 255)
+            
+            #cv.imshow('second thresholding ',  cv.resize(
+             #   cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=second_mask), (400, 400)))   
+            #cv.imshow('first thresholding ',  cv.resize(
+              #  cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=color_mask), (400, 400)))
+            #cv.waitKey(0)
+
+            
+        #cv.destroyAllWindows()
+            
         contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
-
+    
         if display:
             ColorContourExtractor.show_result(contours, scanned_image_copy)
 

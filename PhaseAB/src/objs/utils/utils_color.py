@@ -27,10 +27,7 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
 
  
     # Calculate the mode RGB values
-    single_channel = [(r, g, b) for r, g, b in pixels_inside]
-
     mode_rgb = [ mode(pixels_inside[:, 0]), mode(pixels_inside[:, 1]), mode(pixels_inside[:, 2]) ]
-
 
     # Plot the histogram of R, G, and B channels in subplots
     fig, axs = plt.subplots(3)
@@ -38,6 +35,8 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
 
     colors = ['red', 'green', 'blue']
     curve_mean = []
+
+    "TODO: split calculation and plotting into two functions"
     for i in range(3):
         # Compute the histogram data
         hist, bin_edges = np.histogram(pixels_inside[:, i], bins=256, range=(0, 256))
@@ -76,14 +75,12 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
 
     # display the mask drawn on the image
     if debug:
+        square.get_test_area_img().copy()
         cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
         cv.imshow('utils_color/get_rgb_ag_of_contour', image)
         cv.waitKey(0)
         cv.destroyAllWindows()
 
-    # show the plot
-    #plt.show()
-    #exit()
     return mode_rgb
 
 def get_rgb_avg_of_circle_contour(square, contour: np.ndarray, debug: bool = False) -> list[int]:

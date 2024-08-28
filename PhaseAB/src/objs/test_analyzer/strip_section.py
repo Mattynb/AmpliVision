@@ -25,9 +25,11 @@ class StripSection:
 
     def add_spot(self, block, contour: np.ndarray, result: bool, debug: bool = False) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
-
+        
         avg_rgb = get_rgb_avg_of_contour(block, contour)
 
+        print(f"spot: {avg_rgb} positive: {result}") if debug else None
+    
         if result == False:
             avg_rgb = (0,0,0)
 

@@ -35,11 +35,9 @@ class TestAnalyzer:
         if display:
             print("rotation: ", self.block.rotation)
 
-        blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
-
         # thresholds optimized for marker data
         rgb_spots = ColorContourExtractor.process_image(
-            blur, 
+            self.test_square_img, 
             hsv_lower=[0, 40, 20],
             double_thresh=double_thresh, 
             display=display
@@ -55,7 +53,7 @@ class TestAnalyzer:
 
         # find the negative spots "manually" through ratios
         self.add_negatives_to_sections(display=display) 
-        
+
         # get background color noise so we can remove it from other sections
         self.strip_sections['bkg'].set_total_avg_rgb()
         bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
@@ -97,8 +95,6 @@ class TestAnalyzer:
 
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-
-                    print("auto added spot to: ", section.strip_type) if display else None
                     section.add_spot(self.block, spot, True, debug=display)
                     # break # only adds to one section
 
@@ -107,8 +103,6 @@ class TestAnalyzer:
         for type, section in zip(self.strip_sections.keys(), self.strip_sections.values()):
 
             if len(section.spots) == 0:
-                if display:
-                    print("man added negative spot to: ", type)
                 section.set_spots_manually(self.block, debug=display)
 
     def validate_results(self) -> None:

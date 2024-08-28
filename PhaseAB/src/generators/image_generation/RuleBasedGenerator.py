@@ -57,13 +57,7 @@ class RuleBasedGenerator:
             f"{self.save_path}/blank/*", 
             f"{self.save_path}/blank/",
             do_white_balance=True
-        )
-        
-        # USING ONLY ONE IMAGE FOR TESTING
-        _images = dict()
-        x = list(images.keys())
-        _images[x[0]] = images[x[0]]
-        images = _images
+        )  
 
         for image_name, image_content in images.items():
             
@@ -100,7 +94,7 @@ class RuleBasedGenerator:
                     cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
 
 
-                    exit()
+                    return
        
 
 
