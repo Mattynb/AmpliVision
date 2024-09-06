@@ -1,6 +1,9 @@
 import numpy as np
 import cv2 as cv
+from statistics import mode
 
+from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
 
 def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> list[int]:
     "rgb avg of any shapped contour"
@@ -15,21 +18,94 @@ def get_rgb_avg_of_contour(square, contour: np.ndarray, debug: bool = False) -> 
     # get the pixels inside the contour
     pixels_inside = image[mask == 255]
 
-    # Calculate the average RGB values
-    average_rgb = np.mean(pixels_inside, axis=0)
+    #dp = cv.bitwise_and(image, image, mask=mask)
+    #cv.imshow('utils_color/get_rgb_avg_of_contour', dp)
+    #cv.waitKey(0)
+    cv.destroyAllWindows()
+
+    # Calculate the mode RGB values
+    mode_rgb = [ mode(pixels_inside[:, 0]), mode(pixels_inside[:, 1]), mode(pixels_inside[:, 2]) ]
+
+    #"""
+    # Plot the histogram of R, G, and B channels in subplots
+    fig, axs = plt.subplots(3)
+    fig.suptitle('RGB Histogram')
+
+    colors = ['red', 'green', 'blue']
+    curve_mean = []
+    "TODO: split calculation and plotting into two functions"
+    for i in range(3):
+        # Compute the histogram data
+        hist, bin_edges = np.histogram(pixels_inside[:, i], bins=256, range=(0, 256))
+        bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+        
+        # Fit the Lorentzian function to the histogram data
+        try:
+            popt, _ = curve_fit(
+                lorentzian, 
+                bin_centers, 
+                hist, 
+                p0=[
+                    max(hist), 
+                    np.mean(pixels_inside[:, i]), 
+                    np.std(pixels_inside[:, i])
+                ],
+                bounds = (0, 255)
+            ) 
+        except RuntimeError as e:
+            print(f"Error: {e}. Using mode_rgb")
+            popt = mode_rgb
+        mean = popt[1]
+        curve_mean.append(mean)
+
+        # Plot the histogram
+        axs[i].hist(pixels_inside[:, i], bins=256, color=colors[i], alpha=0.6, label='Histogram')
+        axs[i].set_title(f'Channel {colors[i]}')
+        axs[i].set_xlim([0, 256])
+        
+        # Plot the Lorentzian fitted curve
+        fitted_curve = lorentzian(bin_centers, *popt)
+        axs[i].plot(bin_centers, fitted_curve, color='black', linewidth=2, label='Fitted Lorentzian curve')
+        
+        # Plot the mode with a different color
+        axs[i].axvline(mode_rgb[i], color='k', linestyle='dashed', linewidth=2, label='Mode')
+        axs[i].axvline(mean, color='gold', linestyle='dashed', linewidth=2, label='Curve Mean')
+
+        # Add a legend
+        axs[i].legend()
+        
+        """print("\n"*3)
+        # print plot x, y values
+        print(f"mode_rgb[{i}] = {mode_rgb[i]}")
+        print(f"curve_mean[{i}] = {mean}")
+
+        print(f"X values: {bin_centers}")
+        print(f"Curve Y values: {fitted_curve}")
+        print(f"Histogram Y values: {hist}")
+
+        print("\n")
+    print("\n"*3)
+    plt.show()"""
+    plt.close()
+    
+    
+    
 
     # Remove NaN values
-    average_rgb = np.nan_to_num(average_rgb)
+    mode_rgb = [round(x) for x in curve_mean]
+    mode_rgb = np.nan_to_num(mode_rgb)
+    #"""
+    
 
     # display the mask drawn on the image
     if debug:
+        square.get_test_area_img().copy()
         cv.drawContours(image, [contour], -1, (0, 255, 0), 1)
-        cv.imshow('mask', image)
-        cv.waitKey(1000)
+        cv.imshow('utils_color/get_rgb_ag_of_contour', image)
+        cv.waitKey(0)
         cv.destroyAllWindows()
 
-    return [round(x) for x in average_rgb]
-
+    return [round(x) for x in mode_rgb]
 
 def get_rgb_avg_of_circle_contour(square, contour: np.ndarray, debug: bool = False) -> list[int]:
     """
@@ -100,3 +176,8 @@ def set_rgb_sequence_clockwise(square, pins_rgb: list[int], corner_key: list[int
                         if key in corner_key else (0, 0, 0))
 
     square.rgb_sequence = sequence
+
+
+# Define the Lorentzian function
+def lorentzian(x, a, x0, b):
+    return (a / np.pi) * (b / ((x - x0)**2 + b**2))

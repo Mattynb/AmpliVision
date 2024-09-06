@@ -32,7 +32,7 @@ def get_filename(id: int, path: str):
 
 
 def write_to_csv(filename: str, data: list) -> str:
-    save_path = "PhaseAB/data/results/"
+    save_path = "data/results/"
 
     # create folder for csv files
     subfolder_name = filename.split('/')[-2]

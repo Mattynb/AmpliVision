@@ -3,6 +3,7 @@ from datetime import datetime
 from .strip_section import StripSection
 from ..image.processors.image_processor import ColorContourExtractor
 
+from matplotlib import pyplot as plt
 
 class TestAnalyzer:
     "This class is responsible for getting and analyzing test results a.k.a phase B"
@@ -24,7 +25,7 @@ class TestAnalyzer:
             "spot2": StripSection(self.test_square_img, 'spot2', block.rotation)
         }
 
-    def analyze_test_result(self, skip_manual:bool=False, display: bool = False):  # should I name it main?
+    def analyze_test_result(self, double_thresh = False, display: bool = False):  # should I name it main?
         "gets test results from a block, analyses them, and export them to csv"
 
         # find the positive spots with hsv mask
@@ -34,22 +35,25 @@ class TestAnalyzer:
         if display:
             print("rotation: ", self.block.rotation)
 
-        blur = cv.GaussianBlur(self.test_square_img, (3, 3), 0)
-
         # thresholds optimized for marker data
         rgb_spots = ColorContourExtractor.process_image(
-            blur, hsv_lower=[0, 40, 20], display=display)
+            self.test_square_img, 
+            hsv_lower=[0, 40, 20],
+            double_thresh=double_thresh, 
+            display=display
+        )
+        
 
         if display:
-            copy = self.test_square_img.copy()
-            cv.drawContours(copy, rgb_spots, -1, (0, 255, 0), 1)
+            cv.waitKey(100)
+            plt.close()
+            cv.destroyAllWindows()
 
         self.add_positives_to_sections(rgb_spots, display=display)
 
         # find the negative spots "manually" through ratios
-        if not skip_manual:
-            self.add_negatives_to_sections(display=display) 
-        
+        self.add_negatives_to_sections(display=display) 
+
         # get background color noise so we can remove it from other sections
         self.strip_sections['bkg'].set_total_avg_rgb()
         bkg_rgb_avg = self.strip_sections['bkg'].total_avg_rgb
@@ -60,6 +64,7 @@ class TestAnalyzer:
             if section.strip_type != 'bkg':
 
                 if display:
+                    print(f"{section.strip_type}AVG RGB: {section.total_avg_rgb}")
                     print("correcting: ", section.strip_type)
 
                 corrected_rgbs.append(section.subtract_bkg(bkg_rgb_avg))
@@ -71,23 +76,25 @@ class TestAnalyzer:
         "TODO: adapt validate_results to work with the new strip configuration"
         # self.validate_results()
 
-        for section in self.strip_sections.values():
-            section.set_total_avg_rgb()
-            # print("total avg rgb in ", section.strip_type, " is: ", section.total_avg_rgb)
-
         # export results to csv
-        return self.create_csv_row(corrected_rgbs)
+        row = self.create_csv_row(corrected_rgbs)
+        return row
+    
 
     def add_positives_to_sections(self, rgb_spots, display: int = 0) -> None:
         "used to add positive result spots to appropriate strip section"
 
         # adds each spot to its strip section
         for spot in rgb_spots:
+            # display the spot
+            '''cpy = cv.drawContours(self.test_square_img.copy(), [spot], -1, (0, 255, 0), 1)
+            cv.imshow(f'TA/add_positives_to_sections', cv.resize(cpy, (400, 400)))
+            cv.waitKey(0)
+            cv.destroyAllWindows()'''
+
+
             for section in self.strip_sections.values():
                 if section.bounds_contour(spot):
-
-                    if display:
-                        print("auto added spot to: ", section.strip_type)
                     section.add_spot(self.block, spot, True, debug=display)
                     # break # only adds to one section
 
@@ -96,8 +103,6 @@ class TestAnalyzer:
         for type, section in zip(self.strip_sections.keys(), self.strip_sections.values()):
 
             if len(section.spots) == 0:
-                if display:
-                    print("man added negative spot to: ", type)
                 section.set_spots_manually(self.block, debug=display)
 
     def validate_results(self) -> None:
@@ -161,11 +166,10 @@ class TestAnalyzer:
 
         if self.strip_sections['spot1'].total_avg_rgb != None:
             spot1_b, spot1_g, spot1_r = self.strip_sections['spot1'].total_avg_rgb
-            # print("spot1 rgb: ", test_r, test_g, test_b)
+            #print("spot1 rgb: ", test_r, test_g, test_b)
 
         if self.strip_sections["spot2"].total_avg_rgb != None:
             spot2_b, spot2_g, spot2_r = self.strip_sections['spot2'].total_avg_rgb
-            # print("spot2 rgb: ", cntrl_r, cntrl_g, cntrl_b)
 
         spot1_corr_b, spot1_corr_g, spot1_corr_r = corrected_rgbs[0]
         spot2_corr_b, spot2_corr_g, spot2_corr_r = corrected_rgbs[1]
@@ -194,26 +198,30 @@ class TestAnalyzer:
         self.analyze_test_result()
 
         image = self.test_square_img
-        for section in self.strip_sections.values():
+        image_ = image.copy()
+        for type, section in self.strip_sections.items():
+            
+            # dont paint bkg
             if section.strip_type == 'bkg':
                 continue
             
-            i = None
-            if section.strip_type == 'spot1':
-                i = 0
-
-            if section.strip_type == 'spot2':
-                i = 2
-
-            r = random.normal(
-                rgb_spot_results['r'][i], rgb_spot_results['r'][i+1])
-            g = random.normal(
-                rgb_spot_results['g'][i], rgb_spot_results['g'][i+1])
-            b = random.normal(
-                rgb_spot_results['b'][i], rgb_spot_results['b'][i+1])
+            # get the correct index for result
+            i = 0 if type == 'spot1' else 2
+        
+            rgb = []
+            means = []
+            for c in ('b', 'g', 'r'):
+                mean, std = rgb_spot_results[c][i:i+2]
+                means.append(mean)
+                
+                rgb.append(int(random.normal(mean, std)))
             
-            rgb = (int(b), int(g), int(r))
-
+            rgb = tuple(rgb)
+            
+            if means == [0,0,0]:
+                continue
+            
+            print(f"Paiting {type} with {rgb}")
             image_ = section.paint_spot(image, rgb, display=False)
         
         self.block.set_test_area_img(image_)

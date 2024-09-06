@@ -55,7 +55,8 @@ class ImageLoader:
 
             if display:
                 for i, f in enumerate(files):
-                    print(f"{i} -> {f[f.rfind('\\') + 1:]}")
+                    name = f[f.rfind('\\') + 1:]
+                    print(f"{i} -> {name}")
 
             imgs.extend([cv.imread(file) for file in files])
 

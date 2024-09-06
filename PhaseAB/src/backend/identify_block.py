@@ -1,100 +1,74 @@
 import warnings
-from .add_to_db.connect_to_db import Client
+
+color_ranges = [
+    {"color_name": "Red", "color#" : 1, "min": (150,0,0), "max": (255,150,149)},
+    {"color_name": "Red", "color#" : 1, "min": (100,0,0), "max": (149,99,149)},
+    {"color_name": "Blue", "color#" : 2, "min": (0,0,150), "max": (255,168,255)},
+    {"color_name": "Green", "color#" : 3, "min": (0,100,0), "max": (149,255,149)},
+    {"color_name": "Green", "color#" : 3, "min": (150,151,0), "max": (255,255,149)}
+]
+
+block_types = [
+    {"block_name": "wick_block", "Sequence": (1, 1, 1, 3)},
+    {"block_name": "sample_block", "Sequence": (2, 2, 1, 3)},
+    {"block_name": "conjugate_pad", "Sequence": (3, 3, 3, 1)},
+    {"block_name": "test_block1", "Sequence": (2, 2, 1, 2)},
+    {"block_name": "test_block2", "Sequence": (1, 1, 2, 1)},
+    {"block_name": "test_block3", "Sequence": (3, 3, 2, 3)},
+    {"block_name": "control_block", "Sequence": (2, 2, 3, 2)},
+]
+
+def rgb_to_number(rgb, color_ranges):
+    """Convert an RGB value to a number using the local color_ranges."""
+    r, g, b = rgb
+
+    for color_range in color_ranges:
+        if (color_range['min'][0] <= r <= color_range['max'][0] and
+            color_range['min'][1] <= g <= color_range['max'][1] and
+            color_range['min'][2] <= b <= color_range['max'][2]):
+            return color_range['color#']
+
+    warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+    return None
 
 def identify_block(block, display: int = 0):
-    """ Function to identify the block type of a block given the RGB sequence."""
+    """Function to identify the block type of a block given the RGB sequence."""
 
-    client = Client
-
-    # Connect to the color_ranges database collection
-    db = client.ampli_cv
-    collection = db.color_ranges
-
-    # Get the RGB sequence of the
-    # block in rgb and numerical form
+    # Get the RGB sequence of the block
     sequence_rgb = []
     sequence_numerical = []
     for rgb in block.get_rgb_sequence():
-        # Add the RGB to the sequence_rgb list
         sequence_rgb.append(rgb)
+        number = rgb_to_number(rgb, color_ranges)
+        if number is not None:
+            sequence_numerical.append(number)
 
-        # Convert the RGB to a number and
-        # add the number to the sequence_numerical list
-        number = rgb_to_number(rgb, collection)
-        sequence_numerical.append(number)
-
-    # Print the sequences
+    # Print the sequences if display is set to 1
     if display:
         print(f'RGB sequence: {sequence_rgb}')
         print(f'Numerical sequence: {sequence_numerical}')
 
-    # Connect to the block_types collection
-    block_collection = db.block_types
-
-    # Check if the sequence is in the database
-    # If it is, print the block type
+    # Check if the sequence is in the block_types list
     for rotation in range(len(sequence_numerical)):
-        # Look for the sequence in the database
-        query = {'Sequence': sequence_numerical}
+        query_sequence = tuple(sequence_numerical)
 
-        # If the sequence is found, print the block type and return
-        block_type = block_collection.find_one(query)
-        if block_type:
-            block.block_type = block_type["block_name"]
-            if display:
-                print(f'\'{block_type["block_name"]}\' at {block.index}\n')
+        for block_type in block_types:
+            if block_type['Sequence'] == query_sequence:
+                block.block_type = block_type["block_name"]
+                if display:
+                    print(f'\'{block.block_type}\' at {block.index}\n')
 
+                r = [0, 90, 180, 270]
+                block.rotation = r[rotation]
+                return block
 
-            r = [0, 90, 180, 270]
-            block.rotation = r[rotation]
-
-            return block
-
-        # Rotate the sequence
+        # Rotate the sequence for the next iteration
         sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
 
-    # If the sequence is not found, print unknown
+    # If the sequence is not found, warn and return the block as unknown
     warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
 
     return block
-
-
-def rgb_to_number(rgb, collection):
-    """ 
-    Convert an RGB value to a number using the color_ranges collection in the database.
-    """
-    r, g, b = rgb
-
-    query = {
-        # Compare Red range
-        'min.0': {'$lte': r},
-        'max.0': {'$gte': r},
-
-        # Compare Green range
-        'min.1': {'$lte': g},
-        'max.1': {'$gte': g},
-
-        # Compare Blue range
-        'min.2': {'$lte': b},
-        'max.2': {'$gte': b},
-    }
-
-    # Find the color number
-    numbers = collection.find(query)
-    numbers = [number['color#'] for number in numbers ]
-    
-    # If sequence not found
-    if len(numbers) == 0:
-        warnings.warn(f"RGB sequence \'{r},{g},{b}\' not in database")
-
-    # If there are multiple colors, print the colors and return the first color
-    # Note that there should not be multiple colors for a single RGB value
-    if len(numbers) > 1:
-        warnings.warn(f"Multiple colors found for r: {r}, g: {g}, b: {b}...\n{[number for number in numbers]}")
-
-    # If there is only one color, return the color number
-    return numbers[0]
-
     
 if __name__ == '__main__':
     ...

@@ -16,11 +16,18 @@ class TestGraph:
 
         # make sure duplicate names are changed. Ex [wick, wick] -> [wick_1, wick_2]
         nodes = self.make_unique_names(nodes)
+  
         G.add_nodes_from(nodes)
-
         # add edges (sequence of blocks) to graph
         positions = [block.index for block in blocks]
-        edges = self.get_edges(nodes, positions, nodes.index('sample_block'))
+        
+        try:
+            head = nodes.index('sample_block')
+        except ValueError:
+            # block identification error
+            return G
+        
+        edges = self.get_edges(nodes, positions, head)
         G.add_edges_from(edges)
 
         return G

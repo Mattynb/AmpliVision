@@ -1,0 +1,4 @@
+*.env
+PhaseAB/data/*
+__pycache__
+*.pyc

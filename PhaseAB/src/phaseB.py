@@ -2,7 +2,7 @@ from .objs.utils import generate_csv_filename
 from .backend import identify_block
 from .objs import TestAnalyzer
 from .objs.utils import write_to_csv
-from .generators.rgb_data_generator import DataExtractor
+from .generators import DataExtractor
 
 
 def phaseB(_Grids, display:bool = False) -> list:
@@ -72,7 +72,7 @@ def identify_block_in_grid(block, csv_rows):
     b_type = block.get_block_type()
     if b_type.startswith(b_types):
         ta = TestAnalyzer(block)
-        results = ta.analyze_test_result(display=False)
+        results = ta.analyze_test_result(display=False, double_thresh=True)
         csv_rows.append(results)
 
     return block, csv_rows
