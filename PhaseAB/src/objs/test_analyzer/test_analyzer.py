@@ -221,7 +221,7 @@ class TestAnalyzer:
             if means == [0,0,0]:
                 continue
             
-            print(f"Paiting {type} with {rgb}")
+            #print(f"Paiting {type} with {rgb}")
             image_ = section.paint_spot(image, rgb, display=False)
         
         self.block.set_test_area_img(image_)

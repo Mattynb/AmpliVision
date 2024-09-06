@@ -1,14 +1,19 @@
 from networkx import DiGraph
 from src.objs import Grid
 from src.objs import TestAnalyzer
-from src.phaseA import phaseA1, phaseA2, phaseA3
-from src.phaseB import phaseB, identify_block_in_grid
+
+try:
+    from src.phaseA import phaseA1, phaseA2, phaseA3
+    from src.phaseB import phaseB, identify_block_in_grid
+except ImportError:
+    pass
 
 import cv2 as cv
 import numpy as np
 import re
 from math import ceil
 
+import time
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], config=None):
         """"""
@@ -45,7 +50,15 @@ class RuleBasedGenerator:
         self.clear_folder(f"{self.save_path}/final")
 
         
-    def generate(self, n, save: bool = False, rotation: int = 0):
+    def generate(
+            self, 
+            n:int = 1, 
+            targets: list[str] = None, 
+            rotation: int = 0, 
+            noise: int = 0.05, 
+            rgb: bool = False, 
+            save: bool = False
+        ):
         # will need to be broken into functions but the idea is:
         """
         generate a bunch of test images with no spots 
@@ -55,29 +68,54 @@ class RuleBasedGenerator:
         print("-"*50, "\nRule Based Generator\n", "-"*50)
 
         # generates one image per target where blocks start in different indexes
-        images = self.generate_blank(self.results, self.starting_indexes)
+        t= time.time()
+        images = self.generate_blank()
+        targets = self.results.keys() if targets is None else targets
 
-        for image_content in images:
-            
-            # PhaseA2 expects a dictionary of images
-            image = dict()
-            image_name = "idk_man"
-            image[image_name] = image_content.copy()
-            
-            # get their virtual grids
-            Grid = phaseA2(image, display=False)
+        for i in range(n):
+            for image_content in images:
+                for target in targets:
+                    
+                    img = self.generate_single_image(
+                        image_content, target, rotation, noise, rgb, save
+                    )
 
-            # paint the spots in the images
-            # each image has its own grid
-            Grid = self.paint_spots(Grid, self.results)
+                    yield img
 
-            # save the painted images in all possible orientations
-            self.save_augmented_images(Grid, n) if save else None
-            
-            image_name, grid  = Grid.items()
-            yield grid.img
 
-    def rotate_image(image, r):
+    def generate_single_image(self, image_content, target, rotation, noise, rgb, save):
+        # PhaseA2 expects a dictionary of images
+        t = time.time()
+        image = dict()
+        image[target] = image_content.copy()
+        #print(f"Time to make dict: {time.time()-t}")
+
+        # get their virtual grids
+        t = time.time()
+        Grid = phaseA2(image, display=False)
+        #print(f"Time to get virtual grids: {time.time()-t}")
+
+        # paint the spots in the images
+        # each image has its own grid
+        t = time.time()
+        Grid = self.paint_spots(Grid, self.results)
+        #print(f"Time to paint spots: {time.time()-t}")
+
+        # save the painted images in all possible orientations
+        self.save_augmented_images(Grid, n) if save else None
+        
+        grid = list(Grid.values())[0]
+
+        img = self.add_noise(grid.img, percent=noise)
+        
+        img = self.rotate_image(img, rotation)
+
+        # bgr to rgb
+        img = cv.cvtColor(img, cv.COLOR_BGR2RGB) if rgb else img
+        
+        return img
+
+    def rotate_image(self, image, r):
         if r == 0:
             return image
         
@@ -108,8 +146,6 @@ class RuleBasedGenerator:
                 if block.block_type[:4] in ('test','cont'):
                     block_results = results[target_name][block.block_type] 
  
-                    print(f"Results for \'{target_name}\' block \'{block.block_type}\': {block_results}")
-                    
                     # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
                     # print(f"type = {block.block_type}")
                     ta = TestAnalyzer(block)
@@ -121,24 +157,24 @@ class RuleBasedGenerator:
         return Grids
 
 
-    def generate_blank(self, results, starting_indexes, save:bool = False):
-        for _index in starting_indexes:
-            for i, target in enumerate(results.keys()):
-                
-                print(f"Generating blank spots image of {target} @ {_index}...")
+    def generate_blank(self, save:bool = False, target: str = None,) -> np.ndarray:
+        
+        targets = self.results.keys() if target is None else [target]
+        
+        grid_img = self.load_image('grid')  
 
-                grid_img = self.load_image('grid')
-                Grid_DS = Grid(grid_img)
-                img = grid_img
+        for _index in self.starting_indexes:
+            
+            Grid_DS = Grid(grid_img)
 
-                # fill blank grid with blank blocks
-                self._place_unpainted_blocks(_index, Grid_DS)
+            # fill blank grid with blank blocks
+            self._place_unpainted_blocks(_index, Grid_DS)
 
-                # save the blank image
-                if save:
-                    cv.imwrite(f"{self.save_path}/blank/{target}_{_index}.png", img) 
+            # save the blank image
+            if save:
+                cv.imwrite(f"{self.save_path}/blank/{target}_{_index}.png", Grid_DS.img) 
 
-                yield img 
+            yield Grid_DS.img.copy()
     
     def _place_unpainted_blocks(self, block_index, Grid_DS):
         """ Places unpainted blocks in empty grid"""
@@ -153,6 +189,7 @@ class RuleBasedGenerator:
             # add unpainted block to the image
             img = Grid_DS.add_artificial_block(
                 block_index, Grid_DS.img, block_img)
+            Grid_DS.img = img
 
             # alternate between convex and concave blocks
             geometry = not geometry
@@ -188,8 +225,6 @@ class RuleBasedGenerator:
 
         return image
 
-
-
     def load_image(self, component_name, geometry=None):
         # if component_name has 2 numbers, remove the second one
         if not component_name.startswith('test'):
@@ -206,7 +241,7 @@ class RuleBasedGenerator:
         import os
         import shutil
 
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
         path = os.path.join(project_root, path)
 
         if os.path.exists(path):

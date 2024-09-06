@@ -222,14 +222,15 @@ class Grid(IGrid):
         combinations = list(itertools.combinations(centers, 4))
 
         # useful values for debuggin
+        """
         point0_step = math.comb(len(centers)-1, 3)
         point1_step = math.comb(len(centers)-2, 2)
-        point2_step = math.comb(len(centers)-3, 1)
+        point2_step = math.comb(len(centers)-3, 1)"""
         # print("centers:", len(centers), "combinations:", len(combinations))
         # print("point0_step:", point0_step, "point1_step:", point1_step, "point2_step:", point2_step)
         index = 0
         debug_flag = 0
-        step_filter = point0_step
+        #step_filter = point0_step
 
         # iterate through the combinations of points
         for comb in combinations:
