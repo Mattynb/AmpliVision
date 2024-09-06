@@ -25,13 +25,8 @@ class StripSection:
 
     def add_spot(self, block, contour: np.ndarray, result: bool, debug: bool = False) -> None:
         " adds spot to section as a hashmap with \"color\" and \"avg_rgb\" "
-        
-        avg_rgb = get_rgb_avg_of_contour(block, contour)
 
-        print(f"spot: {avg_rgb} positive: {result}") if debug else None
-    
-        if result == False:
-            avg_rgb = (0,0,0)
+        avg_rgb = get_rgb_avg_of_contour(block, contour)
 
         self.spots.append({
             "contour": contour,
@@ -44,13 +39,11 @@ class StripSection:
             val = self.bounds
             cv.rectangle(copy, (val[0], val[1]),
                          (val[2], val[3]), (0, 255, 0), 1)
-            cv.drawContours(copy, [contour], -1, (0, 0, 255), 1)
 
             copy = cv.resize(copy, (200, 200))
-            """
-            cv.imshow('stripSection/add_spot()', copy)
-            cv.waitKey(0)#"""
-            cv.destroyAllWindows()#"""
+            cv.imshow('set_spots_manually()', copy)
+            cv.waitKey(0)
+            cv.destroyAllWindows()
 
         self.set_total_avg_rgb()
 
@@ -101,34 +94,20 @@ class StripSection:
     def set_total_avg_rgb(self, bkg=[0, 0, 0]) -> list[int]:
         "sets the total avg rgb by adding the spot rgb avgs together"
 
-        #assert len(self.spots) != 0, """
-        #please add spots to section before calling set_total_avg_rgb()"""
-        if len(self.spots) == 0:
-            self.total_avg_rgb = 0
-            return
+        assert len(self.spots) != 0, """
+        please add spots to section before calling set_total_avg_rgb()"""
 
         i = 0
         total_avg = [0, 0, 0]
 
         # adding the total avg with each spot avg
         for spot in self.spots:
-            total_avg = list(
-                map(
-                    lambda total, spot_avg: 
-                    total + spot_avg
-                    ,total_avg, spot["avg_rgb"]  
-                )
-            )
+            total_avg = list(map(lambda total, spot_avg: total +
+                             spot_avg, total_avg, spot["avg_rgb"]))
             i += 1
 
         # dividing by the number of spots
-        total_avg = list(
-            map(
-                lambda total: 
-                total/i
-                , total_avg
-            )
-        )
+        total_avg = list(map(lambda total: total/i, total_avg))
 
         self.total_avg_rgb = total_avg
 
@@ -139,13 +118,7 @@ class StripSection:
             print("please set the total avg rgb before calling subtract_bkg()")
             return None
 
-        return list(
-            map(
-                lambda total, bkg: 
-                bkg - total
-                , self.total_avg_rgb, bkg_rgb_avg
-            )
-        )
+        return list(map(lambda total, bkg: bkg - total, self.total_avg_rgb, bkg_rgb_avg))
 
     # geometry
     def set_bounds(self, test_square_img: np.ndarray, rotation: int) -> list[int]:
@@ -217,9 +190,9 @@ class StripSection:
 
     def paint_spot(self, block_img, rgb, display=False):
         "paints the spot on the block image"
-        
-        if len(self.spots) > 0:
-            block_img = cv.drawContours(block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
+
+        block_img = cv.drawContours(
+            block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
 
         if display:
             cv.imshow('paint_spot()', block_img)

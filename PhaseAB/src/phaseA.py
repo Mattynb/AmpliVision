@@ -12,7 +12,7 @@ def phaseA1(
     display: bool = False,
     is_pre_scanned: bool = False,
     do_white_balance: bool = False
-) -> list:
+) -> tuple:
     """
     Phase A1
     ---------------
@@ -59,7 +59,7 @@ def phaseA1(
     return scanned_images
 
 
-def phaseA2(scanned_images: dict, display: bool = False) -> dict:
+def phaseA2(scanned_images: dict, display: bool = False):
     """
     Phase A2
     ---------------
@@ -80,13 +80,13 @@ def phaseA2(scanned_images: dict, display: bool = False) -> dict:
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the
         # pins and later blocks.
-        contours = ColorContourExtractor.process_image(image_scan.copy(), display=display)
+        contours = ColorContourExtractor.process_image(image_scan)
 
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as
         # the blocks and pins, etc.
         Grid_DS = Grid(image_scan)
-        #display_grid(image_scan, Grid_DS, contours) if display else None
+        display_grid(image_scan, Grid_DS, contours) if display else None
 
         # determines which squares in grid are blocks
         Grid_DS.find_blocks(contours)
