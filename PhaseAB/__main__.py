@@ -83,7 +83,4 @@ if __name__ == '__main__':
     path_to_imgs = "PhaseAB/data/scanned/*" #DENV_imgs/*"
     scanned_path = "PhaseAB/data/scanned/"
     main(path_to_imgs, scanned_path, display=False)
-    
-    
-    from src.backend.add_to_db.connect_to_db import Client
-    Client.close()
+

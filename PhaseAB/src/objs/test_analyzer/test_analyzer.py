@@ -194,8 +194,12 @@ class TestAnalyzer:
             format: {r: [mean1, std1, mean2, std2], g: [mean1, std1, mean2, std2], b: [mean1, std1, mean2, std2]}
         """
         from numpy import random
-        
+        import time 
+
+        # can show improved performance if get_rgb_avg_of_contour TODO is done
+        t = time.time()
         self.analyze_test_result()
+        #print(f"        analyze_test_result in {round(time.time() - t,2)}")
 
         image = self.test_square_img
         image_ = image.copy()
@@ -207,7 +211,7 @@ class TestAnalyzer:
             
             # get the correct index for result
             i = 0 if type == 'spot1' else 2
-        
+
             rgb = []
             means = []
             for c in ('b', 'g', 'r'):
@@ -215,7 +219,6 @@ class TestAnalyzer:
                 means.append(mean)
                 
                 rgb.append(int(random.normal(mean, std)))
-            
             rgb = tuple(rgb)
             
             if means == [0,0,0]:

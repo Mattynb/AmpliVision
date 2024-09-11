@@ -4,6 +4,10 @@ from src.objs import TestAnalyzer
 
 try:
     from src.phaseA import phaseA1, phaseA2, phaseA3
+except ImportError:
+    pass
+
+try:
     from src.phaseB import phaseB, identify_block_in_grid
 except ImportError:
     pass
@@ -12,8 +16,9 @@ import cv2 as cv
 import numpy as np
 import re
 from math import ceil
-
 import time
+
+
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], config=None):
         """"""
@@ -32,6 +37,9 @@ class RuleBasedGenerator:
         return results
 
     def setup(self, starting_indexes: list[tuple[int]] =None):
+
+        t = time.time()
+
         # taking the first graph as they should be the same
         di_graph = self.graphs[0]
         results = self.results
@@ -48,6 +56,8 @@ class RuleBasedGenerator:
         # clear the folders
         self.clear_folder(f"{self.save_path}/blank")
         self.clear_folder(f"{self.save_path}/final")
+
+        print(f"setup completed in {round(time.time()-t, 2)} seconds")
 
         
     def generate(
@@ -69,16 +79,18 @@ class RuleBasedGenerator:
 
         # generates one image per target where blocks start in different indexes
         t= time.time()
-        images = self.generate_blank()
         targets = self.results.keys() if targets is None else targets
 
         for i in range(n):
+            images = self.generate_blank()
             for image_content in images:
                 for target in targets:
                     
+                    print("-"*20, "GENENERATING SINGLE" ,"-"*20)
                     img = self.generate_single_image(
                         image_content, target, rotation, noise, rgb, save
                     )
+                    print("-"*20,"SINGLE DONE ","-"*20)
 
                     yield img
 
@@ -96,7 +108,7 @@ class RuleBasedGenerator:
         #print(f"Time to get virtual grids: {time.time()-t}")
 
         # paint the spots in the images
-        # each image has its own grid
+        # each image has its own gridsave
         t = time.time()
         Grid = self.paint_spots(Grid, self.results)
         #print(f"Time to paint spots: {time.time()-t}")
@@ -135,6 +147,9 @@ class RuleBasedGenerator:
                     cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
 
     def paint_spots(self, Grids, results):
+
+        import time
+
         for image_name, grid in Grids.items():
             target_name = image_name.split("_")[0]
 
@@ -142,17 +157,30 @@ class RuleBasedGenerator:
             for block in grid.get_blocks():
 
                 # only painting test and control blocks for now
+
+                t = time.time()
                 block, _ = identify_block_in_grid(block, [])
+                #print(f"     idenitified block in {round(time.time() - t, 2)}")
+               
                 if block.block_type[:4] in ('test','cont'):
                     block_results = results[target_name][block.block_type] 
  
                     # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
                     # print(f"type = {block.block_type}")
+                    t = time.time()
                     ta = TestAnalyzer(block)
+                    #print(f"        TestAnalyzer in {round(time.time() - t, 2)}")
+
+                    t = time.time()
                     block = ta.paint_spots(block_results)
+                    #print(f"        paint_spots in {round(time.time() - t, 2)}")
 
                     # "paste" the painted block back into the image
+                    t = time.time()
                     grid.paste_test_area(block)
+                    #print(f"        paste_test_area in {round(time.time() - t, 2)}")
+
+                    
 
         return Grids
 

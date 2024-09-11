@@ -217,7 +217,7 @@ class StripSection:
 
     def paint_spot(self, block_img, rgb, display=False):
         "paints the spot on the block image"
-        
+
         if len(self.spots) > 0:
             block_img = cv.drawContours(block_img, [self.spots[-1]["contour"]], -1, rgb, -1)
 

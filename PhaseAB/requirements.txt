@@ -3,8 +3,10 @@ numpy
 pillow-heif
 pillow
 matplotlib
-pymongo
+#pymongo
+#python-dotenv
 networkx
-python-dotenv
 pandas
 scipy
+pyod
+tensorflow
