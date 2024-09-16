@@ -1,23 +1,17 @@
-from networkx import DiGraph
 from src.objs import Grid
 from src.objs import TestAnalyzer
+from src.phaseA import phaseA1, phaseA2, phaseA3
+from src.phaseB import phaseB, identify_block_in_grid 
 
-try:
-    from src.phaseA import phaseA1, phaseA2, phaseA3
-except ImportError:
-    pass
-
-try:
-    from src.phaseB import phaseB, identify_block_in_grid
-except ImportError:
-    pass
-
+import tensorflow as tf
 import cv2 as cv
 import numpy as np
 import re
-from math import ceil
 import time
 
+from networkx import DiGraph
+from math import ceil
+import random
 
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], config=None):
@@ -32,17 +26,16 @@ class RuleBasedGenerator:
         "graphs should all be the same. Warn user if different"
         return graphs
 
-    def validate_results(self, results):
-        ""
+    def validate_results(self, results:list[str]):
         return results
 
-    def setup(self, starting_indexes: list[tuple[int]] =None):
+    def setup(self, starting_indexes: list[tuple[int]] = []):
 
         t = time.time()
 
         # taking the first graph as they should be the same
         di_graph = self.graphs[0]
-        results = self.results
+        self.results
 
         # meant to avoid duplicate images after augmentation 
         # (rotation, flippin, etc)      
@@ -51,20 +44,30 @@ class RuleBasedGenerator:
             (x, y)  
             for x in range(MAX_INDEX - len(di_graph.nodes))
             for y in range(ceil(MAX_INDEX/2))
-        ] if starting_indexes is None else starting_indexes
+        ] if starting_indexes is [] else starting_indexes
+        print(starting_indexes)
 
         # clear the folders
         self.clear_folder(f"{self.save_path}/blank")
-        self.clear_folder(f"{self.save_path}/final")
+        #self.clear_folder(f"{self.save_path}/final")
+
+        unique_labels = self.results.keys()
+        print(f"unique_labels = {unique_labels}")
+        self.label_mapping = {
+            label: idx 
+            for idx, label 
+            in enumerate(sorted(unique_labels))
+        }
+        print(f"label_mapping = {self.label_mapping}")
 
         print(f"setup completed in {round(time.time()-t, 2)} seconds")
 
         
     def generate(
             self, 
-            n:int = 1, 
+            batch_size:int = 1, 
             targets: list[str] = None, 
-            rotation: int = 0, 
+            rotation: int = None, 
             noise: int = 0.05, 
             rgb: bool = False, 
             save: bool = False
@@ -80,19 +83,25 @@ class RuleBasedGenerator:
         # generates one image per target where blocks start in different indexes
         t= time.time()
         targets = self.results.keys() if targets is None else targets
-
-        for i in range(n):
+        rotation = random.randint(0, 3) if rotation is None else rotation
+        
+        for i in range(batch_size):
             images = self.generate_blank()
+    
+            #batch_images = []
+            #batch_labels = []
             for image_content in images:
+                print("here")
                 for target in targets:
                     
                     print("-"*20, "GENENERATING SINGLE" ,"-"*20)
                     img = self.generate_single_image(
                         image_content, target, rotation, noise, rgb, save
                     )
-                    print("-"*20,"SINGLE DONE ","-"*20)
-
-                    yield img
+                    #print("-"*20,"SINGLE DONE ","-"*20)
+                    #batch_images.append(img[0])
+                    #batch_labels.append(img[1])
+            #yield np.array(batch_images), np.array(batch_labels)
 
 
     def generate_single_image(self, image_content, target, rotation, noise, rgb, save):
@@ -111,10 +120,10 @@ class RuleBasedGenerator:
         # each image has its own gridsave
         t = time.time()
         Grid = self.paint_spots(Grid, self.results)
-        #print(f"Time to paint spots: {time.time()-t}")
+        print(f"Time to paint spots: {time.time()-t}")
 
         # save the painted images in all possible orientations
-        self.save_augmented_images(Grid, n) if save else None
+        self.save_augmented_images(Grid, 1) if save else None
         
         grid = list(Grid.values())[0]
 
@@ -125,7 +134,15 @@ class RuleBasedGenerator:
         # bgr to rgb
         img = cv.cvtColor(img, cv.COLOR_BGR2RGB) if rgb else img
         
-        return img
+        # one-hot encoding
+        label = self.label_mapping[target]
+        one_hot_label = tf.keras.utils.to_categorical(label, num_classes=len(self.label_mapping))       
+        
+        # resizing to proper input layer size
+        img = tf.image.resize_with_crop_or_pad(img, 1202, 1202)
+        img = tf.expand_dims(img, axis=0)
+
+        return img, one_hot_label
 
     def rotate_image(self, image, r):
         if r == 0:
@@ -140,16 +157,14 @@ class RuleBasedGenerator:
         for n in range(num):
             for image_name, grid in Grids.items():
                 img = grid.img
-                for i in range(4):
+                i = 0
+                #for i in range(4):
                     # rotate images all 4 ways
-                    img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)        
-                    noisy_img = self.add_noise(img, percent=0.05)
-                    cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}.png", noisy_img)
+                img = cv.rotate(img, cv.ROTATE_90_CLOCKWISE)        
+                noisy_img = self.add_noise(img, percent=0.05)
+                cv.imwrite(f"{self.save_path}/final/{image_name}_{i}__{n}_{random.randint(0,1000)}.png", noisy_img)
 
     def paint_spots(self, Grids, results):
-
-        import time
-
         for image_name, grid in Grids.items():
             target_name = image_name.split("_")[0]
 
@@ -158,7 +173,7 @@ class RuleBasedGenerator:
 
                 # only painting test and control blocks for now
 
-                t = time.time()
+                #t = time.time()
                 block, _ = identify_block_in_grid(block, [])
                 #print(f"     idenitified block in {round(time.time() - t, 2)}")
                
