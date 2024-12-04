@@ -17,8 +17,8 @@ AmpliVision is an open source program designed to Automate AMPLI rapid test work
 - [Contributing](#contributing)
 - [Implementing Your AMPLI Tests](#implementing-your-ampli-tests)
 - [More Resources](#more-resources)
-  - [Documentation](#documentation)
-  - [Presentation](#presentation)
+  - [Documentation](#more-resources)
+  - [Presentation](#more-resources)
 - [License](#license)
 - [Contact](#contact)
 
