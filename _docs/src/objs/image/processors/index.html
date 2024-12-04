@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.objs.image.processors API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.objs.image.processors</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.processors.background_remover" href="background_remover.html">AmpliVision.src.objs.image.processors.background_remover</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.processors.image_processor" href="image_processor.html">AmpliVision.src.objs.image.processors.image_processor</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.processors.morphological_transformer" href="morphological_transformer.html">AmpliVision.src.objs.image.processors.morphological_transformer</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.objs.image.processors.BackgroundRemover"><code class="flex name class">
+<span>class <span class="ident">BackgroundRemover</span></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="backgroundremover">BackgroundRemover</h2>
+<p>This class is used to remove the background from an image, isolating the foreground object (such as a document).</p>
+<h3 id="methods">Methods</h3>
+<ul>
+<li><code>remove_background(image: np.ndarray) -&gt; np.ndarray</code><ul>
+<li>This method removes the background from the given image and returns the image with the background removed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import cv2 as cv
+from src.objs.image.processors.background_remover import BackgroundRemover
+
+image = cv.imread('path/to/image.jpg')
+processed_image = BackgroundRemover.remove_background(image)
+</code></pre>
+<h2 id="reference">reference</h2>
+<p><a href="https://learnopencv.com/automatic-document-scanner-using-opencv/">https://learnopencv.com/automatic-document-scanner-using-opencv/</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BackgroundRemover():
+    &#34;&#34;&#34;
+    ## BackgroundRemover
+
+    This class is used to remove the background from an image, isolating the foreground object (such as a document).
+
+    ### Methods
+    - `remove_background(image: np.ndarray) -&gt; np.ndarray`
+        - This method removes the background from the given image and returns the image with the background removed.
+
+    ### Example
+    ```python
+    import cv2 as cv
+    from src.objs.image.processors.background_remover import BackgroundRemover
+
+    image = cv.imread(&#39;path/to/image.jpg&#39;)
+    processed_image = BackgroundRemover.remove_background(image)
+    ```
+
+    ## reference
+    https://learnopencv.com/automatic-document-scanner-using-opencv/
+    &#34;&#34;&#34;
+    @staticmethod
+    def remove_background(image: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;This method removes the background from the given image and returns the image with the background removed.&#34;&#34;&#34;
+
+        # Create a mask and initialize the background and foreground model
+        mask = np.zeros(image.shape[:2], np.uint8)
+        bgdModel = np.zeros((1, 65), np.float64)
+        fgdModel = np.zeros((1, 65), np.float64)
+
+        # Define the rectangle for the object
+        rect = (20, 20, image.shape[1]-20, image.shape[0]-20)
+
+        # Apply grabCut algorithm to remove the background
+        cv.grabCut(image, mask, rect, bgdModel,
+                   fgdModel, 1, cv.GC_INIT_WITH_RECT)
+
+        # If mask is 3 or 1, change it to 1 or 0, because we want the background to be black and the foreground to be white
+        mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype(&#39;uint8&#39;)
+
+        # Multiply the image with the mask to remove the background
+        im = image * mask2[:, :, np.newaxis]
+
+        return im</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.processors.BackgroundRemover.remove_background"><code class="name flex">
+<span>def <span class="ident">remove_background</span></span>(<span>image: numpy.ndarray) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method removes the background from the given image and returns the image with the background removed.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.processors.ColorContourExtractor"><code class="flex name class">
+<span>class <span class="ident">ColorContourExtractor</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>"
+</p>
+<h2 id="colorcontourextractor">ColorContourExtractor</h2>
+<p>This class is responsible for processing an image to isolate the color of the pins.</p>
+<h3 id="methods">Methods</h3>
+<ul>
+<li>
+<p><code>process_image(scanned_image: np.ndarray) -&gt; np.ndarray</code></p>
+<ul>
+<li>This method pre-processes the image to isolate the color of the pins.</li>
+</ul>
+</li>
+<li>
+<p><code>show_result(edges: np.ndarray) -&gt; None</code></p>
+<ul>
+<li>This method shows the result of the pre-processing.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import cv2 as cv
+import numpy as np
+from src.objs.image.processors.image_processor import ImageProcessor
+
+scanned_image = cv.imread('path/to/image.jpg')
+edges = ImageProcessor.process_image(scanned_image)
+ImageProcessor.show_result(edges)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ColorContourExtractor:
+    &#34;&#34;&#34;&#34;   
+    ## ColorContourExtractor
+    
+    This class is responsible for processing an image to isolate the color of the pins.
+    
+    ### Methods
+    - `process_image(scanned_image: np.ndarray) -&gt; np.ndarray`
+        - This method pre-processes the image to isolate the color of the pins.
+        
+    - `show_result(edges: np.ndarray) -&gt; None`
+        - This method shows the result of the pre-processing.
+    
+    ### Example
+    ```python
+    import cv2 as cv
+    import numpy as np
+    from src.objs.image.processors.image_processor import ImageProcessor
+
+    scanned_image = cv.imread(&#39;path/to/image.jpg&#39;)
+    edges = ImageProcessor.process_image(scanned_image)
+    ImageProcessor.show_result(edges)
+    ```
+    &#34;&#34;&#34;
+
+    # A function that pre-processes the image to isolate the color of the pins.
+    @staticmethod
+    def process_image(
+        scanned_image: np.ndarray, 
+        hsv_lower = [0, 55, 0], 
+        hsv_upper = [360, 255,255], 
+        double_thresh:bool = False, 
+        display:bool=False) -&gt; np.ndarray:
+        &#34;&#34;&#34; 
+        This method pre-processes the image to isolate the color of the pins in Grid to find blocks. 
+        It is also used in TestAnalyzer to find the positive spots with hsv mask.
+        Thread carefully
+        &#34;&#34;&#34;
+
+        # Copy the image to avoid modifying the original image
+        scanned_image_copy = scanned_image.copy()
+        
+        # Convert the image to HSV color space. Hue Saturation Value. 
+        # Similar to RGB but more useful for color isolation.
+        img_hsv = cv.cvtColor(scanned_image_copy, cv.COLOR_BGR2HSV)
+
+        # Define the lower and upper bounds for the color you want to isolate
+        # These values are the product of trial and error and are not necessarily perfect.
+        hsv_lower_color = np.array(hsv_lower)
+        hsv_upper_color = np.array(hsv_upper)
+
+        # Create a mask to filter out the grayscale colors isolating the color of the pins.
+        color_mask = cv.inRange(img_hsv, hsv_lower_color, hsv_upper_color)
+
+        # Visualize the mask on top of the original image before thresholding
+        #mask_before_thresholding = color_mask.copy()
+
+        edges = cv.Canny(color_mask, 0, 255)
+
+        if double_thresh:
+            
+            second_mask = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
+            #cv.imshow(&#39;bitwise and image + mask 1&#39;, cv.resize(color_mask,(200,200)))
+            
+            # make all black pixels white
+            second_mask[second_mask == 0] = 255
+            #cv.imshow(&#39;make black pixels white&#39;,  cv.resize(color_mask, (200, 200)))
+            
+            #  thresholding
+            second_mask = cv.cvtColor(second_mask, cv.COLOR_BGR2GRAY)
+            #cv.imshow(&#39;grey&#39;,  cv.resize(color_mask, (200, 200)))
+            
+            second_mask = cv.bitwise_not(second_mask) 
+            #cv.imshow(&#39;bitwise not&#39;,  cv.resize(second_mask, (200, 200)))
+            #cv.waitKey(0)
+
+            cv.threshold(second_mask, 125, 255, cv.THRESH_BINARY, second_mask)
+            
+            edges = cv.Canny(second_mask, 0, 255)
+            
+            #cv.imshow(&#39;second thresholding &#39;,  cv.resize(
+             #   cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=second_mask), (400, 400)))   
+            #cv.imshow(&#39;first thresholding &#39;,  cv.resize(
+              #  cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=color_mask), (400, 400)))
+            #cv.waitKey(0)
+
+            
+        #cv.destroyAllWindows()
+            
+        contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+    
+        if display:
+            pass
+            contours = ColorContourExtractor.show_result(contours, scanned_image_copy)
+
+        return contours
+    
+    # Show the result of the pre-processing.
+    @staticmethod
+    def show_result(contours: np.ndarray, image) -&gt; None:
+        &#34;&#34;&#34; this method shows the result of the pre-processing.&#34;&#34;&#34;
+
+        copy = image.copy()
+
+        # show only the pixels where sqrt(a^2 + b^2) &gt; 10
+        # this will remove the background noise
+        lab = cv.cvtColor(copy, cv.COLOR_BGR2LAB)
+        lab = cv.blur(lab, (3, 3))
+
+        # split the image into L, A, and B channels
+        l, a, b = cv.split(lab)
+        r, g, b = cv.split(copy)
+
+        plt.imshow(copy)
+        plt.title(&#39;Color Contour Extractor - COPY&#39;)
+        plt.show()
+        
+
+        for row in range(len(l)):
+            for col in range(len(l[0])):
+                if  l[row][col] &gt;= 225:
+                    l[row][col] = 0
+                    a[row][col] = 0
+                    b[row][col] = 0
+                else:
+                    l[row][col] = 255
+                    a[row][col] = 255
+                    b[row][col] = 255
+        
+        lab = cv.merge((l, a, b))
+    
+        mask = cv.bitwise_and(lab, copy)
+        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)
+        mask = cv.bitwise_not(mask)
+
+        # draw the contours
+        edges = cv.Canny(mask, 0, 255)
+        contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        copy = cv.resize(copy, (400, 400))
+
+
+        &#34;&#34;&#34;
+        copy = image.copy()
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        copy = cv.resize(copy, (400, 400))
+        &#34;&#34;&#34;
+        plt.imshow(copy)
+        plt.title(&#39;Color Contour Extractor&#39;)
+        plt.show()
+        
+        return max(contours, key = cv.contourArea)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.processors.ColorContourExtractor.process_image"><code class="name flex">
+<span>def <span class="ident">process_image</span></span>(<span>scanned_image: numpy.ndarray, hsv_lower=[0, 55, 0], hsv_upper=[360, 255, 255], double_thresh: bool = False, display: bool = False) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method pre-processes the image to isolate the color of the pins in Grid to find blocks.
+It is also used in TestAnalyzer to find the positive spots with hsv mask.
+Thread carefully</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.processors.ColorContourExtractor.show_result"><code class="name flex">
+<span>def <span class="ident">show_result</span></span>(<span>contours: numpy.ndarray, image) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>this method shows the result of the pre-processing.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.processors.MorphologicalTransformer"><code class="flex name class">
+<span>class <span class="ident">MorphologicalTransformer</span></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="reference">reference</h2>
+<p><a href="https://learnopencv.com/automatic-document-scanner-using-opencv/">https://learnopencv.com/automatic-document-scanner-using-opencv/</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MorphologicalTransformer():
+    &#34;&#34;&#34;
+    ## reference
+    https://learnopencv.com/automatic-document-scanner-using-opencv/
+    &#34;&#34;&#34;
+    @staticmethod
+    def apply_morph(img: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;This method applies morphological transformations to the given image and returns the processed image.&#34;&#34;&#34;
+
+        kernel = np.ones((5, 5), np.uint8)
+        morph_img = cv.morphologyEx(img, cv.MORPH_OPEN, kernel, iterations=3)
+
+        return morph_img</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.processors.MorphologicalTransformer.apply_morph"><code class="name flex">
+<span>def <span class="ident">apply_morph</span></span>(<span>img: numpy.ndarray) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method applies morphological transformations to the given image and returns the processed image.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.objs.image" href="../index.html">AmpliVision.src.objs.image</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="AmpliVision.src.objs.image.processors.background_remover" href="background_remover.html">AmpliVision.src.objs.image.processors.background_remover</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.processors.image_processor" href="image_processor.html">AmpliVision.src.objs.image.processors.image_processor</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.processors.morphological_transformer" href="morphological_transformer.html">AmpliVision.src.objs.image.processors.morphological_transformer</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.processors.BackgroundRemover" href="#AmpliVision.src.objs.image.processors.BackgroundRemover">BackgroundRemover</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.processors.BackgroundRemover.remove_background" href="#AmpliVision.src.objs.image.processors.BackgroundRemover.remove_background">remove_background</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.processors.ColorContourExtractor" href="#AmpliVision.src.objs.image.processors.ColorContourExtractor">ColorContourExtractor</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.processors.ColorContourExtractor.process_image" href="#AmpliVision.src.objs.image.processors.ColorContourExtractor.process_image">process_image</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.processors.ColorContourExtractor.show_result" href="#AmpliVision.src.objs.image.processors.ColorContourExtractor.show_result">show_result</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.processors.MorphologicalTransformer" href="#AmpliVision.src.objs.image.processors.MorphologicalTransformer">MorphologicalTransformer</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.processors.MorphologicalTransformer.apply_morph" href="#AmpliVision.src.objs.image.processors.MorphologicalTransformer.apply_morph">apply_morph</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

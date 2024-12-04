@@ -1,0 +1,2792 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.OD.outlier_detection API documentation</title>
+<meta name="description" content="CODE SOURCED AND/OR BASED ON: https://github.com/mpsych/ODM/">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.OD.outlier_detection</code></h1>
+</header>
+<section id="section-intro">
+<p>CODE SOURCED AND/OR BASED ON: <a href="https://github.com/mpsych/ODM/">https://github.com/mpsych/ODM/</a></p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.OD.outlier_detection.Features"><code class="flex name class">
+<span>class <span class="ident">Features</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Features:
+    @staticmethod
+    def histogram(pixels, norm_type=None, timing=False, **kwargs):
+        &#34;&#34;&#34;Create histogram of data
+        Returns
+        -------
+        np.ndarray
+            List of histograms
+        &#34;&#34;&#34;
+        t0 = time.time()
+        histograms = []
+        # if pixels is a list of images get list of histograms for each image
+        if isinstance(pixels, list):
+            for i in range(len(pixels)):
+                # if pixels is a list of SimpleNamespace use the pixels attribute
+                if isinstance(pixels[i], SimpleNamespace):
+                    tmp_pixels = pixels[i].pixels.copy()
+                else:  # else assume pixels is a list of np.ndarray
+                    tmp_pixels = pixels[i].copy()
+                # if normalization is specified normalize pixels before histogram
+                if norm_type is not None:
+                    tmp_pixels = Normalize.get_norm(
+                        tmp_pixels, norm_type=norm_type, timing=timing, **kwargs
+                    )[0]
+                # append histogram to list
+                histograms.append(mh.fullhistogram(tmp_pixels.astype(np.uint8)))
+        # if pixels is a single image get histogram
+        else:
+            tmp_pixels = pixels.copy()
+            if norm_type is not None:
+                tmp_pixels = Normalize.get_norm(
+                    tmp_pixels, norm_type=norm_type, timing=timing, **kwargs
+                )[0]
+            histograms = mh.fullhistogram(tmp_pixels.astype(np.uint8))
+
+        if timing:
+            print(&#34;Histogram: &#34;, time.time() - t0)
+        return histograms
+
+    @staticmethod
+    def orb(
+        imgs,
+        norm_type=None,
+        timing=False,
+        downsample=True,
+        return_pixel_values=True,
+        **kwargs
+    ):
+        &#34;&#34;&#34;Create ORB features of data
+        Parameters:
+        ----------
+        imgs: np.ndarray | list of np.ndarray | SimpleNamespace
+            array of pixels
+        norm_type : str, optional
+            Type of normalization. The default is minmax.
+        downsample: bool, optional
+            Whether to downsample the image to 128x128. The default is True.
+        return_pixel_values: bool, optional
+            Whether to return the keypoints or pixel values. The default is
+            True.
+        timing: bool, optional
+            Whether to time the function. The default is False.
+        **kwargs : dict
+            Additional arguments for ORB
+        Parameters passable through kwargs:
+        ----------
+        n_keypoints: int, optional
+            Number of keypoints to be returned. The function will return the
+            best n_keypoints according to the Harris corner response if more
+            than n_keypoints are detected. If not, then all the detected
+            keypoints are returned.
+        fast_n: int, optional
+            The n parameter in skimage.feature.corner_fast. Minimum number of
+            consecutive pixels out of 16 pixels on the circle that should all be
+            either brighter or darker w.r.t test-pixel. A point c on the circle
+            is darker w.r.t test pixel p if Ic &lt; Ip - threshold and brighter
+            if Ic &gt; Ip + threshold. Also stands for the n in FAST-n corner
+            detector.
+        fast_threshold: float, optional
+            The threshold parameter in feature.corner_fast. Threshold used to
+            decide whether the pixels on the circle are brighter, darker or
+            similar w.r.t. the test pixel. Decrease the threshold when more
+            corners are desired and vice-versa.
+        harris_k: float, optional
+            The k parameter in skimage.feature.corner_harris. Sensitivity factor
+            to separate corners from edges, typically in range [0, 0.2]. Small
+            values of k result in detection of sharp corners.
+        downscale: float, optional
+            Downscale factor for the image pyramid. Default value 1.2 is chosen
+            so that there are more dense scales which enable robust scale
+            invariance for a subsequent feature description.
+        n_scales: int, optional
+            Maximum number of scales from the bottom of the image pyramid to
+            extract the features from.
+        timing: bool, optional
+            Whether to time the function. The default is False.
+        Returns
+        -------
+        np.ndarray | list of np.ndarray
+            List of keypoints for each image or list of pixel values for each
+            image if return_pixel_values is True.
+        &#34;&#34;&#34;
+        t0 = time.time()
+
+        from skimage.feature import ORB
+
+        n_keypoints = kwargs.get(&#34;n_keypoints&#34;, 50)
+        fast_n = kwargs.get(&#34;fast_n&#34;, 9)
+        fast_threshold = kwargs.get(&#34;fast_threshold&#34;, 0.08)
+        harris_k = kwargs.get(&#34;harris_k&#34;, 0.04)
+        downscale = kwargs.get(&#34;downscale&#34;, 1.2)
+        n_scales = kwargs.get(&#34;n_scales&#34;, 8)
+        output_shape = kwargs.get(&#34;output_shape&#34;, (512, 512))
+
+        pixels = Normalize.extract_pixels(imgs)
+        if downsample:
+            pixels = Normalize.downsample(pixels, output_shape=output_shape)[0]
+
+        if norm_type is not None:
+            pixels = Normalize.get_norm(
+                pixels, norm_type=norm_type, timing=timing, **kwargs
+            )[0]
+
+        descriptor_extractor = ORB(
+            n_keypoints=n_keypoints,
+            fast_n=fast_n,
+            fast_threshold=fast_threshold,
+            harris_k=harris_k,
+            downscale=downscale,
+            n_scales=n_scales,
+        )
+        keypoints = []
+        if isinstance(pixels, (list, np.ndarray)):
+            for i in range(len(pixels)):
+                descriptor_extractor.detect_and_extract(pixels[i])
+                keypoints.append(descriptor_extractor.keypoints)
+        else:
+            descriptor_extractor.detect_and_extract(pixels)
+            keypoints.append(descriptor_extractor.keypoints)
+
+        if return_pixel_values:
+            intensities = [
+                Features._extract_pixel_intensity_from_keypoints(
+                    keypoints[i], pixels[i]
+                )
+                for i in range(len(keypoints))
+            ]
+            keypoints = intensities
+
+        if timing:
+            print(&#34;ORB: {:.2f} s&#34;.format(time.time() - t0))
+        return keypoints
+
+    @staticmethod
+    def sift(
+        imgs,
+        norm_type=None,
+        timing=False,
+        downsample=True,
+        return_pixel_values=True,
+        **kwargs
+    ):
+        &#34;&#34;&#34;Create SIFT features of data
+        Parameters:
+        ----------
+        imgs : np.ndarray | list of np.ndarray | SimpleNamespace
+            array of pixels
+        norm_type : str, optional
+            Type of normalization. The default is minmax.
+        downsample : bool, optional
+            Downsample image. The default is False.
+        return_pixel_values : bool, optional
+            Return pixel values. The default is True.
+        timing : bool, optional
+            Print timing. The default is False.
+        **kwargs : dict
+            Additional arguments for sift
+        Parameters passable through kwargs:
+        ----------
+        upsampling: int, optional
+            Prior to the feature detection the image is upscaled by a factor of
+            1 (no upscaling), 2 or 4. Method: Bi-cubic interpolation.
+        n_octaves: int, optional
+            Maximum number of octaves. With every octave the image size is
+            halved and the sigma doubled. The number of octaves will be
+            reduced as needed to keep at least 12 pixels along each dimension
+            at the smallest scale.
+        n_scales: int, optional
+            Maximum number of scales in every octave.
+        sigma_min: float, optional
+            The blur level of the seed image. If upsampling is enabled
+            sigma_min is scaled by factor 1/upsampling
+        sigma_in: float, optional
+            The assumed blur level of the input image.
+        c_dog: float, optional
+            Threshold to discard low contrast extrema in the DoG. It’s final
+            value is dependent on n_scales by the relation:
+            final_c_dog = (2^(1/n_scales)-1) / (2^(1/3)-1) * c_dog
+        c_edge: float, optional
+            Threshold to discard extrema that lie in edges. If H is the Hessian
+            of an extremum, its “edgeness” is described by tr(H)²/det(H).
+            If the edgeness is higher than (c_edge + 1)²/c_edge, the extremum
+            is discarded.
+        n_bins: int, optional
+            Number of bins in the histogram that describes the gradient
+            orientations around keypoint.
+        lambda_ori: float, optional
+            The window used to find the reference orientation of a keypoint has
+            a width of 6 * lambda_ori * sigma and is weighted by a standard
+            deviation of 2 * lambda_ori * sigma.
+        c_max: float, optional
+            The threshold at which a secondary peak in the orientation histogram
+            is accepted as orientation
+        lambda_descr: float, optional
+            The window used to define the descriptor of a keypoint has a width
+            of 2 * lambda_descr * sigma * (n_hist+1)/n_hist and is weighted by
+            a standard deviation of lambda_descr * sigma.
+        n_hist: int, optional
+            The window used to define the descriptor of a keypoint consists of
+            n_hist * n_hist histograms.
+        n_ori: int, optional
+            The number of bins in the histograms of the descriptor patch.
+        timing: bool, optional
+            Whether to time the function. The default is False.
+        Returns
+        -------
+        np.ndarray | list of np.ndarray
+            List of keypoints for each image or list of pixel values for each
+            image if return_pixel_values is True.
+        &#34;&#34;&#34;
+        t0 = time.time()
+
+        from skimage.feature import SIFT
+
+        upsampling = kwargs.get(&#34;upsampling&#34;, 1)
+        n_octaves = kwargs.get(&#34;n_octaves&#34;, 1)
+        n_scales = kwargs.get(&#34;n_scales&#34;, 1)
+        sigma_min = kwargs.get(&#34;sigma_min&#34;, 1.3)
+        sigma_in = kwargs.get(&#34;sigma_in&#34;, 0.5)
+        c_dog = kwargs.get(&#34;c_dog&#34;, 0.7)
+        c_edge = kwargs.get(&#34;c_edge&#34;, 0.05)
+        n_bins = kwargs.get(&#34;n_bins&#34;, 10)
+        lambda_ori = kwargs.get(&#34;lambda_ori&#34;, 0.5)
+        c_max = kwargs.get(&#34;c_max&#34;, 1.5)
+        lambda_descr = kwargs.get(&#34;lambda_descr&#34;, 0.5)
+        n_hist = kwargs.get(&#34;n_hist&#34;, 1)
+        n_ori = kwargs.get(&#34;n_ori&#34;, 1)
+        output_shape = kwargs.get(&#34;output_shape&#34;, (256, 256))
+
+        pixels = Normalize.extract_pixels(imgs)
+        if downsample:
+            pixels = Normalize.downsample(pixels, output_shape=output_shape)[0]
+
+        if norm_type is not None:
+            pixels = Normalize.get_norm(
+                pixels, norm_type=norm_type, timing=timing, **kwargs
+            )[0]
+
+        descriptor_extractor = SIFT(
+            upsampling=upsampling,
+            n_octaves=n_octaves,
+            n_scales=n_scales,
+            sigma_min=sigma_min,
+            sigma_in=sigma_in,
+            c_dog=c_dog,
+            c_edge=c_edge,
+            n_bins=n_bins,
+            lambda_ori=lambda_ori,
+            c_max=c_max,
+            lambda_descr=lambda_descr,
+            n_hist=n_hist,
+            n_ori=n_ori,
+        )
+
+        keypoints = []
+        if isinstance(pixels, (list, np.ndarray)):
+            for i in range(len(pixels)):
+                descriptor_extractor.detect_and_extract(pixels[i])
+                keypoints.append(descriptor_extractor.keypoints)
+        else:
+            descriptor_extractor.detect_and_extract(pixels)
+            keypoints.append(descriptor_extractor.keypoints)
+
+        if return_pixel_values:
+            intensities = [
+                Features._extract_pixel_intensity_from_keypoints(
+                    keypoints[i], pixels[i]
+                )
+                for i in range(len(keypoints))
+            ]
+            intensities = Features._fix_jagged_keypoint_arrays(intensities)
+            keypoints = intensities
+
+        if timing:
+            print(&#34;SIFT: {:.2f} s&#34;.format(time.time() - t0))
+
+        return keypoints
+
+    @staticmethod
+    def downsample(
+        images, output_shape=None, flatten=False, normalize=None, timing=False, **kwargs
+    ):
+        &#34;&#34;&#34;Downsample images to a given shape.
+        Parameters
+        ----------
+        images : numpy.ndarray, list of numpy.ndarray
+            Array of images to be downsampled
+        output_shape : tuple
+            Shape of the output images
+        flatten : bool
+            If true, the images are flattened to a 1D array
+        normalize : str | bool
+            If not None, the images are normalized using the given method
+        timing : bool
+            If true, the time needed to perform the downsampling is printed
+        Returns
+        -------
+        numpy.ndarray | list of numpy.ndarray
+            Downsampled images
+        &#34;&#34;&#34;
+        t0 = time.time()
+        from skimage.transform import resize
+
+        if output_shape is None:
+            output_shape = (128, 128)
+        pixels = Normalize.extract_pixels(images)
+        if isinstance(pixels, list):
+            resized = [resize(img, output_shape) for img in pixels]
+        else:
+            resized = resize(pixels, output_shape)
+
+        if flatten:
+            resized = [img.flatten() for img in resized]
+
+        if normalize is not None:
+            resized = Normalize.get_norm(
+                resized, norm_type=normalize, timing=timing, **kwargs
+            )[0]
+
+        if timing:
+            print(f&#34;downsample: {time.time() - t0}&#34;)
+        return resized
+
+    @staticmethod
+    def _extract_pixel_intensity_from_keypoints(keypoints, img):
+        &#34;&#34;&#34;Extract pixel intensities from keypoints
+        Parameters
+        ----------
+        keypoints : np.ndarray
+            array of keypoints
+        img : np.ndarray
+            image to extract intensities from
+        Returns
+        -------
+        np.ndarray
+            array of pixel intensities
+        &#34;&#34;&#34;
+        intensities = []
+        for i in range(len(keypoints)):
+            x = int(keypoints[i][0])
+            y = int(keypoints[i][1])
+            intensities.append(img[x, y])
+        return np.array(intensities)
+
+    @staticmethod
+    def _fix_jagged_keypoint_arrays(keypoints):
+        &#34;&#34;&#34;Normalize keypoint lengths by finding the smallest length of
+        keypoints and then selecting a random distribution of keypoints of
+        similar length in the rest of the keypoints.
+        Parameters
+        ----------
+        keypoints : list of np.ndarray
+            list of keypoints
+        Returns
+        -------
+        np.ndarray
+            array of keypoints
+        &#34;&#34;&#34;
+        min_len = min(len(kp) for kp in keypoints)
+        new_keypoints = []
+        for kp in keypoints:
+            if len(kp) &gt; min_len:
+                new_keypoints.append(
+                    kp[np.random.choice(len(kp), min_len, replace=False)]
+                )
+            else:
+                new_keypoints.append(kp)
+        return np.array(new_keypoints)
+
+    @staticmethod
+    def get_features(data, feature_type=&#34;hist&#34;, norm_type=None, timing=False, **kwargs):
+        &#34;&#34;&#34;Get features of data
+        Parameters
+        ----------
+        data : SimpleNamespace, np.ndarray, list of np.ndarray, any
+            array of pixels
+        feature_type : str, optional
+            Type of feature to extract. The default is &#34;histogram&#34;.
+        norm_type : str, optional
+            Type of normalization. The default is None.
+        timing: bool, optional
+            Whether to time the function. The default is False.
+        Returns
+        -------
+        np.ndarray, ski.feature.FeatureDetector
+        &#34;&#34;&#34;
+        t0 = time.time()
+        if feature_type in [&#34;hist&#34;, &#34;histogram&#34;]:
+            features = Features.histogram(
+                data, norm_type=norm_type, timing=timing, **kwargs
+            )
+        elif feature_type == &#34;sift&#34;:
+            rpv = kwargs.get(&#34;return_pixel_values&#34;, True)
+            ds = kwargs.get(&#34;downsample&#34;, False)
+            features = Features.sift(
+                data,
+                norm_type=norm_type,
+                return_pixel_values=rpv,
+                downsample=ds,
+                timing=timing,
+                **kwargs
+            )
+        elif feature_type == &#34;orb&#34;:
+            rpv = kwargs.get(&#34;return_pixel_values&#34;, True)
+            ds = kwargs.get(&#34;downsample&#34;, True)
+            features = Features.orb(
+                data,
+                norm_type=norm_type,
+                return_pixel_values=rpv,
+                downsample=ds,
+                timing=timing,
+                **kwargs
+            )
+        elif feature_type == &#34;downsample&#34;:
+            output_shape = kwargs.get(&#34;output_shape&#34;, (256, 256))
+            flatten = kwargs.get(&#34;flatten&#34;, True)
+            features = Normalize.downsample(
+                data,
+                output_shape=output_shape,
+                flatten=flatten,
+                norm_type=norm_type,
+                timing=timing,
+                **kwargs
+            )[0]
+        else:
+            raise ValueError(&#34;Feature type not supported&#34;)
+        if timing:
+            print(&#34;Features: &#34;, time.time() - t0)
+        return features
+
+    @staticmethod
+    def show_image_and_feature(
+        image,
+        features=None,
+        feature_types=None,
+        norm_type=&#34;min-max&#34;,
+        downsample=False,
+        output_shape=None,
+        train_scores=None,
+        label=None,
+        log=False,
+        **kwargs
+    ):
+        &#34;&#34;&#34;Displays an image next to the specified features.
+        Parameters
+        ----------
+        image : SimpleNamespace
+            array of pixel values
+        features : list
+            (default is None) list of features to display
+        feature_types : list
+            (default is &#39;hist&#39;) type of feature to display
+        norm_type : str
+            type of normalization to use, options are:
+            &#39;min-max&#39; : normalize the image using the min and max values
+            &#39;max&#39; : normalize the image using the max value
+            &#39;guassian&#39; : normalize the image using a guassian distribution
+            &#39;z-score&#39; : normalize the image using a z-score
+            &#39;robost&#39; : normalize the image using a robust distribution
+            &#39;downsample&#39; : downsample the image to 64x64
+            (default is &#39;min-max&#39;)
+        downsample : bool
+            (default is False) downsample the image to 64x64 or to the shape
+            specified by output_shape
+        output_shape : tuple
+            (default is None) shape of the output image
+        train_scores : list
+            (default is None) train scores of the features
+        label : str
+            (default is None) label of the image
+        log : bool
+            (default is False) whether to log the image
+        &#34;&#34;&#34;
+        if feature_types is None:
+            feature_types = []
+
+        pixels = Normalize.extract_pixels(image)
+
+        if output_shape is not None:
+            downsample = True
+
+        # normalize the image
+        img = Normalize.get_norm(
+            pixels,
+            norm_type=norm_type,
+            downsample=downsample,
+            output_shape=output_shape,
+            **kwargs
+        )
+
+        fig, ax = plt.subplots(1, len(feature_types) + 1, figsize=(10, 5))
+        if label is not None:
+            fig.suptitle(f&#34;SOPInstanceUID: {image.SOPInstanceUID} Label: {label}&#34;)
+        else:
+            fig.suptitle(f&#34;SOPInstanceUID: {image.SOPInstanceUID}&#34;)
+        # add extra width between plots
+        fig.subplots_adjust(wspace=0.4)
+
+        ax[0].imshow(img, cmap=&#34;gray&#34;)
+        # ax[0].set_title(image.SOPInstanceUID, size=8-len(feature_types))
+
+        if &#34;sift&#34; in feature_types:
+            idx = feature_types.index(&#34;sift&#34;) + 1
+            if features is None:
+                kp = Features.sift(img)
+                keypoints = kp.keypoints
+            else:
+                keypoints = features[idx - 1]
+            ax[idx].imshow(img)
+            x_points = keypoints[:, 1]
+            y_points = keypoints[:, 0]
+            ax[idx].scatter(x_points, y_points, facecolors=&#34;none&#34;, edgecolors=&#34;r&#34;)
+            label = Features._get_train_score(&#34;sift&#34;, feature_types, train_scores)
+            ax[idx].set_title(label, size=8)
+
+        if &#34;orb&#34; in feature_types:
+            idx = feature_types.index(&#34;orb&#34;) + 1
+            if features is None:
+                kp = Features.orb(img)
+                keypoints = kp.keypoints
+            else:
+                keypoints = features[idx - 1]
+            keypoints = keypoints[0].astype(int)
+            img_ds = Normalize.downsample(img)
+            ax[idx].imshow(img_ds[0])
+            x_points = keypoints[:, 1]
+            y_points = keypoints[:, 0]
+            ax[idx].scatter(x_points, y_points, facecolors=&#34;none&#34;, edgecolors=&#34;r&#34;)
+            label = Features._get_train_score(&#34;orb&#34;, feature_types, train_scores)
+            ax[idx].set_title(label, size=8)
+
+        if &#34;hist&#34; in feature_types or &#34;histogram&#34; in feature_types:
+            idx = feature_types.index(&#34;hist&#34;) + 1
+            if features is None:
+                y_axis = Features.histogram(img)
+                idx = feature_types.index(&#34;hist&#34;) + 1
+                y_axis = Features.histogram(img)
+                if len(y_axis) &lt; 256:
+                    y_axis = np.append(y_axis, np.zeros(256 - len(y_axis)))
+                x_axis = np.arange(0, 256, 1)
+                ax[idx].set_ylim(0, 1)
+                ax[idx].bar(x_axis, y_axis, color=&#34;b&#34;, log=True, width=10)
+                ax[idx].set_xlim(0.01, 255)
+                ax[idx].set_ylim(0.01, 10**8)
+            else:
+                y_axis = features[idx - 1]
+                print(y_axis)
+                ax[idx].set_ylim(0, np.max(y_axis))
+                ax[idx].bar(np.arange(0, len(y_axis)), y_axis, log=log)
+            label = Features._get_train_score(&#34;hist&#34;, feature_types, train_scores)
+            ax[idx].set_title(label, size=8)
+        if &#34;downsample&#34; in feature_types:
+            idx = feature_types.index(&#34;downsample&#34;) + 1
+            img_ds = Normalize.downsample(img) if features is None else features[idx - 1]
+            ax[idx].imshow(img_ds[0], cmap=&#34;gray&#34;)
+            label = Features._get_train_score(&#34;downsample&#34;, feature_types, train_scores)
+            ax[idx].set_title(label, size=8)
+
+        plt.show()
+
+    @staticmethod
+    def view_image_and_features(
+        images, feature_types=None, norm_type=&#34;min-max&#34;, train_scores=None
+    ):
+        &#34;&#34;&#34;Displays an image next to its histogram.
+        Parameters
+        ----------
+        images : list
+            list of SimpleNamespace
+        feature_types : list
+            (default is &#39;hist&#39;) type of feature to display
+        feature_labels : list
+            (default is &#39;Histogram&#39;) label of the feature
+        norm_type : str
+            type of normalization to use, options are:
+            &#39;min-max&#39; : normalize the image using the min and max values
+            &#39;max&#39; : normalize the image using the max value
+            &#39;guassian&#39; : normalize the image using a guassian distribution
+            &#39;z-score&#39; : normalize the image using a z-score
+            &#39;robost&#39; : normalize the image using a robust distribution
+            (default is &#39;min-max&#39;)
+        train_scores : list of lists
+            (default is None) train scores of the features
+        &#34;&#34;&#34;
+        # add the images and train scores a image list
+        if feature_types is None:
+            feature_types = []
+        images_list = []
+        for i in range(len(images)):
+            ds = SimpleNamespace()
+            ds.image = images[i]
+            ds.train_scores = train_scores[i]
+            images_list.append(ds)
+
+        # loop over the images and use the show image and feature function
+        for i in range(len(images)):
+            ds = images_list[i]
+            Features.show_image_and_feature(
+                ds.image,
+                feature_types=feature_types,
+                norm_type=norm_type,
+                train_scores=ds.train_scores,
+            )
+
+    @staticmethod
+    def _get_train_score(feature, feature_types, train_scores):
+        &#34;&#34;&#34;Get train scores of features
+        Parameters
+        ----------
+        feature : str
+            feature to get train scores of
+        feature_types : list
+           type of features to display
+        train_scores : list
+            (default is None) train scores of the feature
+        Returns
+        -------
+        list
+            train scores of the features
+        &#34;&#34;&#34;
+        if train_scores is None:
+            return feature
+        if len(train_scores) == 1:
+            return str(train_scores[0])
+        else:
+            return str(train_scores[feature_types.index(feature)])</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.downsample"><code class="name flex">
+<span>def <span class="ident">downsample</span></span>(<span>images, output_shape=None, flatten=False, normalize=None, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Downsample images to a given shape.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>images</code></strong> :&ensp;<code>numpy.ndarray, list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of images to be downsampled</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Shape of the output images</dd>
+<dt><strong><code>flatten</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the images are flattened to a 1D array</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>str | bool</code></dt>
+<dd>If not None, the images are normalized using the given method</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the downsampling is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Downsampled images</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.get_features"><code class="name flex">
+<span>def <span class="ident">get_features</span></span>(<span>data, feature_type='hist', norm_type=None, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get features of data
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>SimpleNamespace, np.ndarray, list</code> of <code>np.ndarray, any</code></dt>
+<dd>array of pixels</dd>
+<dt><strong><code>feature_type</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Type of feature to extract. The default is "histogram".</dd>
+<dt><strong><code>norm_type</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Type of normalization. The default is None.</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to time the function. The default is False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray, ski.feature.FeatureDetector</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.histogram"><code class="name flex">
+<span>def <span class="ident">histogram</span></span>(<span>pixels, norm_type=None, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create histogram of data
+Returns</p>
+<hr>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>List of histograms</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.orb"><code class="name flex">
+<span>def <span class="ident">orb</span></span>(<span>imgs, norm_type=None, timing=False, downsample=True, return_pixel_values=True, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create ORB features of data
+Parameters:</p>
+<hr>
+<p>imgs: np.ndarray | list of np.ndarray | SimpleNamespace
+array of pixels
+norm_type : str, optional
+Type of normalization. The default is minmax.
+downsample: bool, optional
+Whether to downsample the image to 128x128. The default is True.
+return_pixel_values: bool, optional
+Whether to return the keypoints or pixel values. The default is
+True.
+timing: bool, optional
+Whether to time the function. The default is False.
+**kwargs : dict
+Additional arguments for ORB
+Parameters passable through kwargs:</p>
+<hr>
+<p>n_keypoints: int, optional
+Number of keypoints to be returned. The function will return the
+best n_keypoints according to the Harris corner response if more
+than n_keypoints are detected. If not, then all the detected
+keypoints are returned.
+fast_n: int, optional
+The n parameter in skimage.feature.corner_fast. Minimum number of
+consecutive pixels out of 16 pixels on the circle that should all be
+either brighter or darker w.r.t test-pixel. A point c on the circle
+is darker w.r.t test pixel p if Ic &lt; Ip - threshold and brighter
+if Ic &gt; Ip + threshold. Also stands for the n in FAST-n corner
+detector.
+fast_threshold: float, optional
+The threshold parameter in feature.corner_fast. Threshold used to
+decide whether the pixels on the circle are brighter, darker or
+similar w.r.t. the test pixel. Decrease the threshold when more
+corners are desired and vice-versa.
+harris_k: float, optional
+The k parameter in skimage.feature.corner_harris. Sensitivity factor
+to separate corners from edges, typically in range [0, 0.2]. Small
+values of k result in detection of sharp corners.
+downscale: float, optional
+Downscale factor for the image pyramid. Default value 1.2 is chosen
+so that there are more dense scales which enable robust scale
+invariance for a subsequent feature description.
+n_scales: int, optional
+Maximum number of scales from the bottom of the image pyramid to
+extract the features from.
+timing: bool, optional
+Whether to time the function. The default is False.
+Returns</p>
+<hr>
+<dl>
+<dt><code>np.ndarray | list</code> of <code>np.ndarray</code></dt>
+<dd>List of keypoints for each image or list of pixel values for each
+image if return_pixel_values is True.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.show_image_and_feature"><code class="name flex">
+<span>def <span class="ident">show_image_and_feature</span></span>(<span>image, features=None, feature_types=None, norm_type='min-max', downsample=False, output_shape=None, train_scores=None, label=None, log=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Displays an image next to the specified features.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>image</code></strong> :&ensp;<code>SimpleNamespace</code></dt>
+<dd>array of pixel values</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>list</code></dt>
+<dd>(default is None) list of features to display</dd>
+<dt><strong><code>feature_types</code></strong> :&ensp;<code>list</code></dt>
+<dd>(default is 'hist') type of feature to display</dd>
+<dt><strong><code>norm_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>type of normalization to use, options are:
+'min-max' : normalize the image using the min and max values
+'max' : normalize the image using the max value
+'guassian' : normalize the image using a guassian distribution
+'z-score' : normalize the image using a z-score
+'robost' : normalize the image using a robust distribution
+'downsample' : downsample the image to 64x64
+(default is 'min-max')</dd>
+<dt><strong><code>downsample</code></strong> :&ensp;<code>bool</code></dt>
+<dd>(default is False) downsample the image to 64x64 or to the shape
+specified by output_shape</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>(default is None) shape of the output image</dd>
+<dt><strong><code>train_scores</code></strong> :&ensp;<code>list</code></dt>
+<dd>(default is None) train scores of the features</dd>
+<dt><strong><code>label</code></strong> :&ensp;<code>str</code></dt>
+<dd>(default is None) label of the image</dd>
+<dt><strong><code>log</code></strong> :&ensp;<code>bool</code></dt>
+<dd>(default is False) whether to log the image</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.sift"><code class="name flex">
+<span>def <span class="ident">sift</span></span>(<span>imgs, norm_type=None, timing=False, downsample=True, return_pixel_values=True, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create SIFT features of data
+Parameters:</p>
+<hr>
+<p>imgs : np.ndarray | list of np.ndarray | SimpleNamespace
+array of pixels
+norm_type : str, optional
+Type of normalization. The default is minmax.
+downsample : bool, optional
+Downsample image. The default is False.
+return_pixel_values : bool, optional
+Return pixel values. The default is True.
+timing : bool, optional
+Print timing. The default is False.
+**kwargs : dict
+Additional arguments for sift
+Parameters passable through kwargs:</p>
+<hr>
+<p>upsampling: int, optional
+Prior to the feature detection the image is upscaled by a factor of
+1 (no upscaling), 2 or 4. Method: Bi-cubic interpolation.
+n_octaves: int, optional
+Maximum number of octaves. With every octave the image size is
+halved and the sigma doubled. The number of octaves will be
+reduced as needed to keep at least 12 pixels along each dimension
+at the smallest scale.
+n_scales: int, optional
+Maximum number of scales in every octave.
+sigma_min: float, optional
+The blur level of the seed image. If upsampling is enabled
+sigma_min is scaled by factor 1/upsampling
+sigma_in: float, optional
+The assumed blur level of the input image.
+c_dog: float, optional
+Threshold to discard low contrast extrema in the DoG. It’s final
+value is dependent on n_scales by the relation:
+final_c_dog = (2^(1/n_scales)-1) / (2^(1/3)-1) * c_dog
+c_edge: float, optional
+Threshold to discard extrema that lie in edges. If H is the Hessian
+of an extremum, its “edgeness” is described by tr(H)²/det(H).
+If the edgeness is higher than (c_edge + 1)²/c_edge, the extremum
+is discarded.
+n_bins: int, optional
+Number of bins in the histogram that describes the gradient
+orientations around keypoint.
+lambda_ori: float, optional
+The window used to find the reference orientation of a keypoint has
+a width of 6 * lambda_ori * sigma and is weighted by a standard
+deviation of 2 * lambda_ori * sigma.
+c_max: float, optional
+The threshold at which a secondary peak in the orientation histogram
+is accepted as orientation
+lambda_descr: float, optional
+The window used to define the descriptor of a keypoint has a width
+of 2 * lambda_descr * sigma * (n_hist+1)/n_hist and is weighted by
+a standard deviation of lambda_descr * sigma.
+n_hist: int, optional
+The window used to define the descriptor of a keypoint consists of
+n_hist * n_hist histograms.
+n_ori: int, optional
+The number of bins in the histograms of the descriptor patch.
+timing: bool, optional
+Whether to time the function. The default is False.
+Returns</p>
+<hr>
+<dl>
+<dt><code>np.ndarray | list</code> of <code>np.ndarray</code></dt>
+<dd>List of keypoints for each image or list of pixel values for each
+image if return_pixel_values is True.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Features.view_image_and_features"><code class="name flex">
+<span>def <span class="ident">view_image_and_features</span></span>(<span>images, feature_types=None, norm_type='min-max', train_scores=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Displays an image next to its histogram.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>images</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of SimpleNamespace</dd>
+<dt><strong><code>feature_types</code></strong> :&ensp;<code>list</code></dt>
+<dd>(default is 'hist') type of feature to display</dd>
+<dt><strong><code>feature_labels</code></strong> :&ensp;<code>list</code></dt>
+<dd>(default is 'Histogram') label of the feature</dd>
+<dt><strong><code>norm_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>type of normalization to use, options are:
+'min-max' : normalize the image using the min and max values
+'max' : normalize the image using the max value
+'guassian' : normalize the image using a guassian distribution
+'z-score' : normalize the image using a z-score
+'robost' : normalize the image using a robust distribution
+(default is 'min-max')</dd>
+<dt><strong><code>train_scores</code></strong> :&ensp;<code>list</code> of <code>lists</code></dt>
+<dd>(default is None) train scores of the features</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize"><code class="flex name class">
+<span>class <span class="ident">Normalize</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Normalize:
+    @staticmethod
+    def extract_pixels(images, timing=False):
+        &#34;&#34;&#34;Extract pixels from images
+        Parameters
+        ----------
+        images : numpy.ndarray | list of numpy.ndarray
+            Array of images to be normalized
+        timing : bool, optional
+            If true, the time needed to perform the normalization is printed.
+            The default is False.
+        &#34;&#34;&#34;
+        t0 = time.time()
+        pixels = []
+        if isinstance(images, list):
+            if isinstance(images[0], np.ndarray):
+                return images
+            elif isinstance(images[0], types.SimpleNamespace):
+                pixels.extend(image.pixels for image in images)
+            elif isinstance(images[0], dicom.dataset.FileDataset):
+                pixels.extend(image.pixel_array for image in images)
+            else:
+                raise TypeError(&#34;Unknown type of images&#34;)
+        elif isinstance(images, np.ndarray):
+            pixels = images  # was returning this as list before
+        elif isinstance(images, types.SimpleNamespace):
+            pixels = images.pixels
+        else:
+            raise TypeError(&#34;Unknown type of images&#34;)
+        if timing:
+            print(f&#34;Extract pixels: {time.time() - t0}&#34;)
+        return pixels
+
+    @staticmethod
+    def _minmax_helper(pixels, **kwargs):
+        &#34;&#34;&#34;Helper function to normalize data using minmax method&#34;&#34;&#34;
+        bins = kwargs.get(&#34;bins&#34;, 256)
+        max_val = np.max(pixels)
+        min_val = np.min(pixels)
+        normalized_pixels = pixels.astype(np.float32).copy()
+        normalized_pixels -= min_val
+        normalized_pixels /= max_val - min_val
+        normalized_pixels *= bins - 1
+
+        return normalized_pixels
+
+    @staticmethod
+    def minmax(pixels, timing=False, **kwargs):
+        &#34;&#34;&#34;The min-max approach (often called normalization) rescales the
+        feature to a fixed range of [0,1] by subtracting the minimum value
+        of the feature and then dividing by the range, which is then multiplied
+        by 255 to bring the value into the range [0,255].
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        timing : bool
+            If true, the time needed to perform the normalization is printed
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        if isinstance(pixels, list):
+            normalized_pixels = [Normalize._minmax_helper(p, **kwargs) for p in pixels]
+        else:
+            normalized_pixels = Normalize._minmax_helper(pixels, **kwargs)
+
+        if timing:
+            print(f&#34;minmax: {time.time() - t0}&#34;)
+        return normalized_pixels, None
+
+    @staticmethod
+    def _max_helper(pixels, **kwargs):
+        &#34;&#34;&#34;Helper function to normalize data using max method&#34;&#34;&#34;
+        bins = kwargs.get(&#34;bins&#34;, 256)
+        max_val = np.max(pixels)
+        normalized_pixels = pixels.astype(np.float32).copy()
+        normalized_pixels /= abs(max_val)
+        normalized_pixels *= bins - 1
+        return normalized_pixels
+
+    @staticmethod
+    def max(pixels, timing=False, **kwargs):
+        &#34;&#34;&#34;The maximum absolute scaling rescales each feature between -1 and 1
+        by dividing every observation by its maximum absolute value.
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        downsample : bool
+            If true, the image is downsampled to a smaller size
+        output_shape : tuple of int
+            The shape of the output image if downsampling is used
+        timing : bool
+            If true, the time needed to perform the normalization is printed
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        temp_pixels = pixels
+        if isinstance(temp_pixels, list):
+            normalized_pixels = [Normalize._max_helper(p, **kwargs) for p in temp_pixels]
+        else:
+            normalized_pixels = Normalize._max_helper(temp_pixels, **kwargs)
+
+        if timing:
+            print(f&#34;max: {time.time() - t0}&#34;)
+        return normalized_pixels, None
+
+    @staticmethod
+    def _gaussian_helper(pixels, **kwargs):
+        &#34;&#34;&#34;Helper function to normalize data using gaussian blur&#34;&#34;&#34;
+        sigma = kwargs.get(&#34;sigma&#34;, 20)
+        normalized_pixels = mh.gaussian_filter(pixels, sigma=sigma)
+        normalized_pixels /= normalized_pixels.max()
+        return normalized_pixels
+
+    @staticmethod
+    def gaussian(pixels, timing=False, **kwargs):
+        &#34;&#34;&#34;Normalize by gaussian
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        downsample : bool
+            If true, the image is downsampled to a smaller size
+        output_shape : tuple of int
+            The shape of the output image if downsampling is used
+        timing : bool
+            If true, the time needed to perform the normalization is printed
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        temp_pixels = pixels
+        bins = kwargs.get(&#34;bins&#34;, 256)
+        if isinstance(temp_pixels, list):
+            filtered = [Normalize._gaussian_helper(p, **kwargs) for p in temp_pixels]
+        else:
+            filtered = Normalize._gaussian_helper(temp_pixels, **kwargs)
+
+        normalized_pixels = filtered.copy()
+        normalized_pixels *= bins - 1
+
+        if timing:
+            print(f&#34;gaussian: {time.time() - t0}&#34;)
+        return normalized_pixels, filtered
+
+    @staticmethod
+    def _zscore_helper(pixels, **kwargs):
+        &#34;&#34;&#34;Helper function to normalize data using zscore method&#34;&#34;&#34;
+        bins = kwargs.get(&#34;bins&#34;, 255)
+        normalized_pixels = pixels.astype(np.float32).copy()
+        normalized_pixels -= np.mean(normalized_pixels)
+        normalized_pixels /= np.std(normalized_pixels)
+        normalized_pixels *= bins
+
+        return normalized_pixels
+
+    @staticmethod
+    def z_score(pixels, timing=False, **kwargs):
+        &#34;&#34;&#34;The z-score method (often called standardization) transforms the data
+        into a distribution with a mean of 0 and a standard deviation of 1.
+        Each standardized value is computed by subtracting the mean of the
+        corresponding feature and then dividing by the standard deviation.
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        downsample : bool
+            If true, the image is downsampled to a smaller size
+        output_shape : tuple of int
+            The shape of the output image if downsampling is used
+        timing : bool
+            If true, the time needed to perform the normalization is printed
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        temp_pixels = pixels
+        if isinstance(temp_pixels, list):
+            normalized_pixels = [
+                Normalize._zscore_helper(p, **kwargs) for p in temp_pixels
+            ]
+        else:
+            normalized_pixels = Normalize._zscore_helper(temp_pixels, **kwargs)
+
+        if timing:
+            print(f&#34;zscore: {time.time() - t0}&#34;)
+        return normalized_pixels, None
+
+    @staticmethod
+    def _robust_helper(pixels, **kwargs):
+        &#34;&#34;&#34;
+        Robust Scalar transforms x to x’ by subtracting each value of features
+        by the median and dividing it by the interquartile range between the
+        1st quartile (25th quantile) and the 3rd quartile (75th quantile).
+        &#34;&#34;&#34;
+        bins = kwargs.get(&#34;bins&#34;, 256)
+        normalized_pixels = pixels.astype(np.float32).copy()
+        normalized_pixels -= np.median(normalized_pixels)
+        normalized_pixels /= np.percentile(normalized_pixels, 75) - np.percentile(
+            normalized_pixels, 25
+        )
+        normalized_pixels *= bins - 1
+
+        return normalized_pixels
+
+    @staticmethod
+    def robust(pixels, timing=False, **kwargs):
+        &#34;&#34;&#34;In robust scaling, we scale each feature of the data set by subtracting
+        the median and then dividing by the interquartile range. The interquartile
+        range (IQR) is defined as the difference between the third and the first
+        quartile and represents the central 50% of the data.
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        downsample : bool
+            If true, the image is downsampled to a smaller size
+        output_shape : tuple of int
+            The shape of the output image if downsampling is used
+        timing : bool
+            If true, the time needed to perform the normalization is printed
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        temp_pixels = pixels
+        if isinstance(temp_pixels, list):
+            normalized_pixels = [
+                Normalize._robust_helper(p, **kwargs) for p in temp_pixels
+            ]
+        else:
+            normalized_pixels = Normalize._robust_helper(temp_pixels, **kwargs)
+
+        if timing:
+            print(f&#34;robust: {time.time() - t0}&#34;)
+
+        return normalized_pixels, None
+
+    @staticmethod
+    def downsample(
+        images, output_shape=None, flatten=False, normalize=None, timing=False, **kwargs
+    ):
+        &#34;&#34;&#34;Downsample images to a given shape.
+        Parameters
+        ----------
+        images : numpy.ndarray, list of numpy.ndarray
+            Array of images to be downsampled
+        output_shape : tuple
+            Shape of the output images
+        flatten : bool
+            If true, the images are flattened to a 1D array
+        normalize : str
+            The type of normalization to perform on the images
+        timing : bool
+            If true, the time needed to perform the downsampling is printed
+        Returns
+        -------
+        numpy.ndarray | list of numpy.ndarray
+            Downsampled images
+        &#34;&#34;&#34;
+        t0 = time.time()
+        from skimage.transform import resize
+
+        if output_shape is None:
+            output_shape = (256, 256)
+        images_copy = Normalize.extract_pixels(images)
+        if isinstance(images_copy, list):
+            resized = []
+            for img in images_copy:
+                if flatten:
+                    resized.append(np.array(resize(img, output_shape)).reshape(-1))
+                else:
+                    resized.append(np.array(resize(img, output_shape)))
+                if timing:
+                    print(f&#34;downsample: {time.time() - t0}&#34;)
+        elif flatten:
+            resized = np.array(resize(images_copy, output_shape)).reshape(-1)
+        else:
+            resized = np.array(resize(images_copy, output_shape))
+
+        if normalize is not None:
+            if isinstance(normalize, bool):
+                normalize = &#34;minmax&#34;
+            if isinstance(resized, list):
+                for i in range(len(resized)):
+                    resized[i] = Normalize.get_norm(resized[i], normalize)[0]
+            else:
+                resized = Normalize.get_norm(resized, normalize)[0]
+
+        if timing:
+            print(f&#34;downsample: {time.time() - t0}&#34;)
+        return np.asarray(resized), None
+
+    @staticmethod
+    def get_norm(pixels, norm_type, timing=False, **kwargs):
+        &#34;&#34;&#34;Normalize pixels
+        Parameters
+        ----------
+        pixels : numpy.ndarray | list of numpy.ndarray
+            Array of pixels to be normalized
+        norm_type : str
+            Type of normalization. The default is &#39;min-max&#39;.
+            options -&gt; attributes possible:
+                &#39;min-max&#39;,
+                &#39;max&#39;,
+                &#39;gaussian&#39;,
+                &#39;z-score&#39;,
+                &#39;robust&#39;,
+                &#39;downsample&#39; -&gt; output_shape
+        timing : bool, optional
+            If true, the time needed to perform the normalization is printed.
+            The default is False.
+        Returns
+        -------
+        numpy.ndarray
+            Normalized pixels
+        &#34;&#34;&#34;
+        t0 = time.time()
+        pixels = Normalize.extract_pixels(pixels)
+        if norm_type.lower() == &#34;max&#34;:
+            normalized, filtered = Normalize.max(pixels, timing, **kwargs)
+        elif norm_type.lower() in [&#34;minmax&#34;, &#34;min-max&#34;]:
+            normalized, filtered = Normalize.minmax(pixels, timing, **kwargs)
+        elif norm_type.lower() == &#34;gaussian&#34;:
+            normalized, filtered = Normalize.gaussian(pixels, timing, **kwargs)
+        elif norm_type.lower() in [&#34;zscore&#34;, &#34;z-score&#34;]:
+            normalized, filtered = Normalize.z_score(pixels, timing, **kwargs)
+        elif norm_type.lower() == &#34;robust&#34;:
+            output_shape = kwargs.get(&#34;output_shape&#34;, (256, 256))
+            normalized, filtered = Normalize.robust(pixels, timing, **kwargs)
+        elif norm_type.lower() == &#34;downsample&#34;:
+            output_shape = kwargs.get(&#34;output_shape&#34;, (256, 256))
+            flatten = kwargs.get(&#34;flatten&#34;, True)
+            normalized, filtered = Normalize.downsample(
+                pixels,
+                output_shape=output_shape,
+                flatten=flatten,
+                normalize=norm_type,
+                **kwargs
+            )
+        else:
+            raise ValueError(&#34;Invalid normalization type&#34;)
+
+        if timing:
+            print(f&#34;get_norm: {time.time() - t0}&#34;)
+
+        return normalized, filtered</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.downsample"><code class="name flex">
+<span>def <span class="ident">downsample</span></span>(<span>images, output_shape=None, flatten=False, normalize=None, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Downsample images to a given shape.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>images</code></strong> :&ensp;<code>numpy.ndarray, list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of images to be downsampled</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Shape of the output images</dd>
+<dt><strong><code>flatten</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the images are flattened to a 1D array</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>str</code></dt>
+<dd>The type of normalization to perform on the images</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the downsampling is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Downsampled images</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.extract_pixels"><code class="name flex">
+<span>def <span class="ident">extract_pixels</span></span>(<span>images, timing=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract pixels from images
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>images</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of images to be normalized</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If true, the time needed to perform the normalization is printed.
+The default is False.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.gaussian"><code class="name flex">
+<span>def <span class="ident">gaussian</span></span>(<span>pixels, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Normalize by gaussian
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>downsample</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the image is downsampled to a smaller size</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code> of <code>int</code></dt>
+<dd>The shape of the output image if downsampling is used</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the normalization is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.get_norm"><code class="name flex">
+<span>def <span class="ident">get_norm</span></span>(<span>pixels, norm_type, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Normalize pixels
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>norm_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>Type of normalization. The default is 'min-max'.
+options -&gt; attributes possible:
+'min-max',
+'max',
+'gaussian',
+'z-score',
+'robust',
+'downsample' -&gt; output_shape</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If true, the time needed to perform the normalization is printed.
+The default is False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.max"><code class="name flex">
+<span>def <span class="ident">max</span></span>(<span>pixels, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The maximum absolute scaling rescales each feature between -1 and 1
+by dividing every observation by its maximum absolute value.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>downsample</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the image is downsampled to a smaller size</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code> of <code>int</code></dt>
+<dd>The shape of the output image if downsampling is used</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the normalization is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.minmax"><code class="name flex">
+<span>def <span class="ident">minmax</span></span>(<span>pixels, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The min-max approach (often called normalization) rescales the
+feature to a fixed range of [0,1] by subtracting the minimum value
+of the feature and then dividing by the range, which is then multiplied
+by 255 to bring the value into the range [0,255].
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the normalization is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.robust"><code class="name flex">
+<span>def <span class="ident">robust</span></span>(<span>pixels, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>In robust scaling, we scale each feature of the data set by subtracting
+the median and then dividing by the interquartile range. The interquartile
+range (IQR) is defined as the difference between the third and the first
+quartile and represents the central 50% of the data.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>downsample</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the image is downsampled to a smaller size</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code> of <code>int</code></dt>
+<dd>The shape of the output image if downsampling is used</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the normalization is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.Normalize.z_score"><code class="name flex">
+<span>def <span class="ident">z_score</span></span>(<span>pixels, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The z-score method (often called standardization) transforms the data
+into a distribution with a mean of 0 and a standard deviation of 1.
+Each standardized value is computed by subtracting the mean of the
+corresponding feature and then dividing by the standard deviation.
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>pixels</code></strong> :&ensp;<code>numpy.ndarray | list</code> of <code>numpy.ndarray</code></dt>
+<dd>Array of pixels to be normalized</dd>
+<dt><strong><code>downsample</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the image is downsampled to a smaller size</dd>
+<dt><strong><code>output_shape</code></strong> :&ensp;<code>tuple</code> of <code>int</code></dt>
+<dd>The shape of the output image if downsampling is used</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, the time needed to perform the normalization is printed</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>numpy.ndarray</code></dt>
+<dd>Normalized pixels</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.OutlierDetector"><code class="flex name class">
+<span>class <span class="ident">OutlierDetector</span></span>
+<span>(</span><span>run_id, algorithms=None, data=None, features=None, bad_ids=None, number_bad=None, exclude=None, timing=False, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OutlierDetector():
+    def __init__(
+        self,
+        run_id,
+        algorithms=None,
+        data=None,
+        features=None,
+        bad_ids=None,
+        number_bad=None,
+        exclude=None,
+        timing=False,
+        **kwargs,
+    ):
+
+        data_x = data[0] # imgs or vectors
+        data_y = data[1] # labels
+
+        t0 = time.time()
+        self.__run_id = run_id
+        self.__algorithms = ALGORITHMS if algorithms is None else algorithms
+        self.__bad_ids = bad_ids if bad_ids is not None else BAD_IMAGE_ID_PATH
+        self.__number_bad = number_bad if number_bad is not None else None
+        self.__exclude = exclude if exclude is not None else []
+
+        # run the outlier detection algorithms
+        accuracy_scores = {}
+        errors = {}
+        cache_key = &#34;&#34;
+        t0 = time.time()
+        verbose = kwargs.get(&#34;verbose&#34;, False)
+        for alg in self.__algorithms:
+            if alg not in self.__exclude:
+                print(&#34;-&#34;*20, f&#34; Running {alg} &#34;, &#34;-&#34;*20)
+                t_scores, t_labels = self._detect_outliers(
+                    data_x,
+                    data_y,
+                    pyod_algorithm=alg,
+                    verbose=verbose,
+                    **kwargs,
+                )
+
+            #print(f&#34;{alg} t_scores: {t_scores} t_labels: {t_labels}&#34;)
+            print(&#34;-&#34;*20, f&#34; {alg} DONE &#34;, &#34;-&#34;*20)
+        
+        accuracy_scores = dict(
+            sorted(accuracy_scores.items(), key=lambda item: item[1], reverse=True)
+        )
+
+    @staticmethod
+    def _detect_outliers(features, labels, pyod_algorithm, **kwargs):
+        &#34;&#34;&#34;Detect outliers using PyOD algorithm. Default algorithm is HBOS.
+        See PYOD documentation to see which arguments are available for each
+        algorithm and to get description of each algorithm and how the
+        arguments work with each algorithm.
+        link: https://pyod.readthedocs.io/en/latest/pyod.html
+        &#34;&#34;&#34;
+
+        # split data into training and testing
+        x_train, x_test  = train_test_split(
+            features, test_size=0.2, random_state=42
+        )
+
+        return_decision_function = kwargs.get(&#34;return_decision_function&#34;, False)
+
+        # make sure data_x is a 2d array and not a 1d array or 3D array
+        def reshape(data_x):
+            if isinstance(data_x, np.ndarray):
+                if len(data_x.shape) == 1:
+                    data_x = data_x.reshape(-1, 1)
+                elif len(data_x.shape) == 3:
+                    data_x = data_x.reshape(data_x.shape[0], -1)
+            elif isinstance(data_x, list):
+                for i in range(len(data_x)):
+                    if len(data_x[i]) == 1:
+                        data_x[i] = np.pad(data_x[i], (0, len(data_x[0]) - 1), &#34;constant&#34;)
+                    if len(data_x[i]) == 3:
+                        data_x[i] = np.pad(data_x[i], (0, len(data_x[0]) - 3), &#34;constant&#34;)
+                data_x = np.array(data_x)
+            return data_x
+        
+        match pyod_algorithm:
+            case &#34;ECOD&#34;:
+                if DEBUG:
+                    print(&#34;In ECOD algorithm&#34;)
+                from pyod.models.ecod import ECOD
+
+                n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                clf = ECOD(n_jobs=n_jobs, contamination=contamination)
+
+            case &#34;LOF&#34;:
+                if DEBUG:
+                    print(&#34;In LOF algorithm&#34;)
+                from pyod.models.lof import LOF
+
+                if &#34;LOF&#34; in kwargs:
+                    clf = LOF(**kwargs[&#34;LOF&#34;])
+                else:
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 20)
+                    algorithm = kwargs.get(&#34;algorithm&#34;, &#34;auto&#34;)
+                    leaf_size = kwargs.get(&#34;leaf_size&#34;, 30)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    p = kwargs.get(&#34;p&#34;, 2)
+                    novelty = kwargs.get(&#34;novelty&#34;, True)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    clf = LOF(
+                        n_neighbors=n_neighbors,
+                        algorithm=algorithm,
+                        leaf_size=leaf_size,
+                        metric=metric,
+                        p=p,
+                        metric_params=metric_params,
+                        contamination=contamination,
+                        n_jobs=n_jobs,
+                        novelty=novelty,
+                    )
+
+            case &#34;OCSVM&#34;:
+                if DEBUG:
+                    print(&#34;In OCSVM algorithm&#34;)
+                from pyod.models.ocsvm import OCSVM
+
+                if &#34;OCSVM&#34; in kwargs:
+                    clf = OCSVM(**kwargs[&#34;OCSVM&#34;])
+                else:
+                    kernel = kwargs.get(&#34;kernel&#34;, &#34;rbf&#34;)
+                    degree = kwargs.get(&#34;degree&#34;, 3)
+                    gamma = kwargs.get(&#34;gamma&#34;, &#34;auto&#34;)
+                    coef0 = kwargs.get(&#34;coef0&#34;, 0.0)
+                    tol = kwargs.get(&#34;tol&#34;, 1e-3)
+                    nu = kwargs.get(&#34;nu&#34;, 0.5)
+                    shrinking = kwargs.get(&#34;shrinking&#34;, True)
+                    cache_size = kwargs.get(&#34;cache_size&#34;, 200)
+                    verbose = kwargs.get(&#34;verbose&#34;, False)
+                    max_iter = kwargs.get(&#34;max_iter&#34;, -1)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    clf = OCSVM(
+                        kernel=kernel,
+                        degree=degree,
+                        gamma=gamma,
+                        coef0=coef0,
+                        tol=tol,
+                        nu=nu,
+                        shrinking=shrinking,
+                        cache_size=cache_size,
+                        verbose=verbose,
+                        max_iter=max_iter,
+                        contamination=contamination,
+                    )
+
+            case &#34;IForest&#34;:
+                if DEBUG:
+                    print(&#34;In IForest algorithm&#34;)
+                from pyod.models.iforest import IForest
+
+                if &#34;IForest&#34; in kwargs:
+                    clf = IForest(**kwargs[&#34;IForest&#34;])
+                else:
+                    n_estimators = kwargs.get(&#34;n_estimators&#34;, 100)
+                    max_samples = kwargs.get(&#34;max_samples&#34;, &#34;auto&#34;)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    max_features = kwargs.get(&#34;max_features&#34;, 1.0)
+                    bootstrap = kwargs.get(&#34;bootstrap&#34;, False)  # had  this as True
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    behaviour = kwargs.get(&#34;behaviour&#34;, &#34;old&#34;)
+                    verbose = kwargs.get(&#34;verbose&#34;, 0)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    if DEBUG:
+                        print(&#34;n_estimators: &#34;, n_estimators)
+                        print(&#34;max_samples: &#34;, max_samples)
+                        print(&#34;contamination: &#34;, contamination)
+                        print(&#34;max_features: &#34;, max_features)
+                        print(&#34;bootstrap: &#34;, bootstrap)
+                        print(&#34;n_jobs: &#34;, n_jobs)
+                        print(&#34;behaviour: &#34;, behaviour)
+                        print(&#34;verbose: &#34;, verbose)
+                        print(&#34;random_state: &#34;, random_state)
+                    clf = IForest(
+                        n_estimators=n_estimators,
+                        max_samples=max_samples,
+                        contamination=contamination,
+                        max_features=max_features,
+                        bootstrap=bootstrap,
+                        n_jobs=n_jobs,
+                        behaviour=behaviour,
+                        random_state=random_state,
+                        verbose=verbose,
+                    )
+
+            case &#34;CBLOF&#34;:
+                if DEBUG:
+                    print(&#34;In CBLOF algorithm&#34;)
+                from pyod.models.cblof import CBLOF
+
+                if &#34;CBLOF&#34; in kwargs:
+                    clf = CBLOF(**kwargs[&#34;CBLOF&#34;])
+                else:
+                    n_clusters = kwargs.get(&#34;n_clusters&#34;, 8)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    alpha = kwargs.get(&#34;alpha&#34;, 0.9)
+                    beta = kwargs.get(&#34;beta&#34;, 5)
+                    use_weights = kwargs.get(&#34;use_weights&#34;, False)
+                    check_estimator = kwargs.get(&#34;check_estimator&#34;, False)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    clustering_estimator = kwargs.get(&#34;clustering_estimator&#34;, None)
+                    clf = CBLOF(
+                        n_clusters=n_clusters,
+                        contamination=contamination,
+                        clustering_estimator=clustering_estimator,
+                        alpha=alpha,
+                        beta=beta,
+                        use_weights=use_weights,
+                        check_estimator=check_estimator,
+                        random_state=random_state,
+                        n_jobs=n_jobs,
+                    )
+
+            case &#34;COPOD&#34;:
+                if DEBUG:
+                    print(&#34;In COPOD algorithm&#34;)
+                from pyod.models.copod import COPOD
+
+                if &#34;COPOD&#34; in kwargs:
+                    clf = COPOD(**kwargs[&#34;COPOD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    clf = COPOD(contamination=contamination, n_jobs=n_jobs)
+
+            case &#34;MCD&#34;:
+                if DEBUG:
+                    print(&#34;In MCD algorithm&#34;)
+                from pyod.models.mcd import MCD
+
+                if &#34;MCD&#34; in kwargs:
+                    clf = MCD(**kwargs[&#34;MCD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    store_precision = kwargs.get(&#34;store_precision&#34;, True)
+                    assume_centered = kwargs.get(&#34;assume_centered&#34;, False)
+                    support_fraction = kwargs.get(&#34;support_fraction&#34;, None)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    clf = MCD(
+                        contamination=contamination,
+                        store_precision=store_precision,
+                        assume_centered=assume_centered,
+                        support_fraction=support_fraction,
+                        random_state=random_state,
+                    )
+
+            case &#34;SOS&#34;:
+                if DEBUG:
+                    print(&#34;In SOS algorithm&#34;)
+                from pyod.models.sos import SOS
+
+                if &#34;SOS&#34; in kwargs:
+                    clf = SOS(**kwargs[&#34;SOS&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    perplexity = kwargs.get(&#34;perplexity&#34;, 4.5)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;euclidean&#34;)
+                    eps = kwargs.get(&#34;eps&#34;, 1e-5)
+                    if DEBUG:
+                        print(&#34;contamination: &#34;, contamination)
+                    clf = SOS(
+                        contamination=contamination,
+                        perplexity=perplexity,
+                        metric=metric,
+                        eps=eps,
+                    )
+
+            case &#34;KDE&#34;:
+                if DEBUG:
+                    print(&#34;In KDE algorithm&#34;)
+                from pyod.models.kde import KDE
+
+                if &#34;KDE&#34; in kwargs:
+                    clf = KDE(**kwargs[&#34;KDE&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    bandwidth = kwargs.get(&#34;bandwidth&#34;, 1.0)
+                    algorithm = kwargs.get(&#34;algorithm&#34;, &#34;auto&#34;)
+                    leaf_size = kwargs.get(&#34;leaf_size&#34;, 30)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    clf = KDE(
+                        contamination=contamination,
+                        bandwidth=bandwidth,
+                        algorithm=algorithm,
+                        leaf_size=leaf_size,
+                        metric=metric,
+                        metric_params=metric_params,
+                    )
+
+            case &#34;Sampling&#34;:
+                if DEBUG:
+                    print(&#34;In Sampling algorithm&#34;)
+                from pyod.models.sampling import Sampling
+
+                if &#34;Sampling&#34; in kwargs:
+                    clf = Sampling(**kwargs[&#34;Sampling&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    subset_size = kwargs.get(&#34;subset_size&#34;, 20)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    print(f&#34;random_state: {random_state}&#34;)
+                    clf = Sampling(
+                        contamination=contamination,
+                        subset_size=subset_size,
+                        metric=metric,
+                        metric_params=metric_params,
+                        random_state=random_state,
+                    )
+
+            case &#34;GMM&#34;:
+                if DEBUG:
+                    print(&#34;In GMM algorithm&#34;)
+                from pyod.models.gmm import GMM
+
+                if &#34;GMM&#34; in kwargs:
+                    clf = GMM(**kwargs[&#34;GMM&#34;])
+                else:
+                    n_components = kwargs.get(&#34;n_components&#34;, 1)
+                    covariance_type = kwargs.get(&#34;covariance_type&#34;, &#34;full&#34;)
+                    tol = kwargs.get(&#34;tol&#34;, 1e-3)
+                    reg_covar = kwargs.get(&#34;reg_covar&#34;, 1e-6)
+                    max_iter = kwargs.get(&#34;max_iter&#34;, 100)
+                    n_init = kwargs.get(&#34;n_init&#34;, 1)
+                    init_params = kwargs.get(&#34;init_params&#34;, &#34;kmeans&#34;)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    weights_init = kwargs.get(&#34;weights_init&#34;, None)
+                    warm_start = kwargs.get(
+                        &#34;warm_start&#34;, False
+                    )  # warm start was None not False
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    precisions_init = kwargs.get(&#34;precisions_init&#34;, None)
+                    means_init = kwargs.get(&#34;means_init&#34;, None)
+                    clf = GMM(
+                        n_components=n_components,
+                        covariance_type=covariance_type,
+                        tol=tol,
+                        reg_covar=reg_covar,
+                        max_iter=max_iter,
+                        n_init=n_init,
+                        init_params=init_params,
+                        contamination=contamination,
+                        weights_init=weights_init,
+                        means_init=means_init,
+                        precisions_init=precisions_init,
+                        random_state=random_state,
+                        warm_start=warm_start,
+                    )
+
+            case &#34;PCA&#34;:
+                if DEBUG:
+                    print(&#34;In PCA algorithm&#34;)
+                from pyod.models.pca import PCA
+
+                if &#34;PCA&#34; in kwargs:
+                    clf = PCA(**kwargs[&#34;PCA&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    copy = kwargs.get(&#34;copy&#34;, True)
+                    whiten = kwargs.get(&#34;whiten&#34;, False)
+                    svd_solver = kwargs.get(&#34;svd_solver&#34;, &#34;auto&#34;)
+                    tol = kwargs.get(&#34;tol&#34;, 0.0)
+                    iterated_power = kwargs.get(&#34;iterated_power&#34;, &#34;auto&#34;)
+                    weighted = kwargs.get(&#34;weighted&#34;, True)
+                    standardization = kwargs.get(&#34;standardization&#34;, True)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    n_selected_components = kwargs.get(&#34;n_selected_components&#34;, None)
+                    n_components = kwargs.get(&#34;n_components&#34;, None)
+                    clf = PCA(
+                        n_components=n_components,
+                        n_selected_components=n_selected_components,
+                        contamination=contamination,
+                        copy=copy,
+                        whiten=whiten,
+                        svd_solver=svd_solver,
+                        tol=tol,
+                        iterated_power=iterated_power,
+                        random_state=random_state,
+                        weighted=weighted,
+                        standardization=standardization,
+                    )
+
+            case &#34;LMDD&#34;:
+                if DEBUG:
+                    print(&#34;In LMDD algorithm&#34;)
+                from pyod.models.lmdd import LMDD
+
+                if &#34;LMDD&#34; in kwargs:
+                    clf = LMDD(**kwargs[&#34;LMDD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_iter = kwargs.get(&#34;n_iter&#34;, 50)
+                    dis_measure = kwargs.get(&#34;dis_measure&#34;, &#34;aad&#34;)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    clf = LMDD(
+                        contamination=contamination,
+                        n_iter=n_iter,
+                        dis_measure=dis_measure,
+                        random_state=random_state,
+                    )
+
+            case &#34;COF&#34;:
+                if DEBUG:
+                    print(&#34;In COF algorithm&#34;)
+                from pyod.models.cof import COF
+
+                if &#34;COF&#34; in kwargs:
+                    clf = COF(**kwargs[&#34;COF&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 20)
+                    method = kwargs.get(&#34;method&#34;, &#34;fast&#34;)
+                    clf = COF(
+                        contamination=contamination, n_neighbors=n_neighbors, method=method
+                    )
+
+            case &#34;HBOS&#34;:
+                if DEBUG:
+                    print(&#34;In HBOS algorithm&#34;)
+                from pyod.models.hbos import HBOS
+
+                if &#34;HBOS&#34; in kwargs:
+                    clf = HBOS(**kwargs[&#34;HBOS&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_bins = kwargs.get(&#34;n_bins&#34;, 10)
+                    alpha = kwargs.get(&#34;alpha&#34;, 0.1)
+                    tol = kwargs.get(&#34;tol&#34;, 0.5)
+                    clf = HBOS(
+                        contamination=contamination, n_bins=n_bins, alpha=alpha, tol=tol
+                    )
+
+            case &#34;KNN&#34;:
+                if DEBUG:
+                    print(&#34;In KNN algorithm&#34;)
+                from pyod.models.knn import KNN
+
+                # look if kwargs[&#34;KNN&#34;] is a dictionary value and if so use it
+                if &#34;KNN&#34; in kwargs:
+                    clf = KNN(**kwargs[&#34;KNN&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 5)
+                    method = kwargs.get(&#34;method&#34;, &#34;largest&#34;)
+                    radius = kwargs.get(&#34;radius&#34;, 1.0)
+                    algorithm = kwargs.get(&#34;algorithm&#34;, &#34;auto&#34;)
+                    leaf_size = kwargs.get(&#34;leaf_size&#34;, 30)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    p = kwargs.get(&#34;p&#34;, 2)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    clf = KNN(
+                        contamination=contamination,
+                        n_neighbors=n_neighbors,
+                        method=method,
+                        radius=radius,
+                        algorithm=algorithm,
+                        leaf_size=leaf_size,
+                        metric=metric,
+                        p=p,
+                        metric_params=metric_params,
+                        n_jobs=n_jobs,
+                    )
+
+            case &#34;AvgKNN&#34;:
+                if DEBUG:
+                    print(&#34;In AvgKNN algorithm&#34;)
+                from pyod.models.knn import KNN
+
+                if &#34;AvgKNN&#34; in kwargs:
+                    clf = KNN(**kwargs[&#34;AvgKNN&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 5)
+                    method = kwargs.get(&#34;method&#34;, &#34;mean&#34;)
+                    radius = kwargs.get(&#34;radius&#34;, 1.0)
+                    algorithm = kwargs.get(&#34;algorithm&#34;, &#34;auto&#34;)
+                    leaf_size = kwargs.get(&#34;leaf_size&#34;, 30)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    p = kwargs.get(&#34;p&#34;, 2)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    clf = KNN(
+                        contamination=contamination,
+                        n_neighbors=n_neighbors,
+                        method=method,
+                        radius=radius,
+                        algorithm=algorithm,
+                        leaf_size=leaf_size,
+                        metric=metric,
+                        p=p,
+                        metric_params=metric_params,
+                        n_jobs=n_jobs,
+                    )
+
+            case &#34;MedKNN&#34;:
+                if DEBUG:
+                    print(&#34;In MedKNN algorithm&#34;)
+                from pyod.models.knn import KNN
+
+                if &#34;MedKNN&#34; in kwargs:
+                    clf = KNN(**kwargs[&#34;MedKNN&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 5)
+                    method = kwargs.get(&#34;method&#34;, &#34;median&#34;)
+                    radius = kwargs.get(&#34;radius&#34;, 1.0)
+                    algorithm = kwargs.get(&#34;algorithm&#34;, &#34;auto&#34;)
+                    leaf_size = kwargs.get(&#34;leaf_size&#34;, 30)
+                    metric = kwargs.get(&#34;metric&#34;, &#34;minkowski&#34;)
+                    p = kwargs.get(&#34;p&#34;, 2)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    metric_params = kwargs.get(&#34;metric_params&#34;, None)
+                    clf = KNN(
+                        contamination=contamination,
+                        n_neighbors=n_neighbors,
+                        method=method,
+                        radius=radius,
+                        algorithm=algorithm,
+                        leaf_size=leaf_size,
+                        metric=metric,
+                        p=p,
+                        metric_params=metric_params,
+                        n_jobs=n_jobs,
+                    )
+
+            case &#34;SOD&#34;:
+                if DEBUG:
+                    print(&#34;In SOD algorithm&#34;)
+                from pyod.models.sod import SOD
+
+                if &#34;SOD&#34; in kwargs:
+                    clf = SOD(**kwargs[&#34;SOD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 20)
+                    ref_set = kwargs.get(&#34;ref_set&#34;, 10)
+                    if ref_set &gt;= n_neighbors:
+                        ref_set = n_neighbors - 1
+                    alpha = kwargs.get(&#34;alpha&#34;, 0.8)
+                    clf = SOD(
+                        contamination=contamination,
+                        n_neighbors=n_neighbors,
+                        ref_set=ref_set,
+                        alpha=alpha,
+                    )
+
+            case &#34;ROD&#34;:
+                if DEBUG:
+                    print(&#34;In ROD algorithm&#34;)
+                from pyod.models.rod import ROD
+
+                if &#34;ROD&#34; in kwargs:
+                    clf = ROD(**kwargs[&#34;ROD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    parallel_execution = kwargs.get(&#34;parallel_execution&#34;, False)
+                    clf = ROD(
+                        contamination=contamination, parallel_execution=parallel_execution
+                    )
+
+            case &#34;INNE&#34;:
+                if DEBUG:
+                    print(&#34;In INNE algorithm&#34;)
+                from pyod.models.inne import INNE
+
+                if &#34;INNE&#34; in kwargs:
+                    clf = INNE(**kwargs[&#34;INNE&#34;])
+                else:
+                    n_estimators = kwargs.get(&#34;n_estimators&#34;, 200)
+                    max_samples = kwargs.get(&#34;max_samples&#34;, &#34;auto&#34;)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    clf = INNE(
+                        n_estimators=n_estimators,
+                        max_samples=max_samples,
+                        contamination=contamination,
+                        random_state=random_state,
+                    )
+
+            case &#34;FB&#34;:
+                if DEBUG:
+                    print(&#34;In FB algorithm&#34;)
+                from pyod.models.feature_bagging import FeatureBagging
+
+                if &#34;FB&#34; in kwargs:
+                    clf = FeatureBagging(**kwargs[&#34;FB&#34;])
+                else:
+                    n_estimators = kwargs.get(&#34;n_estimators&#34;, 10)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    max_features = kwargs.get(&#34;max_features&#34;, 1.0)
+                    bootstrap_features = kwargs.get(&#34;bootstrap_features&#34;, False)
+                    check_detector = kwargs.get(
+                        &#34;check_detector&#34;, True
+                    )  # was False when should be True
+                    check_estimator = kwargs.get(&#34;check_estimator&#34;, False)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    combination = kwargs.get(&#34;combination&#34;, &#34;average&#34;)
+                    verbose = kwargs.get(&#34;verbose&#34;, 0)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    estimator_params = kwargs.get(&#34;estimator_params&#34;, None)
+                    base_estimator = kwargs.get(&#34;base_estimator&#34;, None)
+                    clf = FeatureBagging(
+                        base_estimator=base_estimator,
+                        n_estimators=n_estimators,
+                        contamination=contamination,
+                        max_features=max_features,
+                        bootstrap_features=bootstrap_features,
+                        check_detector=check_detector,
+                        check_estimator=check_estimator,
+                        n_jobs=n_jobs,
+                        random_state=random_state,
+                        combination=combination,
+                        verbose=verbose,
+                        estimator_params=estimator_params,
+                    )
+
+            case &#34;LODA&#34;:
+                if DEBUG:
+                    print(&#34;In LODA algorithm&#34;)
+                from pyod.models.loda import LODA
+
+                if &#34;LODA&#34; in kwargs:
+                    clf = LODA(**kwargs[&#34;LODA&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_bins = kwargs.get(&#34;n_bins&#34;, 10)
+                    n_random_cuts = kwargs.get(&#34;n_random_cuts&#34;, 100)
+                    clf = LODA(
+                        contamination=contamination,
+                        n_bins=n_bins,
+                        n_random_cuts=n_random_cuts,
+                    )
+
+            case &#34;SUOD&#34;:
+                if DEBUG:
+                    print(&#34;In SUOD algorithm&#34;)
+                from pyod.models.suod import SUOD
+
+                if &#34;SUOD&#34; in kwargs:
+                    clf = SUOD(**kwargs[&#34;SUOD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    combination = kwargs.get(&#34;combination&#34;, &#34;average&#34;)
+                    rp_flag_global = kwargs.get(&#34;rp_flag_global&#34;, True)
+                    target_dim_frac = kwargs.get(&#34;target_dim_frac&#34;, 0.5)
+                    jl_method = kwargs.get(&#34;jl_method&#34;, &#34;basic&#34;)
+                    bps_flag = kwargs.get(&#34;bps_flag&#34;, True)
+                    approx_flag_global = kwargs.get(&#34;approx_flag_global&#34;, True)
+                    verbose = kwargs.get(&#34;verbose&#34;, False)
+                    rp_ng_clf_list = kwargs.get(&#34;rp_ng_clf_list&#34;, None)
+                    rp_clf_list = kwargs.get(&#34;rp_clf_list&#34;, None)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, None)
+                    cost_forecast_loc_pred = kwargs.get(&#34;cost_forecast_loc_pred&#34;, None)
+                    cost_forecast_loc_fit = kwargs.get(&#34;cost_forecast_loc_fit&#34;, None)
+                    base_estimators = kwargs.get(&#34;base_estimators&#34;, None)
+                    approx_ng_clf_list = kwargs.get(&#34;approx_ng_clf_list&#34;, None)
+                    approx_clf_list = kwargs.get(&#34;approx_clf_list&#34;, None)
+                    approx_clf = kwargs.get(&#34;approx_clf&#34;, None)
+                    if base_estimators is not None:
+                        base_estimators = OutlierDetector._init_base_detectors(
+                            base_estimators
+                        )
+                    clf = SUOD(
+                        base_estimators=base_estimators,
+                        contamination=contamination,
+                        combination=combination,
+                        n_jobs=n_jobs,
+                        rp_clf_list=rp_clf_list,
+                        rp_ng_clf_list=rp_ng_clf_list,
+                        rp_flag_global=rp_flag_global,
+                        target_dim_frac=target_dim_frac,
+                        jl_method=jl_method,
+                        bps_flag=bps_flag,
+                        approx_clf_list=approx_clf_list,
+                        approx_ng_clf_list=approx_ng_clf_list,
+                        approx_flag_global=approx_flag_global,
+                        approx_clf=approx_clf,
+                        cost_forecast_loc_fit=cost_forecast_loc_fit,
+                        cost_forecast_loc_pred=cost_forecast_loc_pred,
+                        verbose=verbose,
+                    )
+
+            case &#34;AE&#34;:
+                if DEBUG:
+                    print(&#34;In AE algorithm&#34;)
+                from pyod.models.auto_encoder import AutoEncoder
+                from keras.losses import mean_squared_error
+
+                if &#34;AE&#34; in kwargs:
+                    clf = AutoEncoder(**kwargs[&#34;AE&#34;])
+                else:
+                    hidden_activation = kwargs.get(&#34;hidden_activation&#34;, &#34;relu&#34;)
+                    output_activation = kwargs.get(&#34;output_activation&#34;, &#34;sigmoid&#34;)
+                    loss = kwargs.get(&#34;loss&#34;, mean_squared_error)
+                    optimizer = kwargs.get(&#34;optimizer&#34;, &#34;adam&#34;)
+                    epochs = kwargs.get(&#34;epochs&#34;, 100)
+                    batch_size = kwargs.get(&#34;batch_size&#34;, 32)
+                    dropout_rate = kwargs.get(&#34;dropout_rate&#34;, 0.2)
+                    l2_regularizer = kwargs.get(&#34;l2_regularizer&#34;, 0.1)
+                    validation_size = kwargs.get(&#34;validation_size&#34;, 0.1)
+                    preprocessing = kwargs.get(&#34;preprocessing&#34;, True)
+                    verbose = kwargs.get(&#34;verbose&#34;, 1)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    #hidden_neurons = kwargs.get(&#34;hidden_neurons&#34;, None)
+                    clf = AutoEncoder(
+                        #hidden_neurons=hidden_neurons,
+                        hidden_activation=hidden_activation,
+                        output_activation=output_activation,
+                        loss=loss,
+                        optimizer=optimizer,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        dropout_rate=dropout_rate,
+                        l2_regularizer=l2_regularizer,
+                        validation_size=validation_size,
+                        preprocessing=preprocessing,
+                        verbose=verbose,
+                        random_state=random_state,
+                        contamination=contamination,
+                    )
+
+            case &#34;VAE&#34;:
+                if DEBUG:
+                    print(&#34;In VAE algorithm&#34;)
+                from pyod.models.vae import VAE
+                from keras.losses import mean_squared_error as mse
+
+                if &#34;VAE&#34; in kwargs:
+                    clf = VAE(**kwargs[&#34;VAE&#34;])
+                else:
+                    latent_dim = kwargs.get(&#34;latent_dim&#34;, 2)
+                    hidden_activation = kwargs.get(&#34;hidden_activation&#34;, &#34;relu&#34;)
+                    output_activation = kwargs.get(&#34;output_activation&#34;, &#34;sigmoid&#34;)
+                    #loss = kwargs.get(&#34;loss&#34;, mse)  # Assuming this will be replaced by the actual loss function later
+                    optimizer_name = kwargs.get(&#34;optimizer&#34;, &#34;adam&#34;)
+                    epochs = kwargs.get(&#34;epochs&#34;, 100)
+                    batch_size = kwargs.get(&#34;batch_size&#34;, 32)
+                    dropout_rate = kwargs.get(&#34;dropout_rate&#34;, 0.2)
+                    optimizer_params = kwargs.get(&#34;optimizer_params&#34;, {&#34;weight_decay&#34;: 1e-5})
+                    validation_size = kwargs.get(&#34;validation_size&#34;, 0.1)
+                    preprocessing = kwargs.get(&#34;preprocessing&#34;, True)
+                    verbose = kwargs.get(&#34;verbose&#34;, 1)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    beta = kwargs.get(&#34;gamma&#34;, 1.0)  # `gamma` appears to correspond to `beta` in VAE
+                    capacity = kwargs.get(&#34;capacity&#34;, 0.0)
+                    random_state = kwargs.get(&#34;random_state&#34;, 42)  # Default is 42 in VAE
+                    encoder_neurons = kwargs.get(&#34;encoder_neurons&#34;, [128, 64, 32])
+                    decoder_neurons = kwargs.get(&#34;decoder_neurons&#34;, [32, 64, 128])
+
+                    # Initialize the VAE model with adapted parameters
+                    clf = VAE(
+                        contamination=contamination,
+                        preprocessing=preprocessing,
+                        lr=kwargs.get(&#34;lr&#34;, 1e-3),
+                        epoch_num=epochs,
+                        batch_size=batch_size,
+                        optimizer_name=optimizer_name,
+                        random_state=random_state,
+                        use_compile=kwargs.get(&#34;use_compile&#34;, False),
+                        compile_mode=kwargs.get(&#34;compile_mode&#34;, &#34;default&#34;),
+                        verbose=verbose,
+                        optimizer_params=optimizer_params,
+                        beta=beta,
+                        capacity=capacity,
+                        encoder_neuron_list=encoder_neurons,
+                        decoder_neuron_list=decoder_neurons,
+                        latent_dim=latent_dim,
+                        hidden_activation_name=hidden_activation,
+                        output_activation_name=output_activation,
+                        batch_norm=kwargs.get(&#34;batch_norm&#34;, False),
+                        dropout_rate=dropout_rate
+                    )
+
+            case &#34;ABOD&#34;:
+                if DEBUG:
+                    print(&#34;In ABOD algorithm&#34;)
+                from pyod.models.abod import ABOD
+
+                if &#34;ABOD&#34; in kwargs:
+                    clf = ABOD(**kwargs[&#34;ABOD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    n_neighbors = kwargs.get(&#34;n_neighbors&#34;, 5)
+                    method = kwargs.get(&#34;method&#34;, &#34;fast&#34;)
+                    clf = ABOD(
+                        contamination=contamination, n_neighbors=n_neighbors, method=method
+                    )
+
+            case &#34;SOGAAL&#34;:
+                if DEBUG:
+                    print(&#34;In SOGAAL algorithm&#34;)
+                from pyod.models.so_gaal import SO_GAAL
+
+                if &#34;SOGAAL&#34; in kwargs:
+                    clf = SO_GAAL(**kwargs[&#34;SOGAAL&#34;])
+                else:
+                    stop_epochs = kwargs.get(&#34;stop_epochs&#34;, 20)
+                    lr_d = kwargs.get(&#34;lr_d&#34;, 0.01)
+                    lr_g = kwargs.get(&#34;lr_g&#34;, 0.0001)
+                    decay = kwargs.get(&#34;decay&#34;, 1e-6)
+                    momentum = kwargs.get(&#34;momentum&#34;, 0.9)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    clf = SO_GAAL(
+                        stop_epochs=stop_epochs,
+                        lr_d=lr_d,
+                        lr_g=lr_g,
+                        decay=decay,
+                        momentum=momentum,
+                        contamination=contamination,
+                    )
+
+            case &#34;MOGAAL&#34;:
+                if DEBUG:
+                    print(&#34;In MOGAAL algorithm&#34;)
+                from pyod.models.mo_gaal import MO_GAAL
+
+                if &#34;MOGAAL&#34; in kwargs:
+                    clf = MO_GAAL(**kwargs[&#34;MOGAAL&#34;])
+                else:
+                    stop_epochs = kwargs.get(&#34;stop_epochs&#34;, 20)
+                    lr_d = kwargs.get(&#34;lr_d&#34;, 0.01)
+                    lr_g = kwargs.get(&#34;lr_g&#34;, 0.0001)
+                    decay = kwargs.get(&#34;decay&#34;, 1e-6)
+                    momentum = kwargs.get(&#34;momentum&#34;, 0.9)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    clf = MO_GAAL(
+                        stop_epochs=stop_epochs,
+                        lr_d=lr_d,
+                        lr_g=lr_g,
+                        decay=decay,
+                        momentum=momentum,
+                        contamination=contamination,
+                    )
+
+            case &#34;DeepSVDD&#34;:
+                if DEBUG:
+                    print(&#34;In DeepSVDD algorithm&#34;)
+                from pyod.models.deep_svdd import DeepSVDD
+
+                if &#34;DeepSVDD&#34; in kwargs:
+                    clf = DeepSVDD(**kwargs[&#34;DeepSVDD&#34;])
+                else:
+                    use_ae = kwargs.get(&#34;use_ae&#34;, False)
+                    hidden_activation = kwargs.get(&#34;hidden_activation&#34;, &#34;relu&#34;)
+                    output_activation = kwargs.get(&#34;output_activation&#34;, &#34;sigmoid&#34;)
+                    optimizer = kwargs.get(&#34;optimizer&#34;, &#34;adam&#34;)
+                    epochs = kwargs.get(&#34;epochs&#34;, 100)
+                    batch_size = kwargs.get(&#34;batch_size&#34;, 32)
+                    dropout_rate = kwargs.get(&#34;dropout_rate&#34;, 0.2)
+                    l2_regularizer = kwargs.get(&#34;l2_regularizer&#34;, 0.1)
+                    validation_size = kwargs.get(&#34;validation_size&#34;, 0.1)
+                    preprocessing = kwargs.get(&#34;preprocessing&#34;, True)
+                    verbose = kwargs.get(&#34;verbose&#34;, 1)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    hidden_neurons = kwargs.get(&#34;hidden_neurons&#34;, None)
+                    c = kwargs.get(&#34;c&#34;, None)
+                    clf = DeepSVDD(
+                        c=c,
+                        use_ae=use_ae,
+                        hidden_neurons=hidden_neurons,
+                        hidden_activation=hidden_activation,
+                        output_activation=output_activation,
+                        optimizer=optimizer,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        dropout_rate=dropout_rate,
+                        l2_regularizer=l2_regularizer,
+                        validation_size=validation_size,
+                        preprocessing=preprocessing,
+                        verbose=verbose,
+                        random_state=random_state,
+                        contamination=contamination,
+                    )
+
+            case &#34;AnoGAN&#34;:
+                if DEBUG:
+                    print(&#34;In AnoGAN algorithm&#34;)
+                from pyod.models.anogan import AnoGAN
+
+                if &#34;AnoGAN&#34; in kwargs:
+                    clf = AnoGAN(**kwargs[&#34;AnoGAN&#34;])
+                else:
+                    activation_hidden = kwargs.get(&#34;activation_hidden&#34;, &#34;tanh&#34;)
+                    dropout_rate = kwargs.get(&#34;dropout_rate&#34;, 0.2)
+                    latent_dim_G = kwargs.get(&#34;latent_dim_G&#34;, 2)
+                    G_layers = kwargs.get(&#34;G_layers&#34;, [20, 10, 3, 10, 20])
+                    verbose = kwargs.get(&#34;verbose&#34;, 0)
+                    D_layers = kwargs.get(&#34;D_layers&#34;, [20, 10, 5])
+                    index_D_layer_for_recon_error = kwargs.get(
+                        &#34;index_D_layer_for_recon_error&#34;, 1
+                    )
+                    epochs = kwargs.get(&#34;epochs&#34;, 500)
+                    preprocessing = kwargs.get(&#34;preprocessing&#34;, False)
+                    learning_rate = kwargs.get(&#34;learning_rate&#34;, 0.001)
+                    learning_rate_query = kwargs.get(&#34;learning_rate_query&#34;, 0.01)
+                    epochs_query = kwargs.get(&#34;epochs_query&#34;, 20)
+                    batch_size = kwargs.get(&#34;batch_size&#34;, 32)
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    output_activation = kwargs.get(&#34;output_activation&#34;, None)
+                    clf = AnoGAN(
+                        activation_hidden=activation_hidden,
+                        dropout_rate=dropout_rate,
+                        latent_dim_G=latent_dim_G,
+                        G_layers=G_layers,
+                        verbose=verbose,
+                        D_layers=D_layers,
+                        index_D_layer_for_recon_error=index_D_layer_for_recon_error,
+                        epochs=epochs,
+                        preprocessing=preprocessing,
+                        learning_rate=learning_rate,
+                        learning_rate_query=learning_rate_query,
+                        epochs_query=epochs_query,
+                        batch_size=batch_size,
+                        output_activation=output_activation,
+                        contamination=contamination,
+                    )
+
+            case &#34;CD&#34;:
+                if DEBUG:
+                    print(&#34;In CD algorithm&#34;)
+                from pyod.models.cd import CD
+
+                if &#34;CD&#34; in kwargs:
+                    clf = CD(**kwargs[&#34;CD&#34;])
+                else:
+                    contamination = kwargs.get(&#34;contamination&#34;, 0.1)
+                    whitening = kwargs.get(&#34;whitening&#34;, True)
+                    rule_of_thumb = kwargs.get(&#34;rule_of_thumb&#34;, False)
+                    clf = CD(
+                        contamination=contamination,
+                        whitening=whitening,
+                        rule_of_thumb=rule_of_thumb,
+                    )
+
+            case &#34;XGBOD&#34;:
+                if DEBUG:
+                    print(&#34;In XGBOD algorithm&#34;)
+                from pyod.models.xgbod import XGBOD
+
+                if &#34;XGBOD&#34; in kwargs:
+                    clf = XGBOD(**kwargs[&#34;XGBOD&#34;])
+                else:
+                    max_depth = kwargs.get(&#34;max_depth&#34;, 3)
+                    learning_rate = kwargs.get(&#34;learning_rate&#34;, 0.1)
+                    n_estimators = kwargs.get(&#34;n_estimators&#34;, 100)
+                    silent = kwargs.get(&#34;silent&#34;, True)
+                    objective = kwargs.get(&#34;objective&#34;, &#34;binary:logistic&#34;)
+                    booster = kwargs.get(&#34;booster&#34;, &#34;gbtree&#34;)
+                    n_jobs = kwargs.get(&#34;n_jobs&#34;, 1)
+                    gamma = kwargs.get(&#34;gamma&#34;, 0)
+                    min_child_weight = kwargs.get(&#34;min_child_weight&#34;, 1)
+                    max_delta_step = kwargs.get(&#34;max_delta_step&#34;, 0)
+                    subsample = kwargs.get(&#34;subsample&#34;, 1)
+                    colsample_bytree = kwargs.get(&#34;colsample_bytree&#34;, 1)
+                    colsample_bylevel = kwargs.get(&#34;colsample_bylevel&#34;, 1)
+                    reg_alpha = kwargs.get(&#34;reg_alpha&#34;, 0)
+                    reg_lambda = kwargs.get(&#34;reg_lambda&#34;, 1)
+                    scale_pos_weight = kwargs.get(&#34;scale_pos_weight&#34;, 1)
+                    base_score = kwargs.get(&#34;base_score&#34;, 0.5)
+                    standardization_flag_list = kwargs.get(
+                        &#34;standardization_flag_list&#34;, None
+                    )
+                    random_state = kwargs.get(&#34;random_state&#34;, None)
+                    nthread = kwargs.get(&#34;nthread&#34;, None)
+                    estimator_list = kwargs.get(&#34;estimator_list&#34;, None)
+                    clf = XGBOD(
+                        estimator_list=estimator_list,
+                        standardization_flag_list=standardization_flag_list,
+                        max_depth=max_depth,
+                        learning_rate=learning_rate,
+                        n_estimators=n_estimators,
+                        silent=silent,
+                        objective=objective,
+                        booster=booster,
+                        n_jobs=n_jobs,
+                        nthread=nthread,
+                        gamma=gamma,
+                        min_child_weight=min_child_weight,
+                        max_delta_step=max_delta_step,
+                        subsample=subsample,
+                        colsample_bytree=colsample_bytree,
+                        colsample_bylevel=colsample_bylevel,
+                        reg_alpha=reg_alpha,
+                        reg_lambda=reg_lambda,
+                        scale_pos_weight=scale_pos_weight,
+                        base_score=base_score,
+                        random_state=random_state,
+                    )
+
+            case _:
+                raise ValueError(&#34;Algorithm not supported&#34;)
+
+        clf.fit(features)
+        #y_train_pred = clf.labels_
+        #y_train = clf.decision_scores_
+        #y_test = clf.predict(x_test)
+        #y_test = clf.decision_function(x_test)
+
+        ev = OutlierDetector.evaluate(labels, clf.labels_)
+
+        print(f&#34;accuracy for {pyod_algorithm}:&#34;, ev[&#34;acc_score&#34;]*100)
+    
+
+        print(&#34;f1_score: &#34;, round(ev[&#34;f1_score&#34;] * 100, 2))
+        print(&#34;groundtruth_indices: &#34;, ev[&#34;groundtruth_indices&#34;])
+        print(&#34;pred_indices: &#34;, ev[&#34;pred_indices&#34;])
+        print(&#34;common outlier indices: &#34;, np.intersect1d(ev[&#34;groundtruth_indices&#34;], ev[&#34;pred_indices&#34;]))
+
+
+        # visualize the results
+        &#34;&#34;&#34; visualize(
+            pyod_algorithm,
+            x_train,
+            y_train,    
+            x_test,
+            y_test,
+            y_train_pred,
+            y_train_pred,
+            show_figure = False,
+            save_figure = True
+        )&#34;&#34;&#34;
+
+        if return_decision_function:
+            return clf.decision_scores_, clf.labels_, clf.decision_function
+
+        return clf.decision_scores_, clf.labels_
+
+    @staticmethod
+    def _init_base_detectors(base_detectors):
+        &#34;&#34;&#34;Initializes the base detectors
+        Parameters
+        ----------
+        base_detectors : list
+            The base detectors to use
+        **kwargs : dict
+            The kwargs to pass to the base detectors
+        Returns
+        -------
+        base_detectors : list
+            The initialized base detectors
+        &#34;&#34;&#34;
+        base_temp = []
+        for detector in base_detectors:
+            if detector == &#34;PCA&#34;:
+                from pyod.models.pca import PCA
+                base_temp.append(PCA())
+            continue
+
+        return base_temp
+    
+    @staticmethod
+    def evaluate(groundtruth, pred):
+        &#34;&#34;&#34;Evaluates the results of the outlier detection algorithm
+        Parameters
+        ----------
+        groundtruth : list
+          The groundtruth labels
+        pred : list
+          The predicted labels
+        Returns
+        -------
+        evaluation : dict
+          The evaluation metrics
+        &#34;&#34;&#34;
+
+        cm = sklearn.metrics.confusion_matrix(groundtruth, pred)
+        return {
+            &#34;groundtruth_indices&#34;: np.where(np.array(groundtruth) &gt; 0),
+            &#34;pred_indices&#34;: np.where(np.array(pred) &gt; 0),
+            &#34;roc_auc&#34;: sklearn.metrics.roc_auc_score(groundtruth, pred),
+            &#34;f1_score&#34;: sklearn.metrics.f1_score(groundtruth, pred),
+            &#34;acc_score&#34;: sklearn.metrics.accuracy_score(groundtruth, pred),
+            &#34;jaccard_score&#34;: sklearn.metrics.jaccard_score(groundtruth, pred),
+            &#34;precision_score&#34;: sklearn.metrics.precision_score(groundtruth, pred),
+            &#34;average_precision&#34;: sklearn.metrics.average_precision_score(
+                groundtruth, pred
+            ),
+            &#34;recall_score&#34;: sklearn.metrics.recall_score(groundtruth, pred),
+            &#34;hamming_loss&#34;: sklearn.metrics.hamming_loss(groundtruth, pred),
+            &#34;log_loss&#34;: sklearn.metrics.log_loss(groundtruth, pred),
+            &#34;tn&#34;: cm[0, 0],
+            &#34;fp&#34;: cm[0, 1],
+            &#34;fn&#34;: cm[1, 0],
+            &#34;tp&#34;: cm[1, 1],
+        }
+
+    
+    @staticmethod
+    def accuracy(imgs, train_scores, bad_ids, number_bad, verbose=False, timing=False):
+        &#34;&#34;&#34;Calculates the accuracy of a pyod algorithm
+        Parameters
+        ----------
+        imgs : list
+            The images to be analyzed
+        train_scores : list, np.ndarray
+            The anomaly scores of the training data
+        bad_ids : str, list
+            The path to a text file with a list of bad ids or a list of bad ids
+        number_bad : int
+            The number of bad images
+        verbose : bool, optional (default=False)
+            Whether to display the results
+        timing : bool, optional (default=False)
+            If True, the time to calculate the accuracy is returned
+        Returns
+        -------
+        accuracy : float
+            The accuracy of the algorithm
+        &#34;&#34;&#34;
+        t0 = time.time()
+        if isinstance(bad_ids, str):
+            with open(bad_ids, &#34;r&#34;) as f:
+                bad_ids = f.read().splitlines()
+        elif not isinstance(bad_ids, list):
+            raise ValueError(&#34;bad_ids must be a string or a list&#34;)
+
+        img_list = [
+            SimpleNamespace(image=img, train_scores=train_scores[0][i])
+            for i, img in enumerate(imgs)
+        ]
+        # set the counter to 0
+        counter = 0
+
+        # loop through the first number_bad images in the list
+        for i in range(number_bad):
+            # get the SOPInstanceUID of the image
+            uid = img_list[i].image.SOPInstanceUID
+            # check if the uid is in the bad_ids list
+            if uid in bad_ids:
+                # if it is, increment the counter
+                counter += 1
+
+        # calculate the accuracy as a decimal
+        accuracy = counter / number_bad
+
+        if verbose:
+            print(&#34;Accuracy: {:.10f}&#34;.format(accuracy))
+        if timing:
+            print(f&#34;accuracy ...took: {time.time() - t0}s&#34;)
+        return accuracy</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.OD.outlier_detection.OutlierDetector.accuracy"><code class="name flex">
+<span>def <span class="ident">accuracy</span></span>(<span>imgs, train_scores, bad_ids, number_bad, verbose=False, timing=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the accuracy of a pyod algorithm
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>imgs</code></strong> :&ensp;<code>list</code></dt>
+<dd>The images to be analyzed</dd>
+<dt><strong><code>train_scores</code></strong> :&ensp;<code>list, np.ndarray</code></dt>
+<dd>The anomaly scores of the training data</dd>
+<dt><strong><code>bad_ids</code></strong> :&ensp;<code>str, list</code></dt>
+<dd>The path to a text file with a list of bad ids or a list of bad ids</dd>
+<dt><strong><code>number_bad</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of bad images</dd>
+<dt><strong><code>verbose</code></strong> :&ensp;<code>bool</code>, optional <code>(default=False)</code></dt>
+<dd>Whether to display the results</dd>
+<dt><strong><code>timing</code></strong> :&ensp;<code>bool</code>, optional <code>(default=False)</code></dt>
+<dd>If True, the time to calculate the accuracy is returned</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>accuracy</code></strong> :&ensp;<code>float</code></dt>
+<dd>The accuracy of the algorithm</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.OD.outlier_detection.OutlierDetector.evaluate"><code class="name flex">
+<span>def <span class="ident">evaluate</span></span>(<span>groundtruth, pred)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Evaluates the results of the outlier detection algorithm
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>groundtruth</code></strong> :&ensp;<code>list</code></dt>
+<dd>&nbsp;</dd>
+<dt>The groundtruth labels</dt>
+<dt><strong><code>pred</code></strong> :&ensp;<code>list</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>The predicted labels
+Returns</p>
+<hr>
+<dl>
+<dt><strong><code>evaluation</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>The evaluation metrics</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.OD" href="index.html">AmpliVision.src.OD</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.OD.outlier_detection.Features" href="#AmpliVision.src.OD.outlier_detection.Features">Features</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.downsample" href="#AmpliVision.src.OD.outlier_detection.Features.downsample">downsample</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.get_features" href="#AmpliVision.src.OD.outlier_detection.Features.get_features">get_features</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.histogram" href="#AmpliVision.src.OD.outlier_detection.Features.histogram">histogram</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.orb" href="#AmpliVision.src.OD.outlier_detection.Features.orb">orb</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.show_image_and_feature" href="#AmpliVision.src.OD.outlier_detection.Features.show_image_and_feature">show_image_and_feature</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.sift" href="#AmpliVision.src.OD.outlier_detection.Features.sift">sift</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Features.view_image_and_features" href="#AmpliVision.src.OD.outlier_detection.Features.view_image_and_features">view_image_and_features</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.OD.outlier_detection.Normalize" href="#AmpliVision.src.OD.outlier_detection.Normalize">Normalize</a></code></h4>
+<ul class="two-column">
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.downsample" href="#AmpliVision.src.OD.outlier_detection.Normalize.downsample">downsample</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.extract_pixels" href="#AmpliVision.src.OD.outlier_detection.Normalize.extract_pixels">extract_pixels</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.gaussian" href="#AmpliVision.src.OD.outlier_detection.Normalize.gaussian">gaussian</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.get_norm" href="#AmpliVision.src.OD.outlier_detection.Normalize.get_norm">get_norm</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.max" href="#AmpliVision.src.OD.outlier_detection.Normalize.max">max</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.minmax" href="#AmpliVision.src.OD.outlier_detection.Normalize.minmax">minmax</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.robust" href="#AmpliVision.src.OD.outlier_detection.Normalize.robust">robust</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.Normalize.z_score" href="#AmpliVision.src.OD.outlier_detection.Normalize.z_score">z_score</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.OD.outlier_detection.OutlierDetector" href="#AmpliVision.src.OD.outlier_detection.OutlierDetector">OutlierDetector</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.OD.outlier_detection.OutlierDetector.accuracy" href="#AmpliVision.src.OD.outlier_detection.OutlierDetector.accuracy">accuracy</a></code></li>
+<li><code><a title="AmpliVision.src.OD.outlier_detection.OutlierDetector.evaluate" href="#AmpliVision.src.OD.outlier_detection.OutlierDetector.evaluate">evaluate</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

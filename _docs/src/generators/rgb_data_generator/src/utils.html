@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.generators.rgb_data_generator.src.utils API documentation</title>
+<meta name="description" content="This module contains utility functions for the data_generator module.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.generators.rgb_data_generator.src.utils</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains utility functions for the data_generator module.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils"><code class="flex name class">
+<span>class <span class="ident">Utils</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Utility functions for the data_generator module.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Utils:
+    &#34;&#34;&#34; Utility functions for the data_generator module. &#34;&#34;&#34;
+
+    COLORS = [&#39;r&#39;, &#39;g&#39;, &#39;b&#39;]
+
+    @classmethod
+    def comb_pts_as_flat_json(cls, comb_pts: dict[list[float]], class_n: int, display: bool = 0) -&gt; list:
+
+        row = []
+        columns = [&#39;class&#39;]
+        block_types = [&#39;Test Block 1&#39;, &#39;Test Block 2&#39;,
+                       &#39;Test Block 3&#39;, &#39;Control Block&#39;]
+
+        # create column names
+        for b_type in block_types:
+            for s in range(1, 3):  # spot 1 and spot 2
+                columns.append(f&#39;{b_type}_spot{s}_r&#39;)
+                columns.append(f&#39;{b_type}_spot{s}_g&#39;)
+                columns.append(f&#39;{b_type}_spot{s}_b&#39;)
+        row.append(columns)
+
+        # create rows
+        for i in range(len(comb_pts[&#39;Test Block 1&#39;])):
+            row.append(
+                [class_n]  # which disease it is
+                +
+                [   # the rgb data for each spot in each block type
+                    comb_pts[b_type][i][j]
+                    for b_type in block_types
+                    for j in range(6)
+                ]
+            )
+
+        # display the data
+        if display:
+            for r in row:
+                print(r)
+            print(&#34;\n&#34;, f&#34;dimension: {len(row)} x {len(row[0])}&#34;, &#34;\n&#34;)
+
+        return row
+
+    @classmethod
+    def generate_gendata_csv_filename(cls, sample_type: str, og_folder_path: str) -&gt; str:
+        &#34;&#34;&#34;
+        Generate a filename for the generated CSV file.
+
+        Args:
+            id (int): Identifier for the filename.
+            og_folder_path (str): Original folder path.
+
+        Returns:
+            str: Generated filename.
+        &#34;&#34;&#34;
+        image_name = cls.get_filename(0, og_folder_path)
+        image_name = image_name[:image_name.find(&#34;_&#34;)]
+
+        return f&#34;/{sample_type}_generated.csv&#34;
+
+    @staticmethod
+    def get_filename(_id: int, path: str) -&gt; str:
+        &#34;&#34;&#34;
+        Get the filename from a given path.
+
+        Args:
+            id (int): Identifier for the file.
+            path (str): Path to the directory or file.
+
+        Returns:
+            str: Extracted filename.
+        &#34;&#34;&#34;
+        # Check if path is a directory
+        if path.endswith(&#39;\\&#39;) or path.endswith(&#39;*&#39;):
+            path = path.removesuffix(&#34;*&#34;)
+            files = [file for file in os.listdir(
+                path) if os.path.isfile(os.path.join(path, file))]
+            image_name = files[_id-1].replace(&#39;.&#39;, &#39;_&#39;)
+
+        # or if path is a file
+        else:
+            start_i = path.rfind(&#34;\\&#34;)
+            image_name = path[start_i + 1:]
+
+        return image_name
+
+    @classmethod
+    def write_to_csv(
+        cls,
+        folder_path: str,
+        # list of rgb data, inside a list of block types inside a list of rows, inside a list of classes
+        data: list[list[list[int]]]
+    ) -&gt; str:
+        &#34;&#34;&#34;
+        Write RGB data points to a CSV file.
+
+        Args:
+            folder_path (str): Path to the folder where the CSV will be saved.
+            data (dict[list[list[int]]]): Dictionary containing RGB data points.
+        &#34;&#34;&#34;
+
+        # prepare folder and get the filename
+        output = cls.prepare_to_write_csv(folder_path, data)
+
+        # write the data to the csv file
+        with open(
+            output,
+            &#39;w&#39;,
+            encoding=&#39;utf-8&#39;,
+            newline=&#39;&#39;
+        ) as csvfile:
+
+            csvwriter = csv.writer(csvfile)
+
+            # write the headers
+            headers = data[0][0]
+            csvwriter.writerow(headers)
+
+            # write the data
+            for row in data:
+                csvwriter.writerows(row[1:])
+
+        return output
+
+    @classmethod
+    def prepare_to_write_csv(
+        cls,
+        folder_path: str,
+        filename: str,
+    ) -&gt; str:
+        &#34;&#34;&#34;
+        Write RGB data points to a CSV file.
+
+        Args:
+            folder_path (str): Path to the folder where the CSV will be saved.
+            data (dict[list[list[int]]]): Dictionary containing RGB data points.
+        &#34;&#34;&#34;
+
+        # get the filename
+        filename = cls.generate_gendata_csv_filename(&#34;COMBINED&#34;, folder_path)
+
+        # get the current date to create a subfolder
+        now = datetime.now()
+        date = now.strftime(&#34;%m-%d-%Y&#34;)
+        subfolder_name = f&#39;/{date}&#39;
+
+        # create the folder if it doesn&#39;t exist
+        output_folder = folder_path + subfolder_name
+        os.makedirs(output_folder, exist_ok=True)
+        output = output_folder + filename
+
+        return output
+
+    @staticmethod
+    def subtract_255(rgb: dict[str, list[list[int]]]) -&gt; dict[str, list[list[int]]]:
+        &#34;&#34;&#34;
+        Subtract 255 from each RGB value in the given dictionary.
+
+        Args:
+            rgb (dict[str, list[list[int]]]): Dictionary containing RGB data points.
+
+        Returns:
+            dict[str, list[list[int]]]: Dictionary with 255 subtracted from each RGB value.
+        &#34;&#34;&#34;
+        return {
+            block_type: [
+                [255 - x for x in row] for row in rgb_list] for block_type, rgb_list in rgb.items()
+        }
+
+    @classmethod
+    def ensure_std_ceiling(
+        cls,
+        fingerprint: dict[str, dict[str, list[float]]],
+        limit: int = 15
+    ) -&gt; dict[str, dict[str, list[float]]]:
+        &#34;&#34;&#34;
+        Limit the standard deviation values in the fingerprint dictionary.
+
+        Args:
+            fingerprint (dict[str, dict[str, list[float]]]): Dictionary containing fingerprint data.
+            limit (int, optional): The maximum allowed standard deviation. Defaults to 15.
+
+        Returns:
+            dict[str, dict[str, list[float]]]: Dictionary with limited standard deviation values.
+        &#34;&#34;&#34;
+        for color in cls.COLORS:
+            for i in range(1, 4, 2):
+                if fingerprint[color][i] &gt; limit:
+                    fingerprint[color][i] = limit
+        return fingerprint
+
+    @classmethod
+    def ensure_std_floor(
+        cls,
+        fingerprint: dict[str, dict[str, list[float]]],
+        floor: int = 2
+    ) -&gt; dict[str, dict[str, list[float]]]:
+        &#34;&#34;&#34;
+        Fix the standard deviation values in the fingerprint dictionary.
+
+        Args:
+            fingerprint (dict[str, dict[str, list[float]]]): Dictionary containing fingerprint data.
+            fix (int, optional): The fixed standard deviation. Defaults to 2.
+
+        Returns:
+            dict[str, dict[str, list[float]]]: Dictionary with fixed standard deviation values.
+        &#34;&#34;&#34;
+        for color in cls.COLORS:
+            for i in range(1, 4, 2):
+                if fingerprint[color][i] &lt; floor:
+                    fingerprint[color][i] = floor
+        return fingerprint
+
+    @staticmethod
+    def format_line(line: list[str], spot: int, get_corr:bool = False) -&gt; list[float]:
+        &#34;&#34;&#34;
+        Format a line from the data file.
+
+        Args:
+            line (list[str]): The line to format.
+            spot (int): The spot index.
+
+        Returns:
+            list[float]: The formatted line as a list of floats.
+        &#34;&#34;&#34;
+        base_index = spot * 3
+    
+        if get_corr: 
+            return [
+                float(line[base_index + 13].strip()),  # corr_spotX_r
+                float(line[base_index + 14].strip()),  # corr_spotX_g
+                float(line[base_index + 15].strip())   # corr_spotX_b
+            ] 
+        
+        else:
+            return [
+                float(line[base_index + 4].strip()),  # spotX_r
+                float(line[base_index + 5].strip()),  # spotX_g
+                float(line[base_index + 6].strip())   # spotX_b
+            ]
+
+    &#34;&#34;&#34; ---- Display functions ---- &#34;&#34;&#34;
+
+    @classmethod
+    def display_fingerprint(
+        cls,
+        fingerprint: dict[str, dict[str, list[float]]],
+        title_sufx: str = &#39;&#39;
+    ) -&gt; None:
+        &#34;&#34;&#34;
+        Display fingerprint data as distribution plots.
+
+        Args:
+            fingerprint (dict[str, dict[str, list[float]]]): Dictionary containing fingerprint data.
+            title_sufx (str, optional): Suffix for the plot title. Defaults to &#39;&#39;.
+        &#34;&#34;&#34;
+        for block_type, values in fingerprint.items():
+            title = f&#39;{block_type} fingerprint {title_sufx}&#39;
+            _, ax = plt.subplots(3, 1, figsize=(10, 10), num=title)
+
+            for i, color in enumerate(cls.COLORS):
+                mean1, std1, mean2, std2 = values[color]
+
+                if std1 == 0 and std2 == 0:
+                    print(f&#39;No std for {color} in {block_type}, using random&#39;)
+                    std1, std2 = random.randint(1, 2), random.randint(1, 2)
+
+                x = range(0, 256)
+                ax[i].plot(x, norm.pdf(x, mean1, std1),
+                           color=color, label=&#39;spot1&#39;)
+                ax[i].plot(x, norm.pdf(x, mean2, std2), color=color,
+                           linestyle=&#39;dashed&#39;, label=&#39;spot2&#39;)
+                ax[i].set_title(f&#39;{color} distribution&#39;)
+                ax[i].legend()
+            plt.show()
+
+    @staticmethod
+    def visualize_fingerprints_with_colors(fingerprints: dict[str, dict[str, list[float]]]) -&gt; None:
+        &#34;&#34;&#34;
+        Visualize fingerprints with actual colors.
+
+        Args:
+            fingerprints (dict[str, dict[str, list[float]]]): 
+               |__ Dictionary containing fingerprint data.
+        &#34;&#34;&#34;
+        fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10))
+        fig.suptitle(
+            &#39;RGB Values for Different Blocks with Actual Colors&#39;, fontsize=16)
+
+        block_names = list(fingerprints.keys())
+
+        for _, (block, ax) in enumerate(zip(block_names, axes.flatten())):
+            data = fingerprints[block]
+            x_labels = [&#39;Spot 1&#39;, &#39;Spot 2&#39;]
+
+            for i in range(2):
+                r_mean = data[&#39;r&#39;][i * 2]
+                g_mean = data[&#39;g&#39;][i * 2]
+                b_mean = data[&#39;b&#39;][i * 2]
+                r_stdev = data[&#39;r&#39;][i * 2 + 1]
+                g_stdev = data[&#39;g&#39;][i * 2 + 1]
+                b_stdev = data[&#39;b&#39;][i * 2 + 1]
+
+                color = [r_mean / 255, g_mean / 255, b_mean / 255]
+
+                ax.errorbar(x_labels[i], r_mean, yerr=r_stdev,
+                            fmt=&#39;o&#39;, color=&#39;r&#39;, capsize=20)
+                ax.errorbar(x_labels[i], g_mean, yerr=g_stdev,
+                            fmt=&#39;o&#39;, color=&#39;g&#39;, capsize=20)
+                ax.errorbar(x_labels[i], b_mean, yerr=b_stdev,
+                            fmt=&#39;o&#39;, color=&#39;b&#39;, capsize=20)
+
+                ax.scatter([x_labels[i]], [r_mean], color=color,
+                           s=100, marker=&#39;D&#39;, edgecolor=&#39;r&#39;, zorder=3)
+                ax.scatter([x_labels[i]], [g_mean], color=color,
+                           s=100, marker=&#39;D&#39;, edgecolor=&#39;g&#39;, zorder=3)
+                ax.scatter([x_labels[i]], [b_mean], color=color,
+                           s=100, marker=&#39;D&#39;, edgecolor=&#39;b&#39;, zorder=3)
+
+            ax.set_title(block)
+            ax.set_ylim(0, 255)
+            ax.set_ylabel(&#39;Value&#39;)
+            ax.legend([&#39;R Mean ± Std&#39;, &#39;G Mean ± Std&#39;, &#39;B Mean ± Std&#39;])
+            ax.grid(True)
+
+        plt.tight_layout(rect=[0, 0, 1, 0.96])
+        plt.show()
+
+    @staticmethod
+    def visualize_generated_pts(data: dict[list[float]], title: str, subtract: int = 0) -&gt; None:
+        &#34;&#34;&#34;
+        Visualize generated RGB data points in a grid format.
+
+        Args:
+            data (dict[list[float]]): Dictionary containing RGB data points.
+            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
+        &#34;&#34;&#34;
+
+        GRID_WIDTH = 4
+
+        _, ax = plt.subplots()
+        num_types = len(data)
+        num_pairs = max(len(pairs) for pairs in data.values())
+        grid_height = (num_pairs // GRID_WIDTH) + 1
+
+        for i, (dtype, pairs) in enumerate(data.items()):
+            for j, pair in enumerate(pairs):
+                row = j // GRID_WIDTH
+                col = j % GRID_WIDTH
+
+                data_list = [subtract - x if subtract !=
+                             0 else x for x in pair]
+                r1, g1, b1, r2, g2, b2 = data_list
+
+                ax.add_patch(plt.Rectangle(
+                    (col * 2, i * grid_height + row), 1, 1, color=[r1/255, g1/255, b1/255]))
+                ax.add_patch(plt.Rectangle(
+                    (col * 2 + 1, i * grid_height + row), 1, 1, color=[r2/255, g2/255, b2/255]))
+
+        ax.set_xlim(-0.1, GRID_WIDTH * 2)
+        ax.set_ylim(-0.1, num_types * grid_height)
+        ax.set_yticks(np.arange(num_types * grid_height) + 0.5)
+        ax.set_yticklabels([dtype for dtype in data.keys()
+                            for _ in range(grid_height)])
+        ax.set_xticks([])
+        plt.title(title)
+
+        plt.show()
+
+    @staticmethod
+    def print_generated_pts(pts: dict[list[float]], subtract: int = 0) -&gt; None:
+        &#34;&#34;&#34;
+        Print generated RGB data points.
+
+        Args:
+            pts (dict[list[float]]): Dictionary containing RGB data points.
+            subtract (int, optional): Value to subtract from each RGB component. Defaults to 0.
+        &#34;&#34;&#34;
+        print(&#34;\n&#34;, &#34;-&#34;*10, &#34;GENERATED DATA&#34;, &#34;-&#34;*10)
+        for btype, rows in pts.items():
+            print(f&#34;{btype}: &#34;)
+            for row in rows:
+                row = [subtract - x if subtract != 0 else x for x in row]
+                print(f&#34;\t{row}&#34;)
+        print(&#34;-&#34;*30)
+
+        print(&#34;\n&#34;, f&#34;dimension: {len(pts)} x {len(rows)}&#34;, &#34;\n&#34;)
+
+    @staticmethod
+    def plot_3d_generated_pts(pts: dict[list[float]], title: str = &#34;&#34;) -&gt; None:
+        &#34;&#34;&#34;
+        Plot generated RGB data points in a 3D space.
+
+        Args:
+            pts (dict[list[float]]): Dictionary containing RGB data points.
+            title (str, optional): Title of the plot. Defaults to &#34;&#34;.
+        &#34;&#34;&#34;
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        ax.set_title(title)
+
+        markers = [&#39;o&#39;, &#39;s&#39;,  &#39;h&#39;, &#39;D&#39;]
+        colors = [&#39;r&#39;, &#39;g&#39;, &#39;b&#39;, &#39;c&#39;]
+        seen_types = set()
+        legend_handles = []
+
+        for i, dtype in enumerate(pts):
+            for row in pts[dtype]:
+                r1, g1, b1, r2, g2, b2 = row
+                ax.scatter(r1, g1, b1, color=[
+                    r1/255, g1/255, b1/255], s=100, marker=markers[0], edgecolors=colors[i])
+                ax.scatter(r2, g2, b2, color=[
+                    r2/255, g2/255, b2/255], s=100, marker=markers[1], edgecolors=colors[i])
+
+                if dtype not in seen_types:
+                    seen_types.add(dtype)
+                    legend_handles.append(
+                        plt.Line2D(
+                            [0], [0],
+                            marker=markers[0],
+                            color=colors[i],
+                            markerfacecolor=&#39;w&#39;,
+                            markersize=5,
+                            label=f&#39;{dtype} spot1&#39;
+                        )
+                    )
+                    legend_handles.append(
+                        plt.Line2D(
+                            [0], [0],
+                            marker=markers[1],
+                            color=colors[i],
+                            markerfacecolor=&#39;w&#39;,
+                            markersize=5,
+                            label=f&#39;{dtype} spot2&#39;
+                        )
+                    )
+
+        ax.set_xlim(0, 255)
+        ax.set_ylim(0, 255)
+        ax.set_zlim(0, 255)
+        ax.legend(handles=legend_handles, loc=&#39;best&#39;)
+        ax.set_xlabel(&#39;Red&#39;)
+        ax.set_ylabel(&#39;Green&#39;)
+        ax.set_zlabel(&#39;Blue&#39;)
+
+        plt.show()</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.COLORS"><code class="name">var <span class="ident">COLORS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.comb_pts_as_flat_json"><code class="name flex">
+<span>def <span class="ident">comb_pts_as_flat_json</span></span>(<span>comb_pts: dict[list[float]], class_n: int, display: bool = 0) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.display_fingerprint"><code class="name flex">
+<span>def <span class="ident">display_fingerprint</span></span>(<span>fingerprint: dict[str, dict[str, list[float]]], title_sufx: str = '') ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Display fingerprint data as distribution plots.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fingerprint</code></strong> :&ensp;<code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>Dictionary containing fingerprint data.</dd>
+<dt><strong><code>title_sufx</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Suffix for the plot title. Defaults to ''.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_ceiling"><code class="name flex">
+<span>def <span class="ident">ensure_std_ceiling</span></span>(<span>fingerprint: dict[str, dict[str, list[float]]], limit: int = 15) ‑> dict[str, dict[str, list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Limit the standard deviation values in the fingerprint dictionary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fingerprint</code></strong> :&ensp;<code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>Dictionary containing fingerprint data.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The maximum allowed standard deviation. Defaults to 15.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>Dictionary with limited standard deviation values.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_floor"><code class="name flex">
+<span>def <span class="ident">ensure_std_floor</span></span>(<span>fingerprint: dict[str, dict[str, list[float]]], floor: int = 2) ‑> dict[str, dict[str, list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fix the standard deviation values in the fingerprint dictionary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fingerprint</code></strong> :&ensp;<code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>Dictionary containing fingerprint data.</dd>
+<dt><strong><code>fix</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The fixed standard deviation. Defaults to 2.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>Dictionary with fixed standard deviation values.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.format_line"><code class="name flex">
+<span>def <span class="ident">format_line</span></span>(<span>line: list[str], spot: int, get_corr: bool = False) ‑> list[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Format a line from the data file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>line</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>The line to format.</dd>
+<dt><strong><code>spot</code></strong> :&ensp;<code>int</code></dt>
+<dd>The spot index.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[float]</code></dt>
+<dd>The formatted line as a list of floats.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.generate_gendata_csv_filename"><code class="name flex">
+<span>def <span class="ident">generate_gendata_csv_filename</span></span>(<span>sample_type: str, og_folder_path: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generate a filename for the generated CSV file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Identifier for the filename.</dd>
+<dt><strong><code>og_folder_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Original folder path.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Generated filename.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.get_filename"><code class="name flex">
+<span>def <span class="ident">get_filename</span></span>(<span>_id: int, path: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the filename from a given path.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Identifier for the file.</dd>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the directory or file.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Extracted filename.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.plot_3d_generated_pts"><code class="name flex">
+<span>def <span class="ident">plot_3d_generated_pts</span></span>(<span>pts: dict[list[float]], title: str = '') ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Plot generated RGB data points in a 3D space.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pts</code></strong> :&ensp;<code>dict[list[float]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Title of the plot. Defaults to "".</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.prepare_to_write_csv"><code class="name flex">
+<span>def <span class="ident">prepare_to_write_csv</span></span>(<span>folder_path: str, filename: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Write RGB data points to a CSV file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the folder where the CSV will be saved.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict[list[list[int]]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.print_generated_pts"><code class="name flex">
+<span>def <span class="ident">print_generated_pts</span></span>(<span>pts: dict[list[float]], subtract: int = 0) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Print generated RGB data points.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pts</code></strong> :&ensp;<code>dict[list[float]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+<dt><strong><code>subtract</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Value to subtract from each RGB component. Defaults to 0.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.subtract_255"><code class="name flex">
+<span>def <span class="ident">subtract_255</span></span>(<span>rgb: dict[str, list[list[int]]]) ‑> dict[str, list[list[int]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Subtract 255 from each RGB value in the given dictionary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>rgb</code></strong> :&ensp;<code>dict[str, list[list[int]]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[str, list[list[int]]]</code></dt>
+<dd>Dictionary with 255 subtracted from each RGB value.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_fingerprints_with_colors"><code class="name flex">
+<span>def <span class="ident">visualize_fingerprints_with_colors</span></span>(<span>fingerprints: dict[str, dict[str, list[float]]]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Visualize fingerprints with actual colors.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fingerprints</code></strong> :&ensp;<code>dict[str, dict[str, list[float]]]</code></dt>
+<dd>|__ Dictionary containing fingerprint data.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_generated_pts"><code class="name flex">
+<span>def <span class="ident">visualize_generated_pts</span></span>(<span>data: dict[list[float]], title: str, subtract: int = 0) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Visualize generated RGB data points in a grid format.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict[list[float]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+<dt><strong><code>subtract</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Value to subtract from each RGB component. Defaults to 0.</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.write_to_csv"><code class="name flex">
+<span>def <span class="ident">write_to_csv</span></span>(<span>folder_path: str, data: list[list[list[int]]]) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Write RGB data points to a CSV file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the folder where the CSV will be saved.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict[list[list[int]]]</code></dt>
+<dd>Dictionary containing RGB data points.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src" href="index.html">AmpliVision.src.generators.rgb_data_generator.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils">Utils</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.COLORS" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.COLORS">COLORS</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.comb_pts_as_flat_json" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.comb_pts_as_flat_json">comb_pts_as_flat_json</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.display_fingerprint" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.display_fingerprint">display_fingerprint</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_ceiling" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_ceiling">ensure_std_ceiling</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_floor" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.ensure_std_floor">ensure_std_floor</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.format_line" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.format_line">format_line</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.generate_gendata_csv_filename" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.generate_gendata_csv_filename">generate_gendata_csv_filename</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.get_filename" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.get_filename">get_filename</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.plot_3d_generated_pts" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.plot_3d_generated_pts">plot_3d_generated_pts</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.prepare_to_write_csv" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.prepare_to_write_csv">prepare_to_write_csv</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.print_generated_pts" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.print_generated_pts">print_generated_pts</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.subtract_255" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.subtract_255">subtract_255</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_fingerprints_with_colors" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_fingerprints_with_colors">visualize_fingerprints_with_colors</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_generated_pts" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.visualize_generated_pts">visualize_generated_pts</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.write_to_csv" href="#AmpliVision.src.generators.rgb_data_generator.src.utils.Utils.write_to_csv">write_to_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

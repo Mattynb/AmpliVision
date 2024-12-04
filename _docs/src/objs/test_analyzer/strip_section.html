@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.objs.test_analyzer.strip_section API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.objs.test_analyzer.strip_section</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection"><code class="flex name class">
+<span>class <span class="ident">StripSection</span></span>
+<span>(</span><span>test_square_img: numpy.ndarray, strip_type: str, rotation: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StripSection:
+    &#34;This class is responsible for holding data and processes regarding sections of test inner square (bkg, test, or control)&#34;
+
+    def __init__(self, test_square_img: np.ndarray, strip_type: str, rotation: int):
+        self.strip_type = strip_type
+        self.bounds = self.set_bounds(test_square_img, rotation)
+        # each spot is hashmap {&#34;contour&#34;: np.ndarray, &#34;avg_rgb&#34;: int, &#34;positive&#34;: bool}
+        self.spots = []
+        self.total_avg_rgb = None
+
+    def __str__(self):
+        return f&#34;StripSection of type {self.strip_type} with bounds {self.bounds} and {len(self.spots)} spots.&#34;
+
+    def print_spots(self):
+        &#34;prints the spots in the section&#34;
+
+        for spot in self.spots:
+            print(f&#34;{self.strip_type} spot: &#34;,
+                  spot[&#34;avg_rgb&#34;], &#34; positive: &#34;, spot[&#34;positive&#34;])
+
+    def add_spot(self, block, contour: np.ndarray, result: bool, debug: bool = False) -&gt; None:
+        &#34; adds spot to section as a hashmap with \&#34;color\&#34; and \&#34;avg_rgb\&#34; &#34;
+        
+        avg_rgb = get_rgb_avg_of_contour(block, contour)
+
+        print(f&#34;spot: {avg_rgb} positive: {result}&#34;) if debug else None
+    
+        if result == False:
+            avg_rgb = (0,0,0)
+
+        self.spots.append({
+            &#34;contour&#34;: contour,
+            &#34;avg_rgb&#34;: list(avg_rgb),
+            &#34;positive&#34;: result
+        })
+
+        if debug:
+            copy = block.get_test_area_img().copy()
+            val = self.bounds
+            cv.rectangle(copy, (val[0], val[1]),
+                         (val[2], val[3]), (0, 255, 0), 1)
+            cv.drawContours(copy, [contour], -1, (0, 0, 255), 1)
+
+            copy = cv.resize(copy, (200, 200))
+            &#34;&#34;&#34;
+            cv.imshow(&#39;stripSection/add_spot()&#39;, copy)
+            cv.waitKey(0)#&#34;&#34;&#34;
+            cv.destroyAllWindows()#&#34;&#34;&#34;
+
+        self.set_total_avg_rgb()
+
+    def set_spots_manually(self, block, debug: bool = False) -&gt; None:
+        &#34;mostly used to find negative result spots using ratios&#34;
+
+        copy = block.get_test_area_img().copy()
+
+        val = self.bounds
+        spot_center = (
+            int((val[0] + val[2])/2),
+            int((val[1] + val[3])/2)
+        )
+
+        spot = self.identify_spot_manually(
+            copy,
+            spot_center,
+            debug=debug
+        )
+
+        # result should be set to True on real cases where spot is hard to find with hsv
+        # otherwise, set to False
+        self.add_spot(block, spot, True, debug=debug)
+
+    def identify_spot_manually(self, test_area_img, circ_center, debug: bool) -&gt; np.ndarray:
+        &#34;used to identify a spot manually&#34;
+
+        # get the contour of circle spott
+        copy = test_area_img.copy()
+        cv.circle(copy, (circ_center[0], circ_center[1]), 5, (0, 0, 255), 1)
+
+        # isolate the red circle color
+        hsv = cv.cvtColor(copy, cv.COLOR_BGR2HSV)
+        lower_red = np.array([0, 250, 250])
+        upper_red = np.array([0, 255, 255])
+
+        mask = cv.inRange(hsv, lower_red, upper_red)
+        contours, _ = cv.findContours(
+            mask, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+
+        if debug:
+            copy = cv.drawContours(copy, contours, -1, (255, 0, 0), 1)
+            copy = cv.resize(copy, (200, 200))
+            plt.imshow(copy)
+            plt.show()
+    
+        return contours[0]
+
+    def set_total_avg_rgb(self, bkg=[0, 0, 0]) -&gt; list[int]:
+        &#34;sets the total avg rgb by adding the spot rgb avgs together&#34;
+
+        #assert len(self.spots) != 0, &#34;&#34;&#34;
+        #please add spots to section before calling set_total_avg_rgb()&#34;&#34;&#34;
+        if len(self.spots) == 0:
+            self.total_avg_rgb = 0
+            return
+
+        i = 0
+        total_avg = [0, 0, 0]
+
+        # adding the total avg with each spot avg
+        for spot in self.spots:
+            total_avg = list(
+                map(
+                    lambda total, spot_avg: 
+                    total + spot_avg
+                    ,total_avg, spot[&#34;avg_rgb&#34;]  
+                )
+            )
+            i += 1
+
+        # dividing by the number of spots
+        total_avg = list(
+            map(
+                lambda total: 
+                total/i
+                , total_avg
+            )
+        )
+
+        self.total_avg_rgb = total_avg
+
+    def subtract_bkg(self, bkg_rgb_avg: list[int]) -&gt; list[int]:
+        &#34;subtracts the bkg rgb from the total avg rgb&#34;
+
+        if self.total_avg_rgb == None:
+            print(&#34;please set the total avg rgb before calling subtract_bkg()&#34;)
+            return None
+
+        return list(
+            map(
+                lambda total, bkg: 
+                bkg - total
+                , self.total_avg_rgb, bkg_rgb_avg
+            )
+        )
+
+    # geometry
+    def set_bounds(self, test_square_img: np.ndarray, rotation: int) -&gt; list[int]:
+        # test strip component bounds
+        x, y, = 0, 0
+        # Shape returns: (height, width, channels)
+        h, w = test_square_img.shape[:2]
+        bounds = None
+
+        # divide the square into 3 sections along the middle strip (bkg, test, control)
+
+        # ASSUMPTION: this order ASSUMES the strip is vertical with bkg on bottom
+
+        if rotation == 0:
+            if self.strip_type == &#34;spot2&#34;:
+                # [top left x, top left y, width, height]
+                bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)]
+
+            elif self.strip_type == &#34;spot1&#34;:
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
+
+            if self.strip_type == &#34;bkg&#34;:
+                bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h]
+
+        elif rotation == 90:
+            if self.strip_type == &#34;bkg&#34;:
+                bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
+
+            elif self.strip_type == &#34;spot1&#34;:
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
+
+            elif self.strip_type == &#34;spot2&#34;:
+                bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
+
+        elif rotation == 180:
+            if self.strip_type == &#34;bkg&#34;:
+                # [top left x, top left y, width, height]
+                bounds = [x+int(w/3), y, x+int(2/3*w), y+int(h/4)]
+
+            elif self.strip_type == &#34;spot1&#34;:
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
+
+            if self.strip_type == &#34;spot2&#34;:
+                bounds = [x+int(w/3), y+int(3/4*h), x+int(2/3*w), y+h]
+
+        elif rotation == 270:
+            if self.strip_type == &#34;spot2&#34;:
+                bounds = [x, y+int(h/3), x+int(w*1/4), y+int(2/3*h)]
+
+            elif self.strip_type == &#34;spot1&#34;:
+                bounds = [x+int(w/3), y+int(h/3), x+int(2/3*w), y+int(2/3*h)]
+
+            elif self.strip_type == &#34;bkg&#34;:
+                bounds = [x+int(w*3/4), y+int(h/3), x+w, y+int(h*2/3)]
+
+        return bounds
+
+    def bounds_contour(self, contour) -&gt; bool:
+        &#34;checks if contour is within section bounds&#34;
+
+        x, y, w, h = cv.boundingRect(contour)
+
+        center_point = (x+w/2, y+h/2)
+
+        if center_point[0] &gt;= self.bounds[0] and center_point[0] &lt;= self.bounds[2] and center_point[1] &gt;= self.bounds[1] and center_point[1] &lt;= self.bounds[3]:
+            return True
+
+        return False
+
+    def paint_spot(self, block_img, rgb, display=False):
+        &#34;paints the spot on the block image&#34;
+
+        if len(self.spots) &gt; 0:
+            block_img = cv.drawContours(block_img, [self.spots[-1][&#34;contour&#34;]], -1, rgb, -1)
+
+        if display:
+            cv.imshow(&#39;paint_spot()&#39;, block_img)
+            cv.waitKey(0)
+            cv.destroyAllWindows()
+
+        return block_img</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.add_spot"><code class="name flex">
+<span>def <span class="ident">add_spot</span></span>(<span>self, block, contour: numpy.ndarray, result: bool, debug: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>adds spot to section as a hashmap with "color" and "avg_rgb"</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.bounds_contour"><code class="name flex">
+<span>def <span class="ident">bounds_contour</span></span>(<span>self, contour) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>checks if contour is within section bounds</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.identify_spot_manually"><code class="name flex">
+<span>def <span class="ident">identify_spot_manually</span></span>(<span>self, test_area_img, circ_center, debug: bool) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>used to identify a spot manually</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.paint_spot"><code class="name flex">
+<span>def <span class="ident">paint_spot</span></span>(<span>self, block_img, rgb, display=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>paints the spot on the block image</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.print_spots"><code class="name flex">
+<span>def <span class="ident">print_spots</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>prints the spots in the section</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_bounds"><code class="name flex">
+<span>def <span class="ident">set_bounds</span></span>(<span>self, test_square_img: numpy.ndarray, rotation: int) ‑> list[int]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_spots_manually"><code class="name flex">
+<span>def <span class="ident">set_spots_manually</span></span>(<span>self, block, debug: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>mostly used to find negative result spots using ratios</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_total_avg_rgb"><code class="name flex">
+<span>def <span class="ident">set_total_avg_rgb</span></span>(<span>self, bkg=[0, 0, 0]) ‑> list[int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sets the total avg rgb by adding the spot rgb avgs together</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.subtract_bkg"><code class="name flex">
+<span>def <span class="ident">subtract_bkg</span></span>(<span>self, bkg_rgb_avg: list[int]) ‑> list[int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>subtracts the bkg rgb from the total avg rgb</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.objs.test_analyzer" href="index.html">AmpliVision.src.objs.test_analyzer</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection">StripSection</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.add_spot" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.add_spot">add_spot</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.bounds_contour" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.bounds_contour">bounds_contour</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.identify_spot_manually" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.identify_spot_manually">identify_spot_manually</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.paint_spot" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.paint_spot">paint_spot</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.print_spots" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.print_spots">print_spots</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_bounds" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_bounds">set_bounds</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_spots_manually" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_spots_manually">set_spots_manually</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_total_avg_rgb" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.set_total_avg_rgb">set_total_avg_rgb</a></code></li>
+<li><code><a title="AmpliVision.src.objs.test_analyzer.strip_section.StripSection.subtract_bkg" href="#AmpliVision.src.objs.test_analyzer.strip_section.StripSection.subtract_bkg">subtract_bkg</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

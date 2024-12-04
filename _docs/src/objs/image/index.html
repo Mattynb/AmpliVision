@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.objs.image API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.objs.image</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.detectors" href="detectors/index.html">AmpliVision.src.objs.image.detectors</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.image" href="image.html">AmpliVision.src.objs.image.image</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.image_scanner" href="image_scanner.html">AmpliVision.src.objs.image.image_scanner</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.processors" href="processors/index.html">AmpliVision.src.objs.image.processors</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.objs.image.utils" href="utils/index.html">AmpliVision.src.objs.image.utils</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.objs.image.ColorContourExtractor"><code class="flex name class">
+<span>class <span class="ident">ColorContourExtractor</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>"
+</p>
+<h2 id="colorcontourextractor">ColorContourExtractor</h2>
+<p>This class is responsible for processing an image to isolate the color of the pins.</p>
+<h3 id="methods">Methods</h3>
+<ul>
+<li>
+<p><code>process_image(scanned_image: np.ndarray) -&gt; np.ndarray</code></p>
+<ul>
+<li>This method pre-processes the image to isolate the color of the pins.</li>
+</ul>
+</li>
+<li>
+<p><code>show_result(edges: np.ndarray) -&gt; None</code></p>
+<ul>
+<li>This method shows the result of the pre-processing.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import cv2 as cv
+import numpy as np
+from src.objs.image.processors.image_processor import ImageProcessor
+
+scanned_image = cv.imread('path/to/image.jpg')
+edges = ImageProcessor.process_image(scanned_image)
+ImageProcessor.show_result(edges)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ColorContourExtractor:
+    &#34;&#34;&#34;&#34;   
+    ## ColorContourExtractor
+    
+    This class is responsible for processing an image to isolate the color of the pins.
+    
+    ### Methods
+    - `process_image(scanned_image: np.ndarray) -&gt; np.ndarray`
+        - This method pre-processes the image to isolate the color of the pins.
+        
+    - `show_result(edges: np.ndarray) -&gt; None`
+        - This method shows the result of the pre-processing.
+    
+    ### Example
+    ```python
+    import cv2 as cv
+    import numpy as np
+    from src.objs.image.processors.image_processor import ImageProcessor
+
+    scanned_image = cv.imread(&#39;path/to/image.jpg&#39;)
+    edges = ImageProcessor.process_image(scanned_image)
+    ImageProcessor.show_result(edges)
+    ```
+    &#34;&#34;&#34;
+
+    # A function that pre-processes the image to isolate the color of the pins.
+    @staticmethod
+    def process_image(
+        scanned_image: np.ndarray, 
+        hsv_lower = [0, 55, 0], 
+        hsv_upper = [360, 255,255], 
+        double_thresh:bool = False, 
+        display:bool=False) -&gt; np.ndarray:
+        &#34;&#34;&#34; 
+        This method pre-processes the image to isolate the color of the pins in Grid to find blocks. 
+        It is also used in TestAnalyzer to find the positive spots with hsv mask.
+        Thread carefully
+        &#34;&#34;&#34;
+
+        # Copy the image to avoid modifying the original image
+        scanned_image_copy = scanned_image.copy()
+        
+        # Convert the image to HSV color space. Hue Saturation Value. 
+        # Similar to RGB but more useful for color isolation.
+        img_hsv = cv.cvtColor(scanned_image_copy, cv.COLOR_BGR2HSV)
+
+        # Define the lower and upper bounds for the color you want to isolate
+        # These values are the product of trial and error and are not necessarily perfect.
+        hsv_lower_color = np.array(hsv_lower)
+        hsv_upper_color = np.array(hsv_upper)
+
+        # Create a mask to filter out the grayscale colors isolating the color of the pins.
+        color_mask = cv.inRange(img_hsv, hsv_lower_color, hsv_upper_color)
+
+        # Visualize the mask on top of the original image before thresholding
+        #mask_before_thresholding = color_mask.copy()
+
+        edges = cv.Canny(color_mask, 0, 255)
+
+        if double_thresh:
+            
+            second_mask = cv.bitwise_and(scanned_image_copy, scanned_image_copy, mask=color_mask)
+            #cv.imshow(&#39;bitwise and image + mask 1&#39;, cv.resize(color_mask,(200,200)))
+            
+            # make all black pixels white
+            second_mask[second_mask == 0] = 255
+            #cv.imshow(&#39;make black pixels white&#39;,  cv.resize(color_mask, (200, 200)))
+            
+            #  thresholding
+            second_mask = cv.cvtColor(second_mask, cv.COLOR_BGR2GRAY)
+            #cv.imshow(&#39;grey&#39;,  cv.resize(color_mask, (200, 200)))
+            
+            second_mask = cv.bitwise_not(second_mask) 
+            #cv.imshow(&#39;bitwise not&#39;,  cv.resize(second_mask, (200, 200)))
+            #cv.waitKey(0)
+
+            cv.threshold(second_mask, 125, 255, cv.THRESH_BINARY, second_mask)
+            
+            edges = cv.Canny(second_mask, 0, 255)
+            
+            #cv.imshow(&#39;second thresholding &#39;,  cv.resize(
+             #   cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=second_mask), (400, 400)))   
+            #cv.imshow(&#39;first thresholding &#39;,  cv.resize(
+              #  cv.bitwise_and(scanned_image_copy,scanned_image_copy, mask=color_mask), (400, 400)))
+            #cv.waitKey(0)
+
+            
+        #cv.destroyAllWindows()
+            
+        contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+    
+        if display:
+            pass
+            contours = ColorContourExtractor.show_result(contours, scanned_image_copy)
+
+        return contours
+    
+    # Show the result of the pre-processing.
+    @staticmethod
+    def show_result(contours: np.ndarray, image) -&gt; None:
+        &#34;&#34;&#34; this method shows the result of the pre-processing.&#34;&#34;&#34;
+
+        copy = image.copy()
+
+        # show only the pixels where sqrt(a^2 + b^2) &gt; 10
+        # this will remove the background noise
+        lab = cv.cvtColor(copy, cv.COLOR_BGR2LAB)
+        lab = cv.blur(lab, (3, 3))
+
+        # split the image into L, A, and B channels
+        l, a, b = cv.split(lab)
+        r, g, b = cv.split(copy)
+
+        plt.imshow(copy)
+        plt.title(&#39;Color Contour Extractor - COPY&#39;)
+        plt.show()
+        
+
+        for row in range(len(l)):
+            for col in range(len(l[0])):
+                if  l[row][col] &gt;= 225:
+                    l[row][col] = 0
+                    a[row][col] = 0
+                    b[row][col] = 0
+                else:
+                    l[row][col] = 255
+                    a[row][col] = 255
+                    b[row][col] = 255
+        
+        lab = cv.merge((l, a, b))
+    
+        mask = cv.bitwise_and(lab, copy)
+        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)
+        mask = cv.bitwise_not(mask)
+
+        # draw the contours
+        edges = cv.Canny(mask, 0, 255)
+        contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        copy = cv.resize(copy, (400, 400))
+
+
+        &#34;&#34;&#34;
+        copy = image.copy()
+        cv.drawContours(copy, contours, -1, (0, 255, 0), 1)
+        copy = cv.resize(copy, (400, 400))
+        &#34;&#34;&#34;
+        plt.imshow(copy)
+        plt.title(&#39;Color Contour Extractor&#39;)
+        plt.show()
+        
+        return max(contours, key = cv.contourArea)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.ColorContourExtractor.process_image"><code class="name flex">
+<span>def <span class="ident">process_image</span></span>(<span>scanned_image: numpy.ndarray, hsv_lower=[0, 55, 0], hsv_upper=[360, 255, 255], double_thresh: bool = False, display: bool = False) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method pre-processes the image to isolate the color of the pins in Grid to find blocks.
+It is also used in TestAnalyzer to find the positive spots with hsv mask.
+Thread carefully</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ColorContourExtractor.show_result"><code class="name flex">
+<span>def <span class="ident">show_result</span></span>(<span>contours: numpy.ndarray, image) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>this method shows the result of the pre-processing.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.GridImageNormalizer"><code class="flex name class">
+<span>class <span class="ident">GridImageNormalizer</span></span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="image-normalizer">Image Normalizer</h3>
+<p>Class to normalize the image of the grid by scanning the grid and making it square ratio.</p>
+<h4 id="methods">Methods:</h4>
+<ul>
+<li><code>scan(id: int, image: ndarray, resize_factor: float = 1) -&gt; (Image, int)</code><ul>
+<li>This method scans the image and returns the scanned image.</li>
+</ul>
+</li>
+<li><code>resize_2_std(img: ndarray, factor: float, w:int=None, h:int = None) -&gt; ndarray</code><ul>
+<li>This method resizes the image to a given percentage of the current size.</li>
+</ul>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GridImageNormalizer:
+    &#34;&#34;&#34;
+    ### Image Normalizer
+    Class to normalize the image of the grid by scanning the grid and making it square ratio.
+
+    #### Methods:
+    - `scan(id: int, image: ndarray, resize_factor: float = 1) -&gt; (Image, int)`
+        - This method scans the image and returns the scanned image.
+    - `resize_2_std(img: ndarray, factor: float, w:int=None, h:int = None) -&gt; ndarray`
+        - This method resizes the image to a given percentage of the current size.
+    &#34;&#34;&#34;
+    @classmethod
+    def scan(cls, image_name: str, image: ndarray, do_white_balance:bool):
+        &#34;&#34;&#34;
+        ### Scan image
+        Scan the image and return the scanned image.
+
+        #### Args:
+        * id : id of the image
+        * image : image to be scanned
+
+        #### Returns:
+        * scanned image
+        &#34;&#34;&#34;
+        print(f&#34;{image_name} loaded&#34;)
+
+        # Scan the image isolating the grid
+        Image_i = ImageScanner.scan(
+            image,
+            do_white_balance=do_white_balance 
+        )
+        print(f&#34;{image_name} scanned!&#34;)
+
+        # Resize image so that its height and width are the same
+        w, h = Image_i.shape[:2]
+        Image_i = cls.resize(Image_i, 1, w, w)
+
+        return Image_i
+
+    @staticmethod
+    def resize(img: ndarray, factor: float, w: int = None, h: int = None):
+        &#34;&#34;&#34;
+        ### Resize
+        Resize image to a given percentage of current size.
+
+        #### Args:
+        * img : image to be resized
+        * factor : percentage of current size to resize to
+        * w : width of image
+        * h : height of image
+
+        #### Returns:
+        * resized image
+        &#34;&#34;&#34;
+
+        # If width and height are not given, get them from the image
+        if w == None and h == None:
+            w, h = img.shape[:2]
+
+        resized_image = cv.resize(
+            img, (int(w*factor), int(h*factor)), interpolation=cv.INTER_CUBIC)
+
+        return resized_image</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.GridImageNormalizer.resize"><code class="name flex">
+<span>def <span class="ident">resize</span></span>(<span>img: numpy.ndarray, factor: float, w: int = None, h: int = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="resize">Resize</h3>
+<p>Resize image to a given percentage of current size.</p>
+<h4 id="args">Args:</h4>
+<ul>
+<li>img : image to be resized</li>
+<li>factor : percentage of current size to resize to</li>
+<li>w : width of image</li>
+<li>h : height of image</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<ul>
+<li>resized image</li>
+</ul></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.GridImageNormalizer.scan"><code class="name flex">
+<span>def <span class="ident">scan</span></span>(<span>image_name: str, image: numpy.ndarray, do_white_balance: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="scan-image">Scan image</h3>
+<p>Scan the image and return the scanned image.</p>
+<h4 id="args">Args:</h4>
+<ul>
+<li>id : id of the image</li>
+<li>image : image to be scanned</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<ul>
+<li>scanned image</li>
+</ul></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageLoader"><code class="flex name class">
+<span>class <span class="ident">ImageLoader</span></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="imageloader">ImageLoader</h2>
+<p>This class is responsible for loading images from a given folder and converting HEIC images to JPG.</p>
+<h3 id="methods">Methods</h3>
+<ul>
+<li><code>load_images(path_to_imgs: str) -&gt; list</code><ul>
+<li>This method loads all the images in a folder and returns a list of images.</li>
+</ul>
+</li>
+<li><code>heic2jpg(path_to_heic: str) -&gt; None</code><ul>
+<li>This method creates .jpg images from the .HEIC images of given folder.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">from src.objs.image.utils.image_loader import ImageLoader
+
+images = ImageLoader.load_images('path/to/images')
+or 
+images = ImageLoader.heic2jpg('path/to/heic')
+images = ImageLoader.load_images('path/to/images')
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageLoader:
+    &#34;&#34;&#34;
+    ## ImageLoader
+
+    This class is responsible for loading images from a given folder and converting HEIC images to JPG.
+
+    ### Methods
+    - `load_images(path_to_imgs: str) -&gt; list`
+        - This method loads all the images in a folder and returns a list of images.
+    - `heic2jpg(path_to_heic: str) -&gt; None`
+        - This method creates .jpg images from the .HEIC images of given folder.
+
+    ### Example
+    ```python
+    from src.objs.image.utils.image_loader import ImageLoader
+
+    images = ImageLoader.load_images(&#39;path/to/images&#39;)
+    or 
+    images = ImageLoader.heic2jpg(&#39;path/to/heic&#39;)
+    images = ImageLoader.load_images(&#39;path/to/images&#39;)
+    ```
+    &#34;&#34;&#34;
+    @staticmethod
+    def load_images(path_to_imgs: str, return_paths_only:bool = False, display: int = 0):
+        &#34;&#34;&#34;
+        ### Image loader
+        Loads all the images in a folder and returns a list of images
+
+        #### Args:
+        path_to_images: path to image folder
+
+        #### Returns:
+        List of images
+        &#34;&#34;&#34;
+
+        # acceptable image types
+        types = (&#39;.png&#39;, &#39;.jpg&#39;, &#39;JPEG&#39;)
+
+        # reading single image if path is only one image
+        end = path_to_imgs[-4:]
+
+        if end in types:
+            return [cv.imread(path_to_imgs)]
+
+        # reading all images of acceptable types from given directory
+        imgs = []
+        for f_type in types:
+            files = [file for file in glob(f&#34;{path_to_imgs}*{f_type}&#34;)]
+            
+            if return_paths_only:
+                return files 
+
+            if display:
+                for i, f in enumerate(files):
+                    name = f[f.rfind(&#39;\\&#39;) + 1:]
+                    print(f&#34;{i} -&gt; {name}&#34;)
+
+            imgs.extend([cv.imread(file) for file in files])
+
+        return imgs
+
+    @staticmethod
+    def heic2png(path_to_heic: str):
+        &#34;&#34;&#34;
+        ### HEIC to PNG converte
+        Creates .png images from the .HEIC images of given folder.    
+
+        #### Args:
+        path_to_heic: path to image folder
+
+        #### Returns:
+        None
+        &#34;&#34;&#34;
+
+        # finding all .HEIC images in the given folder
+        # and converting them to .png
+        paths = glob(f&#34;{path_to_heic}*.HEIC&#34;)
+        print(paths)
+        for path in paths:
+            pillow_heif.register_heif_opener()
+
+            img = im.open(path)
+            img.save(path[:-4] + &#39;png&#39;, format=&#34;png&#34;)
+            print(f&#34;{path} converted to PNG&#34;)
+
+    @staticmethod
+    def heic2jpg(path_to_heic: str):
+        &#34;&#34;&#34;
+        ### HEIC to JPG converte
+        Creates .jpg images from the .HEIC images of given folder.    
+
+        #### Args:
+        path_to_heic: path to image folder
+
+        #### Returns:
+        None
+        &#34;&#34;&#34;
+
+        # finding all .HEIC images in the given folder
+        # and converting them to .jpg
+        paths = glob(f&#34;{path_to_heic}*.HEIC&#34;)
+        print(paths)
+        for path in paths:
+            pillow_heif.register_heif_opener()
+
+            img = im.open(path)
+            img.save(path[:-4] + &#39;jpg&#39;, format=&#34;jpeg&#34;)
+            print(f&#34;{path} converted to JPG&#34;)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.ImageLoader.heic2jpg"><code class="name flex">
+<span>def <span class="ident">heic2jpg</span></span>(<span>path_to_heic: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="heic-to-jpg-converte">HEIC to JPG converte</h3>
+<p>Creates .jpg images from the .HEIC images of given folder.
+</p>
+<h4 id="args">Args:</h4>
+<p>path_to_heic: path to image folder</p>
+<h4 id="returns">Returns:</h4>
+<p>None</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageLoader.heic2png"><code class="name flex">
+<span>def <span class="ident">heic2png</span></span>(<span>path_to_heic: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="heic-to-png-converte">HEIC to PNG converte</h3>
+<p>Creates .png images from the .HEIC images of given folder.
+</p>
+<h4 id="args">Args:</h4>
+<p>path_to_heic: path to image folder</p>
+<h4 id="returns">Returns:</h4>
+<p>None</p></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageLoader.load_images"><code class="name flex">
+<span>def <span class="ident">load_images</span></span>(<span>path_to_imgs: str, return_paths_only: bool = False, display: int = 0)</span>
+</code></dt>
+<dd>
+<div class="desc"><h3 id="image-loader">Image loader</h3>
+<p>Loads all the images in a folder and returns a list of images</p>
+<h4 id="args">Args:</h4>
+<p>path_to_images: path to image folder</p>
+<h4 id="returns">Returns:</h4>
+<p>List of images</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageScanner"><code class="flex name class">
+<span>class <span class="ident">ImageScanner</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class to scan the image and return the scanned image.</p>
+<h2 id="methods">Methods:</h2>
+<ul>
+<li>
+<p><code>scan(image_og: np.ndarray) -&gt; np.ndarray</code></p>
+<ul>
+<li>This method scans the image and returns the scanned image.
+</li>
+</ul>
+</li>
+<li>
+<p><code>morphological_transform(gpu_img: cv.cuda_GpuMat) -&gt; cv.cuda_GpuMat</code>
+- This method applies morphological transformations to highlight the grid.</p>
+</li>
+<li>
+<p><code>remove_background(img: np.ndarray) -&gt; np.ndarray</code>
+- This method gets rid of the background through masking + grabcut algorithm.</p>
+</li>
+<li>
+<p><code>find_contours(gpu_img: cv.cuda_GpuMat) -&gt; list</code>
+- This method finds the contours of the image.</p>
+</li>
+<li>
+<p><code>detect_corners(contours: list, img: np.ndarray) -&gt; list</code>
+- This method detects the corners of the grid.</p>
+</li>
+<li>
+<p><code>perspective_transform(img: np.ndarray, corners: list) -&gt; np.ndarray</code>
+- This method applies perspective transform to the image.</p>
+</li>
+<li>
+<p><code>find_dest(pts: list) -&gt; list</code>
+- This method finds the destination coordinates.</p>
+</li>
+<li>
+<p><code>order_points(pts: list) -&gt; list</code>
+- This method orders the points.</p>
+</li>
+</ul>
+<h2 id="reference">reference</h2>
+<pre><code>&lt;https://learnopencv.com/automatic-document-scanner-using-opencv/&gt;
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageScanner:
+    &#34;&#34;&#34;
+    Class to scan the image and return the scanned image.
+
+    ## Methods:
+    - `scan(image_og: np.ndarray) -&gt; np.ndarray`
+        - This method scans the image and returns the scanned image.    
+
+    - `morphological_transform(gpu_img: cv.cuda_GpuMat) -&gt; cv.cuda_GpuMat`
+            - This method applies morphological transformations to highlight the grid.
+
+    - `remove_background(img: np.ndarray) -&gt; np.ndarray`
+            - This method gets rid of the background through masking + grabcut algorithm.
+
+    - `find_contours(gpu_img: cv.cuda_GpuMat) -&gt; list`
+            - This method finds the contours of the image.
+
+    - `detect_corners(contours: list, img: np.ndarray) -&gt; list`
+            - This method detects the corners of the grid.
+
+    - `perspective_transform(img: np.ndarray, corners: list) -&gt; np.ndarray`
+            - This method applies perspective transform to the image.
+
+    - `find_dest(pts: list) -&gt; list`
+            - This method finds the destination coordinates.
+
+    - `order_points(pts: list) -&gt; list`
+            - This method orders the points.
+
+    ## reference
+        https://learnopencv.com/automatic-document-scanner-using-opencv/
+    &#34;&#34;&#34;
+
+    @classmethod
+    def scan(cls, img_og: np.ndarray, do_white_balance: bool = False) -&gt; np.ndarray:
+        # Applying morphological transformations to highlight the grid
+        # Utilizing the GPU for faster processing
+        img = cls.hsv_threshold(img_og.copy(), 100)
+
+        morph_img = MorphologicalTransformer.apply_morph(img)
+
+        # Isolate the grid by removing background (Only works with CPU)
+        no_bkg_img = BackgroundRemover.remove_background(morph_img)
+
+        # Adjusting the image to highlight the grid
+        contours = ContourFinder.find_contours(no_bkg_img)
+
+        &#34;&#34;&#34;
+        a = no_bkg_img.copy()
+        cv.drawContours(a, contours, -1, (0, 255, 0), 3)
+        display(a, 0)  # &#34;&#34;&#34;
+        corners = CornerDetector.detect_corners(contours, no_bkg_img)
+
+        final_image = cls.perspective_transform(img_og, corners)
+
+        if do_white_balance:
+            final_image = WhiteBalanceAdjuster.adjust(final_image)
+
+        return final_image
+    # ----------------- Helper Functions ----------------- #
+
+    @classmethod
+    # function to turn everything that isnt kinda white to black
+    def hsv_threshold(cls, img: np.ndarray, threshold: int) -&gt; np.ndarray:
+        # convert image to hsv
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        # define range of white color in HSV
+        lower_white = np.array([0, 0, 255-threshold])
+        upper_white = np.array([255, threshold, 255])
+        # create a mask
+        mask = cv.inRange(hsv, lower_white, upper_white)
+        # apply the mask to the image
+        res = cv.bitwise_and(img, img, mask=mask)
+        return res
+
+    @classmethod
+    def perspective_transform(cls, img: np.ndarray, corners: list) -&gt; np.ndarray:
+        # REARRANGING THE CORNERS
+        destination_corners = cls.find_dest(corners)
+
+        # Getting the homography. (aka scanning the image)
+        M = cv.getPerspectiveTransform(np.float32(
+            corners), np.float32(destination_corners))
+
+        # Perspective transform using homography.
+        final = cv.warpPerspective(
+            img, M, (destination_corners[2][0], destination_corners[2][1]), flags=cv.INTER_LINEAR)
+
+        return final
+
+    @classmethod
+    def find_dest(cls, pts: list) -&gt; list:
+        # DESTINATION COORDINATES
+        (tl, tr, br, bl) = pts
+
+        # Finding the maximum width.
+        widthA = np.sqrt(((br[0] - bl[0]) ** 2) + ((br[1] - bl[1]) ** 2))
+        widthB = np.sqrt(((tr[0] - tl[0]) ** 2) + ((tr[1] - tl[1]) ** 2))
+        maxWidth = max(int(widthA), int(widthB))
+
+        # Finding the maximum height.
+        heightA = np.sqrt(((tr[0] - br[0]) ** 2) + ((tr[1] - br[1]) ** 2))
+        heightB = np.sqrt(((tl[0] - bl[0]) ** 2) + ((tl[1] - bl[1]) ** 2))
+        maxHeight = max(int(heightA), int(heightB))
+
+        # Final destination co-ordinates.
+        destination_corners = [[0, 0], [maxWidth, 0],
+                               [maxWidth, maxHeight], [0, maxHeight]]
+        return cls.order_points(destination_corners)
+
+    @staticmethod
+    def order_points(pts: list) -&gt; list:
+        # Initialising a list of coordinates that will be ordered.
+        rect = np.zeros((4, 2), dtype=&#39;float32&#39;)
+        pts = np.array(pts)
+        s = pts.sum(axis=1)
+
+        # Top-left point will have the smallest sum.
+        rect[0] = pts[np.argmin(s)]
+
+        # Bottom-right point will have the largest sum.
+        rect[2] = pts[np.argmax(s)]
+
+        # Computing the difference between the points.
+        diff = np.diff(pts, axis=1)
+
+        # Top-right point will have the smallest difference.
+        rect[1] = pts[np.argmin(diff)]
+
+        # Bottom-left will have the largest difference.
+        rect[3] = pts[np.argmax(diff)]
+
+        # Return the ordered coordinates.
+        return rect.astype(&#39;int&#39;).tolist()</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.ImageScanner.find_dest"><code class="name flex">
+<span>def <span class="ident">find_dest</span></span>(<span>pts: list) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageScanner.hsv_threshold"><code class="name flex">
+<span>def <span class="ident">hsv_threshold</span></span>(<span>img: numpy.ndarray, threshold: int) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageScanner.order_points"><code class="name flex">
+<span>def <span class="ident">order_points</span></span>(<span>pts: list) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageScanner.perspective_transform"><code class="name flex">
+<span>def <span class="ident">perspective_transform</span></span>(<span>img: numpy.ndarray, corners: list) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.objs.image.ImageScanner.scan"><code class="name flex">
+<span>def <span class="ident">scan</span></span>(<span>img_og: numpy.ndarray, do_white_balance: bool = False) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="AmpliVision.src.objs.image.WhiteBalanceAdjuster"><code class="flex name class">
+<span>class <span class="ident">WhiteBalanceAdjuster</span></span>
+</code></dt>
+<dd>
+<div class="desc"><h1 id="whitebalanceadjuster">WhiteBalanceAdjuster</h1>
+<p>This class is responsible for adjusting the white balance of an image.</p>
+<h2 id="methods">Methods</h2>
+<ul>
+<li><code>adjust(image: np.ndarray, reference_region: tuple[int, int, int, int] = (62, 80, 20, 20)) -&gt; np.ndarray</code><ul>
+<li>This method adjusts the white balance of the image.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import cv2 as cv
+import numpy as np
+from src.objs.image.utils.image_white_balancer import WhiteBalanceAdjuster
+
+scanned_image = cv.imread('path/to/image.jpg')
+adjusted_image = WhiteBalanceAdjuster.adjust(scanned_image)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WhiteBalanceAdjuster:
+    &#34;&#34;&#34;
+    # WhiteBalanceAdjuster
+    This class is responsible for adjusting the white balance of an image.
+
+    ## Methods
+    - `adjust(image: np.ndarray, reference_region: tuple[int, int, int, int] = (62, 80, 20, 20)) -&gt; np.ndarray`
+        - This method adjusts the white balance of the image.
+    
+    ### Example
+    ```python
+    import cv2 as cv
+    import numpy as np
+    from src.objs.image.utils.image_white_balancer import WhiteBalanceAdjuster
+
+    scanned_image = cv.imread(&#39;path/to/image.jpg&#39;)
+    adjusted_image = WhiteBalanceAdjuster.adjust(scanned_image)
+    ```
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def adjust( image: np.ndarray, 
+                reference_region: tuple[int, int, int, int] = (62, 80, 20, 20)
+            ) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Adjust the white balance of the image.
+        Args:
+            image: The image to adjust.
+            reference_region: The top-left coordinates and size of the reference region.
+        Returns:
+            The white-balanced image.
+        &#34;&#34;&#34;
+
+        # Get the top-left coordinates and size of the reference region
+        reference_top_left, reference_size = reference_region[:2], reference_region[2:]
+
+        # Create the reference 10x10 square for the reference region for white balancing
+        reference_region = image[reference_top_left[1]:reference_top_left[1] + reference_size[1],
+                                reference_top_left[0]:reference_top_left[0] + reference_size[0]]
+
+        # Calculate the mean RGB values of the reference region - image white baseline value
+        mean_reference = np.mean(reference_region, axis=(0, 1))
+
+        # Scaling factors for each channel
+        scale_factors = 255.0 / mean_reference
+
+        # Apply white balancing to the entire image by multiplying the image to the scale factor
+        balanced_image = cv.merge([cv.multiply(image[:, :, i], scale_factors[i]) for i in range(3)])
+
+        # Clip the values to the valid range [0, 255]
+        balanced_image = np.clip(balanced_image, 0, 255).astype(np.uint8)
+        
+        return balanced_image</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="AmpliVision.src.objs.image.WhiteBalanceAdjuster.adjust"><code class="name flex">
+<span>def <span class="ident">adjust</span></span>(<span>image: numpy.ndarray, reference_region: tuple[int, int, int, int] = (62, 80, 20, 20)) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adjust the white balance of the image.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>image</code></strong></dt>
+<dd>The image to adjust.</dd>
+<dt><strong><code>reference_region</code></strong></dt>
+<dd>The top-left coordinates and size of the reference region.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The white-balanced image.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.objs" href="../index.html">AmpliVision.src.objs</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="AmpliVision.src.objs.image.detectors" href="detectors/index.html">AmpliVision.src.objs.image.detectors</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.image" href="image.html">AmpliVision.src.objs.image.image</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.image_scanner" href="image_scanner.html">AmpliVision.src.objs.image.image_scanner</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.processors" href="processors/index.html">AmpliVision.src.objs.image.processors</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.utils" href="utils/index.html">AmpliVision.src.objs.image.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.ColorContourExtractor" href="#AmpliVision.src.objs.image.ColorContourExtractor">ColorContourExtractor</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.ColorContourExtractor.process_image" href="#AmpliVision.src.objs.image.ColorContourExtractor.process_image">process_image</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ColorContourExtractor.show_result" href="#AmpliVision.src.objs.image.ColorContourExtractor.show_result">show_result</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.GridImageNormalizer" href="#AmpliVision.src.objs.image.GridImageNormalizer">GridImageNormalizer</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.GridImageNormalizer.resize" href="#AmpliVision.src.objs.image.GridImageNormalizer.resize">resize</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.GridImageNormalizer.scan" href="#AmpliVision.src.objs.image.GridImageNormalizer.scan">scan</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.ImageLoader" href="#AmpliVision.src.objs.image.ImageLoader">ImageLoader</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.ImageLoader.heic2jpg" href="#AmpliVision.src.objs.image.ImageLoader.heic2jpg">heic2jpg</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageLoader.heic2png" href="#AmpliVision.src.objs.image.ImageLoader.heic2png">heic2png</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageLoader.load_images" href="#AmpliVision.src.objs.image.ImageLoader.load_images">load_images</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.ImageScanner" href="#AmpliVision.src.objs.image.ImageScanner">ImageScanner</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.ImageScanner.find_dest" href="#AmpliVision.src.objs.image.ImageScanner.find_dest">find_dest</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageScanner.hsv_threshold" href="#AmpliVision.src.objs.image.ImageScanner.hsv_threshold">hsv_threshold</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageScanner.order_points" href="#AmpliVision.src.objs.image.ImageScanner.order_points">order_points</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageScanner.perspective_transform" href="#AmpliVision.src.objs.image.ImageScanner.perspective_transform">perspective_transform</a></code></li>
+<li><code><a title="AmpliVision.src.objs.image.ImageScanner.scan" href="#AmpliVision.src.objs.image.ImageScanner.scan">scan</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="AmpliVision.src.objs.image.WhiteBalanceAdjuster" href="#AmpliVision.src.objs.image.WhiteBalanceAdjuster">WhiteBalanceAdjuster</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.objs.image.WhiteBalanceAdjuster.adjust" href="#AmpliVision.src.objs.image.WhiteBalanceAdjuster.adjust">adjust</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

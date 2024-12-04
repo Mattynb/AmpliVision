@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.ML.utils API documentation</title>
+<meta name="description" content="Functions used across machine learning workflows">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.ML.utils</code></h1>
+</header>
+<section id="section-intro">
+<p>Functions used across machine learning workflows</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.ML.utils.ML_Utils"><code class="flex name class">
+<span>class <span class="ident">ML_Utils</span></span>
+<span>(</span><span>path_to_imgs, scanned_path, id_str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class  ML_Utils:
+    def __init__(
+        self, 
+        path_to_imgs,
+        scanned_path,
+        id_str
+        ):
+    
+        self.path_to_imgs = path_to_imgs #&#34;data/scanned/*&#34; #DENV_imgs/*&#34;
+        self.scanned_path = scanned_path #&#34;data/scanned/&#34; 
+        self.id_str = id_str
+
+        self.prepare_image_RBGen()
+
+        self.PlotCallback = self.PlotCallback( id_str )
+
+
+    def prepare_image_RBGen(self, display= False):
+        &#34;&#34;&#34; Does initial setup needed to create RBG &#34;&#34;&#34;
+
+        # Phase A.1 - Scanning images
+        Images = phaseA1(
+            self.path_to_imgs, 
+            self.scanned_path,
+            display=display, 
+            do_white_balance=False,
+            is_pre_scanned=&#34;scanned&#34; in self.path_to_imgs
+        )
+    
+        # Phase A.2 - Grids
+        Grids = phaseA2(Images, display=display)
+        del Images
+
+        # save test results
+        self.results = phaseB(Grids, display=display)
+        print(len(Grids))
+     
+        # Phase A.3 - Position Graph
+        self.graphs = phaseA3(Grids, display=display)
+        del Grids
+
+
+    def build_dataset(
+            self, 
+            TARGETS, 
+            BATCH_N, 
+            SIZE,
+            BLACK = False,
+            OUTLIER = False,
+            contamination = 0.05
+             
+        ):
+        &#34;&#34;&#34; Creates a dataset using rule based generator to work with tensor flow &#34;&#34;&#34;
+
+        RBG = RuleBasedGenerator(self.graphs, self.results)
+        RBG.setup()
+        #save = True if OUTLIER else False # save
+
+        _args = [ 
+            TARGETS, # what TARGETS to generate
+            0.05, # noise
+            BLACK, # black background or no
+            True, # rgb
+            False, #save
+        ]
+
+        _args.append(contamination) if OUTLIER else None
+
+
+        # transform generator into dataset
+        g_dataset = tf.data.Dataset.from_generator(
+            RBG.generate_for_od if OUTLIER else RBG.generate,  
+            output_shapes=(
+                [1242, 1242, 3], 
+                2 if OUTLIER else [len(TARGETS)]
+            ), 
+            output_types=(tf.float32, tf.float32),
+            args = _args
+        )
+        
+        # dataset is (x_batch / 255, y_batch), with some random rotation
+        g_dataset = g_dataset.map(
+            lambda x, y: (
+                # x - Image
+                tf.cast(
+                    tf.image.rot90(
+                        tf.image.resize(
+                            x, 
+                            SIZE
+                        ),
+                        k = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
+                    ),
+                    tf.float32
+                ) / 255, 
+
+                # y - Label
+                tf.cast(y, tf.float32)
+            ),
+            num_parallel_calls=1
+        )
+        g_dataset = g_dataset.batch(batch_size=BATCH_N)
+        g_dataset = g_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
+
+        return g_dataset
+    
+
+    def test_dataset(self):
+        &#34;&#34;&#34; Used to see if data is being generated correctly &#34;&#34;&#34;
+
+        # probably wrong order
+        classes = [&#39;lung&#39;, &#39;thyroid&#39;, &#39;ovarian&#39;, &#39;prostate&#39;, &#39;skin&#39;, &#39;control&#39;, &#39;breast&#39;]
+        for img, label in self.build_dataset(BATCH_N = 1, BLACK=True).take(1):
+            print(img.shape) 
+            for i, im in enumerate(img):   
+                print(f&#34;\n{classes[np.where(label[i].numpy() == 1)[0][0]]}&#34;)
+                #plt.imshow(im)
+                #plt.show()
+
+        #for img, label in self.build_dataset(BATCH_N = 1).take(1):
+        #    print(img.shape) 
+        #    for i, im in enumerate(img):   
+        #        print(f&#34;\n{classes[np.where(label[i].numpy() == 1)[0][0]]}&#34;)
+                #plt.imshow(im)
+                #plt.show()
+
+
+    def plot_model_performance(self, history, fig_name):
+        # summarize history for accuracy
+        plt.plot(history.history[&#39;accuracy&#39;])
+        plt.plot(history.history[&#39;val_accuracy&#39;])
+        plt.title(&#39;model accuracy&#39;)
+        plt.ylabel(&#39;accuracy&#39;)
+        plt.xlabel(&#39;epoch&#39;)
+        plt.legend([&#39;train&#39;, &#39;val&#39;], loc=&#39;upper left&#39;)
+        plt.savefig(fig_name+&#34;_acc.png&#34;)
+    
+        plt.clf()
+
+        # summarize history for loss
+        plt.plot(history.history[&#39;loss&#39;])
+        plt.plot(history.history[&#39;val_loss&#39;])
+        plt.title(&#39;model loss&#39;)
+        plt.ylabel(&#39;loss&#39;)
+        plt.xlabel(&#39;epoch&#39;)
+        plt.legend([&#39;train&#39;, &#39;val&#39;], loc=&#39;upper left&#39;)
+        plt.savefig(fig_name+&#34;_loss.png&#34;)
+
+        
+    class PlotCallback(tf.keras.callbacks.Callback):
+        def __init__(self, id_str):
+            super(ML_Utils.PlotCallback, self).__init__()
+            self.path = f&#34;{os.getcwd()}/AmpliVision/data/&#34;
+            self.id_str = id_str
+
+        def on_train_begin(self, logs={}):
+            
+            # accuracy and loss for each epoch
+            self.epoch_accuracy = []
+            self.epoch_val_accuracy = []
+            self.epoch_loss = []
+            self.epoch_val_loss = []
+
+            # confusion matrix for each epoch
+            self.epoch_confusion_matrix = []
+
+
+        
+        def on_epoch_end(self, epoch, logs={}):
+            
+            # plot the accuracy and loss
+            self.plot_acc_loss(epoch, logs)
+
+            # save the history of the model
+            with open(self.path + &#34;ML_models/&#34; + f&#34;history_{self.id_str}.pkl&#34;, &#39;wb&#39;) as file_pi:
+                pkl.dump(self.model.history.history, file_pi)
+
+
+        def plot_acc_loss(self, epoch, logs={}):
+            # Append the metrics for each epoch
+            self.epoch_accuracy.append(logs.get(&#39;accuracy&#39;))
+            self.epoch_val_accuracy.append(logs.get(&#39;val_accuracy&#39;))
+            self.epoch_loss.append(logs.get(&#39;loss&#39;))
+            self.epoch_val_loss.append(logs.get(&#39;val_loss&#39;))
+            
+            # Clear the current plot to start a new one
+            plt.clf()
+            
+            # Plot accuracy
+            plt.subplot(1, 2, 1)
+            plt.plot(self.epoch_accuracy, label=&#39;Training Accuracy&#39;)
+            plt.plot(self.epoch_val_accuracy, label=&#39;Validation Accuracy&#39;)
+            plt.title(&#39;Model Accuracy&#39;)
+            plt.xlabel(&#39;Epoch&#39;)
+            plt.ylabel(&#39;Accuracy&#39;)
+            plt.legend(loc=&#39;upper left&#39;)
+            
+            # Plot loss
+            plt.subplot(1, 2, 2)
+            plt.plot(self.epoch_loss, label=&#39;Training Loss&#39;)
+            plt.plot(self.epoch_val_loss, label=&#39;Validation Loss&#39;)
+            plt.title(&#39;Model Loss&#39;)
+            plt.xlabel(&#39;Epoch&#39;)
+            plt.ylabel(&#39;Loss&#39;)
+            plt.legend(loc=&#39;upper right&#39;)
+            
+            # Save the figure to a file after each epoch
+            file_path = self.path + &#34;ML_perform/&#34; + f&#34;{self.id_str}.png&#34;
+            plt.savefig(file_path)
+            print(f&#34;Saved plot for epoch {epoch+1} at {file_path}&#34;)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="AmpliVision.src.ML.utils.ML_Utils.PlotCallback"><code class="name">var <span class="ident">PlotCallback</span></code></dt>
+<dd>
+<div class="desc"><p>Abstract base class used to build new callbacks.</p>
+<p>Callbacks can be passed to keras methods such as <code>fit</code>, <code>evaluate</code>, and
+<code>predict</code> in order to hook into the various stages of the model training and
+inference lifecycle.</p>
+<p>To create a custom callback, subclass <code>keras.callbacks.Callback</code> and
+override the method associated with the stage of interest. See
+<a href="https://www.tensorflow.org/guide/keras/custom_callback">https://www.tensorflow.org/guide/keras/custom_callback</a> for more information.</p>
+<p>Example:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; training_finished = False
+&gt;&gt;&gt; class MyCallback(tf.keras.callbacks.Callback):
+...   def on_train_end(self, logs=None):
+...     global training_finished
+...     training_finished = True
+&gt;&gt;&gt; model = tf.keras.Sequential([
+...     tf.keras.layers.Dense(1, input_shape=(1,))])
+&gt;&gt;&gt; model.compile(loss='mean_squared_error')
+&gt;&gt;&gt; model.fit(tf.constant([[1.0]]), tf.constant([[1.0]]),
+...           callbacks=[MyCallback()])
+&gt;&gt;&gt; assert training_finished == True
+</code></pre>
+<p>If you want to use <code>Callback</code> objects in a custom training loop:</p>
+<ol>
+<li>You should pack all your callbacks into a single <code>callbacks.CallbackList</code>
+so they can all be called together.</li>
+<li>You will need to manually call all the <code>on_*</code> methods at the appropriate
+locations in your loop. Like this:</li>
+</ol>
+<p>Example:</p>
+<pre><code class="language-python">   callbacks =  tf.keras.callbacks.CallbackList([...])
+   callbacks.append(...)
+   callbacks.on_train_begin(...)
+   for epoch in range(EPOCHS):
+     callbacks.on_epoch_begin(epoch)
+     for i, data in dataset.enumerate():
+       callbacks.on_train_batch_begin(i)
+       batch_logs = model.train_step(data)
+       callbacks.on_train_batch_end(i, batch_logs)
+     epoch_logs = ...
+     callbacks.on_epoch_end(epoch, epoch_logs)
+   final_logs=...
+   callbacks.on_train_end(final_logs)
+</code></pre>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>params</code></strong></dt>
+<dd>Dict. Training parameters
+(eg. verbosity, batch size, number of epochs&hellip;).</dd>
+<dt><strong><code>model</code></strong></dt>
+<dd>Instance of <code>keras.models.Model</code>.
+Reference of the model being trained.</dd>
+</dl>
+<p>The <code>logs</code> dictionary that callback methods
+take as argument will contain keys for quantities relevant to
+the current batch or epoch (see method-specific docstrings).</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="AmpliVision.src.ML.utils.ML_Utils.build_dataset"><code class="name flex">
+<span>def <span class="ident">build_dataset</span></span>(<span>self, TARGETS, BATCH_N, SIZE, BLACK=False, OUTLIER=False, contamination=0.05)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a dataset using rule based generator to work with tensor flow</p></div>
+</dd>
+<dt id="AmpliVision.src.ML.utils.ML_Utils.plot_model_performance"><code class="name flex">
+<span>def <span class="ident">plot_model_performance</span></span>(<span>self, history, fig_name)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.ML.utils.ML_Utils.prepare_image_RBGen"><code class="name flex">
+<span>def <span class="ident">prepare_image_RBGen</span></span>(<span>self, display=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Does initial setup needed to create RBG</p></div>
+</dd>
+<dt id="AmpliVision.src.ML.utils.ML_Utils.test_dataset"><code class="name flex">
+<span>def <span class="ident">test_dataset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Used to see if data is being generated correctly</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.ML" href="index.html">AmpliVision.src.ML</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.ML.utils.ML_Utils" href="#AmpliVision.src.ML.utils.ML_Utils">ML_Utils</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.ML.utils.ML_Utils.PlotCallback" href="#AmpliVision.src.ML.utils.ML_Utils.PlotCallback">PlotCallback</a></code></li>
+<li><code><a title="AmpliVision.src.ML.utils.ML_Utils.build_dataset" href="#AmpliVision.src.ML.utils.ML_Utils.build_dataset">build_dataset</a></code></li>
+<li><code><a title="AmpliVision.src.ML.utils.ML_Utils.plot_model_performance" href="#AmpliVision.src.ML.utils.ML_Utils.plot_model_performance">plot_model_performance</a></code></li>
+<li><code><a title="AmpliVision.src.ML.utils.ML_Utils.prepare_image_RBGen" href="#AmpliVision.src.ML.utils.ML_Utils.prepare_image_RBGen">prepare_image_RBGen</a></code></li>
+<li><code><a title="AmpliVision.src.ML.utils.ML_Utils.test_dataset" href="#AmpliVision.src.ML.utils.ML_Utils.test_dataset">test_dataset</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

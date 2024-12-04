@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.generators API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.generators</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="AmpliVision.src.generators.image_generation" href="image_generation/index.html">AmpliVision.src.generators.image_generation</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="AmpliVision.src.generators.rgb_data_generator" href="rgb_data_generator/index.html">AmpliVision.src.generators.rgb_data_generator</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.generators.DataExtractor"><code class="flex name class">
+<span>class <span class="ident">DataExtractor</span></span>
+<span>(</span><span>sample_type: str, extract_from: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to extract RGB data from CSV files and convert it to fingerprint
+data.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>sample_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>The type of sample (e.g., DENV, ZIKV, CHIKV).</dd>
+<dt><strong><code>extract_from</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the CSV files.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>list</code></dt>
+<dd>The colors used in the RGB space.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataExtractor:
+    &#34;&#34;&#34;
+    A class to extract RGB data from CSV files and convert it to fingerprint
+    data.
+
+    Attributes:
+        sample_type (str): The type of sample (e.g., DENV, ZIKV, CHIKV).
+        extract_from (str): The path to the CSV files.
+        colors (list): The colors used in the RGB space.
+    &#34;&#34;&#34;
+
+    def __init__(self, sample_type: str, extract_from: str):
+        self._sample_type = sample_type  # e.g. DENV, ZIKV, CHIKV
+        self._extract_from = extract_from  # path to the csv files
+        self._colors = [&#39;r&#39;, &#39;g&#39;, &#39;b&#39;]  # color space
+
+    def load_csv_files(
+        self,
+        path: str = None,
+        display: bool = False
+    ) -&gt; list[str]:
+        &#34;&#34;&#34; Load the csv files from the specified path.&#34;&#34;&#34;
+
+        # if path is not specified, use the default path
+        if path is None:
+            path = self._extract_from
+        csv_files = glob(path + f&#34;{self._sample_type}*.csv&#34;)
+
+        if display:
+            print(f&#34;Extracting fingerprints from {len(csv_files)} csv files&#34;)
+
+        return csv_files
+
+    def convert_spots_to_fingerprints(
+        self,
+        rgbs_by_type: list[dict[list[list[float]]]]
+    ) -&gt; dict[list[list[float]]]:
+        &#34;&#34;&#34;Converts the RGB spots to fingerprints.&#34;&#34;&#34;
+
+        # puts it into a nicer format to work with
+        appended_spots = self.append_spots(rgbs_by_type)
+
+        fingerprint_by_block_type = {}
+        for block_type in appended_spots:
+
+            # separate the corr RGB values for each block type
+            spot1, spot2 = self.separate_spots(appended_spots[block_type])
+
+            
+            # calculate the mean and standard deviation of the corr RGB values
+            block_type_fingerprint = self.get_mean_and_std_of_spots(
+                spot1, spot2)
+
+        
+            # make sure the std is at least 10
+            block_type_fingerprint = Utils.ensure_std_floor(
+                block_type_fingerprint, 5)
+
+            # add fingerprint to dictionary
+            fingerprint_by_block_type[block_type] = block_type_fingerprint
+
+        return fingerprint_by_block_type
+
+    def separate_spots(
+        self,
+        blocks: list[list[float]]
+    ) -&gt; tuple[list[list[float]]]:
+        &#34;&#34;&#34;Separate the corr RGB values of spot1 and spot2 from the blocks.&#34;&#34;&#34;
+        spot1_corr_rgbs = []
+        spot2_corr_rgbs = []
+        for block in blocks:
+            spot1_corr_rgbs.append(block[:3])
+            spot2_corr_rgbs.append(block[3:])
+        return spot1_corr_rgbs, spot2_corr_rgbs
+
+    def extract(
+        self,
+        path: str = None,
+        display: bool = False
+    ) -&gt; dict[str, list[list[float]]]:
+        &#34;&#34;&#34; extract the RGB fingerprint from the csv file&#34;&#34;&#34;
+
+        if path is None:
+            path = self._extract_from
+
+        # load the csv files
+        csv_files = self.load_csv_files(path)
+
+        # extract the RGB spots from each csv file
+        spots = self.extract_spots_from_multiple_csv(csv_files)
+
+        # turn spot into fingerprint
+        fingerprints = self.convert_spots_to_fingerprints(spots)
+
+        if display:
+            Utils.display_fingerprint(fingerprints)
+
+        return fingerprints
+
+    def append_spots(
+        self,
+        rgbs_by_type: list[dict[list[list[float]]]]
+    ) -&gt; dict[list[list[float]]]:
+        &#34;&#34;&#34; Append the RGB spots to a map, separated by block type.&#34;&#34;&#34;
+        # initializing map with empty lists
+        appended_spots = {
+            type_: [] for image in rgbs_by_type for type_ in image
+        }
+
+        # appending spots
+        for image in rgbs_by_type:
+            for type_ in image:
+                for block in image[type_]:
+                    r1, g1, b1 = block[0]
+                    r2, g2, b2 = block[1]
+                    appended_spots[type_].append([r1, g1, b1, r2, g2, b2])
+        return appended_spots
+
+    def extract_spots_from_multiple_csv(
+        self,
+        csv_files: list[str]
+    ) -&gt; list[dict[list[list[float]]]]:
+        &#34;&#34;&#34; extract the RGB spots from multiple csv files&#34;&#34;&#34;
+        spots = []
+        for csv_file in csv_files:
+            rgbs_by_type = self.extract_spots_from_single_csv(csv_file)
+            spots.append(rgbs_by_type)
+        return spots
+
+    def extract_spots_from_single_csv(
+        self,
+        path: str
+    ) -&gt; dict[list[list[float]]] | dict[None]:
+        &#34;&#34;&#34;
+        This function reads a csv file containing RGB values and returns a 
+        normal distribution of the RGB values.
+
+        csv file format:
+        1. The first row contains the column names 
+        [   date,time,grid_index ,block_type,
+            spot1_r ,spot1_g ,spot1_b ,
+            spot2_r ,spot2_g ,spot2_b ,
+            bkg_r ,bkg_g ,bkg_b ,
+            spot1_corr_r ,spot1_corr_g ,spot1_corr_b ,
+            spot2_corr_r ,spot2_corr_g ,spot2_corr_b
+        ]
+        ...
+
+        Args:
+            path (str): The path to the csv file
+
+        Returns:
+            map: A dictionary containing the RGB values of each spot for each block type
+            ex: {&#39;block_type1&#39;: [ [r1, g1, b1, r2, g2, b2], ..., ] ...more block_types}
+
+        &#34;&#34;&#34;
+
+        # read the csv file
+        try:
+            with open(path, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as file:
+                data = file.readlines()
+        except FileNotFoundError:
+            print(f&#34;File not found: {path}&#34;)
+            return {}
+
+        # extract the corr RGB values
+        rgbs_by_type = self.extract_corr_rgbs(data)
+
+        return rgbs_by_type
+
+    def get_mean_and_std_of_spots(
+        self,
+        spot1_corr_rgbs: list[list[float]],
+        spot2_corr_rgbs: list[list[float]]
+    ) -&gt; dict[str, list[float]]:
+        &#34;&#34;&#34; 
+        calculate the mean and standard deviation of the corr RGB values
+
+        Args:
+            spot1_corr_rgbs (list): The corr RGB values of spot1
+            spot2_corr_rgbs (list): The corr RGB values of spot2
+
+        Format:
+            - spot1_corr_rgbs = [[r1, g1, b1], [r2, g2, b2], ...]
+            - spot2_corr_rgbs = [[r1, g1, b1], [r2, g2, b2], ...]
+
+        Returns:
+            map: A dictionary containing the mean and standard deviation of 
+            the RGB values for each spot
+        Format: 
+            {color: [mean1, std1, mean2, std2]}
+        &#34;&#34;&#34;
+        fingerprint = {}
+        for i in range(3):
+            spot1_rgbs = [rgb[i] for rgb in spot1_corr_rgbs]
+            spot2_rgbs = [rgb[i] for rgb in spot2_corr_rgbs]
+            fingerprint[self._colors[i]] = [
+                mean(spot1_rgbs),
+                pstdev(spot1_rgbs),
+                mean(spot2_rgbs),
+                pstdev(spot2_rgbs)
+            ]
+
+        return fingerprint
+
+    def extract_corr_rgbs(
+        self,
+        data: list[str]
+    ) -&gt; dict[str, list[list[float]]]:
+        &#34;&#34;&#34;Extract the corr RGB values from the csv file of each block type.&#34;&#34;&#34;
+        rgbs_by_type = {}
+        for line in data[1:]:
+            rgbs_by_type = self._extract_corr_rgb_by_type(line, rgbs_by_type)
+
+        return rgbs_by_type
+
+    def _extract_corr_rgb_by_type(
+        self,
+        line: str,
+        rgbs_by_type: dict[str, list[list[float]]]
+    ) -&gt; dict[str, list[list[float]]]:
+        &#34;&#34;&#34;Extract the corr RGB values for a specific block type from a single line of CSV data.&#34;&#34;&#34;
+        # Gets one row from csv
+        row = next(csv.reader(StringIO(line), delimiter=&#39;,&#39;, quotechar=&#39;&#34;&#39;))
+
+        # skips spaces between data rows
+        if len(row) &lt; 19:
+            return rgbs_by_type
+
+        # gets block type from row
+        block_type = row[3].strip()
+        if block_type not in rgbs_by_type:
+            # then initializes an empty list for block type if not already there
+            rgbs_by_type[block_type] = []
+
+        # appends a list with data -&gt; [corr_r1, corr_g1, corr_b1, corr_r2, corr_g2, corr_b2]
+        rgbs_by_type[block_type].append(
+            [
+                Utils.format_line(row, 0, get_corr=False), 
+                Utils.format_line(row, 1, get_corr=False)
+            ]
+        )
+
+        return rgbs_by_type</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="AmpliVision.src.generators.DataExtractor.append_spots"><code class="name flex">
+<span>def <span class="ident">append_spots</span></span>(<span>self, rgbs_by_type: list[dict[list[list[float]]]]) ‑> dict[list[list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Append the RGB spots to a map, separated by block type.</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.convert_spots_to_fingerprints"><code class="name flex">
+<span>def <span class="ident">convert_spots_to_fingerprints</span></span>(<span>self, rgbs_by_type: list[dict[list[list[float]]]]) ‑> dict[list[list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts the RGB spots to fingerprints.</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.extract"><code class="name flex">
+<span>def <span class="ident">extract</span></span>(<span>self, path: str = None, display: bool = False) ‑> dict[str, list[list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>extract the RGB fingerprint from the csv file</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.extract_corr_rgbs"><code class="name flex">
+<span>def <span class="ident">extract_corr_rgbs</span></span>(<span>self, data: list[str]) ‑> dict[str, list[list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract the corr RGB values from the csv file of each block type.</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.extract_spots_from_multiple_csv"><code class="name flex">
+<span>def <span class="ident">extract_spots_from_multiple_csv</span></span>(<span>self, csv_files: list[str]) ‑> list[dict[list[list[float]]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>extract the RGB spots from multiple csv files</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.extract_spots_from_single_csv"><code class="name flex">
+<span>def <span class="ident">extract_spots_from_single_csv</span></span>(<span>self, path: str) ‑> dict[list[list[float]]] | dict[None]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This function reads a csv file containing RGB values and returns a
+normal distribution of the RGB values.</p>
+<p>csv file format:
+1. The first row contains the column names
+[
+date,time,grid_index ,block_type,
+spot1_r ,spot1_g ,spot1_b ,
+spot2_r ,spot2_g ,spot2_b ,
+bkg_r ,bkg_g ,bkg_b ,
+spot1_corr_r ,spot1_corr_g ,spot1_corr_b ,
+spot2_corr_r ,spot2_corr_g ,spot2_corr_b
+]
+&hellip;</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the csv file</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>map</code></dt>
+<dd>A dictionary containing the RGB values of each spot for each block type</dd>
+<dt><code>ex</code></dt>
+<dd>{'block_type1': [ [r1, g1, b1, r2, g2, b2], &hellip;, ] &hellip;more block_types}</dd>
+</dl></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.get_mean_and_std_of_spots"><code class="name flex">
+<span>def <span class="ident">get_mean_and_std_of_spots</span></span>(<span>self, spot1_corr_rgbs: list[list[float]], spot2_corr_rgbs: list[list[float]]) ‑> dict[str, list[float]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>calculate the mean and standard deviation of the corr RGB values</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>spot1_corr_rgbs</code></strong> :&ensp;<code>list</code></dt>
+<dd>The corr RGB values of spot1</dd>
+<dt><strong><code>spot2_corr_rgbs</code></strong> :&ensp;<code>list</code></dt>
+<dd>The corr RGB values of spot2</dd>
+</dl>
+<h2 id="format">Format</h2>
+<ul>
+<li>spot1_corr_rgbs = [[r1, g1, b1], [r2, g2, b2], &hellip;]</li>
+<li>spot2_corr_rgbs = [[r1, g1, b1], [r2, g2, b2], &hellip;]</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>map</code></dt>
+<dd>A dictionary containing the mean and standard deviation of </dd>
+</dl>
+<p _mean1_="[mean1," color: mean2_="mean2," std1_="std1," std2_="std2]">the RGB values for each spot
+Format: </p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.load_csv_files"><code class="name flex">
+<span>def <span class="ident">load_csv_files</span></span>(<span>self, path: str = None, display: bool = False) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load the csv files from the specified path.</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.DataExtractor.separate_spots"><code class="name flex">
+<span>def <span class="ident">separate_spots</span></span>(<span>self, blocks: list[list[float]]) ‑> tuple[list[list[float]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Separate the corr RGB values of spot1 and spot2 from the blocks.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src" href="../index.html">AmpliVision.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="AmpliVision.src.generators.image_generation" href="image_generation/index.html">AmpliVision.src.generators.image_generation</a></code></li>
+<li><code><a title="AmpliVision.src.generators.rgb_data_generator" href="rgb_data_generator/index.html">AmpliVision.src.generators.rgb_data_generator</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.generators.DataExtractor" href="#AmpliVision.src.generators.DataExtractor">DataExtractor</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.generators.DataExtractor.append_spots" href="#AmpliVision.src.generators.DataExtractor.append_spots">append_spots</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.convert_spots_to_fingerprints" href="#AmpliVision.src.generators.DataExtractor.convert_spots_to_fingerprints">convert_spots_to_fingerprints</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.extract" href="#AmpliVision.src.generators.DataExtractor.extract">extract</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.extract_corr_rgbs" href="#AmpliVision.src.generators.DataExtractor.extract_corr_rgbs">extract_corr_rgbs</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.extract_spots_from_multiple_csv" href="#AmpliVision.src.generators.DataExtractor.extract_spots_from_multiple_csv">extract_spots_from_multiple_csv</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.extract_spots_from_single_csv" href="#AmpliVision.src.generators.DataExtractor.extract_spots_from_single_csv">extract_spots_from_single_csv</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.get_mean_and_std_of_spots" href="#AmpliVision.src.generators.DataExtractor.get_mean_and_std_of_spots">get_mean_and_std_of_spots</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.load_csv_files" href="#AmpliVision.src.generators.DataExtractor.load_csv_files">load_csv_files</a></code></li>
+<li><code><a title="AmpliVision.src.generators.DataExtractor.separate_spots" href="#AmpliVision.src.generators.DataExtractor.separate_spots">separate_spots</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

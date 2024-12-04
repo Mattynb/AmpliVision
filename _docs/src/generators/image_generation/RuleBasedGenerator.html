@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>AmpliVision.src.generators.image_generation.RuleBasedGenerator API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AmpliVision.src.generators.image_generation.RuleBasedGenerator</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator"><code class="flex name class">
+<span>class <span class="ident">RuleBasedGenerator</span></span>
+<span>(</span><span>graphs: networkx.classes.digraph.DiGraph, results: dict[dict[dict[list[int]]]], **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RuleBasedGenerator:
+    def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], **kwargs):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        self.components_path = f&#34;{os.getcwd()}/AmpliVision/data/test_components&#34;
+        self.save_path = f&#34;{os.getcwd()}/AmpliVision/data/generated_images&#34;
+
+        # if kwargs has jupyter bool set to True, then do different path. RBG(targets, graphs, results, jupyter=True)
+        if &#39;jupyter&#39; in kwargs:
+            self.components_path = f&#34;{os.getcwd()}/data/test_components&#34; 
+            self.save_path = f&#34;{os.getcwd()}/data/generated_images&#34;
+
+
+        self.results = self.validate_results(results)
+        self.graphs = self.validate_graphs(graphs)
+
+
+    def validate_graphs(self, graphs):
+        &#34;TODO: graphs should all be the same. Warn user if different&#34;
+        return graphs
+
+    def validate_results(self, results:list[str]):
+        return results
+
+    def setup(self, starting_indexes: list[tuple[int]] = None):
+        # taking the first graph as they should be the same
+        di_graph = self.graphs[0]
+        self.results
+
+        # meant to avoid duplicate images after augmentation 
+        # (rotation, flippin, etc)      
+        MAX_INDEX = 9
+        self.starting_indexes = [   # Index where the first block will be placed 
+            (x, y)  
+            for x in range(MAX_INDEX - len(di_graph.nodes))
+            for y in range(ceil(MAX_INDEX/2))
+        ] if starting_indexes is None else starting_indexes
+
+        # clear the folders
+        #self.clear_folder(f&#34;{self.save_path}/blank&#34;)
+        #self.clear_folder(f&#34;{self.save_path}/final&#34;)
+
+        unique_labels = self.results.keys()
+        print(f&#34;unique_labels = {unique_labels}&#34;)
+        self.label_mapping = {
+            label: idx 
+            for idx, label 
+            in enumerate(sorted(unique_labels))
+        }
+
+    def generate_for_od(
+            self, 
+            targets: list[str], 
+            noise: int = 0.05, 
+            black_background: bool = False,
+            rgb: bool = True,
+            save: bool = False,
+            contamination: float = 0.05
+            ):
+        
+    
+        # to play nice with tensorflow
+        try:
+            targets = [target.decode(&#39;utf-8&#39;) for target in targets]
+        except AttributeError:
+            pass
+
+        
+        #targets = self.results.keys() if targets is None else targets
+        
+        # add outlier samples
+        targets_ = []
+        targets_.extend(targets)
+        #targets_.extend([&#34;OUTLIER&#34; for _ in targets]) 
+        targets = targets_
+
+        blank_images = self.generate_blank(save=False)
+        # generates one image per target where blocks start in different indexes
+        i = 0 # index of the target
+        j = 0 # total number of images generated
+        outlier_interval = int(1/contamination) +1
+        while True:
+            t= time.time()
+
+            if j % outlier_interval == 0:
+                target = &#34;OUTLIER&#34;
+                i -= 1
+            else:
+                target = targets[i]
+
+            rotation = random.randint(0, 3) 
+            
+            image_content = random.choice(blank_images)
+            print(i,&#39; - &#39;, target)
+            print(&#34;-&#34;*20, &#34;GENENERATING SINGLE&#34; ,&#34;-&#34;*20)
+            img = self.generate_single_image(
+                image_content, target, rotation, noise, rgb, save, black_background, True
+            )
+            batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
+            batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
+            yield batch_images, batch_labels
+
+            del batch_images, batch_labels, img, image_content
+           
+            i = 0 if i == len(targets) - 1 else i + 1
+            j += 1
+            print(&#34;-&#34;*20,&#34;SINGLE DONE in &#34;, f&#34;{round(time.time() - t, 2)} s&#34;,&#34;-&#34;*20)
+
+        
+    def generate(
+            self, 
+            targets: list[str] = None, 
+            noise: int = 0.03, 
+            black_background: bool = False,
+            rotation: int = None, 
+            rgb: bool = True,
+            save: bool = False
+        ):
+        # will need to be broken into functions but the idea is:
+        &#34;&#34;&#34;
+        generate a bunch of test images with no spots 
+        then pass them through phaseA/B and paint them there
+        &#34;&#34;&#34;
+
+        #print(&#34;-&#34;*50, &#34;\nRule Based Generator\n&#34;, &#34;-&#34;*50)
+
+        # to play nice with tensorflow
+        try:
+            targets = [target.decode(&#39;utf-8&#39;) for target in targets]
+        except AttributeError:
+            pass
+
+        # overriding label_mapping 
+        self.label_mapping = {
+            label: idx 
+            for idx, label 
+            in enumerate(sorted(targets))
+        }
+
+        #targets = self.results.keys() if targets is None else targets
+      
+        # generates one image per target where blocks start in different indexes
+        i = 0
+        blank_images = self.generate_blank()
+        while True:
+            target = targets[i] #random.choice(targets)
+            
+            rotation = random.randint(0, 3)
+            image_content = random.choice(blank_images) # random index choice. Room for performance optimization here
+            
+            img = self.generate_single_image(
+                image_content, target, rotation, noise, rgb, save, black_background
+            )
+            batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
+            batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
+            yield batch_images, batch_labels
+           
+            i = 0 if i == len(targets)-1 else i + 1
+
+
+    def generate_single_image(
+            self, 
+            image_content, 
+            target, 
+            rotation, 
+            noise, 
+            rgb, 
+            save,
+            black_background,
+            for_outlier = False,
+        ):
+        # PhaseA2 expects a dictionary of images
+        image = dict()
+        image[target] = image_content.copy()
+
+        # get their virtual grids
+        Grid = phaseA2(image, display=False)
+
+        # paint the spots in the images
+        # each image has its own gridsave
+        Grid = self.paint_spots(Grid, self.results, black_background)
+        
+        grid = list(Grid.values())[0]
+        img = self.add_noise(grid.img, percent=noise)
+
+        img = self.rotate_image(img, rotation)
+
+        # bgr to rgb
+        img = cv.cvtColor(img, cv.COLOR_BGR2RGB) if rgb else img
+
+        # save the painted image in all possible orientations
+        self.save_augmented_images(Grid, 1, img=img) if save else None
+
+        # one-hot encoding
+        if for_outlier:
+            label = 1 if target == &#39;OUTLIER&#39; else 0
+            one_hot_label = tf.keras.utils.to_categorical(label, num_classes=2)       
+        else:
+            label = self.label_mapping[target]
+            one_hot_label = tf.keras.utils.to_categorical(label, num_classes=len(self.label_mapping))       
+
+        return img, one_hot_label
+
+    def rotate_image(self, image, r):
+        if r == 0:
+            return image
+        
+        rotations = [&#39;&#39;, cv.ROTATE_90_CLOCKWISE, cv.ROTATE_180, cv.ROTATE_90_COUNTERCLOCKWISE]
+        return cv.rotate(image, rotations[r])
+
+
+
+    def save_augmented_images(self, Grids, num, img=None):
+        for n in range(num):
+            for image_name, grid in Grids.items():
+                img = grid.img if img is None else img
+                noisy_img = self.add_noise(img, percent=0.05)
+                cv.imwrite(f&#34;{self.save_path}/final/{image_name}_{random.randint(0,10000)}.png&#34;, noisy_img)
+
+    def paint_spots(self, Grids, results, black_background = False):
+        for image_name, grid in Grids.items():
+            target_name = str(image_name).split(&#34;_&#34;)[0]
+            
+            if black_background:
+                grid.img =  np.zeros((1242,1242,3), dtype=&#39;uint8&#39;)
+
+            # where each grid has multiple blocks
+            for block in grid.get_blocks():
+
+                # only painting test and control blocks for now
+                block, _ = identify_block_in_grid(block, [])
+               
+                if block.block_type[:4] in (&#39;test&#39;,&#39;cont&#39;):
+                    match target_name:
+                        case &#34;OUTLIER&#34;:
+                            block_results =  {
+                                &#39;r&#39;: [random.randint(0,254), 0, random.randint(0,254), 0], 
+                                &#39;g&#39;: [random.randint(0,254), 0, random.randint(0,254), 0], 
+                                &#39;b&#39;: [random.randint(0,254), 0, random.randint(0,254), 0]
+                            }
+                        case _:
+                            try:
+                                block_results = results[target_name][block.block_type] 
+                            except KeyError:
+                                raise KeyError(f&#34;&#34;&#34;
+                                target_name = {target_name}, block_type = {block.block_type} not found in results.
+                                Make sure the results csv files are in a folder named with todays date (e.g. DD-MM-YYYY)
+                                &#34;&#34;&#34;)
+  
+                    # paint based on TestAnalyzer results (probed rgb values averaged across csvs)
+                    ta = TestAnalyzer(block)
+
+                    block = ta.paint_spots(block_results)
+
+                    # &#34;paste&#34; the painted block back into the image
+                    grid.paste_test_area(block)
+
+                    
+
+        return Grids
+
+
+    def generate_blank(self, save:bool = False, target: str = None,) -&gt; np.ndarray:   
+        &#34; Generates blank images with no spots painted on them&#34;   
+        grid_img = self.load_image(&#39;grid&#39;)  
+
+        output = []
+        for _index in self.starting_indexes:
+            
+            Grid_DS = Grid(grid_img)
+
+            # fill blank grid with blank blocks
+            self._place_unpainted_blocks(_index, Grid_DS)
+
+            # save the blank image
+            if save:
+                print(f&#34;Saving blank image {target}_{_index} to {self.save_path}/blank&#34;)
+                print(Grid_DS.img.shape)
+                cv.imwrite(f&#34;{self.save_path}/blank/{target}_{_index}.png&#34;, Grid_DS.img) 
+
+            output.append(Grid_DS.img.copy())
+
+        return output
+    
+    def _place_unpainted_blocks(self, block_index, Grid_DS):
+        &#34;&#34;&#34; Places unpainted blocks in empty grid&#34;&#34;&#34;
+        
+        di_graph = self.graphs[0]
+        geometry = True
+
+        for block_name in di_graph.nodes:
+            # get the image of the block with transparent bkg
+            block_img = self.load_image(block_name, geometry)
+
+            # add unpainted block to the image
+            img = Grid_DS.add_artificial_block(
+                block_index, Grid_DS.img, block_img)
+            Grid_DS.img = img
+
+            # alternate between convex and concave blocks
+            geometry = not geometry
+
+            # move to the next position
+            block_index = (block_index[0] + 1, block_index[1])
+
+
+
+    def add_noise(self, _image, percent = 0.05):
+        &#34; Add grayscale random noise to the generated image &#34;
+        image = _image.copy()
+
+        # Get the dimensions of the image
+        height, width, channels = image.shape
+
+        # Calculate the number of pixels to be altered (5% of total pixels)
+        total_pixels = height * width
+        num_noise_pixels = int(percent * total_pixels)
+
+        # Generate random noise
+        for _ in range(num_noise_pixels):
+            # Pick a random pixel in the image
+            y_coord = np.random.randint(0, height)
+            x_coord = np.random.randint(0, width)
+            
+            # Add noise by altering the pixel value
+            noise = np.random.randint(0, 256)
+
+            # r =g = b = noise
+            noise = [noise, noise, noise]
+
+            image[y_coord, x_coord] = noise
+
+        return image
+
+    def load_image(self, component_name, geometry=None):
+        &#34;&#34;&#34; Load a no bkg image from the components folder &#34;&#34;&#34;
+
+        # if component_name has 2 numbers, remove the second one
+        if not component_name.startswith(&#39;test&#39;):
+            component_name = re.sub(r&#39;\d+&#39;, &#39;&#39;, component_name)
+
+        # convex, concave, or empty
+        geometry = &#39;_cnvx&#39; if geometry == 1 else &#39;_cncv&#39; if geometry == 0 else &#39;&#39;
+        component_name = f&#34;{component_name + geometry}&#34;.replace(&#39;__&#39;, &#39;_&#39;)
+        path = f&#34;{self.components_path}/{component_name}.png&#34;
+
+        return cv.imread(path, cv.IMREAD_UNCHANGED)
+
+    def clear_folder(self, path):
+        &#34; Clear the folder at the given path &#34;
+        import os
+        import shutil
+
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), &#34;../../../&#34;))
+        path = os.path.join(project_root, path)
+
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        os.makedirs(path)
+
+        print( f&#34;Folder {path} cleared.&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.add_noise"><code class="name flex">
+<span>def <span class="ident">add_noise</span></span>(<span>self, _image, percent=0.05)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add grayscale random noise to the generated image</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.clear_folder"><code class="name flex">
+<span>def <span class="ident">clear_folder</span></span>(<span>self, path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clear the folder at the given path</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate"><code class="name flex">
+<span>def <span class="ident">generate</span></span>(<span>self, targets: list[str] = None, noise: int = 0.03, black_background: bool = False, rotation: int = None, rgb: bool = True, save: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>generate a bunch of test images with no spots
+then pass them through phaseA/B and paint them there</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_blank"><code class="name flex">
+<span>def <span class="ident">generate_blank</span></span>(<span>self, save: bool = False, target: str = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates blank images with no spots painted on them</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_for_od"><code class="name flex">
+<span>def <span class="ident">generate_for_od</span></span>(<span>self, targets: list[str], noise: int = 0.05, black_background: bool = False, rgb: bool = True, save: bool = False, contamination: float = 0.05)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_single_image"><code class="name flex">
+<span>def <span class="ident">generate_single_image</span></span>(<span>self, image_content, target, rotation, noise, rgb, save, black_background, for_outlier=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.load_image"><code class="name flex">
+<span>def <span class="ident">load_image</span></span>(<span>self, component_name, geometry=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load a no bkg image from the components folder</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.paint_spots"><code class="name flex">
+<span>def <span class="ident">paint_spots</span></span>(<span>self, Grids, results, black_background=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.rotate_image"><code class="name flex">
+<span>def <span class="ident">rotate_image</span></span>(<span>self, image, r)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.save_augmented_images"><code class="name flex">
+<span>def <span class="ident">save_augmented_images</span></span>(<span>self, Grids, num, img=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.setup"><code class="name flex">
+<span>def <span class="ident">setup</span></span>(<span>self, starting_indexes: list[tuple[int]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_graphs"><code class="name flex">
+<span>def <span class="ident">validate_graphs</span></span>(<span>self, graphs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TODO: graphs should all be the same. Warn user if different</p></div>
+</dd>
+<dt id="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_results"><code class="name flex">
+<span>def <span class="ident">validate_results</span></span>(<span>self, results: list[str])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AmpliVision.src.generators.image_generation" href="index.html">AmpliVision.src.generators.image_generation</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator">RuleBasedGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.add_noise" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.add_noise">add_noise</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.clear_folder" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.clear_folder">clear_folder</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate">generate</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_blank" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_blank">generate_blank</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_for_od" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_for_od">generate_for_od</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_single_image" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.generate_single_image">generate_single_image</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.load_image" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.load_image">load_image</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.paint_spots" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.paint_spots">paint_spots</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.rotate_image" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.rotate_image">rotate_image</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.save_augmented_images" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.save_augmented_images">save_augmented_images</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.setup" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.setup">setup</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_graphs" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_graphs">validate_graphs</a></code></li>
+<li><code><a title="AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_results" href="#AmpliVision.src.generators.image_generation.RuleBasedGenerator.RuleBasedGenerator.validate_results">validate_results</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>
