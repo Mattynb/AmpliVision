@@ -148,7 +148,7 @@ If you'd like to contribute to this project, please follow these guidelines:
 - [Presentation Slides](/docs/ABRCMS_oral_presentation.pdf)
 
 ## License
-This project is licensed under the GNU AGPLv3 - see the [LICENSE](../LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ## Contact
 If you have any questions or need assistance, feel free to contact us:
