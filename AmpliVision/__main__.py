@@ -37,7 +37,7 @@ def main(
 
     print(f" --- Running {use_case} --- ")
 
-    match use_case.upper():
+    match use_case.upper().split('-')[0]:
 
         # Scans AMPLI test images and extracts results
         case 'SCAN':
@@ -48,14 +48,21 @@ def main(
             ).prepare_image_RBGen()
         
         # Trains LENET model using generated images
-        case 'LENET':
+        case 'TRAIN':
             """ Train a CNN model using the LENET architecture to predict Ampli test diagnostics """
+
+            model_type = use_case.upper().split('-')[1] if '-' in use_case else 'LENET'
+
+            model_class = getattr(models, model_type, None)
+            if model_class == None:
+                print(f"Model {model_type} not found, defaulting to LENET")
+                model_class = models.LENET
 
             kwargs = {  
                 "tag": TAG,
             }
 
-            models.LENET(
+            model_class(
                 TARGETS,
                 path_to_imgs,
                 scanned_path,

@@ -8,7 +8,7 @@ AmpliVision is an open source program designed to Automate AMPLI rapid test work
 - [Usage](#usage)
 - [Pre-Defined Use Cases](#pre-defined-use-cases)
   - [Scan AMPLI test images and extract results](#scan-ampli-test-images-and-extract-results)
-  - [Train a CNN LENET model to classify AMPLI test images](#train-a-cnn-lenet-model-to-clasify-ampli-test-images)
+  - [Train a CNN model to classify AMPLI test images](#train-a-cnn-model-to-clasify-ampli-test-images)
   - [Detect Outliers With Trained Model And PyOD](#detect-outliers-with-trained-model-and-pyod)
   - [Test a trained CNN model in Predicting Never Seen AMPLI tests](#test-a-trained-cnn-model-in-predicting-never-seen-ampli-tests)
   - [Visualize Generated Data in Jupyter Notebook](#visualize-generated-data-in-jupyter-notebook)
@@ -50,7 +50,7 @@ Python AmpliVision USE_CASE DATASET TAG*
     -
     CORE
     - [SCAN](#scan-ampli-test-images-and-extract-results)
-    - [LENET](#train-a-cnn-lenet-model-to-clasify-ampli-test-images)
+    - [TRAIN-[MODEL]](#train-a-cnn-model-to-clasify-ampli-test-images)
     - [PyOD](#detect-outliers-with-trained-model-and-pyod)
     ___
     EXTRA
@@ -79,10 +79,17 @@ Example command to scan and extract MARKER data. The scanned images will be in [
 ``` bash
 Python AmpliVision scan MARKER My_Identifiable_TAG
 ```
-### Train a CNN LENET model to clasify Ampli test images
+### Train a CNN model to clasify Ampli test images
 ``` python
-python3 AmpliVision LENET scanned_MARKER MARKER
+python3 AmpliVision TRAIN-[MODEL] scanned_MARKER MARKER
 ```
+Example shows train functionality with a LENET model
+``` python
+python3 AmpliVision TRAIN-LENET scanned_MARKER MARKER
+```
+Supported models are:
+- LENET
+- ALEXNET
 
 ### Detect Outliers With Trained Model And PyOD
 ``` python
