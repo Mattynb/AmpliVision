@@ -1,4 +1,5 @@
 _experiments*
+*__pycache__*
 AmpliVision/data/ML_models/MARKER_FINAL__2024_10_30_23_12_23
 
 AmpliVision/data/*
