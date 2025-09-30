@@ -9,11 +9,12 @@ from src.pyod_workflow import run_pyod_workflow
 
 
 def main(
-        use_case: str,          # Use case to run
-        path_to_imgs: str,      # Path to images to be loaded (Pre-Phase1 scanned images)
-        scanned_path: str,      # Path to scanned images (Phase1 scanned images)
-        dataset:str = None,     # Code name for target labels to be predicted  
-        TAG:str = None,         # Name to be given to the trained model
+        use_case: str,               # Use case to run
+        path_to_imgs: str,           # Path to images to be loaded (Pre-Phase1 scanned images)
+        scanned_path: str,           # Path to scanned images (Phase1 scanned images)
+        dataset:str = None,          # Code name for target labels to be predicted  
+        TAG:str = None,              # Name to be given to the trained model
+        model_name: str = "LENET",   # Model architecture to be used (LENET, ALEXNET, EFFICIENTNETB0, etc)
         display: bool = False, 
         **kwargs
     ) -> None:
@@ -21,8 +22,8 @@ def main(
 
     # -------- DEFAULT VALUES -------- #
     SIZE = kwargs.get("SIZE", [1024, 1024])
-    EPOCHS = kwargs.get("EPOCHS", 64)
-    BATCH_N = kwargs.get("BATCH_N", 64)
+    EPOCHS = kwargs.get("EPOCHS", 128)
+    BATCH_N = kwargs.get("BATCH_N", 32)
     # training steps are 7 training, 1 validation 
 
     # determines if generated images will show only the painted tests area 
@@ -37,7 +38,7 @@ def main(
 
     print(f" --- Running {use_case} --- ")
 
-    match use_case.upper().split('-')[0]:
+    match use_case.upper():
 
         # Scans AMPLI test images and extracts results
         case 'SCAN':
@@ -49,17 +50,16 @@ def main(
         
         # Trains LENET model using generated images
         case 'TRAIN':
-            """ Train a CNN model using the LENET architecture to predict Ampli test diagnostics """
+            """ Train a CNN model using the model_name architecture to predict Ampli test diagnostics """
 
-            model_type = use_case.upper().split('-')[1] if '-' in use_case else 'LENET'
-
-            model_class = getattr(models, model_type, None)
-            if model_class == None:
-                print(f"Model {model_type} not found, defaulting to LENET")
-                model_class = models.LENET
-
+            model_class = getattr(models, model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+            
             kwargs = {  
                 "tag": TAG,
+                "model_name": model_name,
             }
 
             model_class(
@@ -70,6 +70,7 @@ def main(
                 BATCH_N,
                 EPOCHS,
                 BLACK,
+                TAG,
                 **kwargs
             ).run()
 
@@ -176,8 +177,9 @@ if __name__ == '__main__':
     dataset = str(sys.argv[2])
     TAG = sys.argv[3]
     TAG = TAG if TAG else dataset
+    model_name = sys.argv[4]
     path_to_imgs = f"{os.getcwd()}/AmpliVision/data/{dataset}/*" #scanned/* #scanned_DENV/*"
     scanned_path = f"{os.getcwd()}/AmpliVision/data/{dataset}/"
     
     print("path_to_imgs: ", path_to_imgs) 
-    main(use_case, path_to_imgs, scanned_path, dataset, TAG, display=False)
+    main(use_case, path_to_imgs, scanned_path, dataset, TAG, model_name, display=False)

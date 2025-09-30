@@ -66,8 +66,7 @@ class  ML_Utils:
             SIZE,
             BLACK = False,
             OUTLIER = False,
-            contamination = 0.05
-             
+            contamination = 0.05,
         ):
         """ Creates a dataset using rule based generator to work with tensor flow """
 
@@ -96,27 +95,20 @@ class  ML_Utils:
             output_types=(tf.float32, tf.float32),
             args = _args
         )
-        
-        # dataset is (x_batch / 255, y_batch), with some random rotation
-        g_dataset = g_dataset.map(
-            lambda x, y: (
-                # x - Image
-                tf.cast(
-                    tf.image.rot90(
-                        tf.image.resize(
-                            x, 
-                            SIZE
-                        ),
-                        k = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
-                    ),
-                    tf.float32
-                ) / 255, 
 
-                # y - Label
-                tf.cast(y, tf.float32)
-            ),
-            num_parallel_calls=1
+        def preprocess_image(image, label, size):
+            """Resizes, rotates, and normalizes the image."""
+            image = tf.image.resize(image, size)
+            image = tf.image.rot90(image, k=tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32))
+            image = tf.cast(image, tf.float32) / 255.0
+            label = tf.cast(label, tf.float32)
+            return image, label
+
+        g_dataset = g_dataset.map(
+            lambda x, y: preprocess_image(x, y, SIZE),
+            num_parallel_calls=tf.data.AUTOTUNE
         )
+        
         g_dataset = g_dataset.batch(batch_size=BATCH_N)
         g_dataset = g_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
 
