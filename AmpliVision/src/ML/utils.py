@@ -67,6 +67,7 @@ class  ML_Utils:
             BLACK = False,
             OUTLIER = False,
             contamination = 0.05,
+            Keras_Preprocess = False
         ):
         """ Creates a dataset using rule based generator to work with tensor flow """
 
@@ -100,7 +101,9 @@ class  ML_Utils:
             """Resizes, rotates, and normalizes the image."""
             image = tf.image.resize(image, size)
             image = tf.image.rot90(image, k=tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32))
-            image = tf.cast(image, tf.float32) / 255.0
+            image = tf.cast(image, tf.float32)
+            if not Keras_Preprocess:
+                image /= 255.0
             label = tf.cast(label, tf.float32)
             return image, label
 

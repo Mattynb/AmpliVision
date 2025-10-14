@@ -2,6 +2,7 @@ import os
 import tensorflow as tf
 from .utils import ML_Utils
 from .evaluator import test_model_generated
+from ..config import Config
 import pickle as pkl
 
 class workflow:
@@ -17,7 +18,7 @@ class workflow:
             BLACK = False   
         ):
         
-        self.SIZE = SIZE #self.DEFAULT_SIZE if self.DEFAULT_SIZE else SIZE
+        self.SIZE = self.DEFAULT_SIZE if self.DEFAULT_SIZE else SIZE
         self.TARGETS = TARGETS
         self.BATCH_N = BATCH_N
         self.EPOCHS = EPOCHS
@@ -48,17 +49,17 @@ class workflow:
             #checkpoint
         ]
 
-        g_dataset = self.MLU.build_dataset(self.TARGETS, self.BATCH_N, self.SIZE, self.BLACK)
-        v_dataset = self.MLU.build_dataset(self.TARGETS, int((self.BATCH_N*0.5)), self.SIZE, self.BLACK)
+        g_dataset = self.MLU.build_dataset(self.TARGETS, Config.BATCH_N, self.SIZE, self.BLACK, Keras_Preprocess=isinstance(self, KerasModelBase))
+        v_dataset = self.MLU.build_dataset(self.TARGETS, int((Config.BATCH_N*0.5)), self.SIZE, self.BLACK, Keras_Preprocess=isinstance(self, KerasModelBase))
 
         inference_time = time.time()
         with tf.device('/GPU:0'):
             self.history = self.model.fit(
                 g_dataset,
-                epochs=self.EPOCHS, #EPOCHS,
+                epochs=Config.EPOCHS,
                 validation_data=v_dataset,
-                steps_per_epoch=14,
-                validation_steps=2,
+                steps_per_epoch=Config.STEPS_PER_EPOCH,
+                validation_steps=Config.VALIDATION_STEPS,
                 callbacks = callbacks
             )
         inference_time = time.time() - inference_time
@@ -283,7 +284,7 @@ class KerasModelBase(workflow):
         import_path = f'tf.keras.applications.{self.model_name}'
         
         try:
-            model_class = eval(import_path)
+            eval(import_path)
         except AttributeError:
             raise ImportError(f"Could not find {self.model_name} model at {import_path}. Check TensorFlow version or model name.")
 
@@ -298,7 +299,7 @@ class KerasModelBase(workflow):
 
         base_model = elegant_keras_applications_constructor(
             model_str=self.model_name,
-            model_constructor_kwargs=model_constructor_kwargs
+            model_constructor_kwargs=model_constructor_kwargs,
             input_shape=input_shape
         )
         
@@ -352,7 +353,7 @@ def get_model(model_str: str) -> Callable[..., tf.keras.models.Model]:
 
 
 def get_model_with_preprocessing(
-    model_str: str, model_constructor_kwargs: Dict[str, Any], input_shape: Dict[int, int, int]
+    model_str: str, model_constructor_kwargs: Dict[str, Any], input_shape: list[int, int, int]
 ) -> tf.keras.models.Model:
     """
     Keras helper function to get appropriate model-preprocessing pair.
@@ -379,7 +380,7 @@ def get_model_with_preprocessing(
 
 
 def elegant_keras_applications_constructor(
-    model_str: str, model_constructor_kwargs: Dict[str, Any], input_shape: Dict[int, int, int] = {}
+    model_str: str, model_constructor_kwargs: Dict[str, Any], input_shape: list[int, int, int] = {}
 ):
     """
     CLI interface to demonstrate functionality.
@@ -528,6 +529,6 @@ class InceptionResNetV2(KerasModelBase):
     MODEL_NAME = 'InceptionResNetV2'
     DEFAULT_SIZE = (299, 299)
 
-class XCEPTION(KerasModelBase):
+class Xception(KerasModelBase):
     MODEL_NAME = 'Xception'
     DEFAULT_SIZE = (299, 299)
