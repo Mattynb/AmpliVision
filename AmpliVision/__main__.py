@@ -6,109 +6,39 @@ import matplotlib.pyplot as plt
 
 from src.ML import models, ML_Utils
 from src.pyod_workflow import run_pyod_workflow
+from src.config import CONFIG
 
 
-def main(
-        use_case: str,               # Use case to run
-        path_to_imgs: str,           # Path to images to be loaded (Pre-Phase1 scanned images)
-        scanned_path: str,           # Path to scanned images (Phase1 scanned images)
-        dataset:str = None,          # Code name for target labels to be predicted  
-        TAG:str = None,              # Name to be given to the trained model
-        model_name: str = "LENET",   # Model architecture to be used (LENET, ALEXNET, EFFICIENTNETB0, etc)
-        display: bool = False, 
-        **kwargs
-    ) -> None:
-
-
-    # -------- DEFAULT VALUES -------- #
-    SIZE = kwargs.get("SIZE", [1024, 1024])
-    EPOCHS = kwargs.get("EPOCHS", 128)
-    BATCH_N = kwargs.get("BATCH_N", 32)
-    # training steps are 7 training, 1 validation 
-
-    # determines if generated images will show only the painted tests area 
-    # (making everything else black) or not
-    BLACK = kwargs.get("BLACK", False) 
-    
-    # assign correct targets to specific datasets
-    # targets are the classes that the model will predict
-    # the tag is the name you want to give to the trained model
-    TARGETS, _TAG = manage_targets(dataset)
-    TAG = TAG if TAG else _TAG
-
+def main() -> None:
     print(f" --- Running {use_case} --- ")
 
     match use_case.upper():
 
         # Scans AMPLI test images and extracts results
         case 'SCAN':
-            ML_Utils(
-                path_to_imgs,
-                scanned_path,
-                TAG
-            ).prepare_image_RBGen()
+            ML_Utils(CONFIG.TAG).prepare_image_RBGen()
         
         # Trains LENET model using generated images
         case 'TRAIN':
             """ Train a CNN model using the model_name architecture to predict Ampli test diagnostics """
 
-            model_class = getattr(models, model_name, None)
+            model_class = getattr(models, CONFIG.model_name, None)
             if model_class is None:
                 print(f"ERROR: Model {model_name} not found in models.py, exiting...")
                 exit(1)
-            
-            kwargs = {  
-                "tag": TAG,
-                "model_name": model_name,
-            }
 
-            model_class(
-                TARGETS,
-                path_to_imgs,
-                scanned_path,
-                SIZE,
-                BATCH_N,
-                EPOCHS,
-                BLACK,
-                TAG,
-                **kwargs
-            ).run()
+            model_class().run()
 
         case 'TEST':
             """ Test a trained CNN model in predicting never seen Ampli tests """
             
-            kwargs = {  
-                "tag": TAG,
-            }
-            models.LENET(
-                TARGETS,
-                path_to_imgs,
-                scanned_path,
-                SIZE,
-                BATCH_N,
-                EPOCHS,
-                BLACK,
-                **kwargs
-            ).test_model(TAG)
+            models.LENET().test_model(TAG)
 
         case 'CHECK_DATA':
+            "* Pottentially deprecated. Please test functionality before running *"
             "checking if data is correct by displaying one image of each class. Should be run in jupyter notebook"
 
-            BATCH_N = len(TARGETS)
-            kwargs = {  
-                "tag": TAG,
-            }
-
-            ds = models.LENET(
-                TARGETS,
-                path_to_imgs,
-                scanned_path,
-                SIZE,
-                BATCH_N,
-                EPOCHS,
-                BLACK,
-                **kwargs
-            ).MLU.build_dataset(TARGETS, BATCH_N, SIZE, BLACK)
+            ds = models.LENET().MLU.build_dataset()
 
             for img, label in ds.take(1):
                 print(img.shape, label.shape) 
@@ -124,7 +54,7 @@ def main(
 
             import pickle as pkl
 
-            path = f"{os.getcwd()}/AmpliVision/data/ML_perform/histories/history_{TAG}.pkl"
+            path = f"{os.getcwd()}/AmpliVision/data/ML_perform/histories/history_{CONFIG.TAG}.pkl"
             with open(path, "rb") as f:
                 history = pkl.load(f)
                 print( *[f"{k}: {v}" for k, v in history.items()], sep="\n\n")
@@ -136,17 +66,17 @@ def main(
                 'TARGETS' : TARGETS,
                 'path_to_imgs' : path_to_imgs,
                 'scanned_path' : scanned_path,
-                'SIZE' : SIZE,
-                'BATCH_N' : BATCH_N,
-                'EPOCHS' : EPOCHS,
-                'BLACK' : BLACK
+                'SIZE' : CONFIG.SIZE,
+                'BATCH_N' : CONFIG.BATCH_N,
+                'EPOCHS' : CONFIG.EPOCHS,
+                'BLACK' : CONFIG.BLACK
             }
             run_pyod_workflow(kwargs)
 
-def manage_targets(dataset):
+def manage_targets():
     """ assigns targets user wants the CNN to predict in specific datasets """
     
-    dataset = dataset.upper()
+    CONFIG.dataset = dataset.upper()
 
     if "MARKER" in dataset:    
         TAG = 'MARKER'
@@ -173,13 +103,40 @@ def manage_targets(dataset):
 
 
 if __name__ == '__main__':
+
+    if len(sys.argv) < 3:
+        print("ERROR: Not enough arguments, exiting...")
+        print("Usage: python -m AmpliVision <use_case> <dataset> <TAG> <model_name>")
+        print("Example: python -m AmpliVision TRAIN MARKER test_run LENET")
+        exit(1)
+
+    # ----------- USER PARAMETERS (via command line) ------------ #
     use_case = str(sys.argv[1])
     dataset = str(sys.argv[2])
     TAG = sys.argv[3]
     TAG = TAG if TAG else dataset
     model_name = sys.argv[4]
+
     path_to_imgs = f"{os.getcwd()}/AmpliVision/data/{dataset}/*" #scanned/* #scanned_DENV/*"
     scanned_path = f"{os.getcwd()}/AmpliVision/data/{dataset}/"
     
-    print("path_to_imgs: ", path_to_imgs) 
-    main(use_case, path_to_imgs, scanned_path, dataset, TAG, model_name, display=False)
+    # assign correct targets to specific datasets
+    # targets are the classes that the model will predict
+    # the tag is the name you want to give to the trained model
+    TARGETS, _TAG = manage_targets()
+    TAG = TAG if TAG else _TAG
+
+
+    # ----------- INITIALIZE CONFIG OBJECT ---------- #
+    CONFIG.initialize(**{
+        "use_case": use_case,           # Use case to run
+        "dataset": dataset,             # Code name for target labels to be predicted  
+        "TAG": TAG,                     # Name to be given to the trained model
+        "model_name": model_name,       # Model architecture to be used (LENET, ALEXNET, EFFICIENTNETB0, etc)
+        "path_to_imgs": path_to_imgs,   # Path to images to be loaded (Pre-Phase1 scanned images)
+        "scanned_path": scanned_path,   # Path to scanned images (Phase1 scanned images)
+        "TARGETS": TARGETS              # List of target labels to be predicted
+    })
+    CONFIG.display()
+
+    main()

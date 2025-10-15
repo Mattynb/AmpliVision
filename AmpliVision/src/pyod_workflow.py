@@ -22,7 +22,7 @@ def run_pyod_workflow(**kwargs):
         kwargs['EPOCHS'],
         kwargs['BLACK'],
         **kwargs
-    ).MLU.build_dataset(kwargs['TARGETS'], BATCH_N, kwargs['SIZE'], kwargs['BLACK'], OUTLIER=True, contamination=0.1)
+    ).MLU.build_dataset(OUTLIER=True, contamination=0.1)
 
     # split dataset into images and labels
     imgs = []

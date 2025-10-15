@@ -152,7 +152,7 @@ class RuleBasedGenerator:
             for idx, label 
             in enumerate(sorted(targets))
         }
-
+        
         #targets = self.results.keys() if targets is None else targets
       
         # generates one image per target where blocks start in different indexes

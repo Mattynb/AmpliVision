@@ -1,34 +1,24 @@
 """ Functions used across machine learning workflows """
 
-from src.phaseA import *
-from src.phaseB import phaseB
-from src.generators.image_generation.RuleBasedGenerator import RuleBasedGenerator
-
+import os
 import numpy as np
+import pickle as pkl
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-import pickle as pkl
+from src.phaseA import *
+from src.phaseB import phaseB
+from src.config import CONFIG
+from src.generators.image_generation.RuleBasedGenerator import RuleBasedGenerator
 
-import os
+
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 
 class  ML_Utils:
-    def __init__(
-        self, 
-        path_to_imgs,
-        scanned_path,
-        id_str
-        ):
-    
-        self.path_to_imgs = path_to_imgs #"data/scanned/*" #DENV_imgs/*"
-        self.scanned_path = scanned_path #"data/scanned/" 
-        self.id_str = id_str
-
+    def __init__(self):
         self.prepare_image_RBGen()
-
-        self.PlotCallback = self.PlotCallback( id_str )
+        self.PlotCallback = self.PlotCallback()
 
 
     def prepare_image_RBGen(self, display= False):
@@ -39,11 +29,11 @@ class  ML_Utils:
         # then phaseA1 will scan the images and save them to 
         # a new folder named scanned_NAMEOFINPUTFOLDER
         Images = phaseA1(
-            self.path_to_imgs, 
-            self.scanned_path,
+            CONFIG.path_to_imgs, 
+            CONFIG.scanned_path,
             display=display, 
             do_white_balance=False,
-            is_pre_scanned="scanned" in self.path_to_imgs
+            is_pre_scanned= "scanned" in CONFIG.path_to_imgs
         )
     
         # Phase A.2 - Grids
@@ -60,11 +50,9 @@ class  ML_Utils:
 
 
     def build_dataset(
-            self, 
-            TARGETS, 
-            BATCH_N, 
-            SIZE,
-            BLACK = False,
+            self,
+            BATCH_N = CONFIG.BATCH_N,
+            SIZE = CONFIG.SIZE,
             OUTLIER = False,
             contamination = 0.05,
             Keras_Preprocess = False
@@ -76,9 +64,9 @@ class  ML_Utils:
         #save = True if OUTLIER else False # save
 
         _args = [ 
-            TARGETS, # what TARGETS to generate
+            CONFIG.TARGETS, # what TARGETS to generate
             0.05, # noise
-            BLACK, # black background or no
+            CONFIG.BLACK, # black background or no
             True, # rgb
             False, #save
         ]
@@ -91,7 +79,7 @@ class  ML_Utils:
             RBG.generate_for_od if OUTLIER else RBG.generate,  
             output_shapes=(
                 [1242, 1242, 3], 
-                2 if OUTLIER else [len(TARGETS)]
+                2 if OUTLIER else [len(CONFIG.TARGETS)]
             ), 
             output_types=(tf.float32, tf.float32),
             args = _args
@@ -118,22 +106,15 @@ class  ML_Utils:
         return g_dataset
     
 
-    def test_dataset(self):
+    def test_dataset(self, BLACK = True, BATCH_N = 1):
         """ Used to see if data is being generated correctly """
 
         # probably wrong order
         classes = ['lung', 'thyroid', 'ovarian', 'prostate', 'skin', 'control', 'breast']
-        for img, label in self.build_dataset(BATCH_N = 1, BLACK=True).take(1):
+        for img, label in self.build_dataset(BATCH_N, BLACK).take(1):
             print(img.shape) 
             for i, im in enumerate(img):   
                 print(f"\n{classes[np.where(label[i].numpy() == 1)[0][0]]}")
-                #plt.imshow(im)
-                #plt.show()
-
-        #for img, label in self.build_dataset(BATCH_N = 1).take(1):
-        #    print(img.shape) 
-        #    for i, im in enumerate(img):   
-        #        print(f"\n{classes[np.where(label[i].numpy() == 1)[0][0]]}")
                 #plt.imshow(im)
                 #plt.show()
 
@@ -161,10 +142,10 @@ class  ML_Utils:
 
         
     class PlotCallback(tf.keras.callbacks.Callback):
-        def __init__(self, id_str):
+        def __init__(self):
             super(ML_Utils.PlotCallback, self).__init__()
             self.path = f"{os.getcwd()}/AmpliVision/data/"
-            self.id_str = id_str
+            self.id_str = CONFIG.TAG
 
         def on_train_begin(self, logs={}):
             
