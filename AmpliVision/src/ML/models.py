@@ -1,28 +1,115 @@
 import os
 import pickle as pkl
 import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
 
 from src.config import CONFIG
 
 from .utils import ML_Utils
 from .evaluator import test_model_generated
+from ..generators.image_generation.RuleBasedGenerator import RuleBasedGenerator as RBG
 
 
 class workflow:
     """ Workflow parent class for all implemented ML models """
     def __init__(self):
         
-        self.SIZE = self.DEFAULT_SIZE if self.DEFAULT_SIZE else CONFIG.SIZE
+        #self.SIZE = self.DEFAULT_SIZE if self.DEFAULT_SIZE else CONFIG.SIZE
+        self.SIZE = CONFIG.SIZE
 
         print(f"\n\n***********  IMAGE SIZE IS: {self.SIZE} ***********\n\n")
 
         #self.MLU.test_dataset()
 
-    def train_model(self):    
+    def train_model(self):
+        """ Train the model """
+        if self.PACKAGE == "tensorflow":
+            self.train_tf_model()
+        elif self.PACKAGE == "sklearn":
+            self.train_sklearn_model()
+        else:
+            raise NotImplementedError(f"Training not implemented for package: {CONFIG.PACKAGE}")
+
+    def train_sklearn_model(self): 
+        """ Train a sklearn model """
+        ds = self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, generator_only=True)
+        n = 25000 #CONFIG.BATCH_N * CONFIG.STEPS_PER_EPOCH * CONFIG.EPOCHS
+
+        def _gen():
+            X_list = []
+            y_list = []
+            print(f"\nGenerating {n} training data points...") 
+            import time
+            it = time.time()
+            for i, (img, label) in enumerate(ds.generate(CONFIG.TARGETS)):
+
+                X_list.append(img)
+                y_list.append(label)
+                if (i+1) % 10 == 0:
+                    print(f"{i+1}/{n} samples generated. Time elapsed: {time.time() - it:.2f} seconds")
+                    it = time.time()
+                if i+1 >= n:
+                    break
+
+            print(f"Generated {len(X_list)} samples for training.\n")
+
+        def _load():
+            X_list = []
+            y_list = []
+            # loads PNG images as X_list. And assigns labels to y_list based on image names.
+            print("\nLoading training data from disk...")
+            import time
+            it = time.time()
+            for img_name in os.listdir(CONFIG.path_to_store):
+                if img_name.endswith('.png'):
+                    img_path = os.path.join(CONFIG.path_to_store, img_name)
+                    img = plt.imread(img_path)
+                    X_list.append(img)
+
+                    target_label = img_name.split('_')[0]
+                    y_list.append(CONFIG.TARGETS.index(target_label))
+            print(f"Loaded images. Time elapsed: {time.time() - it:.2f} seconds")
+            it = time.time()
+
+            return X_list, y_list
+            
+                
+        X_list, y_list = _load()
+
+
+        # 0. Preprocess data if needed (flatten images for RandomForest)
+        X = np.array(X_list)
+        #X_flat = X.reshape(X.shape[0], -1)  
+        # Flatten images with PCA
+        from sklearn.decomposition import PCA
+        pca = PCA(n_components=100)  # Adjust n_components as needed
+        X_flat = pca.fit_transform(X.reshape(X.shape[0], -1))
+        y = np.array(y_list)
+        #y = np.argmax(y, axis=1)
+        
+        print(f"training data shape: {X_flat.shape}, labels shape: {y.shape}")
+
+        # 1. Split the data
+        from sklearn.model_selection import train_test_split
+        X_train, X_val, y_train, y_val = train_test_split(
+            X_flat, y, test_size=0.2, random_state=42
+        )
+
+        # 2. Fit the model
+        self.model.fit(X_train, y_train)
+
+        # 3. Evaluate
+        val_accuracy = self.model.score(X_val, y_val)
+        print(f"Validation Accuracy: {val_accuracy*100:.2f}%")
+        print("Training completed.")
+
+
+    def train_tf_model(self):    
         import datetime
         import time
 
-        model_save_name = f"{CONFIG.TAG}_{datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        model_save_name = f"{CONFIG.TAG}_{datetime.datetime.now().strftime('%Y_%m_%d_%H')}"
 
         """
         checkpoint = tf.keras.callbacks.ModelCheckpoint(
@@ -56,7 +143,7 @@ class workflow:
         print(f"Training completed in: {inference_time/60:.2f} minutes")    
 
         # Save model
-        #self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{model_save_name}")
+        self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{model_save_name}.keras")
     
         # Save history
         #with open(f"{os.getcwd()}/AmpliVision/data/ML_models/history_{model_save_name}.pkl", 'wb') as file_pi:
@@ -87,7 +174,7 @@ class workflow:
     
 
 class LENET(workflow):
-    
+    PACKAGE = "tensorflow"
     DEFAULT_SIZE = (1024, 1024)  # Default size for LENET if not specified
 
     def __init__(self):
@@ -98,14 +185,26 @@ class LENET(workflow):
 
     def build_model(self):
         model = tf.keras.Sequential()
-        model.add(tf.keras.layers.Conv2D(filters=6, kernel_size=(3, 3), activation='relu', input_shape=tuple([self.SIZE[0], self.SIZE[1], 3])))
+
+        # Layer 1: Convolutional + Average Pooling (square)
+        model.add(tf.keras.layers.Conv2D(
+            filters=6, 
+            kernel_size=(3, 3), 
+            activation='relu', 
+            input_shape=tuple([self.SIZE[0], self.SIZE[1], 3]))
+        )
         model.add(tf.keras.layers.AveragePooling2D((2,2)))
+        
+        # Layer 2: Convolutional + Average Pooling ()
         model.add(tf.keras.layers.Conv2D(filters=16, kernel_size=(3, 3), activation='relu'))
         model.add(tf.keras.layers.AveragePooling2D((2,2)))
+        
         model.add(tf.keras.layers.Flatten())
+        
         model.add(tf.keras.layers.Dense(units=120, activation='relu'))
         model.add(tf.keras.layers.Dense(units=84, activation='relu'))
         model.add(tf.keras.layers.Dense(units=len(CONFIG.TARGETS), activation = 'softmax'))
+        
         model.compile(
             optimizer = "adam", #tf.keras.optimizers.Adam(learning_rate=0.001),
             loss = 'categorical_crossentropy',
@@ -118,6 +217,7 @@ class LENET(workflow):
         )
         model.summary()
         self.model = model  
+        return model
 
 # You can implement other models bellow based on the LENET model class
 
@@ -125,6 +225,7 @@ class LENET(workflow):
 # AlexNet
 class ALEXNET(workflow):
 
+    PACKAGE="tensorflow"
     DEFAULT_SIZE = (227, 227)  # AlexNet standard input size
 
     def __init__(self):
@@ -144,22 +245,21 @@ class ALEXNET(workflow):
             activation='relu', 
             input_shape=tuple([self.SIZE[0], self.SIZE[1], 3]))
         )
-        model.add(tf.keras.layers.MaxPool2D((3, 3), strides=(2,2)))
+        model.add(tf.keras.layers.MaxPool2D((2, 2)))
 
         # Convolutional 5x5 kernel, 1 stride, 256 filters
         model.add(tf.keras.layers.Conv2D(
-            filters=256, 
-            kernel_size=(5, 5),
-            strides=(1,1),
+            filters=16, 
+            kernel_size=(3, 3),
             activation='relu'),
             #padding='same' # same size as previous layer
         )
-        model.add(tf.keras.layers.MaxPooling2D((3, 3), strides=(2,2)))
+        model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 
         # Convolutional 3x3 kernel, 1 stride, 384 filters
         model.add(tf.keras.layers.Conv2D(
             filters=384, 
-            kernel_size=(3, 3), 
+            kernel_size=(2, 2), 
             strides=(1, 1), 
             activation='relu', 
             #padding='same'
@@ -180,17 +280,13 @@ class ALEXNET(workflow):
             activation='relu', 
             #padding='same'
         ))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(3, 3), strides=(2, 2)))
-        
-        
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))#, strides=(2, 2)))
         model.add(tf.keras.layers.Flatten())
 
-        model.add(tf.keras.layers.Dense(units=4096, activation='relu'))
-        model.add(tf.keras.layers.Dropout(0.5))
-
-        model.add(tf.keras.layers.Dense(units=4096, activation='relu'))
-        model.add(tf.keras.layers.Dropout(0.5))
-
+        model.add(tf.keras.layers.Dense(units=120, activation='relu'))
+        #model.add(tf.keras.layers.Dropout(0.5))
+        model.add(tf.keras.layers.Dense(units=84, activation='relu'))
+        #model.add(tf.keras.layers.Dropout(0.5))
         model.add(tf.keras.layers.Dense(units=len(CONFIG.TARGETS), activation = 'softmax'))
         
         model.compile(
@@ -205,6 +301,27 @@ class ALEXNET(workflow):
         )
         model.summary()
         self.model = model  
+        return model
+
+
+class RandomForest(workflow):
+    """ Random Forest Classifier Model """
+
+    PACKAGE = "sklearn"
+    DEFAULT_SIZE = CONFIG.SIZE
+
+    def __init__(self):
+        super().__init__() 
+        self.MLU = ML_Utils()
+         
+    def build_model(self):
+        from sklearn.ensemble import RandomForestClassifier
+        self.model = RandomForestClassifier(
+            n_estimators=100,
+            criterion='gini',
+            max_depth=None,
+            random_state=42
+        )
 
 #************#
 
@@ -215,7 +332,8 @@ class KerasModelBase(workflow):
     Base class to dynamically load and implement any Keras Application model.
     Child classes only need to DEFAULT_SIZE.
     """
-    
+
+    PACKAGE = "tensorflow"
     def __init__(self):
         # Initialize the base class with common parameters
         super().__init__() 
@@ -273,6 +391,7 @@ class KerasModelBase(workflow):
 
         model.summary()
         self.model = model
+        return model
 
 
 #https://peterbbryan.medium.com/avoiding-a-keras-applications-pitfall-58156a01115f

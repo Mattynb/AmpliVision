@@ -14,12 +14,14 @@ import os
 from networkx import DiGraph
 from math import ceil
 
+from src.config import CONFIG
+
 
 class RuleBasedGenerator:
     def __init__(self, graphs: DiGraph, results: dict[dict[dict[list[int]]]], **kwargs):
         """"""
         self.components_path = f"{os.getcwd()}/AmpliVision/data/test_components"
-        self.save_path = f"{os.getcwd()}/AmpliVision/data/generated_images"
+        self.save_path = CONFIG.path_to_store #f"{os.getcwd()}/AmpliVision/data/generated_images"
 
         # if kwargs has jupyter bool set to True, then do different path. RBG(targets, graphs, results, jupyter=True)
         if 'jupyter' in kwargs:
@@ -110,7 +112,7 @@ class RuleBasedGenerator:
             print(i,' - ', target)
             print("-"*20, "GENENERATING SINGLE" ,"-"*20)
             img = self.generate_single_image(
-                image_content, target, rotation, noise, rgb, save, black_background, True
+                image_content, target, rotation, noise, rgb, black_background, True
             )
             batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
             batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
@@ -125,26 +127,34 @@ class RuleBasedGenerator:
         
     def generate(
             self, 
-            targets: list[str] = None, 
+            targets: list[str] = CONFIG.TARGETS, 
             noise: int = 0.03, 
             black_background: bool = False,
             rotation: int = None, 
-            rgb: bool = True,
-            save: bool = False
+            rgb: bool = True
         ):
         # will need to be broken into functions but the idea is:
         """
         generate a bunch of test images with no spots 
         then pass them through phaseA/B and paint them there
+
+        params:
+        targets: list of target labels to generate images for
+        noise: amount of noise to add to the image
+        black_background: whether to make the background black or not
+        rotation: rotation to apply to the image (0, 1, 2, 3) for (0, 90, 180, 270 degrees)
+        rgb: whether to output in rgb or bgr
+        output: 'tensor' to output as tf tensor, 'numpy' to output as numpy
         """
 
         #print("-"*50, "\nRule Based Generator\n", "-"*50)
 
         # to play nice with tensorflow
-        try:
-            targets = [target.decode('utf-8') for target in targets]
-        except AttributeError:
-            pass
+        if CONFIG.GEN_IMG_FORM == 'tensor':
+            try:
+                targets = [target.decode('utf-8') for target in targets]
+            except AttributeError:
+                pass
 
         # overriding label_mapping 
         self.label_mapping = {
@@ -152,6 +162,7 @@ class RuleBasedGenerator:
             for idx, label 
             in enumerate(sorted(targets))
         }
+        print("OVERRIDDEN LABEL MAPPING: ",self.label_mapping)
         
         #targets = self.results.keys() if targets is None else targets
       
@@ -165,10 +176,19 @@ class RuleBasedGenerator:
             image_content = random.choice(blank_images) # random index choice. Room for performance optimization here
             
             img = self.generate_single_image(
-                image_content, target, rotation, noise, rgb, save, black_background
+                image_content, target, rotation, noise, rgb, black_background
             )
-            batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
-            batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
+
+            
+            if CONFIG.GEN_IMG_FORM == 'tensor': 
+                batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
+                batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
+            elif CONFIG.GEN_IMG_FORM == 'numpy':
+                batch_images = np.array(img[0], dtype=np.float32)
+                batch_labels = np.array(img[1], dtype=np.float32)
+            else:
+                raise ValueError("output must be 'tensor' or 'numpy'")
+           
             yield batch_images, batch_labels
            
             i = 0 if i == len(targets)-1 else i + 1
@@ -180,8 +200,7 @@ class RuleBasedGenerator:
             target, 
             rotation, 
             noise, 
-            rgb, 
-            save,
+            rgb,
             black_background,
             for_outlier = False,
         ):
@@ -202,10 +221,10 @@ class RuleBasedGenerator:
         img = self.rotate_image(img, rotation)
 
         # bgr to rgb
-        img = cv.cvtColor(img, cv.COLOR_BGR2RGB) if rgb else img
+        img = cv.cvtColor(img, cv.COLOR_RGB2BGR) if not rgb else img
 
         # save the painted image in all possible orientations
-        self.save_augmented_images(Grid, 1, img=img) if save else None
+        self.save_augmented_images(Grid, 1, img=img) if CONFIG.SAVE else None
 
         # one-hot encoding
         if for_outlier:
@@ -231,7 +250,7 @@ class RuleBasedGenerator:
             for image_name, grid in Grids.items():
                 img = grid.img if img is None else img
                 noisy_img = self.add_noise(img, percent=0.05)
-                cv.imwrite(f"{self.save_path}/final/{image_name}_{random.randint(0,10000)}.png", noisy_img)
+                cv.imwrite(f"{self.save_path}/{image_name}_{random.randint(0,10000)}.png", noisy_img)
 
     def paint_spots(self, Grids, results, black_background = False):
         for image_name, grid in Grids.items():

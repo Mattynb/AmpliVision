@@ -55,12 +55,16 @@ class  ML_Utils:
             SIZE = CONFIG.SIZE,
             OUTLIER = False,
             contamination = 0.05,
-            Keras_Preprocess = False
+            Keras_Preprocess = False,
+            generator_only = False
         ):
         """ Creates a dataset using rule based generator to work with tensor flow """
 
         RBG = RuleBasedGenerator(self.graphs, self.results)
         RBG.setup()
+        if generator_only:
+            return RBG
+
         #save = True if OUTLIER else False # save
 
         _args = [ 

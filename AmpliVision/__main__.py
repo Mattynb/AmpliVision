@@ -9,7 +9,7 @@ from src.pyod_workflow import run_pyod_workflow
 from src.config import CONFIG
 
 
-def main() -> None:
+def main():
     print(f" --- Running {use_case} --- ")
 
     match use_case.upper():
@@ -39,16 +39,49 @@ def main() -> None:
             "checking if data is correct by displaying one image of each class. Should be run in jupyter notebook"
 
             ds = models.LENET().MLU.build_dataset()
-
-            for img, label in ds.take(1):
+            
+            i = 0
+            for img, label in ds.take(7):
                 print(img.shape, label.shape) 
                 print("label: ", label)
                 try: 
-                    plt.imshow(img[0])
-                    plt.show()
+                    plt.imsave(f"sanity_test_img_{i}.png", img[0].numpy())
+                    #plt.imshow(img[0])
+                    #plt.show()
+                    i += 1
                 except Exception as e:
                     print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
         
+        case 'VISUALIZE':
+            """ Visualize feature maps of convolutional layers for a given image using a trained model """
+            from src.ML.visuals import visualize_feature_maps
+            
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+
+            #trained_model = model_class().build_model()
+
+            #H, W = tuple(CONFIG.SIZE)
+            #input_shape_with_batch = (None, H, W, 3) 
+    
+            # Explicitly build the Sequential model so 'model.input' is defined.
+            #trained_model.build(input_shape=input_shape_with_batch)
+
+            # load trained model from disk. the 
+            from tensorflow.keras.models import load_model
+
+            path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/TRANSF_512s32b1e25ts1vs_ALEXNET_2025_10_28_14.keras"
+            trained_model = load_model(path)
+
+            sample_image_path = f"{CONFIG.path_to_store}/thyroid_9999.png"  # Replace
+            visualize_feature_maps(trained_model, sample_image_path, tuple(CONFIG.SIZE))
+
+        case 'TUNING':
+            "Hyperparameter tuning using Keras Tuner"
+            
+
         case 'HISTORY':
             "display training history after training"
 
@@ -74,6 +107,7 @@ def main() -> None:
             run_pyod_workflow(kwargs)
 
 def manage_targets():
+    
     """ assigns targets user wants the CNN to predict in specific datasets """
     
     CONFIG.dataset = dataset.upper()
@@ -96,9 +130,6 @@ def manage_targets():
         print("ERROR: Unsupported Workflow Run, use \"MARKER\", \"_\" as sys.argv[2] or implement the new target, exiting...")
         exit(1) 
 
-    print(f"------------- {TAG} Workflow Run --------------")
-    print(f"{TAG} TARGETS: {TARGETS}")
-
     return TARGETS, TAG
 
 
@@ -115,7 +146,7 @@ if __name__ == '__main__':
     dataset = str(sys.argv[2])
     TAG = sys.argv[3]
     TAG = TAG if TAG else dataset
-    model_name = sys.argv[4]
+    model_name = sys.argv[4] if len(sys.argv) > 4 else CONFIG.model_name
 
     path_to_imgs = f"{os.getcwd()}/AmpliVision/data/{dataset}/*" #scanned/* #scanned_DENV/*"
     scanned_path = f"{os.getcwd()}/AmpliVision/data/{dataset}/"
