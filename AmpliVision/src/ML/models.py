@@ -7,20 +7,15 @@ import matplotlib.pyplot as plt
 from src.config import CONFIG
 
 from .utils import ML_Utils
-from .evaluator import test_model_generated
+from .evaluator import test_model_generated, test_model_
 from ..generators.image_generation.RuleBasedGenerator import RuleBasedGenerator as RBG
 
 
 class workflow:
     """ Workflow parent class for all implemented ML models """
     def __init__(self):
-        
-        #self.SIZE = self.DEFAULT_SIZE if self.DEFAULT_SIZE else CONFIG.SIZE
-        self.SIZE = CONFIG.SIZE
-
-        print(f"\n\n***********  IMAGE SIZE IS: {self.SIZE} ***********\n\n")
-
-        #self.MLU.test_dataset()
+        pass
+        #ML_Utils()#.test_dataset()
 
     def train_model(self):
         """ Train the model """
@@ -106,35 +101,48 @@ class workflow:
 
 
     def train_tf_model(self):    
-        import datetime
         import time
 
-        model_save_name = f"{CONFIG.TAG}_{datetime.datetime.now().strftime('%Y_%m_%d_%H')}"
-
-        """
+        
         checkpoint = tf.keras.callbacks.ModelCheckpoint(
-            filepath=os.path.abspath(f"{os.getcwd()}/AmpliVision/data/ML_models/{model_save_name}"),
+            filepath=os.path.abspath(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras"),
             save_weights_only=False,
             monitor='val_accuracy',
             mode='auto',
             save_best_only=True, 
             save_freq='epoch',
-        )"""
+        )
+
+        early_stop = tf.keras.callbacks.EarlyStopping(
+            monitor='val_accuracy',
+            mode='max',
+            patience=5,
+            min_delta=0.001,
+            restore_best_weights=True
+        )
 
         callbacks = [
             self.MLU.PlotCallback,
+            #early_stop,
             #checkpoint
         ]
 
-        g_dataset = self.MLU.build_dataset(CONFIG.BATCH_N, self.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
-        v_dataset = self.MLU.build_dataset(int((CONFIG.BATCH_N*0.5)), self.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
+        if CONFIG.TRAIN_DATASET == "GEN":
+            print("\nUsing generated dataset for training...")
+            train_dataset = self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase), BLACK=CONFIG.BLACK)
+            validate_dataset = self.MLU.build_dataset(int((CONFIG.BATCH_N*0.5)), CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
 
+        elif CONFIG.TRAIN_DATASET == "LOAD":
+            print("\nUsing loaded dataset for training...")
+            train_dataset, validate_dataset = self.MLU.load_dataset(Keras_Preprocess=isinstance(self, KerasModelBase))
+        
         inference_time = time.time()
         with tf.device('/GPU:0'):
-            self.history = self.model.fit(
-                g_dataset,
+            #self.history = 
+            self.model.fit(
+                train_dataset,
                 epochs=CONFIG.EPOCHS,
-                validation_data=g_dataset,
+                validation_data=validate_dataset,
                 steps_per_epoch=CONFIG.STEPS_PER_EPOCH,
                 validation_steps=CONFIG.VALIDATION_STEPS,
                 callbacks = callbacks
@@ -143,33 +151,59 @@ class workflow:
         print(f"Training completed in: {inference_time/60:.2f} minutes")    
 
         # Save model
-        self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{model_save_name}.keras")
-    
+        self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras")
+
         # Save history
         #with open(f"{os.getcwd()}/AmpliVision/data/ML_models/history_{model_save_name}.pkl", 'wb') as file_pi:
         #    pkl.dump(self.history.history, file_pi)
 
+        return self.model
 
     def test_model(self):
         """ Test a trained model """
 
-        path = f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}"
-        model = tf.keras.models.load_model(path)
+        path = f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras"
+        #model = tf.keras.models.load_model(path)
+        #model = self.model
 
-        dataset =  self.MLU.build_dataset(CONFIG.TARGETS, CONFIG.BATCH_N, self.SIZE, CONFIG.BLACK)
-        
-        test_model_generated(
-            dataset,
-            model,
-            CONFIG.TARGETS,
-            CONFIG.TAG
-        )
+        # FIX: Check if model is in memory, otherwise safely load with the REAL function
+        if hasattr(self, 'model') and self.model is not None:
+            print("\n--- Using in-memory trained model ---")
+            model = self.model
+        else:
+            print("\n--- Loading model from disk safely ---")
+            # Fetch the actual Keras preprocessing function for this specific model
+            import inspect
+            model_constructor = get_model(CONFIG.model_name)
+            real_preprocess_function = inspect.getmodule(model_constructor).preprocess_input
+            
+            # Inject it into the custom_objects registry during load
+            model = tf.keras.models.load_model(
+                path, 
+                custom_objects={'preprocess_input': real_preprocess_function}
+            )
+
+        print(model.summary())
+
+        # real data
+        print("\n\n--- Testing model with 84 SCANNED images ---\n")
+        CONFIG.TEST_DATASET = "MARKER"
+        test_model_(model)
+
+        # synthetic 
+        CONFIG.BATCH_N = 7
+        dataset =  self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
+
+        print(f"\n\n--- Testing model with {CONFIG.BATCH_N} GENERATED images ---\n")
+        CONFIG.TEST_DATASET = "GENERATED"
+        test_model_generated(dataset,model)
 
 
     def run(self):
         self.build_model()
         self.train_model()
-        return self # for chaining
+        self.test_model()
+        return self.model # for chaining
 
     
 
@@ -179,7 +213,7 @@ class LENET(workflow):
 
     def __init__(self):
         super().__init__() 
-        #f"{kwargs['TARGET_NAME']}{CONFIG.model_name}_Sz{self.SIZE}_Bn{CONFIG.BATCH_N}_Ep{CONFIG.EPOCHS}{'_BLACK' if CONFIG.BLACK else ''}"
+        #f"{kwargs['TARGET_NAME']}{CONFIG.model_name}_Sz{CONFIG.SIZE}_Bn{CONFIG.BATCH_N}_Ep{CONFIG.EPOCHS}{'_BLACK' if CONFIG.BLACK else ''}"
         self.MLU = ML_Utils()
     
 
@@ -191,33 +225,89 @@ class LENET(workflow):
             filters=6, 
             kernel_size=(3, 3), 
             activation='relu', 
-            input_shape=tuple([self.SIZE[0], self.SIZE[1], 3]))
+            input_shape=tuple([CONFIG.SIZE[0], CONFIG.SIZE[1], 3]))
         )
         model.add(tf.keras.layers.AveragePooling2D((2,2)))
         
         # Layer 2: Convolutional + Average Pooling ()
-        model.add(tf.keras.layers.Conv2D(filters=16, kernel_size=(3, 3), activation='relu'))
+        model.add(tf.keras.layers.Conv2D(filters=15, kernel_size=(3, 3), activation='relu'))
         model.add(tf.keras.layers.AveragePooling2D((2,2)))
         
-        model.add(tf.keras.layers.Flatten())
+        model.add(tf.keras.layers.GlobalAveragePooling2D())
         
-        model.add(tf.keras.layers.Dense(units=120, activation='relu'))
-        model.add(tf.keras.layers.Dense(units=84, activation='relu'))
+        model.add(tf.keras.layers.Dense(units=64, activation='relu'))
+        model.add(tf.keras.layers.Dense(units=96, activation='relu'))
         model.add(tf.keras.layers.Dense(units=len(CONFIG.TARGETS), activation = 'softmax'))
         
         model.compile(
-            optimizer = "adam", #tf.keras.optimizers.Adam(learning_rate=0.001),
+            optimizer = tf.keras.optimizers.Adam(learning_rate=0.01),
             loss = 'categorical_crossentropy',
             metrics = [
                 'accuracy', 
                 'AUC',
-                tf.keras.metrics.F1Score(average=None, threshold=None, name='f1_score', dtype=None)
-
+                tf.keras.metrics.F1Score(average='macro', threshold=None, name='f1_score', dtype=None)
             ]
         )
         model.summary()
         self.model = model  
         return model
+
+    def model_builder(self, hp):
+        """
+        Builds and compiles a Keras Sequential model for Keras Tuner hyperparameter search.
+        
+        Args:
+            hp (kerastuner.HyperParameters): The hyperparameter search space object."""
+        
+        model = tf.keras.Sequential()
+
+        # --- 1. Tunable Convolutional Block 1 ---
+        model.add(tf.keras.layers.Conv2D(
+            # Tune the number of filters in the first layer (6 in original)
+            filters=hp.Int('filters_1', min_value=1, max_value=12, step=1),
+            kernel_size=(3, 3), 
+            activation='relu', 
+            input_shape=tuple([CONFIG.SIZE[0], CONFIG.SIZE[1], 3])
+        ))
+        model.add(tf.keras.layers.AveragePooling2D((2,2)))
+        
+        # --- 2. Tunable Convolutional Block 2 ---
+        model.add(tf.keras.layers.Conv2D(
+            # Tune the number of filters in the second layer (16 in original)
+            filters=hp.Int('filters_2', min_value=3, max_value=15, step=3), 
+            kernel_size=(3, 3),
+            activation='relu'
+        ))
+        model.add(tf.keras.layers.AveragePooling2D((2,2)))
+        
+        model.add(tf.keras.layers.GlobalAveragePooling2D())
+
+        # --- 3. Tunable Dense Layers ---
+        model.add(tf.keras.layers.Dense(
+            # Tune the size of the first dense layer (120 in original)
+            units=hp.Int('dense_units_1', min_value=32, max_value=256, step=32), 
+            activation='relu')
+        )   
+        model.add(tf.keras.layers.Dense(units=hp.Int('dense_units_2', min_value=32, max_value=120, step=32), activation='relu'))
+        model.add(tf.keras.layers.Dense(units=len(CONFIG.TARGETS), activation='softmax'))
+        
+        # --- 4. Tunable Optimization Parameters ---
+        # Tune the learning rate for the Adam optimizer
+        learning_rate = hp.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4])
+        
+        model.compile(
+            optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+            loss='categorical_crossentropy',
+            metrics=[
+                'accuracy', 
+                'AUC',
+                tf.keras.metrics.F1Score(average='macro', threshold=None, name='f1_score', dtype=None)
+            ]
+        )
+        
+        return model
+    
+
 
 # You can implement other models bellow based on the LENET model class
 
@@ -230,59 +320,34 @@ class ALEXNET(workflow):
 
     def __init__(self):
         super().__init__() 
-        #f"{kwargs['TARGET_NAME']}{CONFIG.model_name}_Sz{self.SIZE}_Bn{CONFIG.BATCH_N}_Ep{CONFIG.EPOCHS}{'_BLACK' if CONFIG.BLACK else ''}"
+        #f"{kwargs['TARGET_NAME']}{CONFIG.model_name}_Sz{CONFIG.SIZE}_Bn{CONFIG.BATCH_N}_Ep{CONFIG.EPOCHS}{'_BLACK' if CONFIG.BLACK else ''}"
         self.MLU = ML_Utils()
 
 
     def build_model(self):
         model = tf.keras.Sequential()
-    
-        #  Convolutional 11x11 kernel, 4 stride, 96 filters
+
+        # 1% 
         model.add(tf.keras.layers.Conv2D(
-            filters=96, 
-            kernel_size=(11, 11), 
-            strides=(4,4),
+            filters=3, 
+            kernel_size=(3,3),
+            padding='valid',
             activation='relu', 
-            input_shape=tuple([self.SIZE[0], self.SIZE[1], 3]))
+            input_shape=tuple([CONFIG.SIZE[0], CONFIG.SIZE[1], 3]))
         )
         model.add(tf.keras.layers.MaxPool2D((2, 2)))
 
-        # Convolutional 5x5 kernel, 1 stride, 256 filters
         model.add(tf.keras.layers.Conv2D(
-            filters=16, 
+            filters=3, 
             kernel_size=(3, 3),
-            activation='relu'),
-            #padding='same' # same size as previous layer
+            strides=(1,1),
+            activation='relu',
+            padding='same') # same size as previous layer
         )
         model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 
-        # Convolutional 3x3 kernel, 1 stride, 384 filters
-        model.add(tf.keras.layers.Conv2D(
-            filters=384, 
-            kernel_size=(2, 2), 
-            strides=(1, 1), 
-            activation='relu', 
-            #padding='same'
-        ))
-
-        model.add(tf.keras.layers.Conv2D(
-            filters=384, 
-            kernel_size=(3, 3), 
-            strides=(1, 1), 
-            activation='relu', 
-            #padding='same'
-        ))
-
-        model.add(tf.keras.layers.Conv2D(
-            filters=256, 
-            kernel_size=(3, 3), 
-            strides=(1, 1), 
-            activation='relu', 
-            #padding='same'
-        ))
-        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))#, strides=(2, 2)))
         model.add(tf.keras.layers.Flatten())
-
+        # conect to the flattened layer shape
         model.add(tf.keras.layers.Dense(units=120, activation='relu'))
         #model.add(tf.keras.layers.Dropout(0.5))
         model.add(tf.keras.layers.Dense(units=84, activation='relu'))
@@ -295,12 +360,85 @@ class ALEXNET(workflow):
             metrics = [
                 'accuracy', 
                 'AUC',
-                tf.keras.metrics.F1Score(average=None, threshold=None, name='f1_score', dtype=None)
+                tf.keras.metrics.F1Score(average='macro', threshold=None, name='f1_score', dtype=None)
 
             ]
         )
         model.summary()
         self.model = model  
+        return model
+
+
+    def model_builder(self, hp):
+        """
+        Builds and compiles a Keras Sequential model for Keras Tuner hyperparameter search.
+        
+        Args:
+            hp (kerastuner.HyperParameters): The hyperparameter search space object.
+            input_shape (tuple): The shape of the input image (H, W, 3).
+            
+        Returns:
+            tf.keras.Model: The compiled Keras model.
+        """
+        model = tf.keras.Sequential()
+
+        # --- 1. Tunable Convolutional Block 1 ---
+        model.add(tf.keras.layers.Conv2D(
+            # Tune the number of filters in the first layer (96 in original)
+            filters=hp.Int('filters_1', min_value=64, max_value=128, step=32),
+            kernel_size=(11, 11), 
+            strides=(4,4),
+            activation='relu', 
+            input_shape=tuple([CONFIG.SIZE[0], CONFIG.SIZE[1], 3])
+        ))
+        model.add(tf.keras.layers.MaxPool2D((2, 2)))
+
+        # --- 2. Tunable Convolutional Block 2 ---
+        model.add(tf.keras.layers.Conv2D(
+            # Tune the number of filters in the second layer (16 in original)
+            filters=hp.Int('filters_2', min_value=16, max_value=64, step=16), 
+            kernel_size=(3, 3),
+            activation='relu'
+        ))
+        model.add(tf.keras.layers.MaxPooling2D((2, 2)))
+
+        # --- 3. Fixed/Semi-Tunable Deeper Convs (Example of fixed architecture) ---
+        # The original model structure is kept, but could be made tunable if desired
+        model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=(2, 2), strides=(1, 1), activation='relu'))
+        model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
+        model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2)))
+        model.add(tf.keras.layers.Flatten())
+
+        # --- 4. Tunable Dense Layers ---
+        model.add(tf.keras.layers.Dense(
+            # Tune the size of the first dense layer (120 in original)
+            units=hp.Int('dense_units_1', min_value=64, max_value=256, step=32), 
+            activation='relu')
+        )
+        # Add optional/tunable Dropout
+        if hp.Boolean("dropout_1"):
+            model.add(tf.keras.layers.Dropout(
+                hp.Float('dropout_rate_1', min_value=0.2, max_value=0.5, step=0.1))
+            )
+            
+        model.add(tf.keras.layers.Dense(units=84, activation='relu'))
+        model.add(tf.keras.layers.Dense(units=len(CONFIG.TARGETS), activation='softmax'))
+        
+        # --- 5. Tunable Optimization Parameters ---
+        # Tune the learning rate for the Adam optimizer
+        learning_rate = hp.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4])
+        
+        model.compile(
+            optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+            loss='categorical_crossentropy',
+            metrics=[
+                'accuracy', 
+                'AUC',
+                tf.keras.metrics.F1Score(average='macro', threshold=None, name='f1_score', dtype=None)
+            ]
+        )
+        
         return model
 
 
@@ -324,6 +462,15 @@ class RandomForest(workflow):
         )
 
 #************#
+"""
+@tf.keras.utils.register_keras_serializable()
+def preprocess_input(x):
+    #Placeholder function required for Keras Lambda layer deserialization.
+    # Note: This specific function is never executed. 
+    # The actual preprocessing is handled by the dynamic function inside 
+    # the elegant_keras_applications_constructor logic.
+    return x
+"""
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
@@ -354,7 +501,7 @@ class KerasModelBase(workflow):
         except AttributeError:
             raise ImportError(f"Could not find {CONFIG.model_name} model at {import_path}. Check TensorFlow version or model name.")
 
-        input_shape = tuple([self.SIZE[0], self.SIZE[1], 3])
+        input_shape = tuple([CONFIG.SIZE[0], CONFIG.SIZE[1], 3])
 
         model_constructor_kwargs = {
             "include_top": include_top,
@@ -369,25 +516,22 @@ class KerasModelBase(workflow):
             input_shape=input_shape
         )
         
-        x = base_model.output
         if not include_top:
-            x = GlobalAveragePooling2D()(x)
-            x = Dense(256, activation='relu')(x)
-            x = Dropout(0.5)(x)  # Optional dropout layer for regularization
+            x = GlobalAveragePooling2D()(base_model.output)
+            x = Dense(120, activation='relu')(x)
+            x = Dropout(0.2)(x)
+            x = Dense(84, activation='relu')(x)
+            x = Dropout(0.2)(x)
             predictions = Dense(len(CONFIG.TARGETS), activation='softmax')(x)
             model = Model(inputs=base_model.input, outputs=predictions)
         else:
             model = base_model
         
-        model.compile(
-            optimizer = "adam",
-            loss = 'categorical_crossentropy',
-            metrics = [
-                'accuracy',
-                'AUC',
-                tf.keras.metrics.F1Score(average=None, threshold=None, name='f1_score', dtype=None)
-            ]
-        )
+        # remove learning_rate 
+        model_params = CONFIG.MODEL_PARAMS.copy()
+        model_params.pop("learning_rate", None)
+        print(f"Compiling model with parameters: {model_params}")
+        model.compile(**model_params)
 
         model.summary()
         self.model = model
@@ -462,7 +606,7 @@ def elegant_keras_applications_constructor(
     
     # Freeze the base model (transfer learning)
     for layer in model.layers:
-        layer.trainable = False
+        layer.trainable = True
 
     return model
 

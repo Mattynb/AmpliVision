@@ -36,9 +36,6 @@ def phaseA1(
     scanned_images = {}
     for idx, image in enumerate(images):
 
-        if display:
-            pass  # display_img(image, 0, '1')
-
         # skip seen files
         if seen_file(idx, scanned_path) and not is_pre_scanned:
             continue
@@ -49,6 +46,7 @@ def phaseA1(
 
         # skip if unable to scan image
         if image_scan is None:
+            print(f"Unable to scan image {path_to_imgs}{image_name}, skipping...")
             continue
 
         scanned_images[image_name] = image_scan

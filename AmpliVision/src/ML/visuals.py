@@ -91,7 +91,7 @@ def visualize_feature_maps(model: tf.keras.Model, img_path: str, target_size: tu
             axes.flat[j].axis('off')
 
         plt.tight_layout(rect=[0, 0, 1, 0.98]) # Adjust layout for suptitle
-        fig.savefig(f"{CONFIG.model_name}_feature_maps_{layer_name}.png", dpi=150)
+        fig.savefig(f"{CONFIG.model_name}_2_feature_maps_{layer_name}.png", dpi=150)
 
 # Example of how to use the function (REQUIRES a built/trained model and an image)
 # Note: You need to have the LENET class, a trained model instance, and an image file.

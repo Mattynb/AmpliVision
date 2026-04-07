@@ -23,12 +23,6 @@ class RuleBasedGenerator:
         self.components_path = f"{os.getcwd()}/AmpliVision/data/test_components"
         self.save_path = CONFIG.path_to_store #f"{os.getcwd()}/AmpliVision/data/generated_images"
 
-        # if kwargs has jupyter bool set to True, then do different path. RBG(targets, graphs, results, jupyter=True)
-        if 'jupyter' in kwargs:
-            self.components_path = f"{os.getcwd()}/data/test_components" 
-            self.save_path = f"{os.getcwd()}/data/generated_images"
-
-
         self.results = self.validate_results(results)
         self.graphs = self.validate_graphs(graphs)
 
@@ -43,7 +37,6 @@ class RuleBasedGenerator:
     def setup(self, starting_indexes: list[tuple[int]] = None):
         # taking the first graph as they should be the same
         di_graph = self.graphs[0]
-        self.results
 
         # meant to avoid duplicate images after augmentation 
         # (rotation, flippin, etc)      
@@ -59,7 +52,7 @@ class RuleBasedGenerator:
         #self.clear_folder(f"{self.save_path}/final")
 
         unique_labels = self.results.keys()
-        print(f"unique_labels = {unique_labels}")
+        print(f"unique_labels = {sorted(unique_labels)}")
         self.label_mapping = {
             label: idx 
             for idx, label 
@@ -109,8 +102,8 @@ class RuleBasedGenerator:
             rotation = random.randint(0, 3) 
             
             image_content = random.choice(blank_images)
-            print(i,' - ', target)
-            print("-"*20, "GENENERATING SINGLE" ,"-"*20)
+            #print(i,' - ', target)
+            #print("-"*20, "GENENERATING SINGLE" ,"-"*20)
             img = self.generate_single_image(
                 image_content, target, rotation, noise, rgb, black_background, True
             )
@@ -122,7 +115,7 @@ class RuleBasedGenerator:
            
             i = 0 if i == len(targets) - 1 else i + 1
             j += 1
-            print("-"*20,"SINGLE DONE in ", f"{round(time.time() - t, 2)} s","-"*20)
+            #print("-"*20,"SINGLE DONE in ", f"{round(time.time() - t, 2)} s","-"*20)
 
         
     def generate(
@@ -156,16 +149,16 @@ class RuleBasedGenerator:
             except AttributeError:
                 pass
 
-        # overriding label_mapping 
+        """# overriding label_mapping 
         self.label_mapping = {
             label: idx 
             for idx, label 
             in enumerate(sorted(targets))
         }
-        print("OVERRIDDEN LABEL MAPPING: ",self.label_mapping)
+        print("OVERRIDDEN LABEL MAPPING: ",self.results.keys())
+        targets = self.results.keys() if targets is None else targets
+        """
         
-        #targets = self.results.keys() if targets is None else targets
-      
         # generates one image per target where blocks start in different indexes
         i = 0
         blank_images = self.generate_blank()
@@ -220,11 +213,11 @@ class RuleBasedGenerator:
 
         img = self.rotate_image(img, rotation)
 
-        # bgr to rgb
-        img = cv.cvtColor(img, cv.COLOR_RGB2BGR) if not rgb else img
+        # cv.imwrite takes in bgr
+        img_to_save = cv.cvtColor(img, cv.COLOR_RGB2BGR) if rgb else img
 
         # save the painted image in all possible orientations
-        self.save_augmented_images(Grid, 1, img=img) if CONFIG.SAVE else None
+        self.save_augmented_images(Grid, img=img_to_save) if CONFIG.SAVE else None
 
         # one-hot encoding
         if for_outlier:
@@ -245,12 +238,11 @@ class RuleBasedGenerator:
 
 
 
-    def save_augmented_images(self, Grids, num, img=None):
-        for n in range(num):
-            for image_name, grid in Grids.items():
-                img = grid.img if img is None else img
-                noisy_img = self.add_noise(img, percent=0.05)
-                cv.imwrite(f"{self.save_path}/{image_name}_{random.randint(0,10000)}.png", noisy_img)
+    def save_augmented_images(self, Grids, img=None):
+        for image_name, grid in Grids.items():
+            img = grid.img if img is None else img
+            noisy_img = self.add_noise(img, percent=0.05)
+            cv.imwrite(f"{self.save_path}/{image_name}_{random.randint(0,10000)}.png", noisy_img)
 
     def paint_spots(self, Grids, results, black_background = False):
         for image_name, grid in Grids.items():

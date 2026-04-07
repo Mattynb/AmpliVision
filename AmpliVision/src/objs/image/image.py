@@ -37,7 +37,7 @@ class GridImageNormalizer:
         print(f"{image_name} scanned!")
 
         # Resize image so that its height and width are the same
-        w, h = Image_i.shape[:2]
+        w, _ = Image_i.shape[:2]
         Image_i = cls.resize(Image_i, 1, w, w)
 
         return Image_i

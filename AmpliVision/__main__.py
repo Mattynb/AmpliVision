@@ -3,6 +3,7 @@
 import os
 import sys
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 from src.ML import models, ML_Utils
 from src.pyod_workflow import run_pyod_workflow
@@ -16,9 +17,24 @@ def main():
 
         # Scans AMPLI test images and extracts results
         case 'SCAN':
-            ML_Utils(CONFIG.TAG).prepare_image_RBGen()
+            ML_Utils()
         
         # Trains LENET model using generated images
+        case 'FULL':
+            """ Full workflow: Train, Test, and PyOD """
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+                
+            trained = model_class().run()
+            
+            from src.ML.models import KerasModelBase
+            run_pyod_workflow(
+                trained, 
+                keras_preprocess=isinstance(model_class(), KerasModelBase)
+            )
+
         case 'TRAIN':
             """ Train a CNN model using the model_name architecture to predict Ampli test diagnostics """
 
@@ -32,27 +48,65 @@ def main():
         case 'TEST':
             """ Test a trained CNN model in predicting never seen Ampli tests """
             
-            models.LENET().test_model(TAG)
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+                
+            model_class().test_model()
+        
+        case 'PYOD':
+            "Outlier Detection"
+            run_pyod_workflow()
 
         case 'CHECK_DATA':
-            "* Pottentially deprecated. Please test functionality before running *"
-            "checking if data is correct by displaying one image of each class. Should be run in jupyter notebook"
+            "checking if data is correct by displaying one image of each class."
 
-            ds = models.LENET().MLU.build_dataset()
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+
+            from src.ML.models import KerasModelBase
+            ds = model_class().MLU.build_dataset(
+                BATCH_N = 1,
+                Keras_Preprocess=isinstance(model_class, KerasModelBase)
+            )
             
+            print("\n --- Checking Data Generation --- \n")
             i = 0
             for img, label in ds.take(7):
                 print(img.shape, label.shape) 
-                print("label: ", label)
+                print("image array head: ", img[0][:5, :5, 0])
+                print("label: ", label[5:], "...")
                 try: 
-                    plt.imsave(f"sanity_test_img_{i}.png", img[0].numpy())
+                    plt.imsave(f"gen_sanity_test_img_{i}.png", img[0].numpy())
                     #plt.imshow(img[0])
                     #plt.show()
                     i += 1
                 except Exception as e:
                     print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
+
+            print("\n --- Checking Data Loading from directory --- \n")
+            CONFIG.BATCH_N = 1
+            train_ds, validate_ds = model_class().MLU.load_dataset(
+                Keras_Preprocess=isinstance(model_class, KerasModelBase)
+            )
+            i=0
+            for img, label in train_ds.take(7):
+                print(img.shape, label.shape) 
+                print("image array head: ", img[0][:5, :5, 0])
+                print("label: ", label[5:], "...")
+                try: 
+                    plt.imsave(f"load_sanity_test_img_{i}.png", img[0].numpy())
+                    #plt.imshow(img[0])
+                    #plt.show()
+                    i += 1
+                except Exception as e:
+                    print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
+
         
-        case 'VISUALIZE':
+        case 'VIEW':
             """ Visualize feature maps of convolutional layers for a given image using a trained model """
             from src.ML.visuals import visualize_feature_maps
             
@@ -72,39 +126,40 @@ def main():
             # load trained model from disk. the 
             from tensorflow.keras.models import load_model
 
-            path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/TRANSF_512s32b1e25ts1vs_ALEXNET_2025_10_28_14.keras"
+            path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/ALEXNET_2025_10_30_09.keras"
             trained_model = load_model(path)
 
-            sample_image_path = f"{CONFIG.path_to_store}/thyroid_9999.png"  # Replace
+            sample_image_path = f"{CONFIG.path_to_store}/thyroid_9.png"  # Replace
             visualize_feature_maps(trained_model, sample_image_path, tuple(CONFIG.SIZE))
 
-        case 'TUNING':
+        case 'TUNE':
             "Hyperparameter tuning using Keras Tuner"
-            
+            from src.ML.tuning import TUNING
 
+            model = models.LENET()
+            train_data, val_data = model.MLU.load_dataset()
+
+            tuner = TUNING(model.build_model, train_data, val_data)
+            best_hps = tuner.run_tuning()
+            print("Best hyperparameters found: ", best_hps.values)
+ 
         case 'HISTORY':
             "display training history after training"
 
             import pickle as pkl
 
+            # PYOD results
+            path = "/home/matheus.berbet001/code/AmpliVision/pyod_data_110.pkl"
+            with open(path, "rb") as f:
+                pyod_results = pkl.load(f)
+                print(pyod_results)
+        
+
+            # Training history
             path = f"{os.getcwd()}/AmpliVision/data/ML_perform/histories/history_{CONFIG.TAG}.pkl"
             with open(path, "rb") as f:
                 history = pkl.load(f)
                 print( *[f"{k}: {v}" for k, v in history.items()], sep="\n\n")
-        
-
-        case 'PYOD':
-            "Outlier Detection"
-            kwargs = {
-                'TARGETS' : TARGETS,
-                'path_to_imgs' : path_to_imgs,
-                'scanned_path' : scanned_path,
-                'SIZE' : CONFIG.SIZE,
-                'BATCH_N' : CONFIG.BATCH_N,
-                'EPOCHS' : CONFIG.EPOCHS,
-                'BLACK' : CONFIG.BLACK
-            }
-            run_pyod_workflow(kwargs)
 
 def manage_targets():
     
@@ -112,19 +167,20 @@ def manage_targets():
     
     CONFIG.dataset = dataset.upper()
 
-    if "MARKER" in dataset:    
+    if "MARKER" in CONFIG.dataset:    
         TAG = 'MARKER'
-        TARGETS = ['lung', 'thyroid', 'ovarian', 'prostate', 'skin', 'control', 'breast']
+        TARGETS = ['breast','control','lung']#,'ovarian','prostate','skin','thyroid']
+         #['lung', 'thyroid', 'ovarian', 'prostate', 'skin', 'control', 'breast']
     
-    elif "YOUR_TARGET" in dataset:
+    elif "YOUR_TARGET" in CONFIG.dataset:
         # Here is an example to show where you can assign your own targets to your dataset     
         print(" YOUR_TARGET not implemented yet in manage_targets() [__main__.py file], exiting...")
         exit()
 
-    elif dataset == "_":
+    elif CONFIG.dataset == "_":
         # bypassing for certain usecases that dont need targets
         TARGETS = []
-        TAG = dataset
+        TAG = CONFIG.dataset
 
     else:
         print("ERROR: Unsupported Workflow Run, use \"MARKER\", \"_\" as sys.argv[2] or implement the new target, exiting...")
@@ -156,7 +212,9 @@ if __name__ == '__main__':
     # the tag is the name you want to give to the trained model
     TARGETS, _TAG = manage_targets()
     TAG = TAG if TAG else _TAG
-
+    
+    import datetime
+    model_save_name = f"{TAG}_{datetime.datetime.now().strftime('%Y_%m')}"
 
     # ----------- INITIALIZE CONFIG OBJECT ---------- #
     CONFIG.initialize(**{
@@ -166,7 +224,16 @@ if __name__ == '__main__':
         "model_name": model_name,       # Model architecture to be used (LENET, ALEXNET, EFFICIENTNETB0, etc)
         "path_to_imgs": path_to_imgs,   # Path to images to be loaded (Pre-Phase1 scanned images)
         "scanned_path": scanned_path,   # Path to scanned images (Phase1 scanned images)
-        "TARGETS": TARGETS              # List of target labels to be predicted
+        "TARGETS": TARGETS,             # List of target labels to be predicted
+        "SAVE_NAME": model_save_name,   # Name to save the trained model as
+        "MODEL_PARAMS": {
+            "optimizer": tf.keras.optimizers.Adam(learning_rate=0.001),
+            "learning_rate": 0.001,
+            "loss": "categorical_crossentropy",
+            "metrics": [
+                "accuracy", 
+                "AUC", 
+                tf.keras.metrics.F1Score(average='macro')]}
     })
     CONFIG.display()
 

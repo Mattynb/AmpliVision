@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras
 
 ALGORITHMS = [
-    #AE",
+    #"AE",
     "AvgKNN",
     #"VAE",
     #"SOGAAL",
@@ -27,7 +27,7 @@ ALGORITHMS = [
     "ECOD",
     "KNN",
     "MedKNN",
-    "SOD",
+    #"SOD",
     "INNE",
     #"FB",
     "LODA",
