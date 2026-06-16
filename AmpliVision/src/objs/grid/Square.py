@@ -35,7 +35,7 @@ class Square:
 
     """
 
-    def __init__(self, tl: int, br: int, index: Tuple, PIN_RATIO: int, PLUS_MINUS: int, img: np.ndarray) -> None:
+    def __init__(self, tl: int, br: int, index: Tuple, PIN_RATIO: int, PLUS_MINUS: int, img: np.ndarray, grid_center: float = 4.5) -> None:
         # potential pins
         self.p_pins = []
 
@@ -53,6 +53,7 @@ class Square:
         self.tl = tl
         self.br = br
         self.index = index
+        self.GRID_CENTER = grid_center
 
         # image and image of the square for visualization if necessary
         self.img = img.copy()
@@ -181,20 +182,23 @@ class Square:
         """ 
         Calculates the skew originated from cellphone cameras
 
-        |x-4|^a * (x-4)/|x-4|
-        """
-        if self.index[0] != 4:
-            SKEW_x = int(
-                (abs(self.index[0] - 4) ** a) * ((self.index[0] - 4) / abs(self.index[0] - 4)))
-        else:
-            SKEW_x = 0
+        |x-GRID_CENTER|^a * (x-GRID_CENTER)/|x-GRID_CENTER|
 
-        # Avoiding division by zero
-        if self.index[1] != 4:
-            SKEW_y = int(
-                (abs(self.index[1] - 4) ** a) * ((self.index[1] - 4) / abs(self.index[1] - 4)))
-        else:
-            SKEW_y = 0
+        NOTE: this previously measured distance from index 4 instead of the
+        true grid center (4.5 for a 0-9 index range). That made index 9
+        (distance 5) receive ~50% more skew than index 0 (distance 4) -
+        about 18px vs 12px. Since PIN_RATIO is only ~14px, an 18px skew can
+        push the pin-search corner box completely past the actual pin,
+        which is why blocks in the last row/column were being misidentified
+        as "Unknown". Using the true center (4.5) makes the skew symmetric
+        (~14-15px on both edges) and also means index can never equal
+        GRID_CENTER, so the divide-by-zero guard is no longer needed.
+        """
+        diff_x = self.index[0] - self.GRID_CENTER
+        SKEW_x = int((abs(diff_x) ** a) * (diff_x / abs(diff_x)))
+
+        diff_y = self.index[1] - self.GRID_CENTER
+        SKEW_y = int((abs(diff_y) ** a) * (diff_y / abs(diff_y)))
 
         return SKEW_x, SKEW_y
 
@@ -228,6 +232,22 @@ class Square:
             (br_x + (p*PLUS_MINUS) + SKEW_x, br_y + (p*PLUS_MINUS) + SKEW_y)
         )
         return [top_right, top_left, bottom_right, bottom_left]
+
+        # # Clamp every corner search-box to the image bounds. Squares on the
+        # # outer edge of the grid (index 0 or 9) can end up with boxes that,
+        # # once shifted by SKEW_x/SKEW_y, extend past the image entirely -
+        # # referencing pixel coordinates that don't exist is meaningless and
+        # # can make later contour-matching behave unpredictably.
+        h, w = self.img.shape[:2]
+        return [
+            (
+                (max(0, min(box[0][0], w - 1)), max(0, min(box[0][1], h - 1))),
+                (max(0, min(box[1][0], w - 1)), max(0, min(box[1][1], h - 1)))
+            )
+            for box in corners
+        ]
+ 
+
 
     def calculate_corners_pinbased(self) -> list[list[int]]:
         """

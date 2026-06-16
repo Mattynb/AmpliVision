@@ -123,8 +123,8 @@ class workflow:
 
         callbacks = [
             self.MLU.PlotCallback,
-            #early_stop,
-            #checkpoint
+            early_stop,
+            checkpoint
         ]
 
         if CONFIG.TRAIN_DATASET == "GEN":
@@ -166,7 +166,7 @@ class workflow:
         #model = tf.keras.models.load_model(path)
         #model = self.model
 
-        # FIX: Check if model is in memory, otherwise safely load with the REAL function
+        # Check if model is in memory, otherwise safely load with the REAL function
         if hasattr(self, 'model') and self.model is not None:
             print("\n--- Using in-memory trained model ---")
             model = self.model
@@ -186,17 +186,17 @@ class workflow:
         print(model.summary())
 
         # real data
-        print("\n\n--- Testing model with 84 SCANNED images ---\n")
+        print("\n\n--- Testing model with SCANNED images ---\n")
         CONFIG.TEST_DATASET = "MARKER"
         test_model_(model)
 
         # synthetic 
-        CONFIG.BATCH_N = 7
+        CONFIG.BATCH_N = 7 *10
         dataset =  self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
 
         print(f"\n\n--- Testing model with {CONFIG.BATCH_N} GENERATED images ---\n")
         CONFIG.TEST_DATASET = "GENERATED"
-        test_model_generated(dataset,model)
+        test_model_generated(dataset, model)
 
 
     def run(self):

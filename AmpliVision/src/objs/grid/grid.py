@@ -38,7 +38,7 @@ class Grid:
         # max x and y coordinates of the image
         self.MAX_XY = self.img.shape[0]  # assumes image is square
 
-        # ratios measured experimentally as a percentage of the grid
+        # ratios measured EXPERIMENTALLY as a percentage of the grid
         # size of pin diameter/grid size
         self.PIN_RATIO = int(self.MAX_XY * 0.012)
         # size of edge/grid size. Edge is the "lines" around squares
@@ -86,7 +86,8 @@ class Grid:
                 (x_index, y_index),
                 self.PIN_RATIO,
                 self.PLUS_MINUS,
-                self.img
+                self.img,
+                self.MAX_INDEX/2,
             )
 
             # add the square to the grid list

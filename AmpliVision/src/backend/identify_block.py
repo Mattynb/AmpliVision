@@ -72,7 +72,9 @@ def identify_block(block, display: int = 0):
         sequence_numerical = sequence_numerical[1:] + sequence_numerical[:1]
 
     # If the sequence is not found, warn and return the block as unknown
+    block.block_type = "Unknown"
     warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+    
     
     return block
     

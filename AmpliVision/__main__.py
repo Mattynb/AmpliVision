@@ -26,7 +26,7 @@ def main():
             if model_class is None:
                 print(f"ERROR: Model {model_name} not found in models.py, exiting...")
                 exit(1)
-                
+    
             trained = model_class().run()
             
             from src.ML.models import KerasModelBase
@@ -45,6 +45,19 @@ def main():
 
             model_class().run()
 
+        case 'GAN':
+            """ Train a CycleGAN to adapt synthetic images to look like real scanned blocks """            
+            # Import here to avoid overhead when running standard classifiers
+            from src.ML.gan import Sim2RealWorkflow
+            
+            CONFIG.TAG = f"CycleGAN_Sim2Real_{CONFIG.TAG}"
+            
+            gan_workflow = Sim2RealWorkflow()
+            gan_workflow.build_model()
+            gan_workflow.train_tf_model()
+            
+            print("\n✅ GAN Training Complete. Generator saved for production.")
+
         case 'TEST':
             """ Test a trained CNN model in predicting never seen Ampli tests """
             
@@ -58,6 +71,40 @@ def main():
         case 'PYOD':
             "Outlier Detection"
             run_pyod_workflow()
+
+        case 'GENERATE_DATA':
+            "Generate synthetic images using the configured parameters in CONFIG."
+
+            CONFIG.SAVE = True
+            CONFIG.TRAIN_DATASET = "GEN"
+
+            n_images = CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
+            print(f"\nGenerating {n_images} synthetic images.\n{n_images / len(CONFIG.TARGETS)} per class approximately.\n")
+
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+
+            RBG_GEN = ML_Utils().build_dataset(BATCH_N=1, Keras_Preprocess=False)
+   
+            for i, (img, label) in enumerate(RBG_GEN.take(n_images)):
+                
+                # FIX 1: Handle the batch dimension for the label
+                true_label = CONFIG.TARGETS[int(tf.argmax(label[0]).numpy())]
+                
+                filename = f"{true_label}_{i//len(CONFIG.TARGETS)}.png"
+                filepath = os.path.join(CONFIG.path_to_store, filename)
+                
+                # FIX 2: Handle the batch dimension for the image
+                plt.imsave(filepath, img[0].numpy())
+                
+                
+                # Optional print statement so you know it's not frozen
+                if i % 100 == 0:
+                    print(f"Generated {i}/{n_images} images...")
+            
+            print(f"\n✅ Data Generation Complete. {i} images saved to {CONFIG.path_to_store}\n")
 
         case 'CHECK_DATA':
             "checking if data is correct by displaying one image of each class."
@@ -227,8 +274,8 @@ if __name__ == '__main__':
         "TARGETS": TARGETS,             # List of target labels to be predicted
         "SAVE_NAME": model_save_name,   # Name to save the trained model as
         "MODEL_PARAMS": {
-            "optimizer": tf.keras.optimizers.Adam(learning_rate=0.001),
-            "learning_rate": 0.001,
+            "optimizer": tf.keras.optimizers.Adam(learning_rate=0.0001),
+            "learning_rate": 0.0001, #0.001
             "loss": "categorical_crossentropy",
             "metrics": [
                 "accuracy", 

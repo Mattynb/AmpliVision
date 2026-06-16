@@ -11,18 +11,23 @@ from src.phaseB import phaseB
 from src.config import CONFIG
 from src.generators.image_generation.RuleBasedGenerator import RuleBasedGenerator
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from src.backend import identify_block
 
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 
 class  ML_Utils:
     def __init__(self):
-        self.prepare_image_RBGen()
+        self.prepare_image_Gen()
         self.PlotCallback = self.PlotCallback()
 
+        #GAN
+        #self.sim2real_generator = tf.keras.models.load_model(CONFIG.GAN_SAVE_PATH)
+        #self.sim2real_generator.trainable = False
 
-    def prepare_image_RBGen(self, display=False):
-        """ Does initial setup needed to create RBG """
+
+    def prepare_image_Gen(self, display=False):
+        """ Does initial setup needed to create GEN """
 
         # Phase A.1 - Scanning images
         # if path to images does not start with scanned path, 
@@ -54,7 +59,7 @@ class  ML_Utils:
             BATCH_N = CONFIG.BATCH_N,
             SIZE = CONFIG.SIZE,
             OUTLIER = False,
-            contamination = 0.05,
+            contamination = CONFIG.NOISE,
             Keras_Preprocess = False,
             generator_only = False,
             RGB = True,
@@ -62,16 +67,16 @@ class  ML_Utils:
         ):
         """ Creates a dataset using rule based generator to work with tensor flow """
 
-        RBG = RuleBasedGenerator(self.graphs, self.results)
-        RBG.setup()
+        GEN = RuleBasedGenerator(self.graphs, self.results)
+        GEN.setup()
         if generator_only:
-            return RBG
+            return GEN
 
         #save = True if OUTLIER else False # save
 
         _args = [ 
             CONFIG.TARGETS, # what TARGETS to generate
-            0.05, # noise
+            CONFIG.NOISE, # noise
             BLACK, # black background or no
             RGB, # rgb
             False, #save
@@ -82,7 +87,7 @@ class  ML_Utils:
 
         # transform generator into dataset
         g_dataset = tf.data.Dataset.from_generator(
-            RBG.generate_for_od if OUTLIER else RBG.generate,  
+            GEN.generate_for_od if OUTLIER else GEN.generate,  
             output_shapes=(
                 [1242, 1242, 3], 
                 2 if OUTLIER else [len(CONFIG.TARGETS)]
@@ -109,16 +114,112 @@ class  ML_Utils:
         g_dataset = g_dataset.batch(batch_size=BATCH_N)
         g_dataset = g_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
 
+        # GAN
+        def preprocess_and_translate(image, label, size):
+            # 1. Resize/Format
+            image = tf.image.resize(image, size)
+            image = tf.cast(image, tf.float32) / 255.0
+            
+            # 2. Pass synthetic image through the GAN to make it look real
+            # (Requires expanding dims for batching, then squeezing back)
+            image = tf.expand_dims(image, 0)
+            image = self.sim2real_generator(image)[0]
+            
+            label = tf.cast(label, tf.float32)
+            return image, label
+
+        # Map the GAN translation over the generated dataset
+        if CONFIG.GAN_ON:
+            g_dataset = g_dataset.map(
+                lambda x, y: preprocess_and_translate(x, y, SIZE),
+                num_parallel_calls=tf.data.AUTOTUNE
+            )
         return g_dataset
     
-
-    def load_dataset(self, train_split=0.8, Keras_Preprocess = False):
+    @staticmethod
+    def load_dataset(
+        train_split=0.8, 
+        Keras_Preprocess = False, 
+        data_path = CONFIG.path_to_store,
+        use_case = "Train"
+    ):
         """ Loads folder with pre-generated png images and creates a tf dataset """
 
-        data_path = CONFIG.path_to_store
-        all_image_paths = [os.path.join(data_path, fname) for fname in os.listdir(data_path) if fname.endswith('.png')]
+        def crop_path(data_path):
+            # Define a new folder path for the cropped images
+            cropped_path = os.path.join(data_path, "cropped")
+            sentinel_file = os.path.join(cropped_path, ".cropped_sentinel")
+        
+            # Check if cropping has already been done
+            if os.path.exists(sentinel_file):
+                print(f"✅ Using cached cropped dataset from {cropped_path}")
+                return cropped_path
+        
+
+            print(f"\n🚀 First-time setup: Cropping dataset offline. Saving to {cropped_path}...")
+            os.makedirs(cropped_path, exist_ok=True)
+            # Load chunk into memory dictionary format for phaseA2
+            Images = phaseA1(
+                data_path + "*", 
+                data_path,
+                display=False, 
+                do_white_balance=False,
+                is_pre_scanned=True
+            )
+            # Process the whole chunk through phaseA2
+            grids = phaseA2(Images, display=False)
+            # Crop and save to the new folder
+            for img_name, grid in grids.items():
+            
+                for block in grid.blocks:
+                    block.set_rgb_sequence()
+                    block = identify_block(block)
+                    
+                cropped_img = RuleBasedGenerator.crop_to_test_areas(grid)
+                if cropped_img is None:
+                    print(f"skipping {img_name} since img cropping failed")
+                    continue
+            
+                save_dest = os.path.join(cropped_path, img_name)
+                print(f"saving cropped image to: {save_dest}")
+                cv.imwrite(f"{save_dest}.png", cropped_img)
+
+            # Create sentinel file to mark completion
+            with open(sentinel_file, 'w') as f:
+                f.write("cropped")
+
+            print("✅ Offline cropping complete!\n")
+        
+            # Point the rest of the pipeline to load directly from the fast, cropped folder!
+            return cropped_path
+        # ==========================================
+        if CONFIG.CROP_TO_TEST_AREA:
+            data_path = crop_path(data_path)
+
+        all_image_paths = [
+            os.path.join(data_path, fname) 
+            for fname in os.listdir(data_path) 
+            if fname.lower().endswith(('.png', '.jpg', '.jpeg'))
+        ]
         all_image_paths.sort()
         
+        print(f"image paths => {len(all_image_paths)}. Ex: {all_image_paths}")
+        # valid_paths = []
+        # for path in all_image_paths:
+        #     if os.path.getsize(path) > 0:
+        #         valid_paths.append(path)
+        #     else:
+        #         print(f"🚨 CRITICAL WARNING: Found and skipped empty file: {path}")
+        
+        valid_paths = [
+            p for p in all_image_paths 
+            if os.path.getsize(p) > 0
+        ]
+        if len(valid_paths) < len(all_image_paths):
+            print(f"⚠️  Skipped {len(all_image_paths) - len(valid_paths)} empty files")
+
+        all_image_paths = valid_paths
+
         def order_paths(all_image_paths):
             """
             folder contains images from all classes sorted alphabetically.
@@ -138,13 +239,12 @@ class  ML_Utils:
     
             return ordered_paths
     
-
         def define_label_from_path(file_path):
             "images are saved as label_etc.png. returns one-hot encoded label"
             filename = tf.strings.split(file_path, os.path.sep)[-1]
             label_str = tf.strings.split(filename, '_')[0]
             label = tf.cast(tf.equal(CONFIG.TARGETS, label_str), tf.float32)
-            print(f"Defined label {label} from file path {file_path}. label_str: {label_str}")
+            #print(f"Defined label {label} from file path {file_path}. label_str: {label_str}")
             return label
 
         def load_and_preprocess_image(path):
@@ -155,63 +255,19 @@ class  ML_Utils:
             #image = image[..., ::-1]
             image = tf.image.resize(image, CONFIG.SIZE)
 
+            # salt and pepper noise 
+            # ASSUMES that image has no noise already
+            if CONFIG.NOISE > 0:
+                noise = tf.random.uniform(shape=tf.shape(image), minval=0, maxval=1)
+                salt_mask = noise < (CONFIG.NOISE / 2.0)  # half of the noise is salt
+                pepper_mask = (noise >= (CONFIG.NOISE / 2.0)) & (noise < (CONFIG.NOISE))  # half of the noise is pepper
+                image = tf.where(salt_mask, 255.0, image)  # Add salt noise
+                image = tf.where(pepper_mask, 0.0, image)  # Add pepper noise
+
 
             # check if image is not already normalized
             if tf.reduce_max(image) > 1.0 and not Keras_Preprocess:
                 image = tf.cast(image, tf.float32) / 255.0
-            return image
-        
-        def _____load_and_preprocess_image(path):
-            "loads and preprocesses image, with aggressive augmentation to close reality gap"
-            image = tf.io.read_file(path)
-            # Use 3 channels for RGB
-            image = tf.image.decode_png(image, channels=3)
-            image = tf.image.resize(image, CONFIG.SIZE)
-
-            # We only augment the training data, not the validation data
-            # Assuming 'validate' is not in the path for generated data if following standard splits
-            # THIS ASSUMPTION might be problematic
-            if 'validate' not in str(path):
-                
-                # --- AGGRESSIVE AUGMENTATION BLOCK ---
-                # This makes synthetic images look messy like real scans
-
-                # 1. Random Background Clutter (simulates table textures)
-                # Adds uniform random noise across the whole image
-                noise = tf.random.uniform(shape=tf.shape(image), minval=0, maxval=30, dtype=tf.float32)
-                image = image + noise
-
-                # 2. Simulate Washed Out Colors & Shadows (seen in real image)
-                # Randomly adjusts brightness and contrast
-                image = tf.image.random_brightness(image, max_delta=0.2)
-                image = tf.image.random_contrast(image, lower=0.5, upper=1.5)
-                # Randomly shifts Hue/Saturation (critical for changing 'magenta' back to realistic pink)
-                image = tf.image.random_hue(image, max_delta=0.05)
-                image = tf.image.random_saturation(image, lower=0.7, upper=1.3)
-
-                # 3. Simulate The Glares (CRITICAL!)
-                # Real image top-left is destroyed by glare. We must destroy synthetic spots too.
-                # We draw random, large, bright white blobs over the image.
-                for _ in range(tf.random.uniform([], 1, 4, dtype=tf.int32)): # 1 to 3 glares
-                    # Randomize glare position and size (50 to 120 pixel diameter)
-                    glare_size = tf.random.uniform([], 50, 120, dtype=tf.int32)
-                    y = tf.random.uniform([], 0, CONFIG.SIZE[0] - glare_size, dtype=tf.int32)
-                    x = tf.random.uniform([], 0, CONFIG.SIZE[1] - glare_size, dtype=tf.int32)
-                    
-                    # Create a solid white blob and overwrite that section of the image
-                    glare_blob = tf.ones([glare_size, glare_size, 3]) * 255.0
-                    image = tf.tensor_scatter_nd_update(
-                        tensor=image,
-                        indices=tf.reshape(
-                            tf.stack(tf.meshgrid(tf.range(y, y+glare_size), tf.range(x, x+glare_size), indexing='ij'), axis=-1),
-                            [-1, 2]
-                        ),
-                        updates=tf.reshape(glare_blob, [-1, 3])
-                    )
-                # -------------------------------------
-
-            # Ensure image is in 0-255 range and correct dtype before model scaling
-            image = tf.clip_by_value(image, 0.0, 255.0)
             return image
         
         def load_image_and_label(path):
@@ -234,17 +290,36 @@ class  ML_Utils:
 
         # 2. Create the TRAIN dataset
         train_ds = tf.data.Dataset.from_tensor_slices(train_paths)
+        
+        if use_case == "Test":
+            train_ds = train_ds.map(load_image_and_label, num_parallel_calls=CONFIG.MAX_THREADS)
+            train_ds = train_ds.batch(CONFIG.BATCH_N).prefetch(2)
+            return train_ds
+
         # SHUFFLE STRINGS HERE! (Instantaneous)
         train_ds = train_ds.shuffle(buffer_size=len(train_paths)) 
-        train_ds = train_ds.map(load_image_and_label, num_parallel_calls=tf.data.AUTOTUNE)
-        train_dataset = train_ds.repeat().batch(CONFIG.BATCH_N).prefetch(tf.data.AUTOTUNE)
+
+        train_ds = train_ds.map(
+            load_image_and_label, 
+            num_parallel_calls=CONFIG.MAX_THREADS
+        )
+        train_ds = train_ds.batch(CONFIG.BATCH_N).repeat()
+        
+        # if CONFIG.CROP_TO_TEST_AREA:
+        #     train_ds = train_ds.map(crop_batch_to_block, num_parallel_calls=tf.data.AUTOTUNE)
+        
+        train_dataset = train_ds.prefetch(1)
         
         # 3. Create the VALIDATION dataset (No shuffle needed)
-        val_ds = tf.data.Dataset.from_tensor_slices(val_paths)
-        val_ds = val_ds.map(load_image_and_label, num_parallel_calls=tf.data.AUTOTUNE)
-        val_dataset = val_ds.batch(CONFIG.BATCH_N).prefetch(tf.data.AUTOTUNE)
+        if len(val_paths) > 0:
+            val_ds = tf.data.Dataset.from_tensor_slices(val_paths)
+            val_ds = val_ds.map(load_image_and_label, num_parallel_calls=CONFIG.MAX_THREADS)
+            val_dataset = val_ds.batch(CONFIG.BATCH_N).repeat().prefetch(1)
         
-        return train_dataset, val_dataset
+            return train_dataset, val_dataset
+        
+        print("Returning only train_dataset in load_dataset because train_split is 1")
+        return train_dataset, None
     
             
 

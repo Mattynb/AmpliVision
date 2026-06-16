@@ -9,36 +9,27 @@ import sklearn.metrics as metrics
 from src.phaseA import phaseA1
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+from .utils import ML_Utils
 from src.config import CONFIG
 
 def test_model_(test_model, DATASET = "scanned_MARKER"):
     """ Test model using scanned images (not generated)"""
 
-    # 1. Load the raw dataset (Matches the flow of tf.data)
-    test_ds = tf.keras.utils.image_dataset_from_directory(
-        f"{os.getcwd()}/AmpliVision/data/{DATASET}",
-        labels='inferred',
-        label_mode='categorical',
-        class_names=CONFIG.TARGETS, # Forces alignment with training labels
-        image_size=CONFIG.SIZE,     # Resizes during load
-        shuffle=False,
-        batch_size=CONFIG.BATCH_N,
-        #validation_split=0.2,       
-        #subset="validation",
-        seed=42
+    test_ds = ML_Utils.load_dataset(
+        train_split= 1, 
+        Keras_Preprocess = isinstance(test_model, tf.keras.Model), 
+        data_path = f"{os.getcwd()}/AmpliVision/data/{DATASET}/test/",
+        use_case = "Test"
     )
-
-    # 2. Apply the EXACT same preprocessing as build_dataset
-    # Note: We remove the random rotation for testing to keep it deterministic
-    test_ds = test_ds.map(lambda x, y: preprocess_test(x, y, keras=isinstance(test_model, tf.keras.Model)))
-
-    # 3. Predict
+   
+    # 3. Predict (Will safely stop because there is no .repeat())
     print(f"\n--- Testing model with {DATASET} images ---\n")
     predictions = test_model.predict(test_ds)
-    
     y_pred = np.argmax(predictions, axis=1)
+    print(np.bincount(y_pred))          # if ~all one number -> confirmed collapse
+    print(predictions[:5])
     
-    # Extract true labels from the dataset
+    # Extract true labels from the dataset (Safe because dataset is NOT shuffled)
     y_true = np.concatenate([y for x, y in test_ds], axis=0)
     y_true_indices = np.argmax(y_true, axis=1)
 
@@ -48,29 +39,51 @@ def test_model_(test_model, DATASET = "scanned_MARKER"):
     # save dataset named as "{PredictedLabel}_{TrueLabel}_index.png"
     save_test_images_with_predictions(test_ds, y_true_indices, y_pred, "LOAD")
 
+
 def save_test_images_with_predictions(test_ds, y_true_indices, y_pred, dir):
+    """
+    Save ALL test images with their true and predicted labels.
+    (No hardcoded 10-image-per-batch limit.)
+    """
     output_dir = f"/home/matheus.berbet001/code/AmpliVision/z_TEST/{dir}"
-    #clear the output directory
+    
+    # Clear the output directory
     if os.path.exists(output_dir):
         for file in os.listdir(output_dir):
             os.remove(os.path.join(output_dir, file))
     else:
         os.makedirs(output_dir)
-
+    
     index = 0
+    
+    # Iterate over batches
     for x_batch, y_batch in test_ds:
         batch_size = x_batch.shape[0]
-        for i in range(10):#batch_size):
+        
+        for i in range(batch_size):
+            # Safety check: stop if we've exhausted the arrays
+            if index >= len(y_true_indices) or index >= len(y_pred):
+                break
+            
             true_label = CONFIG.TARGETS[y_true_indices[index]]
             pred_label = CONFIG.TARGETS[y_pred[index]]
             filename = f"{index}_P:{pred_label}_T:{true_label}.png"
             filepath = os.path.join(output_dir, filename)
-        
+            
+            # Resize and save the image
             img = tf.image.resize(x_batch[i].numpy(), [1242, 1242])
+            img, _ = preprocess_test(img, "", True)
             plt.imsave(filepath, img.numpy())
-
+            
             index += 1
-    print(f"Saved test images with predictions to {output_dir}")
+        
+        # Early exit if we've exhausted the test set
+        if index >= len(y_true_indices):
+            break
+    
+    print(f"Saved {index} test images with predictions to {output_dir}")
+    return index
+ 
 
 def test_model_generated(dataset, clf): 
     true_labels = []

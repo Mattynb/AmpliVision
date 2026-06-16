@@ -10,6 +10,7 @@ import re
 import time
 import random
 import os
+import math 
 
 from networkx import DiGraph
 from math import ceil
@@ -60,14 +61,14 @@ class RuleBasedGenerator:
         }
 
     def generate_for_od(
-            self, 
-            targets: list[str], 
-            noise: int = 0.05, 
-            black_background: bool = False,
-            rgb: bool = True,
-            save: bool = False,
-            contamination: float = 0.05
-            ):
+        self, 
+        targets: list[str], 
+        noise: int = CONFIG.NOISE, 
+        black_background: bool = False,
+        rgb: bool = True,
+        save: bool = False,
+        contamination: float = 0.05
+        ):
         
     
         # to play nice with tensorflow
@@ -121,7 +122,7 @@ class RuleBasedGenerator:
     def generate(
             self, 
             targets: list[str] = CONFIG.TARGETS, 
-            noise: int = 0.03, 
+            noise: float = CONFIG.NOISE, 
             black_background: bool = False,
             rotation: int = None, 
             rgb: bool = True
@@ -209,17 +210,27 @@ class RuleBasedGenerator:
         Grid = self.paint_spots(Grid, self.results, black_background)
         
         grid = list(Grid.values())[0]
-        img = self.add_noise(grid.img, percent=noise)
+        
+        #cv.imwrite("Grid_image.png",grid.img)
 
-        img = self.rotate_image(img, rotation)
+        
 
-        # cv.imwrite takes in bgr
-        img_to_save = cv.cvtColor(img, cv.COLOR_RGB2BGR) if rgb else img
+        if CONFIG.CROP_TO_TEST_AREA:
+            grid.img = RuleBasedGenerator.crop_to_test_areas(grid)
+        
+        grid.img = self.add_noise(grid.img, percent=noise)
 
+        img = self.rotate_image(grid.img, rotation)
+
+        img = cv.cvtColor(img, cv.COLOR_RGB2BGR) if not rgb else img
+       
+        #cv.imwrite("Cropped_image.png",img)
+        #exit()
+       
         # save the painted image in all possible orientations
-        self.save_augmented_images(Grid, img=img_to_save) if CONFIG.SAVE else None
+        ##self.save_augmented_images(Grid, img) if CONFIG.SAVE else None
 
-        # one-hot encoding
+        # one-hot encoding  
         if for_outlier:
             label = 1 if target == 'OUTLIER' else 0
             one_hot_label = tf.keras.utils.to_categorical(label, num_classes=2)       
@@ -236,13 +247,10 @@ class RuleBasedGenerator:
         rotations = ['', cv.ROTATE_90_CLOCKWISE, cv.ROTATE_180, cv.ROTATE_90_COUNTERCLOCKWISE]
         return cv.rotate(image, rotations[r])
 
-
-
     def save_augmented_images(self, Grids, img=None):
         for image_name, grid in Grids.items():
             img = grid.img if img is None else img
-            noisy_img = self.add_noise(img, percent=0.05)
-            cv.imwrite(f"{self.save_path}/{image_name}_{random.randint(0,10000)}.png", noisy_img)
+            cv.imwrite(f"{self.save_path}/{image_name}_{random.randint(0,10000)}.png", img)
 
     def paint_spots(self, Grids, results, black_background = False):
         for image_name, grid in Grids.items():
@@ -332,7 +340,7 @@ class RuleBasedGenerator:
 
 
 
-    def add_noise(self, _image, percent = 0.05):
+    def add_noise(self, _image, percent = CONFIG.NOISE):
         " Add grayscale random noise to the generated image "
         image = _image.copy()
 
@@ -370,8 +378,12 @@ class RuleBasedGenerator:
         geometry = '_cnvx' if geometry == 1 else '_cncv' if geometry == 0 else ''
         component_name = f"{component_name + geometry}".replace('__', '_')
         path = f"{self.components_path}/{component_name}.png"
+        img = cv.imread(path, cv.IMREAD_UNCHANGED)
 
-        return cv.imread(path, cv.IMREAD_UNCHANGED)
+        # rotate 180 degrees
+        img = cv.rotate(img, cv.ROTATE_180)
+
+        return img 
 
     def clear_folder(self, path):
         " Clear the folder at the given path "
@@ -387,5 +399,55 @@ class RuleBasedGenerator:
 
         print( f"Folder {path} cleared.")
 
+
+    @staticmethod
+    def crop_to_test_areas(grid):
+        "Crop the image to the area of the block being painted."
+
+        img = grid.img
+        test_blocks = [block for block in grid.get_blocks() if block.block_type[:4] == 'test']
+        
+        if not test_blocks:
+            print("No Test blocks found during cropping - returning None")
+            return None
+
+        # 1. Determine the layout (e.g., 2x2, 3x3)
+        blocks_per_side = math.ceil(math.sqrt(len(test_blocks)))
+        
+        # 2. Define the size of each "cell" in your collage. 
+        # Using the standard square size from the grid class ensures the blocks fit perfectly.
+        cell_size = grid.SQUARE_RATIO + grid.EDGE_RATIO
+        collage_dim = blocks_per_side * cell_size
+        
+        black_bg = np.zeros((collage_dim, collage_dim, 3), dtype=img.dtype)
+
+        for i, block in enumerate(test_blocks):
+            # 3. Calculate pixel-based row/column for the collage
+            r_idx, c_idx = divmod(i, blocks_per_side)
+            
+            # 5. Prepare the square image (ensure it is RGBA for the transparency function)
+            block.img = img
+            block.sq_img = None
+            sq_img = block.get_sq_img()
+            if sq_img.shape[2] == 3:
+                sq_img = cv.cvtColor(sq_img, cv.COLOR_BGR2RGBA)
+
+            # 6. Paste directly using pixel coordinates to bypass grid index limits
+            result = grid.add_artificial_block((r_idx,c_idx),black_bg, sq_img)
+            
+            # Safety check to prevent the NoneType error if the paste fails
+            if result is not None:
+                black_bg = result
+
+        final_resized_img = cv.resize(
+            black_bg, 
+            (1242, 1242), # To match Utils.py/build_dataset expectations
+            interpolation=cv.INTER_CUBIC
+        )
+
+        return final_resized_img
+        
+
+        
 if __name__ == '__main__':
     pass
