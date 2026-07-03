@@ -74,17 +74,24 @@ def main():
 
         case 'GENERATE_DATA':
             "Generate synthetic images using the configured parameters in CONFIG."
-
-            CONFIG.SAVE = True
-            CONFIG.TRAIN_DATASET = "GEN"
-
-            n_images = CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
-            print(f"\nGenerating {n_images} synthetic images.\n{n_images / len(CONFIG.TARGETS)} per class approximately.\n")
-
-            model_class = getattr(models, CONFIG.model_name, None)
-            if model_class is None:
-                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
-                exit(1)
+            
+            # Utils.py is flipping R and B channels
+            # The current expectation is that the generator yields bgr images
+            # and it is up to load() functions to flip 
+        
+            # Change these: 
+            # CONFIG.SAVE = True
+            # CONFIG.TRAIN_DATASET = "GEN"
+            # CONFIG.SIZE = [1242, 1242]
+            # CONFIG.CROP_TO_TEST_AREA = False
+            # CONFIG.NOISE = 0
+            
+            n_images = len(CONFIG.TARGETS) * 100         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
+            print(f"""
+            Generating {n_images} synthetic images.
+            {n_images / len(CONFIG.TARGETS)} per class approximately.
+            Saving to: {CONFIG.path_to_store}
+            """)
 
             RBG_GEN = ML_Utils().build_dataset(BATCH_N=1, Keras_Preprocess=False)
    
@@ -99,22 +106,30 @@ def main():
                 # FIX 2: Handle the batch dimension for the image
                 plt.imsave(filepath, img[0].numpy())
                 
-                
                 # Optional print statement so you know it's not frozen
-                if i % 100 == 0:
+                if i % 10 == 0:
                     print(f"Generated {i}/{n_images} images...")
             
-            print(f"\n✅ Data Generation Complete. {i} images saved to {CONFIG.path_to_store}\n")
+            print(f"\n✅ Data Generation Complete. {i+1} images saved to {CONFIG.path_to_store}\n")
 
         case 'CHECK_DATA':
             "checking if data is correct by displaying one image of each class."
 
             model_class = getattr(models, CONFIG.model_name, None)
             if model_class is None:
-                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                print(f"ERROR: Model {CONFIG.model_name} not found in models.py, exiting...")
                 exit(1)
 
             from src.ML.models import KerasModelBase
+            import numpy as np # Make sure numpy is imported
+
+            # Helper function to normalize images for saving
+            def prep_for_save(img_tensor):
+                img_arr = img_tensor.numpy()
+                # Min-Max scaling to force the array into [0.0, 1.0]
+                img_arr = (img_arr - np.min(img_arr)) / (np.max(img_arr) - np.min(img_arr) + 1e-8)
+                return img_arr
+
             ds = model_class().MLU.build_dataset(
                 BATCH_N = 1,
                 Keras_Preprocess=isinstance(model_class, KerasModelBase)
@@ -127,17 +142,17 @@ def main():
                 print("image array head: ", img[0][:5, :5, 0])
                 print("label: ", label[5:], "...")
                 try: 
-                    plt.imsave(f"gen_sanity_test_img_{i}.png", img[0].numpy())
-                    #plt.imshow(img[0])
-                    #plt.show()
+                    # Applied normalization here
+                    plt.imsave(f"gen_sanity_test_img_{i}.png", prep_for_save(img[0]))
                     i += 1
                 except Exception as e:
                     print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
 
-            print("\n --- Checking Data Loading from directory --- \n")
+            print("\n --- Checking Data Loading from TRAIN directory --- \n")
             CONFIG.BATCH_N = 1
-            train_ds, validate_ds = model_class().MLU.load_dataset(
-                Keras_Preprocess=isinstance(model_class, KerasModelBase)
+            train_ds, _ = ML_Utils.load_dataset(
+                Keras_Preprocess=isinstance(model_class, KerasModelBase),
+                #skip_sentinel = True,
             )
             i=0
             for img, label in train_ds.take(7):
@@ -145,13 +160,35 @@ def main():
                 print("image array head: ", img[0][:5, :5, 0])
                 print("label: ", label[5:], "...")
                 try: 
-                    plt.imsave(f"load_sanity_test_img_{i}.png", img[0].numpy())
-                    #plt.imshow(img[0])
-                    #plt.show()
+                    # Applied normalization here
+                    plt.imsave(f"load_sanity_test_img_{i}.png", prep_for_save(img[0]))
                     i += 1
                 except Exception as e:
                     print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
 
+            print("\n --- Checking Data Loading from TEST directory --- \n")
+            CONFIG.BATCH_N = 1
+            test_ds = ML_Utils.load_dataset(
+                train_split= 1, 
+                Keras_Preprocess = isinstance(model_class, tf.keras.Model), 
+                data_path = f"{os.getcwd()}/AmpliVision/data/scanned_MARKER/test/",
+                use_case = "Test",
+                #skip_sentinel = True,
+            )
+            i=0
+            # Fixed loop to iterate over test_ds instead of train_ds
+            for img, label in test_ds.take(7): 
+                print(img.shape, label.shape) 
+                print("image array head: ", img[0][:5, :5, 0])
+                print("label: ", label[5:], "...")
+                try: 
+                    # Note: You might want to rename the output file to distinguish from the train files
+                    plt.imsave(f"test_load_sanity_img_{i}.png", prep_for_save(img[0]))
+                    i += 1
+                except Exception as e:
+                    print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
+
+            
         
         case 'VIEW':
             """ Visualize feature maps of convolutional layers for a given image using a trained model """
@@ -208,33 +245,6 @@ def main():
                 history = pkl.load(f)
                 print( *[f"{k}: {v}" for k, v in history.items()], sep="\n\n")
 
-def manage_targets():
-    
-    """ assigns targets user wants the CNN to predict in specific datasets """
-    
-    CONFIG.dataset = dataset.upper()
-
-    if "MARKER" in CONFIG.dataset:    
-        TAG = 'MARKER'
-        TARGETS = ['breast','control','lung']#,'ovarian','prostate','skin','thyroid']
-         #['lung', 'thyroid', 'ovarian', 'prostate', 'skin', 'control', 'breast']
-    
-    elif "YOUR_TARGET" in CONFIG.dataset:
-        # Here is an example to show where you can assign your own targets to your dataset     
-        print(" YOUR_TARGET not implemented yet in manage_targets() [__main__.py file], exiting...")
-        exit()
-
-    elif CONFIG.dataset == "_":
-        # bypassing for certain usecases that dont need targets
-        TARGETS = []
-        TAG = CONFIG.dataset
-
-    else:
-        print("ERROR: Unsupported Workflow Run, use \"MARKER\", \"_\" as sys.argv[2] or implement the new target, exiting...")
-        exit(1) 
-
-    return TARGETS, TAG
-
 
 if __name__ == '__main__':
 
@@ -257,12 +267,14 @@ if __name__ == '__main__':
     # assign correct targets to specific datasets
     # targets are the classes that the model will predict
     # the tag is the name you want to give to the trained model
-    TARGETS, _TAG = manage_targets()
+    _TAG = "MARKER"
     TAG = TAG if TAG else _TAG
     
     import datetime
     model_save_name = f"{TAG}_{datetime.datetime.now().strftime('%Y_%m')}"
-
+    dataset_size = len([name for name in os.listdir(CONFIG.path_to_store) if os.path.isfile(os.path.join(CONFIG.path_to_store, name))])
+    
+    
     # ----------- INITIALIZE CONFIG OBJECT ---------- #
     CONFIG.initialize(**{
         "use_case": use_case,           # Use case to run
@@ -271,16 +283,19 @@ if __name__ == '__main__':
         "model_name": model_name,       # Model architecture to be used (LENET, ALEXNET, EFFICIENTNETB0, etc)
         "path_to_imgs": path_to_imgs,   # Path to images to be loaded (Pre-Phase1 scanned images)
         "scanned_path": scanned_path,   # Path to scanned images (Phase1 scanned images)
-        "TARGETS": TARGETS,             # List of target labels to be predicted
         "SAVE_NAME": model_save_name,   # Name to save the trained model as
         "MODEL_PARAMS": {
             "optimizer": tf.keras.optimizers.Adam(learning_rate=0.0001),
-            "learning_rate": 0.0001, #0.001
-            "loss": "categorical_crossentropy",
+            "learning_rate": 0.0001,
+            "loss": tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
             "metrics": [
                 "accuracy", 
                 "AUC", 
-                tf.keras.metrics.F1Score(average='macro')]}
+                tf.keras.metrics.F1Score(average='macro')
+            ]
+        },
+        "STEPS_PER_EPOCH": int(dataset_size / CONFIG.BATCH_N)
+        
     })
     CONFIG.display()
 

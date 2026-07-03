@@ -90,7 +90,7 @@ class RuleBasedGenerator:
         # generates one image per target where blocks start in different indexes
         i = 0 # index of the target
         j = 0 # total number of images generated
-        outlier_interval = int(1/contamination) +1
+        outlier_interval = int(1/contamination)
         while True:
             t= time.time()
 
@@ -405,18 +405,29 @@ class RuleBasedGenerator:
         "Crop the image to the area of the block being painted."
 
         img = grid.img
-        test_blocks = [block for block in grid.get_blocks() if block.block_type[:4] == 'test']
-        
+        test_blocks = [
+            block for block in grid.get_blocks() 
+            if block.block_type[:4] == 'test'
+        ]
+
         if not test_blocks:
             print("No Test blocks found during cropping - returning None")
             return None
+
+        test_blocks.sort(key=lambda b: [
+            int(c) 
+            if c.isdigit() 
+            else c.lower() 
+            for c in re.split(r'(\d+)', b.block_type)]
+        )
 
         # 1. Determine the layout (e.g., 2x2, 3x3)
         blocks_per_side = math.ceil(math.sqrt(len(test_blocks)))
         
         # 2. Define the size of each "cell" in your collage. 
         # Using the standard square size from the grid class ensures the blocks fit perfectly.
-        cell_size = grid.SQUARE_RATIO + grid.EDGE_RATIO
+        #  = test_blocks.create_test_area_img()
+        cell_size = grid.SQUARE_RATIO - grid.EDGE_RATIO
         collage_dim = blocks_per_side * cell_size
         
         black_bg = np.zeros((collage_dim, collage_dim, 3), dtype=img.dtype)
@@ -424,13 +435,23 @@ class RuleBasedGenerator:
         for i, block in enumerate(test_blocks):
             # 3. Calculate pixel-based row/column for the collage
             r_idx, c_idx = divmod(i, blocks_per_side)
-            
+
             # 5. Prepare the square image (ensure it is RGBA for the transparency function)
             block.img = img
             block.sq_img = None
-            sq_img = block.get_sq_img()
+            
+            sq_img = block.create_test_area_img()
             if sq_img.shape[2] == 3:
                 sq_img = cv.cvtColor(sq_img, cv.COLOR_BGR2RGBA)
+
+            # match the rotations
+            undo_rotation = {
+                90 : cv.ROTATE_90_COUNTERCLOCKWISE,
+                180 : cv.ROTATE_180,
+                270 : cv.ROTATE_90_CLOCKWISE,
+            }
+            if block.rotation in undo_rotation:
+                sq_img = cv.rotate(sq_img, undo_rotation[block.rotation])
 
             # 6. Paste directly using pixel coordinates to bypass grid index limits
             result = grid.add_artificial_block((r_idx,c_idx),black_bg, sq_img)

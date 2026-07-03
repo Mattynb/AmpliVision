@@ -1,4 +1,5 @@
 import os
+import time
 import pickle as pkl
 import tensorflow as tf
 import numpy as np
@@ -15,6 +16,7 @@ class workflow:
     """ Workflow parent class for all implemented ML models """
     def __init__(self):
         pass
+        #print("Initiating Workflow")
         #ML_Utils()#.test_dataset()
 
     def train_model(self):
@@ -101,9 +103,6 @@ class workflow:
 
 
     def train_tf_model(self):    
-        import time
-
-        
         checkpoint = tf.keras.callbacks.ModelCheckpoint(
             filepath=os.path.abspath(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras"),
             save_weights_only=False,
@@ -116,14 +115,14 @@ class workflow:
         early_stop = tf.keras.callbacks.EarlyStopping(
             monitor='val_accuracy',
             mode='max',
-            patience=5,
+            patience=15,
             min_delta=0.001,
             restore_best_weights=True
         )
 
         callbacks = [
             self.MLU.PlotCallback,
-            early_stop,
+            #early_stop,
             checkpoint
         ]
 
@@ -133,8 +132,11 @@ class workflow:
             validate_dataset = self.MLU.build_dataset(int((CONFIG.BATCH_N*0.5)), CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
 
         elif CONFIG.TRAIN_DATASET == "LOAD":
-            print("\nUsing loaded dataset for training...")
+            print("*"*20, "\nUsing loaded dataset for training\n", "*"*20)
+            #print("\nUsing loaded dataset for training...")
             train_dataset, validate_dataset = self.MLU.load_dataset(Keras_Preprocess=isinstance(self, KerasModelBase))
+        
+        print("*"*20, "\n GPU model.fit \n", "*"*20)
         
         inference_time = time.time()
         with tf.device('/GPU:0'):
@@ -151,13 +153,102 @@ class workflow:
         print(f"Training completed in: {inference_time/60:.2f} minutes")    
 
         # Save model
+        # Model is saved by the phase2_checkpoint callback above (best val_loss epoch).
+        # Do NOT unconditionally save here — that would overwrite the best checkpoint
+        # with whatever weights EarlyStopping restored (could be a worse epoch if
+        # restore_best_weights interacts unexpectedly with the checkpoint).
         self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras")
 
         # Save history
         #with open(f"{os.getcwd()}/AmpliVision/data/ML_models/history_{model_save_name}.pkl", 'wb') as file_pi:
         #    pkl.dump(self.history.history, file_pi)
+        
+        args = (
+            callbacks, 
+            train_dataset, 
+            validate_dataset
+        )
 
-        return self.model
+        return self.model, args
+
+    def train_tf_model_fine_tune(self, args):
+        # ==========================================
+        # PHASE 2: Fine-Tune the Top of the Backbone
+        # ==========================================
+        print("*"*20, "\n PHASE 2: Fine-Tuning Top 20% of Backbone \n", "*"*20)
+
+        (callbacks, 
+        train_dataset, 
+        validate_dataset) = args
+
+        callbacks[1] = tf.keras.callbacks.EarlyStopping(
+            monitor='val_loss',
+            mode='min',
+            patience=5,
+            min_delta=0.001,
+            restore_best_weights=True
+        )
+
+        base_model_layer = next((layer for layer in self.model.layers if isinstance(layer, tf.keras.Model)), None)
+
+        if base_model_layer:
+            # Unfreeze the entire base model first
+            base_model_layer.trainable = True
+            
+            # Re-freeze the bottom 80% of layers
+            num_layers = len(base_model_layer.layers)
+            freeze_up_to = int(num_layers * 0.8)
+            for layer in base_model_layer.layers[:freeze_up_to]:
+                layer.trainable = False
+                
+            # 🚨 THE BATCH NORMALIZATION TRAP (CRITICAL) 🚨
+            # If you unfreeze BatchNormalization layers in Keras, they will recalculate their 
+            # running mean/variance on your small batches and instantly destroy the pretrained weights.
+            for layer in base_model_layer.layers[freeze_up_to:]:
+                if isinstance(layer, tf.keras.layers.BatchNormalization):
+                    layer.trainable = False
+
+            # Recompile with a VERY small learning rate
+            model_params = CONFIG.MODEL_PARAMS.copy()
+            model_params['optimizer'] = tf.keras.optimizers.Adam(learning_rate=1e-5) # 0.00001
+            model_params.pop("learning_rate", None)
+            self.model.compile(**model_params)
+            
+            inference_time = time.time()
+            with tf.device('/GPU:0'):
+                # Continue training (Early stopping will catch it if it stops improving)
+                self.model.fit(
+                    train_dataset,
+                    epochs=CONFIG.EPOCHS, # Feel free to make a new CONFIG.FINE_TUNE_EPOCHS for this
+                    validation_data=validate_dataset,
+                    steps_per_epoch=CONFIG.STEPS_PER_EPOCH,
+                    validation_steps=CONFIG.VALIDATION_STEPS,
+                    callbacks=callbacks
+                )
+            inference_time = time.time() - inference_time
+            print(f"Total Two-Phase Training completed in: {inference_time/60:.2f} minutes")    
+
+            # Save model
+            # Model is saved by the phase2_checkpoint callback above (best val_loss epoch).
+            # Do NOT unconditionally save here — that would overwrite the best checkpoint
+            # with whatever weights EarlyStopping restored (could be a worse epoch if
+            # restore_best_weights interacts unexpectedly with the checkpoint).
+            # self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras")
+            self.model.save(f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras")
+        
+    def run(self):
+        print("*"*20, "\nbuilding model\n", "*"*20)
+        self.build_model()
+
+        print("*"*20, "\ntraining model\n", "*"*20)
+        _, args = self.train_tf_model()
+        self.train_tf_model_fine_tune(args)
+        
+        print("*"*20, "\ntesting model\n", "*"*20)
+        self.test_model()
+        return self.model # for chaining
+
+
 
     def test_model(self):
         """ Test a trained model """
@@ -191,20 +282,15 @@ class workflow:
         test_model_(model)
 
         # synthetic 
-        CONFIG.BATCH_N = 7 *10
-        dataset =  self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
+        # CONFIG.BATCH_N = 7 *10
+        # dataset =  self.MLU.build_dataset(CONFIG.BATCH_N, CONFIG.SIZE, Keras_Preprocess=isinstance(self, KerasModelBase))
 
-        print(f"\n\n--- Testing model with {CONFIG.BATCH_N} GENERATED images ---\n")
-        CONFIG.TEST_DATASET = "GENERATED"
-        test_model_generated(dataset, model)
+        # print(f"\n\n--- Testing model with {CONFIG.BATCH_N} GENERATED images ---\n")
+        # CONFIG.TEST_DATASET = "GENERATED"
+        # test_model_generated(dataset, model)
 
 
-    def run(self):
-        self.build_model()
-        self.train_model()
-        self.test_model()
-        return self.model # for chaining
-
+    
     
 
 class LENET(workflow):
@@ -515,7 +601,8 @@ class KerasModelBase(workflow):
             model_constructor_kwargs=model_constructor_kwargs,
             input_shape=input_shape
         )
-        
+        #base_model.trainable = false
+
         if not include_top:
             x = GlobalAveragePooling2D()(base_model.output)
             x = Dense(120, activation='relu')(x)
@@ -606,7 +693,7 @@ def elegant_keras_applications_constructor(
     
     # Freeze the base model (transfer learning)
     for layer in model.layers:
-        layer.trainable = True
+        layer.trainable = False
 
     return model
 

@@ -72,8 +72,6 @@ class  ML_Utils:
         if generator_only:
             return GEN
 
-        #save = True if OUTLIER else False # save
-
         _args = [ 
             CONFIG.TARGETS, # what TARGETS to generate
             CONFIG.NOISE, # noise
@@ -108,11 +106,11 @@ class  ML_Utils:
 
         g_dataset = g_dataset.map(
             lambda x, y: preprocess_image(x, y, SIZE),
-            num_parallel_calls=tf.data.AUTOTUNE
+            num_parallel_calls=CONFIG.MAX_THREADS
         )
         
         g_dataset = g_dataset.batch(batch_size=BATCH_N)
-        g_dataset = g_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
+        g_dataset = g_dataset.prefetch(buffer_size=CONFIG.MAX_THREADS)
 
         # GAN
         def preprocess_and_translate(image, label, size):
@@ -132,7 +130,7 @@ class  ML_Utils:
         if CONFIG.GAN_ON:
             g_dataset = g_dataset.map(
                 lambda x, y: preprocess_and_translate(x, y, SIZE),
-                num_parallel_calls=tf.data.AUTOTUNE
+                num_parallel_calls=CONFIG.MAX_THREADS
             )
         return g_dataset
     
@@ -141,7 +139,8 @@ class  ML_Utils:
         train_split=0.8, 
         Keras_Preprocess = False, 
         data_path = CONFIG.path_to_store,
-        use_case = "Train"
+        use_case = "Train",
+        skip_sentinel = False
     ):
         """ Loads folder with pre-generated png images and creates a tf dataset """
 
@@ -151,7 +150,7 @@ class  ML_Utils:
             sentinel_file = os.path.join(cropped_path, ".cropped_sentinel")
         
             # Check if cropping has already been done
-            if os.path.exists(sentinel_file):
+            if os.path.exists(sentinel_file) and not skip_sentinel:
                 print(f"✅ Using cached cropped dataset from {cropped_path}")
                 return cropped_path
         
@@ -252,13 +251,14 @@ class  ML_Utils:
             image = tf.io.read_file(path)
             image = tf.image.decode_png(image, channels=3)
             # bgr to rgb?
-            #image = image[..., ::-1]
+            image = image[..., ::-1]
             image = tf.image.resize(image, CONFIG.SIZE)
 
             # salt and pepper noise 
             # ASSUMES that image has no noise already
             if CONFIG.NOISE > 0:
-                noise = tf.random.uniform(shape=tf.shape(image), minval=0, maxval=1)
+                shape_without_channels = tf.concat([tf.shape(image)[:-1], [1]], axis=0)
+                noise = tf.random.uniform(shape=shape_without_channels, minval=0, maxval=1)
                 salt_mask = noise < (CONFIG.NOISE / 2.0)  # half of the noise is salt
                 pepper_mask = (noise >= (CONFIG.NOISE / 2.0)) & (noise < (CONFIG.NOISE))  # half of the noise is pepper
                 image = tf.where(salt_mask, 255.0, image)  # Add salt noise
@@ -299,14 +299,27 @@ class  ML_Utils:
         # SHUFFLE STRINGS HERE! (Instantaneous)
         train_ds = train_ds.shuffle(buffer_size=len(train_paths)) 
 
+        data_augmentation = tf.keras.Sequential([
+            #tf.keras.layers.RandomFlip("horizontal_and_vertical"),
+            #tf.keras.layers.RandomRotation(0.2, fill_mode="constant"), # Rotate up to 20%
+            tf.keras.layers.RandomZoom(0.15, fill_mode="constant"),    # Zoom in/out 15%
+            tf.keras.layers.RandomContrast(0.2)  # Shift contrast 20%
+        ])
+
         train_ds = train_ds.map(
             load_image_and_label, 
             num_parallel_calls=CONFIG.MAX_THREADS
         )
+
+        train_ds = train_ds.map(
+            lambda x, y: (data_augmentation(x, training=True), y), 
+            num_parallel_calls=CONFIG.MAX_THREADS
+        )
+
         train_ds = train_ds.batch(CONFIG.BATCH_N).repeat()
         
         # if CONFIG.CROP_TO_TEST_AREA:
-        #     train_ds = train_ds.map(crop_batch_to_block, num_parallel_calls=tf.data.AUTOTUNE)
+        #     train_ds = train_ds.map(crop_batch_to_block, num_parallel_calls=CONFIG.MAX_THREADS)
         
         train_dataset = train_ds.prefetch(1)
         

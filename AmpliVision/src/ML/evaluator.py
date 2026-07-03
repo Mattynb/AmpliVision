@@ -24,7 +24,7 @@ def test_model_(test_model, DATASET = "scanned_MARKER"):
    
     # 3. Predict (Will safely stop because there is no .repeat())
     print(f"\n--- Testing model with {DATASET} images ---\n")
-    predictions = test_model.predict(test_ds)
+    predictions = test_model.predict(test_ds, batch_size=CONFIG.BATCH_N)
     y_pred = np.argmax(predictions, axis=1)
     print(np.bincount(y_pred))          # if ~all one number -> confirmed collapse
     print(predictions[:5])
@@ -71,8 +71,7 @@ def save_test_images_with_predictions(test_ds, y_true_indices, y_pred, dir):
             filepath = os.path.join(output_dir, filename)
             
             # Resize and save the image
-            img = tf.image.resize(x_batch[i].numpy(), [1242, 1242])
-            img, _ = preprocess_test(img, "", True)
+            img, _ = preprocess_test(x_batch[i].numpy(), "", True)
             plt.imsave(filepath, img.numpy())
             
             index += 1
@@ -94,7 +93,7 @@ def test_model_generated(dataset, clf):
     test_ds = dataset.take(1)
     for i, (x_batch, y_batch) in enumerate(test_ds):   
         # Make predictions using the trained classifier
-        y_pred = clf.predict(x_batch)
+        y_pred = clf.predict(x_batch, batch_size=CONFIG.BATCH_N)
         print(x_batch.shape) # (Batch , Height, Width, Channels)
 
         # Store true labels and predicted labels

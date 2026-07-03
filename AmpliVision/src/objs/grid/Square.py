@@ -121,7 +121,7 @@ class Square:
         """ Creates an image of the square, a cutout of the image around the square"""
         return img[(self.tl[1]-10):(self.br[1]+10), (self.tl[0]-10):(self.br[0]+10)]
 
-    def create_test_area_img(self, sq_img: np.ndarray) -> np.ndarray:
+    def create_test_area_img(self, sq_img: np.ndarray=None) -> np.ndarray:
         " Creates an image of the inner test spot"
 
         sq_img = self.img
@@ -137,9 +137,11 @@ class Square:
         c = corners[0][1][0] means that c is the x coordinate of the bottom right corner of the top right corner of the square.
         d = corners[2][0][0] means that d is the x coordinate of the top left corner of the bottom right corner of the square.
         """
-
-        return sq_img[corners[0][1][1]:corners[2][0][1], corners[0][1][0]:corners[2][0][0]]
-
+        if corners:
+            return sq_img[corners[0][1][1]:corners[2][0][1], corners[0][1][0]:corners[2][0][0]]
+        
+        print(f"No corners found for {self.block_type} at {self.index}, setting test area image to square img")
+        return sq_img
     ## Add functions ##
     def add_pin(self, pin: np.ndarray) -> None:
         """ Adds a pin to the square """
@@ -238,14 +240,14 @@ class Square:
         # # once shifted by SKEW_x/SKEW_y, extend past the image entirely -
         # # referencing pixel coordinates that don't exist is meaningless and
         # # can make later contour-matching behave unpredictably.
-        h, w = self.img.shape[:2]
-        return [
-            (
-                (max(0, min(box[0][0], w - 1)), max(0, min(box[0][1], h - 1))),
-                (max(0, min(box[1][0], w - 1)), max(0, min(box[1][1], h - 1)))
-            )
-            for box in corners
-        ]
+        # h, w = self.img.shape[:2]
+        # return [
+        #     (
+        #         (max(0, min(box[0][0], w - 1)), max(0, min(box[0][1], h - 1))),
+        #         (max(0, min(box[1][0], w - 1)), max(0, min(box[1][1], h - 1)))
+        #     )
+        #     for box in corners
+        # ]
  
 
 
@@ -256,15 +258,16 @@ class Square:
         list[[corner_tl, corner_br], ...] in clockwise order starting from top left.
         """
         corners = []
+
+        # add extra padding to the corners
+        px, py = self.calculate_skew(0.2)
+        px = int(px)
+        py = int(py)
+
         # pin is a list of contours
         for pin in self.pins:
             x, y, w, h = cv.boundingRect(pin)
-
-            # add extra padding to the corners
-            px, py = self.calculate_skew(0.2)
-            px = int(px)
-            py = int(py)
-
+            
             # append top left and bottom right points of the test area
             corners.append([(x-px, y-py), (x+w+px, y+h+py)])
 
@@ -381,7 +384,7 @@ class Square:
                 ordered_corners[3] = xy
 
         if None in ordered_corners:
-            print("\nError in ordering corners\n")
+            print(f"\nError in ordering corners for {self.block_type} in {self.index}\n")
             return None
 
         return ordered_corners

@@ -23,12 +23,12 @@ def run_pyod_workflow(model, keras_preprocess=False):
     )
 
     # 2. Safely grab the penultimate layer (features before softmax)
-    penultimate_layer = model.layers[-2]
-    print(f"Extracting features from layer: {penultimate_layer.name}")
+    #penultimate_layer = model.layers[-2]
+    print(f"Extracting features from layer: global_average_pooling2d") #{penultimate_layer.name}")
     
     clf_features = tf.keras.Model(
         inputs=model.inputs, 
-        outputs=penultimate_layer.output
+        outputs=model.get_layer('global_average_pooling2d').output        #penultimate_layer.output
     )
 
     vectors = []
@@ -37,7 +37,7 @@ def run_pyod_workflow(model, keras_preprocess=False):
     # 3. FIX RETRACING: Predict on the whole batch at once directly from the dataset
     for x_batch, y_batch in ds.take(1):
         # Passes the (500, W, H, C) tensor directly to Keras
-        features = clf_features.predict(x_batch) 
+        features = clf_features.predict(x_batch, batch_size=CONFIG.BATCH_N)
         vectors.extend(features)
         labels.extend(y_batch.numpy())
 
