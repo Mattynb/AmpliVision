@@ -2,13 +2,12 @@
 
 import os
 import sys
-import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from src.ML import models, ML_Utils
 from src.pyod_workflow import run_pyod_workflow
 from src.config import CONFIG
-
+from src.business import Business
 
 def main():
     print(f" --- Running {use_case} --- ")
@@ -73,148 +72,29 @@ def main():
             run_pyod_workflow()
 
         case 'GENERATE_DATA':
-            "Generate synthetic images using the configured parameters in CONFIG."
-            
-            # Utils.py is flipping R and B channels
-            # The current expectation is that the generator yields bgr images
-            # and it is up to load() functions to flip 
-        
-            # Change these: 
-            # CONFIG.SAVE = True
-            # CONFIG.TRAIN_DATASET = "GEN"
-            # CONFIG.SIZE = [1242, 1242]
-            # CONFIG.CROP_TO_TEST_AREA = False
-            # CONFIG.NOISE = 0
-            
-            n_images = len(CONFIG.TARGETS) * 100         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
-            print(f"""
-            Generating {n_images} synthetic images.
-            {n_images / len(CONFIG.TARGETS)} per class approximately.
-            Saving to: {CONFIG.path_to_store}
-            """)
+            print("generating data")
+            import time 
+            t= time.time()
+            Business.generate_data_parallel()
+            print(f"{round(float(time.time()-t),3)} s  --> generate_data_parallel")
 
-            RBG_GEN = ML_Utils().build_dataset(BATCH_N=1, Keras_Preprocess=False)
-   
-            for i, (img, label) in enumerate(RBG_GEN.take(n_images)):
-                
-                # FIX 1: Handle the batch dimension for the label
-                true_label = CONFIG.TARGETS[int(tf.argmax(label[0]).numpy())]
-                
-                filename = f"{true_label}_{i//len(CONFIG.TARGETS)}.png"
-                filepath = os.path.join(CONFIG.path_to_store, filename)
-                
-                # FIX 2: Handle the batch dimension for the image
-                plt.imsave(filepath, img[0].numpy())
-                
-                # Optional print statement so you know it's not frozen
-                if i % 10 == 0:
-                    print(f"Generated {i}/{n_images} images...")
-            
-            print(f"\n✅ Data Generation Complete. {i+1} images saved to {CONFIG.path_to_store}\n")
+        case 'GENERATE_DATA_729':
+            print("generating data")
+            import time 
+            t=time.time()
+            Business.generate_all_729_classes()
+            print(f"{round(float(time.time()-t),3)} s  --> generate_all_729_classes") 
 
-        case 'CHECK_DATA':
-            "checking if data is correct by displaying one image of each class."
+            # possible_combinations = list(itertools.product(["r","g","b"], repeat=6))
+            # targets = [f"class_{"".join(combo)}" for combo in possible_combinations]
 
-            model_class = getattr(models, CONFIG.model_name, None)
-            if model_class is None:
-                print(f"ERROR: Model {CONFIG.model_name} not found in models.py, exiting...")
-                exit(1)
-
-            from src.ML.models import KerasModelBase
-            import numpy as np # Make sure numpy is imported
-
-            # Helper function to normalize images for saving
-            def prep_for_save(img_tensor):
-                img_arr = img_tensor.numpy()
-                # Min-Max scaling to force the array into [0.0, 1.0]
-                img_arr = (img_arr - np.min(img_arr)) / (np.max(img_arr) - np.min(img_arr) + 1e-8)
-                return img_arr
-
-            ds = model_class().MLU.build_dataset(
-                BATCH_N = 1,
-                Keras_Preprocess=isinstance(model_class, KerasModelBase)
-            )
-            
-            print("\n --- Checking Data Generation --- \n")
-            i = 0
-            for img, label in ds.take(7):
-                print(img.shape, label.shape) 
-                print("image array head: ", img[0][:5, :5, 0])
-                print("label: ", label[5:], "...")
-                try: 
-                    # Applied normalization here
-                    plt.imsave(f"gen_sanity_test_img_{i}.png", prep_for_save(img[0]))
-                    i += 1
-                except Exception as e:
-                    print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
-
-            print("\n --- Checking Data Loading from TRAIN directory --- \n")
-            CONFIG.BATCH_N = 1
-            train_ds, _ = ML_Utils.load_dataset(
-                Keras_Preprocess=isinstance(model_class, KerasModelBase),
-                #skip_sentinel = True,
-            )
-            i=0
-            for img, label in train_ds.take(7):
-                print(img.shape, label.shape) 
-                print("image array head: ", img[0][:5, :5, 0])
-                print("label: ", label[5:], "...")
-                try: 
-                    # Applied normalization here
-                    plt.imsave(f"load_sanity_test_img_{i}.png", prep_for_save(img[0]))
-                    i += 1
-                except Exception as e:
-                    print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
-
-            print("\n --- Checking Data Loading from TEST directory --- \n")
-            CONFIG.BATCH_N = 1
-            test_ds = ML_Utils.load_dataset(
-                train_split= 1, 
-                Keras_Preprocess = isinstance(model_class, tf.keras.Model), 
-                data_path = f"{os.getcwd()}/AmpliVision/data/scanned_MARKER/test/",
-                use_case = "Test",
-                #skip_sentinel = True,
-            )
-            i=0
-            # Fixed loop to iterate over test_ds instead of train_ds
-            for img, label in test_ds.take(7): 
-                print(img.shape, label.shape) 
-                print("image array head: ", img[0][:5, :5, 0])
-                print("label: ", label[5:], "...")
-                try: 
-                    # Note: You might want to rename the output file to distinguish from the train files
-                    plt.imsave(f"test_load_sanity_img_{i}.png", prep_for_save(img[0]))
-                    i += 1
-                except Exception as e:
-                    print("ERROR: You may be attempting to plot a graph in a headless process. Error: ", e)
-
-            
-        
-        case 'VIEW':
-            """ Visualize feature maps of convolutional layers for a given image using a trained model """
-            from src.ML.visuals import visualize_feature_maps
-            
-            model_class = getattr(models, CONFIG.model_name, None)
-            if model_class is None:
-                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
-                exit(1)
-
-            #trained_model = model_class().build_model()
-
-            #H, W = tuple(CONFIG.SIZE)
-            #input_shape_with_batch = (None, H, W, 3) 
     
-            # Explicitly build the Sequential model so 'model.input' is defined.
-            #trained_model.build(input_shape=input_shape_with_batch)
+            
+        case 'CHECK_DATA':
+            Business.check_data()
 
-            # load trained model from disk. the 
-            from tensorflow.keras.models import load_model
-
-            path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/ALEXNET_2025_10_30_09.keras"
-            trained_model = load_model(path)
-
-            sample_image_path = f"{CONFIG.path_to_store}/thyroid_9.png"  # Replace
-            visualize_feature_maps(trained_model, sample_image_path, tuple(CONFIG.SIZE))
+        case 'VIEW':
+            Business.view(model_name)
 
         case 'TUNE':
             "Hyperparameter tuning using Keras Tuner"
@@ -228,22 +108,7 @@ def main():
             print("Best hyperparameters found: ", best_hps.values)
  
         case 'HISTORY':
-            "display training history after training"
-
-            import pickle as pkl
-
-            # PYOD results
-            path = "/home/matheus.berbet001/code/AmpliVision/pyod_data_110.pkl"
-            with open(path, "rb") as f:
-                pyod_results = pkl.load(f)
-                print(pyod_results)
-        
-
-            # Training history
-            path = f"{os.getcwd()}/AmpliVision/data/ML_perform/histories/history_{CONFIG.TAG}.pkl"
-            with open(path, "rb") as f:
-                history = pkl.load(f)
-                print( *[f"{k}: {v}" for k, v in history.items()], sep="\n\n")
+            Business.history()
 
 
 if __name__ == '__main__':
