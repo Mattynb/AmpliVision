@@ -27,7 +27,7 @@ class Business:
         # CONFIG.CROP_TO_TEST_AREA = False
         # CONFIG.NOISE = 0
 
-        MAX_THREADS = 16
+        MAX_THREADS = 12
         n_images = len(CONFIG.TARGETS) * CONFIG.N_PER_CLASS         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
         
         print(f"""
@@ -266,7 +266,8 @@ class Business:
             block_configs = [
                 ('test_block1', combo[0], combo[1]),
                 ('test_block2', combo[2], combo[3]),
-                ('test_block3', combo[4], combo[5])
+                ('test_block3', combo[4], combo[5]),
+                ('control_block', combo[4], combo[5])
             ]
             
             for block_name, base_s1, base_s2 in block_configs:

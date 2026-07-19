@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from src.phaseA import *
 from src.phaseB import phaseB
 from src.config import CONFIG
+from src.generators.rgb_data_generator.src.data_extractor import DataExtractor
 from src.generators.image_generation.RuleBasedGenerator import RuleBasedGenerator
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from src.backend import identify_block
@@ -25,9 +26,26 @@ class  ML_Utils:
         #self.sim2real_generator = tf.keras.models.load_model(CONFIG.GAN_SAVE_PATH)
         #self.sim2real_generator.trainable = False
 
+    def load_prep_image_gen(self):
+        print("Loading image generation prep")
+
+        with open(CONFIG.GRAPH_PATH, "rb") as f:
+            self.graphs = pkl.load(f)
+
+        fingerprints = {}
+        for target in CONFIG.TARGETS:
+            # get fingerprints of each target
+            RGB_extractor = DataExtractor(target, CONFIG.RESULTS_PATH) 
+            fingerprints[target] = RGB_extractor.extract(display=False)
+
+        self.results = fingerprints
 
     def prepare_image_Gen(self, display=False):
         """ Does initial setup needed to create GEN """
+
+        if CONFIG.LOAD_INITIAL_SETUP:
+            self.load_prep_image_gen()
+            return
 
         # Phase A.1 - Scanning images
         # if path to images does not start with scanned path, 
@@ -52,6 +70,10 @@ class  ML_Utils:
         # Phase A.3 - Position Graph
         self.graphs = phaseA3(Grids, display=display)
         del Grids
+
+        with open(CONFIG.GRAPH_PATH, 'wb') as f:
+            pkl.dump(self.graphs, f)
+        
 
 
     def build_dataset(
@@ -87,7 +109,7 @@ class  ML_Utils:
         g_dataset = tf.data.Dataset.from_generator(
             GEN.generate_for_od if OUTLIER else GEN.generate,  
             output_shapes=(
-                [1242, 1242, 3], 
+                [CONFIG.SIZE[0], CONFIG.SIZE[1], 3], 
                 2 if OUTLIER else [len(CONFIG.TARGETS)]
             ), 
             output_types=(tf.float32, tf.float32),

@@ -56,9 +56,9 @@ class Square:
         self.GRID_CENTER = grid_center
 
         # image and image of the square for visualization if necessary
-        self.img = img.copy()
+        self.img = img
         if img is not None:
-            self.sq_img = self.createImg(img.copy())
+            self.sq_img = self.createImg(img)
 
         # corners of the square
         self.corners = []
@@ -72,6 +72,15 @@ class Square:
         # ratios
         self.PIN_RATIO = PIN_RATIO
         self.PLUS_MINUS = PLUS_MINUS
+
+    def clone_update_image(self, img):
+        import copy
+
+        clone = copy.copy(self)
+        clone.img = img
+        self.sq_img = None
+
+        return clone
 
     ## Get functions ##
     def get_index(self) -> Tuple:
@@ -124,7 +133,6 @@ class Square:
     def create_test_area_img(self, sq_img: np.ndarray=None) -> np.ndarray:
         " Creates an image of the inner test spot"
 
-        sq_img = self.img
         corners = self.calculate_corners_pinbased()
 
         """
@@ -138,7 +146,7 @@ class Square:
         d = corners[2][0][0] means that d is the x coordinate of the top left corner of the bottom right corner of the square.
         """
         if corners:
-            return sq_img[corners[0][1][1]:corners[2][0][1], corners[0][1][0]:corners[2][0][0]]
+            return self.img[corners[0][1][1]:corners[2][0][1], corners[0][1][0]:corners[2][0][0]]
         
         print(f"No corners found for {self.block_type} at {self.index}, setting test area image to square img")
         return sq_img

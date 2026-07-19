@@ -21,28 +21,38 @@ class Config:
     TAG : str = ""
     SAVE_NAME : str = ""
     use_case : str = ""
+    
+    # --- IMAGE GEN PARAMS ---
+    LOAD_INITIAL_SETUP : bool = True
+    GRAPH_PATH : str = f"{os.getcwd()}/AmpliVision/data/graphs/default_graph.pkl"
+    RESULTS_PATH : str = f"{os.getcwd()}/AmpliVision/data/results/07-16-2026/"
+    N_PER_CLASS : int = 1000
 
     # --- CLASSIFIER IMAGE PARAMS ---
     dataset : str = ""
     path_to_imgs : str = "" 
     scanned_path : str = ""
     SIZE : list = field(default_factory=lambda: [256, 256]) # image size for CNN input
-    SAVE : bool = False
-    NOISE: float = 0.1 # percentage 0.01 - 1.00
+    SAVE : bool = True
+    #SAVE : bool = False
+    NOISE: float = 0.0 # percentage 0.01 - 1.00  (0.20)
     path_to_store : str = "/hpcstor6/scratch01/m/matheus.berbet001/" # f"{os.getcwd()}/AmpliVision/data/generated_images"  
-    CROP_TO_TEST_AREA: bool = True #True
+    CROP_TO_TEST_AREA: bool = True
+    #CROP_TO_TEST_AREA: bool = False
 
     # --- CLASSIFIER TRAINING PARAMS ---
     MODEL_PARAMS : dict = ""
+    #TARGETS : list = field(default_factory=lambda: [f"class{i}" for i in range(729)])
     TARGETS : list = field(default_factory=lambda: ['breast', 'control', 'lung', 'ovarian', 'prostate', 'skin', 'thyroid'])
-    model_name : str = "InceptionResNetV2"
+    model_name : str = "MobileNetV2"
     EPOCHS : int = 25
     BATCH_N : int = 16 #64 # power of 2. multiple of targets.len() for balanced
     STEPS_PER_EPOCH : int = 1 # size(dataset) / batch
     VALIDATION_STEPS : int = 4 #2 
     BLACK: bool = False #if generated images will show only the painted tests area(making everything else black) or not
     GEN_IMG_FORM : str = "tensor" # 'tensor' or 'numpy' for generated images format
-    TRAIN_DATASET : str = "LOAD" # GEN or LOAD
+    #TRAIN_DATASET : str = "LOAD" # GEN or LOAD
+    TRAIN_DATASET : str = "GEN" # GEN or LOAD
 
     # --- CYCLEGAN PARAMS ---
     GAN_ON : bool = False

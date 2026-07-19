@@ -445,3 +445,7 @@ class Grid:
         * square: square to set
         """
         self.grid[index[0]][index[1]] = square
+
+    def update_square_images(self, image):
+        new_blocks = [block.clone_update_image(image) for block in self.blocks]
+        self.blocks = new_blocks

@@ -11,6 +11,7 @@ import time
 import random
 import os
 import math 
+import copy
 
 from networkx import DiGraph
 from math import ceil
@@ -26,6 +27,9 @@ class RuleBasedGenerator:
 
         self.results = self.validate_results(results)
         self.graphs = self.validate_graphs(graphs)
+
+        self.blank_grid = Grid(self.load_image('grid') )
+        
 
 
     def validate_graphs(self, graphs):
@@ -53,7 +57,7 @@ class RuleBasedGenerator:
         #self.clear_folder(f"{self.save_path}/final")
 
         unique_labels = self.results.keys()
-        print(f"unique_labels = {sorted(unique_labels)}")
+        #print(f"unique_labels = {sorted(unique_labels)}")
         self.label_mapping = {
             label: idx 
             for idx, label 
@@ -101,8 +105,11 @@ class RuleBasedGenerator:
                 target = targets[i]
 
             rotation = random.randint(0, 3) 
+
+            rand_index = random.randrange(len(blank_images))
+            grid = blank_images[rand_index]
+            image_content = grid.img
             
-            image_content = random.choice(blank_images)
             #print(i,' - ', target)
             #print("-"*20, "GENENERATING SINGLE" ,"-"*20)
             img = self.generate_single_image(
@@ -149,31 +156,26 @@ class RuleBasedGenerator:
                 targets = [target.decode('utf-8') for target in targets]
             except AttributeError:
                 pass
-
-        """# overriding label_mapping 
-        self.label_mapping = {
-            label: idx 
-            for idx, label 
-            in enumerate(sorted(targets))
-        }
-        print("OVERRIDDEN LABEL MAPPING: ",self.results.keys())
-        targets = self.results.keys() if targets is None else targets
-        """
         
         # generates one image per target where blocks start in different indexes
         i = 0
         blank_images = self.generate_blank()
+
         while True:
             target = targets[i] #random.choice(targets)
             
             rotation = random.randint(0, 3)
-            image_content = random.choice(blank_images) # random index choice. Room for performance optimization here
-            
-            img = self.generate_single_image(
-                image_content, target, rotation, noise, rgb, black_background
-            )
+            rand_index = random.randrange(len(blank_images))
+            grid = blank_images[rand_index]
+            image_content = grid.img.copy()
 
-            
+            grid_copy = copy.deepcopy(grid)
+            grid_copy.img = image_content
+
+            img = self.generate_single_image(
+                image_content, target, rotation, noise, rgb, black_background, Grid={target: grid_copy}
+            )
+    
             if CONFIG.GEN_IMG_FORM == 'tensor': 
                 batch_images = tf.convert_to_tensor(img[0], dtype=tf.float32)
                 batch_labels = tf.convert_to_tensor(img[1], dtype=tf.float32)
@@ -182,7 +184,7 @@ class RuleBasedGenerator:
                 batch_labels = np.array(img[1], dtype=np.float32)
             else:
                 raise ValueError("output must be 'tensor' or 'numpy'")
-           
+
             yield batch_images, batch_labels
            
             i = 0 if i == len(targets)-1 else i + 1
@@ -197,23 +199,21 @@ class RuleBasedGenerator:
             rgb,
             black_background,
             for_outlier = False,
+            Grid = False
         ):
         # PhaseA2 expects a dictionary of images
         image = dict()
         image[target] = image_content.copy()
 
         # get their virtual grids
-        Grid = phaseA2(image, display=False)
+        if not Grid:
+            Grid = phaseA2(image, display=False)
 
         # paint the spots in the images
         # each image has its own gridsave
         Grid = self.paint_spots(Grid, self.results, black_background)
         
         grid = list(Grid.values())[0]
-        
-        #cv.imwrite("Grid_image.png",grid.img)
-
-        
 
         if CONFIG.CROP_TO_TEST_AREA:
             grid.img = RuleBasedGenerator.crop_to_test_areas(grid)
@@ -238,6 +238,7 @@ class RuleBasedGenerator:
             label = self.label_mapping[target]
             one_hot_label = tf.keras.utils.to_categorical(label, num_classes=len(self.label_mapping))       
 
+        img = cv.resize(img, CONFIG.SIZE)
         return img, one_hot_label
 
     def rotate_image(self, image, r):
@@ -257,7 +258,7 @@ class RuleBasedGenerator:
             target_name = str(image_name).split("_")[0]
             
             if black_background:
-                grid.img =  np.zeros((1242,1242,3), dtype='uint8')
+                grid.img =  np.zeros(CONFIG.SIZE + (3,), dtype='uint8')
 
             # where each grid has multiple blocks
             for block in grid.get_blocks():
@@ -301,19 +302,22 @@ class RuleBasedGenerator:
 
         output = []
         for _index in self.starting_indexes:
-            
-            Grid_DS = Grid(grid_img)
+            grid = copy.deepcopy(self.blank_grid)
+            grid.img = self.load_image('grid')
 
             # fill blank grid with blank blocks
-            self._place_unpainted_blocks(_index, Grid_DS)
+            self._place_unpainted_blocks(_index, grid)
 
-            # save the blank image
+            # save the blank image 
             if save:
                 print(f"Saving blank image {target}_{_index} to {self.save_path}/blank")
-                print(Grid_DS.img.shape)
-                cv.imwrite(f"{self.save_path}/blank/{target}_{_index}.png", Grid_DS.img) 
+                print(grid.img.shape)
+                cv.imwrite(f"{self.save_path}/blank/{target}_{_index}.png", grid.img) 
 
-            output.append(Grid_DS.img.copy())
+            # get their virtual grids
+            Grid = phaseA2({target: grid.img})
+
+            output.append(Grid[target])
 
         return output
     
@@ -330,6 +334,7 @@ class RuleBasedGenerator:
             # add unpainted block to the image
             img = Grid_DS.add_artificial_block(
                 block_index, Grid_DS.img, block_img)
+                #, block_name)
             Grid_DS.img = img
 
             # alternate between convex and concave blocks
@@ -342,28 +347,22 @@ class RuleBasedGenerator:
 
     def add_noise(self, _image, percent = CONFIG.NOISE):
         " Add grayscale random noise to the generated image "
+        if percent == 0:
+            return _image.copy()
+
         image = _image.copy()
 
         # Get the dimensions of the image
         height, width, channels = image.shape
 
         # Calculate the number of pixels to be altered (5% of total pixels)
-        total_pixels = height * width
-        num_noise_pixels = int(percent * total_pixels)
+        num_noise_pixels = int(percent * height * width)
 
-        # Generate random noise
-        for _ in range(num_noise_pixels):
-            # Pick a random pixel in the image
-            y_coord = np.random.randint(0, height)
-            x_coord = np.random.randint(0, width)
-            
-            # Add noise by altering the pixel value
-            noise = np.random.randint(0, 256)
+        ys = np.random.randint(0, height, num_noise_pixels)
+        xs = np.random.randint(0, width, num_noise_pixels)
+        vals = np.random.randint(0, 256, num_noise_pixels)
 
-            # r =g = b = noise
-            noise = [noise, noise, noise]
-
-            image[y_coord, x_coord] = noise
+        image[ys, xs] = np.stack([vals, vals, vals], axis=-1)
 
         return image
 
@@ -462,8 +461,8 @@ class RuleBasedGenerator:
 
         final_resized_img = cv.resize(
             black_bg, 
-            (1242, 1242), # To match Utils.py/build_dataset expectations
-            interpolation=cv.INTER_CUBIC
+            CONFIG.SIZE,
+            interpolation=cv.INTER_CUBIC # dont ever change this to LINEAR 
         )
 
         return final_resized_img
