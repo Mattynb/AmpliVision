@@ -27,7 +27,7 @@ class ImageLoader:
     ```
     """
     @staticmethod
-    def load_images(path_to_imgs: str, return_paths_only:bool = False, display: int = 0):
+    def load_images(path_to_imgs: str, return_paths_only:bool = False, display: int = 0, file_paths: list = None):
         """
         ### Image loader
         Loads all the images in a folder and returns a list of images
@@ -38,6 +38,9 @@ class ImageLoader:
         #### Returns:
         List of images
         """
+
+        if file_paths is not None:
+            return [cv.imread(f) for f in file_paths]            
 
         # acceptable image types
         types = ('.png', '.jpg', 'JPEG')
@@ -50,11 +53,12 @@ class ImageLoader:
 
         # reading all images of acceptable types from given directory
         imgs = []
+        files = []
         for f_type in types:
-            files = [file for file in glob(f"{path_to_imgs}*{f_type}")]
-            
+            files.extend([file for file in glob(f"{path_to_imgs}*{f_type}")])
+
             if return_paths_only:
-                return files 
+                continue 
 
             if display:
                 for i, f in enumerate(files):
@@ -62,6 +66,10 @@ class ImageLoader:
                     print(f"{i} -> {name}")
 
             imgs.extend([cv.imread(file) for file in files])
+
+        if return_paths_only:
+            return files 
+        
 
         return imgs
 

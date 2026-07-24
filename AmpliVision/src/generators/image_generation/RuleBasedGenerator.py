@@ -213,16 +213,14 @@ class RuleBasedGenerator:
         
         #cv.imwrite("Grid_image.png",grid.img)
 
-        
-
         if CONFIG.CROP_TO_TEST_AREA:
             grid.img = RuleBasedGenerator.crop_to_test_areas(grid)
-        
+        else:
+            grid.img = self.rotate_image(grid.img, rotation)
+
         grid.img = self.add_noise(grid.img, percent=noise)
 
-        img = self.rotate_image(grid.img, rotation)
-
-        img = cv.cvtColor(img, cv.COLOR_RGB2BGR) if not rgb else img
+        img = cv.cvtColor(grid.img, cv.COLOR_RGB2BGR) if not rgb else img
        
         #cv.imwrite("Cropped_image.png",img)
         #exit()
@@ -257,7 +255,7 @@ class RuleBasedGenerator:
             target_name = str(image_name).split("_")[0]
             
             if black_background:
-                grid.img =  np.zeros((1242,1242,3), dtype='uint8')
+                grid.img =  np.zeros((CONFIG.SIZE,CONFIG.SIZE,3), dtype='uint8')
 
             # where each grid has multiple blocks
             for block in grid.get_blocks():
@@ -406,7 +404,7 @@ class RuleBasedGenerator:
 
         img = grid.img
         test_blocks = [
-            block for block in grid.get_blocks() 
+            block for block in grid.get_blocks()
             if block.block_type[:4] == 'test'
         ]
 
@@ -415,59 +413,53 @@ class RuleBasedGenerator:
             return None
 
         test_blocks.sort(key=lambda b: [
-            int(c) 
-            if c.isdigit() 
-            else c.lower() 
-            for c in re.split(r'(\d+)', b.block_type)]
-        )
+            int(c) if c.isdigit() else c.lower()
+            for c in re.split(r'(\d+)', b.block_type)
+        ])
 
-        # 1. Determine the layout (e.g., 2x2, 3x3)
         blocks_per_side = math.ceil(math.sqrt(len(test_blocks)))
-        
-        # 2. Define the size of each "cell" in your collage. 
-        # Using the standard square size from the grid class ensures the blocks fit perfectly.
-        #  = test_blocks.create_test_area_img()
-        cell_size = grid.SQUARE_RATIO - grid.EDGE_RATIO
-        collage_dim = blocks_per_side * cell_size
-        
-        black_bg = np.zeros((collage_dim, collage_dim, 3), dtype=img.dtype)
 
-        for i, block in enumerate(test_blocks):
-            # 3. Calculate pixel-based row/column for the collage
-            r_idx, c_idx = divmod(i, blocks_per_side)
-
-            # 5. Prepare the square image (ensure it is RGBA for the transparency function)
+        # prepare every square image first so canvas size is known before
+        # anything gets allocated or pasted
+        prepared = []
+        undo_rotation = {
+            90: cv.ROTATE_90_COUNTERCLOCKWISE,
+            180: cv.ROTATE_180,
+            270: cv.ROTATE_90_CLOCKWISE,
+        }
+        for block in test_blocks:
             block.img = img
             block.sq_img = None
-            
             sq_img = block.create_test_area_img()
             if sq_img.shape[2] == 3:
                 sq_img = cv.cvtColor(sq_img, cv.COLOR_BGR2RGBA)
-
-            # match the rotations
-            undo_rotation = {
-                90 : cv.ROTATE_90_COUNTERCLOCKWISE,
-                180 : cv.ROTATE_180,
-                270 : cv.ROTATE_90_CLOCKWISE,
-            }
             if block.rotation in undo_rotation:
                 sq_img = cv.rotate(sq_img, undo_rotation[block.rotation])
+            prepared.append(sq_img)
 
-            # 6. Paste directly using pixel coordinates to bypass grid index limits
-            result = grid.add_artificial_block((r_idx,c_idx),black_bg, sq_img)
-            
-            # Safety check to prevent the NoneType error if the paste fails
+        # single canvas, allocated once
+        h, w = prepared[0].shape[:2]
+        collage_dim = blocks_per_side * max(h, w)
+        black_bg = np.zeros((collage_dim, collage_dim, 3), dtype=img.dtype)
+
+        for i, sq_img in enumerate(prepared):
+            r_idx, c_idx = divmod(i, blocks_per_side)
+            cur_h, cur_w = sq_img.shape[:2]
+            tl_y, tl_x = r_idx * cur_h, c_idx * cur_w
+            br_y, br_x = tl_y + cur_h, tl_x + cur_w
+
+            result = grid.paste_block(black_bg, sq_img, (tl_y, tl_x), (br_y, br_x))
             if result is not None:
                 black_bg = result
 
         final_resized_img = cv.resize(
-            black_bg, 
-            (1242, 1242), # To match Utils.py/build_dataset expectations
+            black_bg,
+            (CONFIG.SIZE[0], CONFIG.SIZE[1]),
             interpolation=cv.INTER_CUBIC
         )
 
         return final_resized_img
-        
+            
 
         
 if __name__ == '__main__':
