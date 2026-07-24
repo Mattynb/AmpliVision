@@ -26,11 +26,11 @@ class Config:
     dataset : str = ""
     path_to_imgs : str = "" 
     scanned_path : str = ""
-    SIZE : list = field(default_factory=lambda: [256, 256]) # image size for CNN input
+    SIZE : list = field(default_factory=lambda: [224, 224]) # image size for CNN input
     SAVE : bool = False
-    NOISE: float = 0.1 # percentage 0.01 - 1.00
+    NOISE: float = 0.2 # percentage 0.01 - 1.00
     path_to_store : str = "/hpcstor6/scratch01/m/matheus.berbet001/" # f"{os.getcwd()}/AmpliVision/data/generated_images"  
-    CROP_TO_TEST_AREA: bool = True #True
+    CROP_TO_TEST_AREA: bool = True #True False
 
     # --- CLASSIFIER TRAINING PARAMS ---
     MODEL_PARAMS : dict = ""

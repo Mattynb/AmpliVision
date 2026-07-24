@@ -5,6 +5,7 @@ import numpy as np
 import pickle as pkl
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import itertools
 
 from src.phaseA import *
 from src.phaseB import phaseB
@@ -87,7 +88,7 @@ class  ML_Utils:
         g_dataset = tf.data.Dataset.from_generator(
             GEN.generate_for_od if OUTLIER else GEN.generate,  
             output_shapes=(
-                [1242, 1242, 3], 
+                [CONFIG.SIZE[0], CONFIG.SIZE[1], 3], 
                 2 if OUTLIER else [len(CONFIG.TARGETS)]
             ), 
             output_types=(tf.float32, tf.float32),
@@ -144,6 +145,13 @@ class  ML_Utils:
     ):
         """ Loads folder with pre-generated png images and creates a tf dataset """
 
+        def chunked(iterable, chunk_size):
+            """Yield lists of up to `size` items without materializing the whole thing."""
+            it = iter(iterable)
+            while chunk := list(itertools.islice(it, chunk_size)):
+                yield chunk
+
+
         def crop_path(data_path):
             # Define a new folder path for the cropped images
             cropped_path = os.path.join(data_path, "cropped")
@@ -153,35 +161,42 @@ class  ML_Utils:
             if os.path.exists(sentinel_file) and not skip_sentinel:
                 print(f"✅ Using cached cropped dataset from {cropped_path}")
                 return cropped_path
-        
+
+            all_paths = ImageLoader.load_images(data_path + "*", return_paths_only=True)
+            all_paths.sort()
+            print(f"# of images to crop: {len(all_paths)}")
 
             print(f"\n🚀 First-time setup: Cropping dataset offline. Saving to {cropped_path}...")
             os.makedirs(cropped_path, exist_ok=True)
             # Load chunk into memory dictionary format for phaseA2
-            Images = phaseA1(
-                data_path + "*", 
-                data_path,
-                display=False, 
-                do_white_balance=False,
-                is_pre_scanned=True
-            )
-            # Process the whole chunk through phaseA2
-            grids = phaseA2(Images, display=False)
-            # Crop and save to the new folder
-            for img_name, grid in grids.items():
-            
-                for block in grid.blocks:
-                    block.set_rgb_sequence()
-                    block = identify_block(block)
-                    
-                cropped_img = RuleBasedGenerator.crop_to_test_areas(grid)
-                if cropped_img is None:
-                    print(f"skipping {img_name} since img cropping failed")
-                    continue
-            
-                save_dest = os.path.join(cropped_path, img_name)
-                print(f"saving cropped image to: {save_dest}")
-                cv.imwrite(f"{save_dest}.png", cropped_img)
+            for n, chunk_paths in enumerate(chunked(all_paths, chunk_size=500), start=1):
+                print(f"  chunk {n}: ({(n*len(chunk_paths))}/{len(all_paths)} images)")
+
+                Images = phaseA1(
+                    data_path + "*", 
+                    data_path,
+                    display=False, 
+                    do_white_balance=False,
+                    is_pre_scanned=True,
+                    file_paths=chunk_paths
+                )
+                # Process the whole chunk through phaseA2
+                grids = phaseA2(Images, display=False)
+                # Crop and save to the new folder
+                for img_name, grid in grids.items():
+                    for block in grid.blocks:
+                        block.set_rgb_sequence()
+                        block = identify_block(block)
+                        
+                    cropped_img = RuleBasedGenerator.crop_to_test_areas(grid)
+                    if cropped_img is None:
+                        print(f"skipping {img_name} since img cropping failed")
+                        continue
+                
+                    save_dest = os.path.join(cropped_path, img_name)
+                    print(f"saving cropped image to: {save_dest}")
+                    cv.imwrite(f"{save_dest}.png", cropped_img)
+                del Images, grids
 
             # Create sentinel file to mark completion
             with open(sentinel_file, 'w') as f:
@@ -194,7 +209,7 @@ class  ML_Utils:
         # ==========================================
         if CONFIG.CROP_TO_TEST_AREA:
             data_path = crop_path(data_path)
-
+        
         all_image_paths = [
             os.path.join(data_path, fname) 
             for fname in os.listdir(data_path) 
@@ -203,12 +218,6 @@ class  ML_Utils:
         all_image_paths.sort()
         
         print(f"image paths => {len(all_image_paths)}. Ex: {all_image_paths}")
-        # valid_paths = []
-        # for path in all_image_paths:
-        #     if os.path.getsize(path) > 0:
-        #         valid_paths.append(path)
-        #     else:
-        #         print(f"🚨 CRITICAL WARNING: Found and skipped empty file: {path}")
         
         valid_paths = [
             p for p in all_image_paths 

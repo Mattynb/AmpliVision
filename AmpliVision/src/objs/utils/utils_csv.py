@@ -30,6 +30,9 @@ def get_filename(id: int, path: str):
 
     return image_name
 
+def get_filename_safe(path: str):
+    name = os.path.basename(path)
+    return name.replace('.', '_') 
 
 def write_to_csv(filename: str, data: list, jupyter:bool) -> str:
 

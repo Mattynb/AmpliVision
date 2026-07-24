@@ -2,7 +2,7 @@ import os
 import cv2 as cv
 from numpy import ndarray
 
-from .objs.utils import get_filename
+from .objs.utils import get_filename_safe
 from .objs import Grid, GridImageNormalizer, ImageLoader, ColorContourExtractor, TestGraph
 
 
@@ -11,7 +11,8 @@ def phaseA1(
     scanned_path: str,
     display: bool = False,
     is_pre_scanned: bool = False,
-    do_white_balance: bool = False
+    do_white_balance: bool = False,
+    file_paths: list = None,
 ) -> list:
     """
     Phase A1
@@ -28,29 +29,28 @@ def phaseA1(
     if path_to_imgs.startswith(scanned_path):
         is_pre_scanned = True
 
-    # loading images from given path
-    images = ImageLoader.load_images(path_to_imgs)
+    paths = file_paths if file_paths is not None else ImageLoader.load_images(
+        path_to_imgs, return_paths_only=True
+    )
+    images = ImageLoader.load_images(path_to_imgs, file_paths=paths)
     print(f"# of Images to be analyzed: {len(images)}\n")
 
-    # scanning each image
     scanned_images = {}
-    for idx, image in enumerate(images):
+    for image, src_path in zip(images, paths):
+        image_name = get_filename_safe(src_path)
 
-        # skip seen files
-        if seen_file(idx, scanned_path) and not is_pre_scanned:
+        if not is_pre_scanned and seen_file(image_name, scanned_path):
             continue
 
         image_scan, image_name = get_image_scan(
-            image, is_pre_scanned, idx, path_to_imgs, scanned_path, white_balance=do_white_balance
+            image, is_pre_scanned, image_name, scanned_path, white_balance=do_white_balance
         )
 
-        # skip if unable to scan image
         if image_scan is None:
             print(f"Unable to scan image {path_to_imgs}{image_name}, skipping...")
             continue
 
         scanned_images[image_name] = image_scan
-
         if display:
             display_img(image_scan, 0, image_name)
 
@@ -78,7 +78,7 @@ def phaseA2(scanned_images: dict, display: bool = False) -> dict:
         #   Finds the contours around non-grayscale (colorful)
         # edges in image. The contours are used to find the
         # pins and later blocks.
-        contours = ColorContourExtractor.process_image(image_scan.copy(), display=display)
+        contours = ColorContourExtractor.process_image(image_scan, display=display)
 
         #   Create Grid object from the scanned image. The grid
         # is used to store information about the grid, such as
@@ -124,19 +124,12 @@ def phaseA3(Grids, display: bool = False):
 
 # ----------------- Helper Functions ----------------- #
 
-
-def get_image_scan(image: ndarray, is_pre_scanned: bool, idx: int, path_to_imgs: str, scanned_path: str, white_balance: bool) -> tuple:
-    """Create Image object from loaded image.
-    The Image object is used to store the image
-    and the steps of the image processing."""
-
-    image_name = get_filename(idx, path_to_imgs)
+def get_image_scan(image, is_pre_scanned: bool, image_name: str, scanned_path: str, white_balance: bool) -> tuple:
     if is_pre_scanned:
         image_scan = image
     else:
         image_scan = GridImageNormalizer.scan(image_name, image, do_white_balance=white_balance)
         cv.imwrite(f"{scanned_path}{image_name}_scaned.jpg", image_scan)
-
     return image_scan, image_name
 
 
@@ -155,8 +148,7 @@ def display_grid(image_scan, Grid_DS, contours):
     im = cv.drawContours(im, contours, -1, (0, 255, 0), 3)
     display_img(im, 0)
 
-
-def seen_file(idx: int, scanned_path: str) -> bool:
-    if idx < len(os.listdir(scanned_path)) - 1:
-        return True
-    return False
+def seen_file(image_name: str, scanned_path: str) -> bool:
+    " Check whether a scanned version of this specific image already exists. "
+    expected_path = f"{scanned_path}{image_name}_scaned.jpg"
+    return os.path.exists(expected_path)

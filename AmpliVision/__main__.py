@@ -86,7 +86,7 @@ def main():
             # CONFIG.CROP_TO_TEST_AREA = False
             # CONFIG.NOISE = 0
             
-            n_images = len(CONFIG.TARGETS) * 100         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
+            n_images = len(CONFIG.TARGETS) * 1000         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
             print(f"""
             Generating {n_images} synthetic images.
             {n_images / len(CONFIG.TARGETS)} per class approximately.
