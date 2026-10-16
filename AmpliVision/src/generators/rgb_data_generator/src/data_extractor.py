@@ -65,9 +65,9 @@ class DataExtractor:
                 spot1, spot2)
 
         
-            # make sure the std is at least 10
+            # make sure the std is at least 4
             block_type_fingerprint = Utils.ensure_std_floor(
-                block_type_fingerprint, 5)
+                block_type_fingerprint, 2)
 
             # add fingerprint to dictionary
             fingerprint_by_block_type[block_type] = block_type_fingerprint

@@ -249,10 +249,7 @@ class workflow:
         return self.model # for chaining
 
 
-
-    def test_model(self):
-        """ Test a trained model """
-
+    def load_model(self):
         path = f"{os.getcwd()}/AmpliVision/data/ML_models/{CONFIG.TAG}.keras"
         #model = tf.keras.models.load_model(path)
         #model = self.model
@@ -275,10 +272,17 @@ class workflow:
             )
 
         print(model.summary())
+        return model
+
+    def test_model(self):
+        """ Test a trained model """
+
+        model = self.load_model()
 
         # real data
         print("\n\n--- Testing model with SCANNED images ---\n")
-        CONFIG.TEST_DATASET = "MARKER"
+        CONFIG.TEST_DATASET = "REAL"
+        CONFIG.NOISE = 0
         test_model_(model)
 
         # synthetic 

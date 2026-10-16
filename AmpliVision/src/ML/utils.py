@@ -217,7 +217,7 @@ class  ML_Utils:
         ]
         all_image_paths.sort()
         
-        print(f"image paths => {len(all_image_paths)}. Ex: {all_image_paths}")
+        print(f"image paths => {len(all_image_paths)}")
         
         valid_paths = [
             p for p in all_image_paths 
@@ -249,6 +249,7 @@ class  ML_Utils:
     
         def define_label_from_path(file_path):
             "images are saved as label_etc.png. returns one-hot encoded label"
+            print("path: ", file_path)
             filename = tf.strings.split(file_path, os.path.sep)[-1]
             label_str = tf.strings.split(filename, '_')[0]
             label = tf.cast(tf.equal(CONFIG.TARGETS, label_str), tf.float32)

@@ -12,7 +12,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from .utils import ML_Utils
 from src.config import CONFIG
 
-def test_model_(test_model, DATASET = "scanned_MARKER"):
+def test_model_(test_model, DATASET = CONFIG.dataset):
     """ Test model using scanned images (not generated)"""
 
     test_ds = ML_Utils.load_dataset(
@@ -163,7 +163,7 @@ def plot_confusion_matrix(predictions: list, y_true: list):
  
     # Plot the confusion matrix
     plt.clf()
-    disp = metrics.ConfusionMatrixDisplay.from_predictions(y_true, predictions, display_labels=sorted(CONFIG.TARGETS))
+    disp = metrics.ConfusionMatrixDisplay.from_predictions(y_true, predictions, labels=np.arange(len(CONFIG.TARGETS)), display_labels=CONFIG.TARGETS)
     disp.plot()
  
     path = f"{os.getcwd()}/AmpliVision/data/ML_perform/confusion_matrix/_{CONFIG.TEST_DATASET}_{CONFIG.TAG}.png"

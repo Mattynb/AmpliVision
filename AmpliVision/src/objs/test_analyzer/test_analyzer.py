@@ -218,7 +218,7 @@ class TestAnalyzer:
                 
                 rgb.append(int(random.normal(mean, std)))
             rgb = tuple(rgb)
-            
+            ###
             if means == [0,0,0]:
                 continue
             

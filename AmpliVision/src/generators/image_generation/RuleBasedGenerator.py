@@ -218,12 +218,9 @@ class RuleBasedGenerator:
         else:
             grid.img = self.rotate_image(grid.img, rotation)
 
-        grid.img = self.add_noise(grid.img, percent=noise)
+        grid.img = RuleBasedGenerator.add_noise(grid.img, percent=noise)
 
-        img = cv.cvtColor(grid.img, cv.COLOR_RGB2BGR) if not rgb else img
-       
-        #cv.imwrite("Cropped_image.png",img)
-        #exit()
+        img = cv.cvtColor(grid.img, cv.COLOR_RGB2BGR) if not rgb else grid.img
        
         # save the painted image in all possible orientations
         ##self.save_augmented_images(Grid, img) if CONFIG.SAVE else None
@@ -337,31 +334,23 @@ class RuleBasedGenerator:
             block_index = (block_index[0] + 1, block_index[1])
 
 
-
-    def add_noise(self, _image, percent = CONFIG.NOISE):
+    @staticmethod
+    def add_noise(_image, percent = CONFIG.NOISE):
         " Add grayscale random noise to the generated image "
         image = _image.copy()
 
-        # Get the dimensions of the image
-        height, width, channels = image.shape
+        height, width = image.shape[:2]
+        num_noise_pixels = int(percent * height * width)
 
-        # Calculate the number of pixels to be altered (5% of total pixels)
-        total_pixels = height * width
-        num_noise_pixels = int(percent * total_pixels)
+        # 1. Generate all random coordinates in bulk
+        ys = np.random.randint(0, height, size=num_noise_pixels)
+        xs = np.random.randint(0, width, size=num_noise_pixels)
 
-        # Generate random noise
-        for _ in range(num_noise_pixels):
-            # Pick a random pixel in the image
-            y_coord = np.random.randint(0, height)
-            x_coord = np.random.randint(0, width)
-            
-            # Add noise by altering the pixel value
-            noise = np.random.randint(0, 256)
+        # 2. Generate random grayscale noise values (shape: N, 1)
+        noise = np.random.randint(0, 256, size=(num_noise_pixels, 1), dtype=image.dtype)
 
-            # r =g = b = noise
-            noise = [noise, noise, noise]
-
-            image[y_coord, x_coord] = noise
+        # 3. Assign all pixels at once (broadcasts across RGB channels)
+        image[ys, xs, :3] = noise
 
         return image
 

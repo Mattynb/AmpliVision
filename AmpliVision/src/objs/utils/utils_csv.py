@@ -38,7 +38,10 @@ def write_to_csv(filename: str, data: list, jupyter:bool) -> str:
 
 
     save_path = f"{os.getcwd()}" + "/AmpliVision/data/results/" if not jupyter else "data/results/"
-
+    
+    # return save path
+    return save_path + filename
+    
     # create folder for csv files
     subfolder_name = filename.split('/')[-2]
     if not os.path.exists(save_path + subfolder_name):

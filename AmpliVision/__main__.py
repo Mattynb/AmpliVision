@@ -70,7 +70,19 @@ def main():
         
         case 'PYOD':
             "Outlier Detection"
-            run_pyod_workflow()
+
+            model_class = getattr(models, CONFIG.model_name, None)
+            if model_class is None:
+                print(f"ERROR: Model {model_name} not found in models.py, exiting...")
+                exit(1)
+
+            trained = model_class().load_model()
+
+            from src.ML.models import KerasModelBase
+            run_pyod_workflow(
+                trained, 
+                keras_preprocess=isinstance(model_class(), KerasModelBase)
+            )
 
         case 'GENERATE_DATA':
             "Generate synthetic images using the configured parameters in CONFIG."
@@ -86,7 +98,7 @@ def main():
             # CONFIG.CROP_TO_TEST_AREA = False
             # CONFIG.NOISE = 0
             
-            n_images = len(CONFIG.TARGETS) * 1000         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
+            n_images = len(CONFIG.TARGETS) * 100         #CONFIG.EPOCHS * CONFIG.STEPS_PER_EPOCH * CONFIG.BATCH_N
             print(f"""
             Generating {n_images} synthetic images.
             {n_images / len(CONFIG.TARGETS)} per class approximately.
@@ -238,12 +250,55 @@ def main():
                 pyod_results = pkl.load(f)
                 print(pyod_results)
         
-
             # Training history
             path = f"{os.getcwd()}/AmpliVision/data/ML_perform/histories/history_{CONFIG.TAG}.pkl"
             with open(path, "rb") as f:
                 history = pkl.load(f)
                 print( *[f"{k}: {v}" for k, v in history.items()], sep="\n\n")
+    
+
+def add_noise_to_ds():
+
+    import os
+    import cv2 as cv
+    import numpy as np
+
+    def add_noise(image, percent):
+        height, width = image.shape[:2]
+        num_noise_pixels = int(percent * height * width)
+
+        # 1. Generate all random coordinates in bulk
+        ys = np.random.randint(0, height, size=num_noise_pixels)
+        xs = np.random.randint(0, width, size=num_noise_pixels)
+
+        # 2. Generate random grayscale noise values (shape: N, 1)
+        noise = np.random.randint(0, 256, size=(num_noise_pixels, 1), dtype=image.dtype)
+
+        # 3. Assign all pixels at once (broadcasts across RGB channels)
+        image[ys, xs, :3] = noise
+
+        return image
+
+
+    input_dir="/hpcstor6/scratch01/m/matheus.berbet001/"
+    output_dir="/hpcstor6/scratch01/m/matheus.berbet001/noise/"
+    noise_percent=0.2
+
+    # Create the output directory if it does not already exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    for filename in os.listdir(input_dir):
+        if filename.lower().endswith(".png"):
+            input_path = os.path.join(input_dir, filename)
+            output_path = os.path.join(output_dir, filename)
+            
+            # Load image, apply noise, and save
+            print(f"reading {input_path}")
+            image = cv.imread(input_path)
+            noisy_image = add_noise(image, noise_percent)
+            
+            print(f"saving {output_path}")
+            cv.imwrite(output_path, noisy_image)
 
 
 if __name__ == '__main__':
@@ -256,10 +311,10 @@ if __name__ == '__main__':
 
     # ----------- USER PARAMETERS (via command line) ------------ #
     use_case = str(sys.argv[1])
-    dataset = str(sys.argv[2])
-    TAG = sys.argv[3]
+    dataset = CONFIG.dataset
+    TAG = sys.argv[2]
     TAG = TAG if TAG else dataset
-    model_name = sys.argv[4] if len(sys.argv) > 4 else CONFIG.model_name
+    model_name = sys.argv[3] if len(sys.argv) > 3 else CONFIG.model_name
 
     path_to_imgs = f"{os.getcwd()}/AmpliVision/data/{dataset}/*" #scanned/* #scanned_DENV/*"
     scanned_path = f"{os.getcwd()}/AmpliVision/data/{dataset}/"
