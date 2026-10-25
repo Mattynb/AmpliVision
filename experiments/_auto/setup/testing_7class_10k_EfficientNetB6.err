@@ -1,0 +1,10 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-07-22 09:35:59.606792: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1784727366.279386 3900206 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1784727366.280875 3900206 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:07:00.0, compute capability: 8.0
+/var/spool/slurm/d/job937450/slurm_script: line 23: 3900206 Killed                  python3 -u AmpliVision FULL scanned_MARKER testing_7class_10k_EfficientNetB6 EfficientNetB6
+slurmstepd: error: Detected 1 oom_kill event in StepId=937450.batch. Some of the step tasks have been OOM Killed.

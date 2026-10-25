@@ -1,0 +1,225 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-10-11 22:13:55.498269: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791771241.451564  523965 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1791771241.453253  523965 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:90:00.0, compute capability: 8.0
+2026-10-11 22:14:23.836160: I external/local_xla/xla/service/service.cc:163] XLA service 0x7fb04800a660 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2026-10-11 22:14:23.836362: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2026-10-11 22:14:23.958295: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2026-10-11 22:14:24.645211: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91002
+Could not load symbol cuFuncGetName. Error: /usr/lib/x86_64-linux-gnu/libcuda.so.1: undefined symbol: cuFuncGetName
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:14:26.832755: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:27.001904: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:14:28.907656: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:29.064497: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:14:29.980882: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:30.157783: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:30.312491: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:14:31.382816: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:31.536381: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:31.869142: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:14:32.023778: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+I0000 00:00:1791771275.272889  524188 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2026-10-11 22:15:36.840387: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:15:36.995887: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:16:38.326441: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:16:38.478093: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:16:39.967931: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:20:17.742592: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:18.055509: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:20:30.567620: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:30.742243: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:20:32.574126: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:32.758487: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:20:34.493279: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:34.674286: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-11 22:20:35.289581: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:35.446064: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:35.632378: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:35.794093: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:36.660266: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:36.856246: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-11 22:20:38.956241: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence

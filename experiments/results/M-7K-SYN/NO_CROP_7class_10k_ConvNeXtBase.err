@@ -1,0 +1,19 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-10-03 14:00:14.094627: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 8, in <module>
+    from src.ML import models, ML_Utils
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/__init__.py", line 1, in <module>
+    from .models import *
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/models.py", line 10, in <module>
+    from .utils import ML_Utils
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/utils.py", line 11, in <module>
+    from src.phaseB import phaseB
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/phaseB.py", line 2, in <module>
+    from .backend import identify_block
+ModuleNotFoundError: No module named 'src.backend'

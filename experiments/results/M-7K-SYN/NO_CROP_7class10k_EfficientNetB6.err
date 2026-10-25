@@ -1,0 +1,363 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-10-03 20:11:13.393624: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791072677.363755 3533155 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1791072677.365151 3533155 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:07:00.0, compute capability: 8.0
+2026-10-03 20:11:56.584993: I external/local_xla/xla/service/service.cc:163] XLA service 0x7fec7400bb70 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2026-10-03 20:11:56.585154: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2026-10-03 20:11:57.398639: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2026-10-03 20:12:01.171950: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91002
+Could not load symbol cuFuncGetName. Error: /usr/lib/x86_64-linux-gnu/libcuda.so.1: undefined symbol: cuFuncGetName
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:05.880591: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:06.041969: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:07.203253: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:07.399124: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:08.258406: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:08.418010: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:08.931319: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:09.089981: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:09.827660: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:09.985330: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:10.527708: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:10.685443: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:11.240995: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:11.393338: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:11.708738: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:11.865569: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:12.263115: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:12.436356: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:12.839989: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:12.999989: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:13.525804: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:13.684382: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:13.888952: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:14.062005: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:14.499632: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:14.664494: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:15.344793: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:15.504114: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:15.725813: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:15.911892: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:17.267123: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:17.434289: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:17.637667: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:17.808802: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:18.050890: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:18.226999: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:18.418458: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:18.588891: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:18.831405: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:19.007058: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:19.201830: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:19.369618: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:19.573317: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:19.745434: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:20.251162: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:20.402746: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:20.637725: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:20.810587: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.006981: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.173846: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.378770: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.545412: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.752532: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:21.919072: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:22.125361: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:22.292520: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:22.498159: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:22.664571: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:22.902007: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:23.078193: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 20:12:23.850978: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:24.010922: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:24.195831: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:24.354381: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:24.653260: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:24.863209: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:25.108133: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:25.291804: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:25.539854: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:25.725019: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:25.973850: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:26.156292: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:26.402387: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:26.586814: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:26.888673: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 20:12:27.102694: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+I0000 00:00:1791072763.373120 3533295 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2026-10-03 21:56:38.848150: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:38.999441: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:39.260662: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:39.418089: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:39.625887: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:39.786658: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:39.986826: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:40.147781: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:40.337381: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:40.499995: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:40.709487: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:40.869848: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:41.074373: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:41.238588: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:41.474718: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:41.654052: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:42.461640: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:42.611681: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:42.808644: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:42.966940: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:43.123938: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:43.327933: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:43.488385: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:43.687872: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:43.848608: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.110261: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.270843: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.460036: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.622278: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.786040: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:44.994522: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:45.158871: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:45.390777: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:45.566940: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:46.581014: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:46.739746: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:46.978409: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:47.155069: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:47.513613: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:47.699236: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:47.956950: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:48.144256: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:48.401944: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:48.589854: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:48.830044: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:49.006590: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:49.259367: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:49.445256: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:49.742645: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:50.006019: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:50.266252: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:50.446336: E external/local_xla/xla/service/slow_operation_alarm.cc:73] Trying algorithm eng18{k11=2} for conv (f32[3456,1,3,3]{3,2,1,0}, u8[0]{0}) custom-call(f32[16,3456,7,7]{3,2,1,0}, f32[16,3456,7,7]{3,2,1,0}), window={size=3x3 pad=1_1x1_1}, dim_labels=bf01_oi01->bf01, feature_group_count=3456, custom_call_target="__cudnn$convBackwardFilter", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kNone","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]} is taking a while...
+2026-10-03 21:56:50.476218: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 21:56:50.476804: E external/local_xla/xla/service/slow_operation_alarm.cc:140] The operation took 1.030562865s
+Trying algorithm eng18{k11=2} for conv (f32[3456,1,3,3]{3,2,1,0}, u8[0]{0}) custom-call(f32[16,3456,7,7]{3,2,1,0}, f32[16,3456,7,7]{3,2,1,0}), window={size=3x3 pad=1_1x1_1}, dim_labels=bf01_oi01->bf01, feature_group_count=3456, custom_call_target="__cudnn$convBackwardFilter", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kNone","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]} is taking a while...
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 23:07:53.277033: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:53.432540: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 23:07:54.228937: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:54.380415: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:54.551357: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:54.704699: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:55.128074: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:55.279864: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:55.720909: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:55.874690: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:56.391696: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:56.547241: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:57.099767: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:57.258051: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:58.151829: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:58.319067: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 23:07:58.912742: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:59.078304: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+Could not load symbol __nvrtcCPEx. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: __nvrtcCPEx
+Could not load symbol nvrtcGetCUBINSize. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBINSize
+Could not load symbol nvrtcGetCUBIN. Error: /usr/local/cuda-11.0/targets/x86_64-linux/lib/libnvrtc.so: undefined symbol: nvrtcGetCUBIN
+2026-10-03 23:07:59.798281: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:07:59.988455: E external/local_xla/xla/stream_executor/cuda/cuda_timer.cc:86] Delay kernel timed out: measured time has sub-optimal accuracy. There may be a missing warmup execution, please investigate in Nsight Systems.
+2026-10-03 23:08:04.823442: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2026-10-03 23:08:42.167910: W tensorflow/core/framework/op_kernel.cc:1842] INVALID_ARGUMENT: TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+Traceback (most recent call last):
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/ops/script_ops.py", line 269, in __call__
+    ret = func(*args)
+          ^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/autograph/impl/api.py", line 643, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/from_generator_op.py", line 198, in generator_py_func
+    values = next(generator_state.get_iterator(iterator_id))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 108, in generate_for_od
+    img = self.generate_single_image(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 221, in generate_single_image
+    grid.img = self.add_noise(grid.img, percent=noise)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+
+
+2026-10-03 23:08:42.168798: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: INVALID_ARGUMENT: TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+Traceback (most recent call last):
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/ops/script_ops.py", line 269, in __call__
+    ret = func(*args)
+          ^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/autograph/impl/api.py", line 643, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/from_generator_op.py", line 198, in generator_py_func
+    values = next(generator_state.get_iterator(iterator_id))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 108, in generate_for_od
+    img = self.generate_single_image(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 221, in generate_single_image
+    grid.img = self.add_noise(grid.img, percent=noise)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+
+
+	 [[{{node PyFunc}}]]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 357, in <module>
+    main()
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 33, in main
+    run_pyod_workflow(
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/pyod_workflow.py", line 72, in run_pyod_workflow
+    for x_batch, y_batch in ds.take(1):
+                            ^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py", line 826, in __next__
+    return self._next_internal()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/iterator_ops.py", line 776, in _next_internal
+    ret = gen_dataset_ops.iterator_get_next(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py", line 3086, in iterator_get_next
+    _ops.raise_from_not_ok_status(e, name)
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/framework/ops.py", line 6027, in raise_from_not_ok_status
+    raise core._status_to_exception(e) from None  # pylint: disable=protected-access
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: {{function_node __wrapped__IteratorGetNext_output_types_2_device_/job:localhost/replica:0/task:0/device:CPU:0}} TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+Traceback (most recent call last):
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/ops/script_ops.py", line 269, in __call__
+    ret = func(*args)
+          ^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/autograph/impl/api.py", line 643, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/from_generator_op.py", line 198, in generator_py_func
+    values = next(generator_state.get_iterator(iterator_id))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 108, in generate_for_od
+    img = self.generate_single_image(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/generators/image_generation/RuleBasedGenerator.py", line 221, in generate_single_image
+    grid.img = self.add_noise(grid.img, percent=noise)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TypeError: RuleBasedGenerator.add_noise() got multiple values for argument 'percent'
+
+
+	 [[{{node PyFunc}}]] [Op:IteratorGetNext] name: 

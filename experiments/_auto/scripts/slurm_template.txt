@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --nodes 1
+##SBATCH --account=itcga
+#SBATCH --cpus-per-task=15
+#SBATCH --gres=gpu:A100:1
+#SBATCH --time=00:30:00
+#SBATCH --mem=100gb
+#SBATCH --partition=DGXA100
+#SBATCH --job-name=PREFIX_MODEL_NAME
+#SBATCH --output=_experiments/AUTO/PREFIX_MODEL_NAME.out
+#SBATCH --error=_experiments/AUTO/PREFIX_MODEL_NAME.err
+##SBATCH --dependency=afterany:1026417
+
+# Optional email alerts
+##SBATCH --mail-type=END
+##SBATCH --mail-user=
+
+conda init
+sleep 2
+conda activate AMPLI2
+sleep 2
+
+echo Starting JOB for MODEL_NAME
+python3.12 -u AmpliVision JOB PREFIX_MODEL_NAME MODEL_NAME
+echo JOB finished for MODEL_NAME

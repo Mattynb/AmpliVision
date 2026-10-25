@@ -1,0 +1,143 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-07-22 21:25:32.790185: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1784769938.604002 3786663 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1784769938.605398 3786663 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:bd:00.0, compute capability: 8.0
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '0,0,0' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 5). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 9). #Seq [2, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 9). #Seq [2, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 0). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 1). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 2). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 3). #Seq [3, 3] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 4). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 5). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 6). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 9). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 9). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 9). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 9). #Seq [3, 3] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 9). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 9). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (8, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 9). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 9). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 9). #Seq [3, 3] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 9). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (0, 9). #Seq [2, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 2). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 3). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 4). #Seq [3, 3] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 5). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 7). #Seq [1, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 9). #Seq [2, 1] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 8). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+slurmstepd: error: *** JOB 937983 ON chimera12 CANCELLED AT 2026-07-22T22:20:39 DUE TO TIME LIMIT ***

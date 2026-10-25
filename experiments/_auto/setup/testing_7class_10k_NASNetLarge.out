@@ -1,0 +1,108 @@
+no change     /home/matheus.berbet001/anaconda3/condabin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda-env
+no change     /home/matheus.berbet001/anaconda3/bin/activate
+no change     /home/matheus.berbet001/anaconda3/bin/deactivate
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.sh
+no change     /home/matheus.berbet001/anaconda3/etc/fish/conf.d/conda.fish
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/Conda.psm1
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/conda-hook.ps1
+no change     /home/matheus.berbet001/anaconda3/lib/python3.13/site-packages/xontrib/conda.xsh
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.csh
+no change     /home/matheus.berbet001/.bashrc
+No action taken.
+Starting FULL for NASNetLarge
+
+************************* CONFIG *************************
+DateTime = "2026/07/22 13:08"
+TAG = "testing_7class_10k_NASNetLarge"
+SAVE_NAME = "testing_7class_10k_NASNetLarge_2026_07"
+use_case = "FULL"
+dataset = "scanned_MARKER"
+path_to_imgs = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/*"
+scanned_path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/"
+SIZE = "[244, 244]"
+SAVE = "False"
+NOISE = "0.2"
+path_to_store = "/hpcstor6/scratch01/m/matheus.berbet001/"
+CROP_TO_TEST_AREA = "True"
+MODEL_PARAMS = "{'optimizer': <keras.src.optimizers.adam.Adam object at 0x7f52e7cee870>, 'learning_rate': 0.0001, 'loss': <LossFunctionWrapper(<function categorical_crossentropy at 0x7f527aebba60>, kwargs={'from_logits': False, 'label_smoothing': 0.1, 'axis': -1})>, 'metrics': ['accuracy', 'AUC', <F1Score name=f1_score>]}"
+TARGETS = "['breast', 'control', 'lung', 'ovarian', 'prostate', 'skin', 'thyroid']"
+model_name = "NASNetLarge"
+EPOCHS = "25"
+BATCH_N = "16"
+STEPS_PER_EPOCH = "437"
+VALIDATION_STEPS = "4"
+BLACK = "False"
+GEN_IMG_FORM = "tensor"
+TRAIN_DATASET = "LOAD"
+GAN_ON = "False"
+GAN_SIZE = "[256, 256]"
+GAN_BATCH_N = "1"
+GAN_EPOCHS = "100"
+GAN_STEPS_PER_EPOCH = "500"
+gan_path_real = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER"
+gan_path_synth = "/hpcstor6/scratch01/m/matheus.berbet001/clean/"
+GAN_SAVE_PATH = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/cyclegan_gen_synth_to_real.keras"
+TEST_DATASET = ""
+**********************************************************
+
+ --- Running FULL --- 
+# of Images to be analyzed: 7
+
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-22-2026/
+7
+******************** 
+building model
+ ********************
+Compiling model with parameters: {'optimizer': <keras.src.optimizers.adam.Adam object at 0x7f52e7cee870>, 'loss': <LossFunctionWrapper(<function categorical_crossentropy at 0x7f527aebba60>, kwargs={'from_logits': False, 'label_smoothing': 0.1, 'axis': -1})>, 'metrics': ['accuracy', 'AUC', <F1Score name=f1_score>]}
+Model: "functional_1"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ input_layer_1 (InputLayer)      │ (None, 244, 244, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ lambda (Lambda)                 │ (None, 244, 244, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ nasnet_large (Functional)       │ (None, 8, 8, 4032)     │    84,916,818 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ global_average_pooling2d        │ (None, 4032)           │             0 │
+│ (GlobalAveragePooling2D)        │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 120)            │       483,960 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 120)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 84)             │        10,164 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (Dropout)             │ (None, 84)             │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 7)              │           595 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 85,411,537 (325.82 MB)
+ Trainable params: 494,719 (1.89 MB)
+ Non-trainable params: 84,916,818 (323.93 MB)
+******************** 
+training model
+ ********************
+******************** 
+Using loaded dataset for training
+ ********************
+
+🚀 First-time setup: Cropping dataset offline. Saving to /hpcstor6/scratch01/m/matheus.berbet001/cropped...
+# of Images to be analyzed: 7000
+
+FULL finished for NASNetLarge

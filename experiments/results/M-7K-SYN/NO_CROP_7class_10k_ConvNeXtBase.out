@@ -1,0 +1,15 @@
+no change     /home/matheus.berbet001/anaconda3/condabin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda-env
+no change     /home/matheus.berbet001/anaconda3/bin/activate
+no change     /home/matheus.berbet001/anaconda3/bin/deactivate
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.sh
+no change     /home/matheus.berbet001/anaconda3/etc/fish/conf.d/conda.fish
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/Conda.psm1
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/conda-hook.ps1
+no change     /home/matheus.berbet001/anaconda3/lib/python3.13/site-packages/xontrib/conda.xsh
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.csh
+no change     /home/matheus.berbet001/.bashrc
+No action taken.
+Starting FULL for ConvNeXtBase
+FULL finished for ConvNeXtBase

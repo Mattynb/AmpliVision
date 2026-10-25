@@ -1,0 +1,126 @@
+no change     /home/matheus.berbet001/anaconda3/condabin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda-env
+no change     /home/matheus.berbet001/anaconda3/bin/activate
+no change     /home/matheus.berbet001/anaconda3/bin/deactivate
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.sh
+no change     /home/matheus.berbet001/anaconda3/etc/fish/conf.d/conda.fish
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/Conda.psm1
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/conda-hook.ps1
+no change     /home/matheus.berbet001/anaconda3/lib/python3.13/site-packages/xontrib/conda.xsh
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.csh
+no change     /home/matheus.berbet001/.bashrc
+No action taken.
+Starting TEST for VGG16
+
+************************* CONFIG *************************
+DateTime = "2026/07/24 10:47"
+TAG = "testing_7class10k_VGG16"
+SAVE_NAME = "testing_7class10k_VGG16_2026_07"
+use_case = "TEST"
+dataset = "scanned_MARKER"
+path_to_imgs = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/*"
+scanned_path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/"
+SIZE = "[224, 224]"
+SAVE = "False"
+NOISE = "0.2"
+path_to_store = "/hpcstor6/scratch01/m/matheus.berbet001/"
+CROP_TO_TEST_AREA = "True"
+MODEL_PARAMS = "{'optimizer': <keras.src.optimizers.adam.Adam object at 0x7f824647eed0>, 'learning_rate': 0.0001, 'loss': <LossFunctionWrapper(<function categorical_crossentropy at 0x7f82b47a3a60>, kwargs={'from_logits': False, 'label_smoothing': 0.1, 'axis': -1})>, 'metrics': ['accuracy', 'AUC', <F1Score name=f1_score>]}"
+TARGETS = "['breast', 'control', 'lung', 'ovarian', 'prostate', 'skin', 'thyroid']"
+model_name = "VGG16"
+EPOCHS = "25"
+BATCH_N = "16"
+STEPS_PER_EPOCH = "437"
+VALIDATION_STEPS = "4"
+BLACK = "False"
+GEN_IMG_FORM = "tensor"
+TRAIN_DATASET = "LOAD"
+GAN_ON = "False"
+GAN_SIZE = "[256, 256]"
+GAN_BATCH_N = "1"
+GAN_EPOCHS = "100"
+GAN_STEPS_PER_EPOCH = "500"
+gan_path_real = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER"
+gan_path_synth = "/hpcstor6/scratch01/m/matheus.berbet001/clean/"
+GAN_SAVE_PATH = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/cyclegan_gen_synth_to_real.keras"
+TEST_DATASET = ""
+**********************************************************
+
+ --- Running TEST --- 
+# of Images to be analyzed: 7
+
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/07-24-2026/
+7
+
+--- Loading model from disk safely ---
+Model: "functional_1"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ input_layer_1 (InputLayer)      │ (None, 224, 224, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ lambda (Lambda)                 │ (None, 224, 224, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ vgg16 (Functional)              │ (None, 7, 7, 512)      │    14,714,688 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ global_average_pooling2d        │ (None, 512)            │             0 │
+│ (GlobalAveragePooling2D)        │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 120)            │        61,560 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 120)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 84)             │        10,164 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (Dropout)             │ (None, 84)             │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 7)              │           595 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 29,090,495 (110.97 MB)
+ Trainable params: 7,151,743 (27.28 MB)
+ Non-trainable params: 7,635,264 (29.13 MB)
+ Optimizer params: 14,303,488 (54.56 MB)
+None
+
+
+--- Testing model with SCANNED images ---
+
+✅ Using cached cropped dataset from /home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped
+image paths => 49. Ex: ['/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img10_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img11_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img12_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img8_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/breast_img9_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img10_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img8_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/control_img9_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img3_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img7_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/lung_img8_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img7_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img8_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/ovarian_img9_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img3_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img7_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/prostate_img8_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img1_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img3_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/skin_img7_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img2_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img3_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img4_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img5_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img6_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img7_JPEG_scaned_jpg.png', '/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/test/cropped/thyroid_img8_JPEG_scaned_jpg.png']
+Training dataset size: 49, Validation dataset size: 0
+Loaded image shape:  (224, 224, 3)
+Loaded label:  Tensor("Cast:0", shape=(7,), dtype=float32)
+
+--- Testing model with scanned_MARKER images ---
+
+[1m1/4[0m [32m━━━━━[0m[37m━━━━━━━━━━━━━━━[0m [1m9s[0m 3s/step[1m4/4[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 386ms/step[1m4/4[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m4s[0m 398ms/step
+[7 7 7 7 7 7 7]
+[[0.9356955  0.01217031 0.00861051 0.01145143 0.01025655 0.01186281
+  0.00995276]
+ [0.00576271 0.96233016 0.00684355 0.00791844 0.00683809 0.00444508
+  0.00586187]
+ [0.00985792 0.01256586 0.9279743  0.01087427 0.01307109 0.01611675
+  0.00953989]
+ [0.01543975 0.0179005  0.01833556 0.8927112  0.01994657 0.01971597
+  0.01595039]
+ [0.04267254 0.04167016 0.05885982 0.02819674 0.7563317  0.03554406
+  0.03672487]]
+saved F1 score at /home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_perform/f1_scores/_MARKER_testing_7class10k_VGG16.png.
+ Score: [1. 1. 1. 1. 1. 1. 1.]
+saved confusion matrix at /home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_perform/confusion_matrix/_MARKER_testing_7class10k_VGG16.png
+Saved 49 test images with predictions to /home/matheus.berbet001/code/AmpliVision/z_TEST/LOAD
+TEST finished for VGG16

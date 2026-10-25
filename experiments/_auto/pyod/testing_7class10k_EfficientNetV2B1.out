@@ -1,0 +1,237 @@
+no change     /home/matheus.berbet001/anaconda3/condabin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda
+no change     /home/matheus.berbet001/anaconda3/bin/conda-env
+no change     /home/matheus.berbet001/anaconda3/bin/activate
+no change     /home/matheus.berbet001/anaconda3/bin/deactivate
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.sh
+no change     /home/matheus.berbet001/anaconda3/etc/fish/conf.d/conda.fish
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/Conda.psm1
+no change     /home/matheus.berbet001/anaconda3/shell/condabin/conda-hook.ps1
+no change     /home/matheus.berbet001/anaconda3/lib/python3.13/site-packages/xontrib/conda.xsh
+no change     /home/matheus.berbet001/anaconda3/etc/profile.d/conda.csh
+no change     /home/matheus.berbet001/.bashrc
+No action taken.
+Starting PYOD for EfficientNetV2B1
+
+************************* CONFIG *************************
+DateTime = "2026/08/12 22:09"
+TAG = "testing_7class10k_EfficientNetV2B1"
+SAVE_NAME = "testing_7class10k_EfficientNetV2B1_2026_08"
+use_case = "PYOD"
+dataset = "scanned_MARKER"
+path_to_imgs = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/*"
+scanned_path = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER/"
+SIZE = "[224, 224]"
+SAVE = "False"
+NOISE = "0.2"
+path_to_store = "/hpcstor6/scratch01/m/matheus.berbet001/"
+CROP_TO_TEST_AREA = "True"
+MODEL_PARAMS = "{'optimizer': <keras.src.optimizers.adam.Adam object at 0x7fd6e83aaf00>, 'learning_rate': 0.0001, 'loss': <LossFunctionWrapper(<function categorical_crossentropy at 0x7fd755fbba60>, kwargs={'from_logits': False, 'label_smoothing': 0.1, 'axis': -1})>, 'metrics': ['accuracy', 'AUC', <F1Score name=f1_score>]}"
+TARGETS = "['breast', 'control', 'lung', 'ovarian', 'prostate', 'skin', 'thyroid']"
+model_name = "EfficientNetV2B1"
+EPOCHS = "25"
+BATCH_N = "16"
+STEPS_PER_EPOCH = "437"
+VALIDATION_STEPS = "4"
+BLACK = "False"
+GEN_IMG_FORM = "tensor"
+TRAIN_DATASET = "LOAD"
+PYOD_BATCH_N = "500"
+CONTAMINATION = "0.1"
+GAN_ON = "False"
+GAN_SIZE = "[256, 256]"
+GAN_BATCH_N = "1"
+GAN_EPOCHS = "100"
+GAN_STEPS_PER_EPOCH = "500"
+gan_path_real = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/scanned_MARKER"
+gan_path_synth = "/hpcstor6/scratch01/m/matheus.berbet001/clean/"
+GAN_SAVE_PATH = "/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/cyclegan_gen_synth_to_real.keras"
+TEST_DATASET = ""
+**********************************************************
+
+ --- Running PYOD --- 
+# of Images to be analyzed: 7
+
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+7
+
+--- Loading model from disk safely ---
+Model: "functional_1"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ input_layer_1 (InputLayer)      │ (None, 224, 224, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ lambda (Lambda)                 │ (None, 224, 224, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ efficientnetv2-b1 (Functional)  │ (None, 7, 7, 1280)     │     6,931,124 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ global_average_pooling2d        │ (None, 1280)           │             0 │
+│ (GlobalAveragePooling2D)        │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 120)            │       153,720 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 120)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 84)             │        10,164 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (Dropout)             │ (None, 84)             │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 7)              │           595 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 12,874,675 (49.11 MB)
+ Trainable params: 2,889,535 (11.02 MB)
+ Non-trainable params: 4,206,068 (16.04 MB)
+ Optimizer params: 5,779,072 (22.05 MB)
+None
+# of Images to be analyzed: 7
+
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+7
+Changed BATCH_N to:  500  for PyOD workflow
+# of Images to be analyzed: 7
+
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+len(Grid_DS.get_blocks()): 7
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/results/08-12-2026/
+7
+unique_labels = ['breast', 'control', 'lung', 'ovarian', 'prostate', 'skin', 'thyroid']
+Extracting features from layer: global_average_pooling2d
+[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 24s/step[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m24s[0m 24s/step
+sample_labels: ['(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Outlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)', '(Inlier)']
+Saved dendrogram plot to dendrogram.png
+--------------------  Running KNN  --------------------
+Accuracy for KNN: 88.80%
+F1-Score:  44.0
+PR-AUC (Average Precision):  39.7
+ROC-AUC:  88.53
+--------------------  KNN DONE  --------------------
+--------------------  Running AvgKNN  --------------------
+Accuracy for AvgKNN: 88.80%
+F1-Score:  44.0
+PR-AUC (Average Precision):  40.56
+ROC-AUC:  88.83
+--------------------  AvgKNN DONE  --------------------
+--------------------  Running MedKNN  --------------------
+Accuracy for MedKNN: 88.80%
+F1-Score:  44.0
+PR-AUC (Average Precision):  40.08
+ROC-AUC:  88.52
+--------------------  MedKNN DONE  --------------------
+--------------------  Running COF  --------------------
+Accuracy for COF: 90.40%
+F1-Score:  52.0
+PR-AUC (Average Precision):  52.29
+ROC-AUC:  93.06
+--------------------  COF DONE  --------------------
+--------------------  Running CBLOF  --------------------
+Accuracy for CBLOF: 85.20%
+F1-Score:  26.0
+PR-AUC (Average Precision):  24.98
+ROC-AUC:  82.44
+--------------------  CBLOF DONE  --------------------
+--------------------  Running LOF  --------------------
+Accuracy for LOF: 88.40%
+F1-Score:  42.0
+PR-AUC (Average Precision):  40.72
+ROC-AUC:  90.48
+--------------------  LOF DONE  --------------------
+--------------------  Running IForest  --------------------
+Accuracy for IForest: 84.80%
+F1-Score:  24.0
+PR-AUC (Average Precision):  22.2
+ROC-AUC:  73.95
+--------------------  IForest DONE  --------------------
+--------------------  Running HBOS  --------------------
+Accuracy for HBOS: 82.00%
+F1-Score:  10.0
+PR-AUC (Average Precision):  16.48
+ROC-AUC:  68.56
+--------------------  HBOS DONE  --------------------
+--------------------  Running COPOD  --------------------
+Accuracy for COPOD: 82.80%
+F1-Score:  14.0
+PR-AUC (Average Precision):  17.9
+ROC-AUC:  71.49
+--------------------  COPOD DONE  --------------------
+--------------------  Running ECOD  --------------------
+Accuracy for ECOD: 80.80%
+F1-Score:  4.0
+PR-AUC (Average Precision):  18.32
+ROC-AUC:  77.16
+--------------------  ECOD DONE  --------------------
+--------------------  Running PCA  --------------------
+Accuracy for PCA: 83.60%
+F1-Score:  18.0
+PR-AUC (Average Precision):  19.24
+ROC-AUC:  73.31
+--------------------  PCA DONE  --------------------
+--------------------  Running LODA  --------------------
+Accuracy for LODA: 84.00%
+F1-Score:  20.0
+PR-AUC (Average Precision):  17.75
+ROC-AUC:  64.95
+--------------------  LODA DONE  --------------------
+--------------------  Running Sampling  --------------------
+Accuracy for Sampling: 84.80%
+F1-Score:  24.0
+PR-AUC (Average Precision):  20.74
+ROC-AUC:  68.76
+--------------------  Sampling DONE  --------------------
+
+==================== LEADERBOARD (Ranked by F1-Score) ====================
+Rank  Algorithm           F1-Score  
+------------------------------------
+1     COF                 52.00%
+2     KNN                 44.00%
+3     AvgKNN              44.00%
+4     MedKNN              44.00%
+5     LOF                 42.00%
+6     CBLOF               26.00%
+7     IForest             24.00%
+8     Sampling            24.00%
+9     LODA                20.00%
+10    PCA                 18.00%
+11    COPOD               14.00%
+12    HBOS                10.00%
+13    ECOD                4.00%
+========================================================
+
+PYOD finished for EfficientNetV2B1

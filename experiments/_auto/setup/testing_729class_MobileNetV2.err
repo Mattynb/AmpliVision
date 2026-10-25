@@ -1,0 +1,611 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-07-16 17:15:55.040454: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1784236564.394590  283599 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1784236564.396307  283599 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:47:00.0, compute capability: 8.0
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/models.py:671: UserWarning: `input_shape` is undefined or non-square, or `rows` is not in [96, 128, 160, 192, 224]. Weights for input shape (224, 224) will be loaded as the default.
+  model = model_constructor(**model_constructor_kwargs)
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '0,0,0' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '195,171,170' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '195,169,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '199,172,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '182,193,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 3). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 4). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 7). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 1). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '175,187,165' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 1). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '186,196,170' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '195,169,167' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '164,171,198' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '166,171,201' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 3). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '199,171,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '165,176,205' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 3). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '162,170,203' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '173,185,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 3). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '200,172,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 3). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '206,179,177' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '199,176,174' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 3). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '173,185,167' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '207,179,177' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '174,186,169' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 4). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '161,172,202' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '164,169,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '197,171,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 2). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 3). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 5). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 5). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 5). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 5). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '163,171,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 0). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '198,170,170' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,170,170' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 0). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '197,172,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '173,178,208' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '170,180,209' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 2). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 4). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '167,172,203' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '197,171,169' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '200,172,172' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 1). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '172,183,162' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '172,182,164' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '162,169,202' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '176,188,166' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 1). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '176,188,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 5). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '165,176,206' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 7). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (0, 7). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '179,190,164' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '179,190,163' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '162,170,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '200,174,172' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 2). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '167,177,207' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 2). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 2). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 3). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 4). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 5). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '197,169,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 5). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,170,167' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '181,192,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '193,170,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '181,191,165' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '172,185,164' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '174,184,166' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '162,173,203' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 7). #Seq [2, 2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (9, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '195,169,166' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '163,172,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '169,179,207' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 4). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '180,191,165' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '202,175,174' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,173,172' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,169,167' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (5, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '168,175,202' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '168,173,204' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 4). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '172,183,211' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '161,169,202' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '175,187,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 4). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 4). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '167,178,207' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 4). #Seq [2, 2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '194,169,167' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 6). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '166,172,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,169,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 9). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '167,173,204' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 9). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 3). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '166,177,206' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (3, 3). #Seq [2, 2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 3). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '200,177,175' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '202,175,173' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '175,187,170' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 5). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '174,187,166' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '167,169,206' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 6). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '161,171,201' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 7). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '176,187,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '168,180,162' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 4). #Seq [2, 2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '196,169,169' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (1, 2). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (2, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (0, 6). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '169,175,206' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (0, 7). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '176,188,165' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 1). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 2). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 4). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '201,178,176' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '162,171,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '161,170,200' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (6, 7). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '164,170,198' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 7). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '195,171,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '178,189,163' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '200,173,171' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 3). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (4, 9). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 9). #Seq [2, 2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '170,176,207' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (8, 9). #Seq [] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '164,175,204' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:76: UserWarning: 
+Block: Unknown at (7, 3). #Seq [2] 
+
+  warnings.warn(f'\nBlock: Unknown at {block.index}. #Seq {sequence_numerical} \n')
+/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/backend/identify_block.py:37: UserWarning: RGB sequence '194,170,168' not found in color ranges.
+  warnings.warn(f"RGB sequence '{r},{g},{b}' not found in color ranges.")
+2026-07-16 18:07:13.535939: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: INVALID_ARGUMENT: buffer_size must be greater than zero or UNKNOWN_CARDINALITY
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 167, in <module>
+    main()
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 29, in main
+    trained = model_class().run()
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/models.py", line 244, in run
+    _, args = self.train_tf_model()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/models.py", line 137, in train_tf_model
+    train_dataset, validate_dataset = self.MLU.load_dataset(Keras_Preprocess=isinstance(self, KerasModelBase))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/utils.py", line 322, in load_dataset
+    train_ds = train_ds.shuffle(buffer_size=len(train_paths)) 
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 1510, in shuffle
+    return shuffle_op._shuffle(  # pylint: disable=protected-access
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/shuffle_op.py", line 32, in _shuffle
+    return _ShuffleDataset(
+           ^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/data/ops/shuffle_op.py", line 57, in __init__
+    variant_tensor = gen_dataset_ops.shuffle_dataset_v3(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/ops/gen_dataset_ops.py", line 7200, in shuffle_dataset_v3
+    _ops.raise_from_not_ok_status(e, name)
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/tensorflow/python/framework/ops.py", line 6027, in raise_from_not_ok_status
+    raise core._status_to_exception(e) from None  # pylint: disable=protected-access
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: {{function_node __wrapped__ShuffleDatasetV3_device_/job:localhost/replica:0/task:0/device:CPU:0}} buffer_size must be greater than zero or UNKNOWN_CARDINALITY [Op:ShuffleDatasetV3] name: 

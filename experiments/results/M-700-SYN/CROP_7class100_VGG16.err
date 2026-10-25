@@ -1,0 +1,103 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-10-11 23:10:41.985407: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791774645.094986 1223871 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1791774645.096354 1223871 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:0f:00.0, compute capability: 8.0
+2026-10-11 23:11:05.052103: I external/local_xla/xla/service/service.cc:163] XLA service 0x7f4878002080 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2026-10-11 23:11:05.052308: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA A100-SXM4-40GB, Compute Capability 8.0
+2026-10-11 23:11:05.099876: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2026-10-11 23:11:05.448822: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91002
+I0000 00:00:1791774669.757336 1223999 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2026-10-11 23:13:21.156905: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2026-10-11 23:16:53.411720: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:361] gpu_async_0 cuMemAllocAsync failed to allocate 25708604848 bytes: RESOURCE_EXHAUSTED: : CUDA_ERROR_OUT_OF_MEMORY: out of memory
+ Reported by CUDA: Free memory/Total memory: 1592066048/42298834944
+2026-10-11 23:16:53.411922: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:366] Stats: Limit:                     40244674560
+InUse:                     19769622343
+MaxInUse:                  33335356407
+NumAllocs:                       96665
+MaxAllocSize:              19687346608
+Reserved:                            0
+PeakReserved:                        0
+LargestFreeBlock:                    0
+
+2026-10-11 23:16:53.411933: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:70] Histogram of current allocation: (allocation_size_in_bytes, nb_allocation_of_that_sizes), ...;
+2026-10-11 23:16:53.411936: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1, 3
+2026-10-11 23:16:53.411939: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 4, 93
+2026-10-11 23:16:53.411941: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 8, 10
+2026-10-11 23:16:53.411943: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16, 2
+2026-10-11 23:16:53.411945: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 28, 9
+2026-10-11 23:16:53.411947: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 256, 2
+2026-10-11 23:16:53.411949: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 336, 5
+2026-10-11 23:16:53.411951: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 480, 5
+2026-10-11 23:16:53.411954: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 512, 2
+2026-10-11 23:16:53.411956: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 800, 8
+2026-10-11 23:16:53.411958: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1024, 3
+2026-10-11 23:16:53.411960: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1028, 1
+2026-10-11 23:16:53.411962: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2048, 12
+2026-10-11 23:16:53.411971: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2352, 5
+2026-10-11 23:16:53.411973: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 6912, 1
+2026-10-11 23:16:53.411975: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 40320, 5
+2026-10-11 23:16:53.411978: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 147456, 1
+2026-10-11 23:16:53.411980: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 245760, 5
+2026-10-11 23:16:53.411982: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 294912, 1
+2026-10-11 23:16:53.411984: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 589824, 1
+2026-10-11 23:16:53.411986: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1179648, 1
+2026-10-11 23:16:53.411988: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2359296, 2
+2026-10-11 23:16:53.411990: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 4718592, 1
+2026-10-11 23:16:53.411992: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 9437184, 11
+2026-10-11 23:16:53.411994: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16777472, 1
+2026-10-11 23:16:53.411997: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16924672, 1
+2026-10-11 23:16:53.411999: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 301056000, 1
+2026-10-11 23:16:53.412001: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 6439305216, 3
+2026-10-11 23:16:53.412005: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:106] CU_MEMPOOL_ATTR_RESERVED_MEM_CURRENT: 40231763968
+2026-10-11 23:16:53.412007: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:108] CU_MEMPOOL_ATTR_USED_MEM_CURRENT: 19769622343
+2026-10-11 23:16:53.412010: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:109] CU_MEMPOOL_ATTR_RESERVED_MEM_HIGH: 41808822272
+2026-10-11 23:16:53.412012: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:110] CU_MEMPOOL_ATTR_USED_MEM_HIGH: 33335356407
+2026-10-11 23:16:55.379751: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:361] gpu_async_0 cuMemAllocAsync failed to allocate 25710172848 bytes: RESOURCE_EXHAUSTED: : CUDA_ERROR_OUT_OF_MEMORY: out of memory
+ Reported by CUDA: Free memory/Total memory: 1592066048/42298834944
+2026-10-11 23:16:55.379773: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:366] Stats: Limit:                     40244674560
+InUse:                     19769622343
+MaxInUse:                  39055699191
+NumAllocs:                       96673
+MaxAllocSize:              19687346608
+Reserved:                            0
+PeakReserved:                        0
+LargestFreeBlock:                    0
+
+2026-10-11 23:16:55.379781: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:70] Histogram of current allocation: (allocation_size_in_bytes, nb_allocation_of_that_sizes), ...;
+2026-10-11 23:16:55.379784: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1, 3
+2026-10-11 23:16:55.379786: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 4, 93
+2026-10-11 23:16:55.379788: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 8, 10
+2026-10-11 23:16:55.379791: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16, 2
+2026-10-11 23:16:55.379793: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 28, 9
+2026-10-11 23:16:55.379795: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 256, 2
+2026-10-11 23:16:55.379804: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 336, 5
+2026-10-11 23:16:55.379807: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 480, 5
+2026-10-11 23:16:55.379809: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 512, 2
+2026-10-11 23:16:55.379811: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 800, 8
+2026-10-11 23:16:55.379813: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1024, 3
+2026-10-11 23:16:55.379815: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1028, 1
+2026-10-11 23:16:55.379817: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2048, 12
+2026-10-11 23:16:55.379819: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2352, 5
+2026-10-11 23:16:55.379821: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 6912, 1
+2026-10-11 23:16:55.379824: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 40320, 5
+2026-10-11 23:16:55.379826: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 147456, 1
+2026-10-11 23:16:55.379828: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 245760, 5
+2026-10-11 23:16:55.379830: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 294912, 1
+2026-10-11 23:16:55.379832: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 589824, 1
+2026-10-11 23:16:55.379834: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 1179648, 1
+2026-10-11 23:16:55.379836: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 2359296, 2
+2026-10-11 23:16:55.379838: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 4718592, 1
+2026-10-11 23:16:55.379840: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 9437184, 11
+2026-10-11 23:16:55.379843: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16777472, 1
+2026-10-11 23:16:55.379845: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 16924672, 1
+2026-10-11 23:16:55.379847: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 301056000, 1
+2026-10-11 23:16:55.379849: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:73] 6439305216, 3
+2026-10-11 23:16:55.379852: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:106] CU_MEMPOOL_ATTR_RESERVED_MEM_CURRENT: 40231763968
+2026-10-11 23:16:55.379854: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:108] CU_MEMPOOL_ATTR_USED_MEM_CURRENT: 19769622343
+2026-10-11 23:16:55.379857: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:109] CU_MEMPOOL_ATTR_RESERVED_MEM_HIGH: 41808822272
+2026-10-11 23:16:55.379859: E external/local_xla/xla/stream_executor/gpu/gpu_cudamallocasync_allocator.cc:110] CU_MEMPOOL_ATTR_USED_MEM_HIGH: 39055699191
+2026-10-11 23:17:15.834272: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence

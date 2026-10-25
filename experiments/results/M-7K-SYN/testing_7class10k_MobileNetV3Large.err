@@ -1,0 +1,21 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-07-24 10:33:11.082123: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1784903597.460261 2025808 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1784903597.464272 2025808 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:90:00.0, compute capability: 8.0
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 302, in <module>
+    main()
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/__main__.py", line 69, in main
+    model_class().test_model()
+  File "/home/matheus.berbet001/code/AmpliVision/AmpliVision/src/ML/models.py", line 272, in test_model
+    model = tf.keras.models.load_model(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/keras/src/saving/saving_api.py", line 203, in load_model
+    raise ValueError(
+ValueError: File not found: filepath=/home/matheus.berbet001/code/AmpliVision/AmpliVision/data/ML_models/testing_7class10k_MobileNetV3Large.keras. Please ensure the file is an accessible `.keras` zip file.

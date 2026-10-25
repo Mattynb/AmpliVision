@@ -1,0 +1,12 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2026-07-22 06:27:04.017927: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1784716031.953693 3032374 gpu_process_state.cc:208] Using CUDA malloc Async allocator for GPU: 0
+I0000 00:00:1784716031.955088 3032374 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38380 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:47:00.0, compute capability: 8.0
+/home/matheus.berbet001/anaconda3/envs/AMPLI2/lib/python3.12/site-packages/keras/src/layers/convolutional/base_conv.py:113: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+/var/spool/slurm/d/job937435/slurm_script: line 23: 3032374 Killed                  python3 -u AmpliVision FULL scanned_MARKER testing_7class_10k_LENET LENET
+slurmstepd: error: Detected 1 oom_kill event in StepId=937435.batch. Some of the step tasks have been OOM Killed.
